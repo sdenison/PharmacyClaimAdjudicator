@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PharmacyClaimAdjudicatorModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="PharmacyClaimAdjudicatorModelStoreContainer">
+          <EntitySet Name="Group" EntityType="PharmacyClaimAdjudicatorModel.Store.Group" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GroupFacts" EntityType="PharmacyClaimAdjudicatorModel.Store.GroupFacts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Patient" EntityType="PharmacyClaimAdjudicatorModel.Store.Patient" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PatientFacts" EntityType="PharmacyClaimAdjudicatorModel.Store.PatientFacts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PatientGroup" EntityType="PharmacyClaimAdjudicatorModel.Store.PatientGroup" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FKGroupFacts397517" Association="PharmacyClaimAdjudicatorModel.Store.FKGroupFacts397517">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="GroupFacts" EntitySet="GroupFacts" />
+          </AssociationSet>
+          <AssociationSet Name="Group_PatientGroup_Rel" Association="PharmacyClaimAdjudicatorModel.Store.Group_PatientGroup_Rel">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="PatientGroup" EntitySet="PatientGroup" />
+          </AssociationSet>
+          <AssociationSet Name="GroupFacts_GroupFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Store.GroupFacts_GroupFacts_Rel">
+            <End Role="GroupFacts" EntitySet="GroupFacts" />
+            <End Role="GroupFacts1" EntitySet="GroupFacts" />
+          </AssociationSet>
+          <AssociationSet Name="Patient_PateintFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Store.Patient_PateintFacts_Rel">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientGroup" EntitySet="PatientGroup" />
+          </AssociationSet>
+          <AssociationSet Name="Patient_PatientFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Store.Patient_PatientFacts_Rel">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientFacts" EntitySet="PatientFacts" />
+          </AssociationSet>
+          <AssociationSet Name="PatientFacts_PatientFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Store.PatientFacts_PatientFacts_Rel">
+            <End Role="PatientFacts" EntitySet="PatientFacts" />
+            <End Role="PatientFacts1" EntitySet="PatientFacts" />
+          </AssociationSet>
+          <AssociationSet Name="PatientGroup_PateintGroup_Rel" Association="PharmacyClaimAdjudicatorModel.Store.PatientGroup_PateintGroup_Rel">
+            <End Role="PatientGroup" EntitySet="PatientGroup" />
+            <End Role="PatientGroup1" EntitySet="PatientGroup" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GroupGroupId" Type="int" Nullable="false" />
+          <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="GroupFacts">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="ShortName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Retraction" Type="bit" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="int" Nullable="false" />
+          <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="PatientId" />
+          </Key>
+          <Property Name="PatientId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="PatientFacts">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="MiddleName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CardholderId" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="BirthDate" Type="datetime" Nullable="false" />
+          <Property Name="PersonCode" Type="nvarchar" Nullable="false" MaxLength="3" />
+          <Property Name="PatientRelationshipCode" Type="nvarchar" Nullable="false" MaxLength="2" />
+          <Property Name="Gender" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="Retraction" Type="bit" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="int" />
+          <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PatientGroup">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EffectiveDate" Type="datetime" Nullable="false" />
+          <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
+          <Property Name="Retraction" Type="bit" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="int" Nullable="false" />
+          <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FKGroupFacts397517">
+          <End Role="Group" Type="PharmacyClaimAdjudicatorModel.Store.Group" Multiplicity="1" />
+          <End Role="GroupFacts" Type="PharmacyClaimAdjudicatorModel.Store.GroupFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="GroupFacts">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Group_PatientGroup_Rel">
+          <End Role="Group" Type="PharmacyClaimAdjudicatorModel.Store.Group" Multiplicity="1" />
+          <End Role="PatientGroup" Type="PharmacyClaimAdjudicatorModel.Store.PatientGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="PatientGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GroupFacts_GroupFacts_Rel">
+          <End Role="GroupFacts" Type="PharmacyClaimAdjudicatorModel.Store.GroupFacts" Multiplicity="1" />
+          <End Role="GroupFacts1" Type="PharmacyClaimAdjudicatorModel.Store.GroupFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupFacts">
+              <PropertyRef Name="RecordId" />
+            </Principal>
+            <Dependent Role="GroupFacts1">
+              <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Patient_PateintFacts_Rel">
+          <End Role="Patient" Type="PharmacyClaimAdjudicatorModel.Store.Patient" Multiplicity="1" />
+          <End Role="PatientGroup" Type="PharmacyClaimAdjudicatorModel.Store.PatientGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="PatientGroup">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Patient_PatientFacts_Rel">
+          <End Role="Patient" Type="PharmacyClaimAdjudicatorModel.Store.Patient" Multiplicity="1" />
+          <End Role="PatientFacts" Type="PharmacyClaimAdjudicatorModel.Store.PatientFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="PatientFacts">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientFacts_PatientFacts_Rel">
+          <End Role="PatientFacts" Type="PharmacyClaimAdjudicatorModel.Store.PatientFacts" Multiplicity="0..1" />
+          <End Role="PatientFacts1" Type="PharmacyClaimAdjudicatorModel.Store.PatientFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientFacts">
+              <PropertyRef Name="RecordId" />
+            </Principal>
+            <Dependent Role="PatientFacts1">
+              <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientGroup_PateintGroup_Rel">
+          <End Role="PatientGroup" Type="PharmacyClaimAdjudicatorModel.Store.PatientGroup" Multiplicity="1" />
+          <End Role="PatientGroup1" Type="PharmacyClaimAdjudicatorModel.Store.PatientGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientGroup">
+              <PropertyRef Name="RecordId" />
+            </Principal>
+            <Dependent Role="PatientGroup1">
+              <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PharmacyClaimAdjudicatorModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PharmacyClaimAdjudicatorEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Groups" EntityType="PharmacyClaimAdjudicatorModel.Group" />
+          <EntitySet Name="GroupFacts" EntityType="PharmacyClaimAdjudicatorModel.GroupFact" />
+          <EntitySet Name="Patients" EntityType="PharmacyClaimAdjudicatorModel.Patient" />
+          <EntitySet Name="PatientFacts" EntityType="PharmacyClaimAdjudicatorModel.PatientFact" />
+          <EntitySet Name="PatientGroups" EntityType="PharmacyClaimAdjudicatorModel.PatientGroup" />
+          <AssociationSet Name="FKGroupFacts397517" Association="PharmacyClaimAdjudicatorModel.FKGroupFacts397517">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="GroupFacts" EntitySet="GroupFacts" />
+          </AssociationSet>
+          <AssociationSet Name="Group_PatientGroup_Rel" Association="PharmacyClaimAdjudicatorModel.Group_PatientGroup_Rel">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="PatientGroup" EntitySet="PatientGroups" />
+          </AssociationSet>
+          <AssociationSet Name="GroupFacts_GroupFacts_Rel" Association="PharmacyClaimAdjudicatorModel.GroupFacts_GroupFacts_Rel">
+            <End Role="GroupFacts" EntitySet="GroupFacts" />
+            <End Role="GroupFacts1" EntitySet="GroupFacts" />
+          </AssociationSet>
+          <AssociationSet Name="Patient_PateintFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="PatientGroup" EntitySet="PatientGroups" />
+          </AssociationSet>
+          <AssociationSet Name="Patient_PatientFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Patient_PatientFacts_Rel">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="PatientFacts" EntitySet="PatientFacts" />
+          </AssociationSet>
+          <AssociationSet Name="PatientFacts_PatientFacts_Rel" Association="PharmacyClaimAdjudicatorModel.PatientFacts_PatientFacts_Rel">
+            <End Role="PatientFacts" EntitySet="PatientFacts" />
+            <End Role="PatientFacts1" EntitySet="PatientFacts" />
+          </AssociationSet>
+          <AssociationSet Name="PatientGroup_PateintGroup_Rel" Association="PharmacyClaimAdjudicatorModel.PatientGroup_PateintGroup_Rel">
+            <End Role="PatientGroup" EntitySet="PatientGroups" />
+            <End Role="PatientGroup1" EntitySet="PatientGroups" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupGroupId" Type="Int32" Nullable="false" />
+          <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="GroupFacts" Relationship="PharmacyClaimAdjudicatorModel.FKGroupFacts397517" FromRole="Group" ToRole="GroupFacts" />
+          <NavigationProperty Name="PatientGroups" Relationship="PharmacyClaimAdjudicatorModel.Group_PatientGroup_Rel" FromRole="Group" ToRole="PatientGroup" />
+        </EntityType>
+        <EntityType Name="GroupFact">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Retraction" Type="Boolean" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Int32" Nullable="false" />
+          <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="PharmacyClaimAdjudicatorModel.FKGroupFacts397517" FromRole="GroupFacts" ToRole="Group" />
+          <NavigationProperty Name="GroupFacts1" Relationship="PharmacyClaimAdjudicatorModel.GroupFacts_GroupFacts_Rel" FromRole="GroupFacts" ToRole="GroupFacts1" />
+          <NavigationProperty Name="GroupFact1" Relationship="PharmacyClaimAdjudicatorModel.GroupFacts_GroupFacts_Rel" FromRole="GroupFacts1" ToRole="GroupFacts" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="PatientId" />
+          </Key>
+          <Property Name="PatientId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="PatientGroups" Relationship="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel" FromRole="Patient" ToRole="PatientGroup" />
+          <NavigationProperty Name="PatientFacts" Relationship="PharmacyClaimAdjudicatorModel.Patient_PatientFacts_Rel" FromRole="Patient" ToRole="PatientFacts" />
+        </EntityType>
+        <EntityType Name="PatientFact">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MiddleName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CardholderId" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PersonCode" Type="String" Nullable="false" MaxLength="3" Unicode="true" FixedLength="false" />
+          <Property Name="PatientRelationshipCode" Type="String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="Retraction" Type="Boolean" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Int32" />
+          <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="PharmacyClaimAdjudicatorModel.Patient_PatientFacts_Rel" FromRole="PatientFacts" ToRole="Patient" />
+          <NavigationProperty Name="PatientFacts1" Relationship="PharmacyClaimAdjudicatorModel.PatientFacts_PatientFacts_Rel" FromRole="PatientFacts" ToRole="PatientFacts1" />
+          <NavigationProperty Name="PatientFact1" Relationship="PharmacyClaimAdjudicatorModel.PatientFacts_PatientFacts_Rel" FromRole="PatientFacts1" ToRole="PatientFacts" />
+        </EntityType>
+        <EntityType Name="PatientGroup">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="EffectiveDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpirationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Retraction" Type="Boolean" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Int32" Nullable="false" />
+          <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="PharmacyClaimAdjudicatorModel.Group_PatientGroup_Rel" FromRole="PatientGroup" ToRole="Group" />
+          <NavigationProperty Name="Patient" Relationship="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel" FromRole="PatientGroup" ToRole="Patient" />
+          <NavigationProperty Name="PatientGroup1" Relationship="PharmacyClaimAdjudicatorModel.PatientGroup_PateintGroup_Rel" FromRole="PatientGroup" ToRole="PatientGroup1" />
+          <NavigationProperty Name="PatientGroup2" Relationship="PharmacyClaimAdjudicatorModel.PatientGroup_PateintGroup_Rel" FromRole="PatientGroup1" ToRole="PatientGroup" />
+        </EntityType>
+        <Association Name="FKGroupFacts397517">
+          <End Role="Group" Type="PharmacyClaimAdjudicatorModel.Group" Multiplicity="1" />
+          <End Role="GroupFacts" Type="PharmacyClaimAdjudicatorModel.GroupFact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="GroupFacts">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Group_PatientGroup_Rel">
+          <End Role="Group" Type="PharmacyClaimAdjudicatorModel.Group" Multiplicity="1" />
+          <End Role="PatientGroup" Type="PharmacyClaimAdjudicatorModel.PatientGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="PatientGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GroupFacts_GroupFacts_Rel">
+          <End Role="GroupFacts" Type="PharmacyClaimAdjudicatorModel.GroupFact" Multiplicity="1" />
+          <End Role="GroupFacts1" Type="PharmacyClaimAdjudicatorModel.GroupFact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupFacts">
+              <PropertyRef Name="RecordId" />
+            </Principal>
+            <Dependent Role="GroupFacts1">
+              <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Patient_PateintFacts_Rel">
+          <End Role="Patient" Type="PharmacyClaimAdjudicatorModel.Patient" Multiplicity="1" />
+          <End Role="PatientGroup" Type="PharmacyClaimAdjudicatorModel.PatientGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="PatientGroup">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Patient_PatientFacts_Rel">
+          <End Role="Patient" Type="PharmacyClaimAdjudicatorModel.Patient" Multiplicity="1" />
+          <End Role="PatientFacts" Type="PharmacyClaimAdjudicatorModel.PatientFact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="PatientFacts">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientFacts_PatientFacts_Rel">
+          <End Role="PatientFacts" Type="PharmacyClaimAdjudicatorModel.PatientFact" Multiplicity="0..1" />
+          <End Role="PatientFacts1" Type="PharmacyClaimAdjudicatorModel.PatientFact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientFacts">
+              <PropertyRef Name="RecordId" />
+            </Principal>
+            <Dependent Role="PatientFacts1">
+              <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientGroup_PateintGroup_Rel">
+          <End Role="PatientGroup" Type="PharmacyClaimAdjudicatorModel.PatientGroup" Multiplicity="1" />
+          <End Role="PatientGroup1" Type="PharmacyClaimAdjudicatorModel.PatientGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientGroup">
+              <PropertyRef Name="RecordId" />
+            </Principal>
+            <Dependent Role="PatientGroup1">
+              <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PharmacyClaimAdjudicatorModelStoreContainer" CdmEntityContainer="PharmacyClaimAdjudicatorEntities">
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="PharmacyClaimAdjudicatorModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="GroupGroupId" ColumnName="GroupGroupId" />
+                <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
+                <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupFacts">
+            <EntityTypeMapping TypeName="PharmacyClaimAdjudicatorModel.GroupFact">
+              <MappingFragment StoreEntitySet="GroupFacts">
+                <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Retraction" ColumnName="Retraction" />
+                <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
+                <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
+                <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="PharmacyClaimAdjudicatorModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
+                <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientFacts">
+            <EntityTypeMapping TypeName="PharmacyClaimAdjudicatorModel.PatientFact">
+              <MappingFragment StoreEntitySet="PatientFacts">
+                <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="CardholderId" ColumnName="CardholderId" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="PersonCode" ColumnName="PersonCode" />
+                <ScalarProperty Name="PatientRelationshipCode" ColumnName="PatientRelationshipCode" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Retraction" ColumnName="Retraction" />
+                <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
+                <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
+                <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientGroups">
+            <EntityTypeMapping TypeName="PharmacyClaimAdjudicatorModel.PatientGroup">
+              <MappingFragment StoreEntitySet="PatientGroup">
+                <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+                <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+                <ScalarProperty Name="ExpirationDate" ColumnName="ExpirationDate" />
+                <ScalarProperty Name="Retraction" ColumnName="Retraction" />
+                <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
+                <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
+                <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

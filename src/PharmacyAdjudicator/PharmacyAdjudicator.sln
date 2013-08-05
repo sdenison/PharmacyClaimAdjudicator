@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.Library", "PharmacyAdjudicator.Library\PharmacyAdjudicator.Library.csproj", "{C350B73E-0D48-4DD0-B320-E68261E3418F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.LibraryTests", "PharmacyAdjudicator.LibraryTests\PharmacyAdjudicator.LibraryTests.csproj", "{CBB80456-CF7E-4206-B29D-616B31C67D94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.WPF", "PharmacyAdjudicator.WPF\PharmacyAdjudicator.WPF.csproj", "{12C8426F-F0C1-460D-892C-17805ABA0B39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.DataAccess", "PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj", "{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfPlay", "WpfPlay\WpfPlay.csproj", "{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C350B73E-0D48-4DD0-B320-E68261E3418F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C350B73E-0D48-4DD0-B320-E68261E3418F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C350B73E-0D48-4DD0-B320-E68261E3418F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C350B73E-0D48-4DD0-B320-E68261E3418F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB80456-CF7E-4206-B29D-616B31C67D94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB80456-CF7E-4206-B29D-616B31C67D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB80456-CF7E-4206-B29D-616B31C67D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB80456-CF7E-4206-B29D-616B31C67D94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C8426F-F0C1-460D-892C-17805ABA0B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C8426F-F0C1-460D-892C-17805ABA0B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C8426F-F0C1-460D-892C-17805ABA0B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C8426F-F0C1-460D-892C-17805ABA0B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

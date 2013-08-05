@@ -1,0 +1,1 @@
+sqlcmd -S localhost\SQLEXPRESS -i Scripts\Create_database_with_test_data.sql

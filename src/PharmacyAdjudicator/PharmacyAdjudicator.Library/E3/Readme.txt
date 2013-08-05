@@ -1,0 +1,1 @@
+﻿Reserved for future version of NCPDP standard.

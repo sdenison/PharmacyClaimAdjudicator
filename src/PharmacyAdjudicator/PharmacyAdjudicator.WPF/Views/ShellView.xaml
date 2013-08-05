@@ -1,0 +1,33 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PharmacyAdjudicator.WPF.Views" x:Class="PharmacyAdjudicator.WPF.Views.ShellView" 
+             mc:Ignorable="d" Height="491" Width="732">
+
+
+    <Grid RenderTransformOrigin="0.51,0.501">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="98*"/>
+			<RowDefinition Height="273*"/>
+			<RowDefinition Height="86*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="383*"/>
+			<ColumnDefinition Width="129*"/>
+		</Grid.ColumnDefinitions>
+        
+		<local:PatientListView Grid.Row="1"/>
+		<local:PatientView Grid.Column="1" HorizontalAlignment="Left" Height="267.337" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="161.91"/>
+
+        <Menu Grid.Row="0" Height="24" IsMainMenu="True">
+            <MenuItem Header="File">
+                <MenuItem Header="Pateint" Click="MenuItem_Click"/>
+                <Separator></Separator>
+                <MenuItem Header="Doctor"/>
+                <MenuItem Header="Drug"/>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</UserControl>

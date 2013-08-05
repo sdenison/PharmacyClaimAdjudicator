@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C350B73E-0D48-4DD0-B320-E68261E3418F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PharmacyAdjudicator.Library</RootNamespace>
+    <AssemblyName>PharmacyAdjudicator.Library</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Csla">
+      <HintPath>..\packages\CSLA-Core.4.5.30\lib\net45\Csla.dll</HintPath>
+    </Reference>
+    <Reference Include="Csla.XmlSerializers">
+      <HintPath>..\packages\CSLA-Core.4.5.30\lib\net45\Csla.XmlSerializers.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\NamespaceDoc.cs" />
+    <Compile Include="Core\PatientHistory.cs" />
+    <Compile Include="D0\Response\ClaimBilling.cs" />
+    <Compile Include="D0\Response\ClaimSegment.cs" />
+    <Compile Include="D0\Response\CoordinationOfBenefitsSegment.cs" />
+    <Compile Include="D0\Response\DurSegment.cs" />
+    <Compile Include="D0\Response\InsuranceSegment.cs" />
+    <Compile Include="D0\Response\MessageSegment.cs" />
+    <Compile Include="D0\Response\PatientSegment.cs" />
+    <Compile Include="D0\Response\PricingSegment.cs" />
+    <Compile Include="D0\Response\StatusSegment.cs" />
+    <Compile Include="D0\Response\Transmission.cs" />
+    <Compile Include="D0\Submitted\PriorAuthorizationRequestSegment.cs" />
+    <Compile Include="D0\TransmissionProcessor.cs" />
+    <Compile Include="Core\Claim.cs" />
+    <Compile Include="Core\ClaimList.cs" />
+    <Compile Include="Core\Doctor.cs" />
+    <Compile Include="Core\Ingredient.cs" />
+    <Compile Include="Core\IngredientList.cs" />
+    <Compile Include="Core\PatientList.cs" />
+    <Compile Include="Core\Pharmacy.cs" />
+    <Compile Include="Core\Transaction.cs" />
+    <Compile Include="Core\TransactionList.cs" />
+    <Compile Include="DataNotFoundException.cs" />
+    <Compile Include="IncomingTransmissionException.cs" />
+    <Compile Include="InvalidResponseException.cs" />
+    <Compile Include="D0\Response\TransactionHeaderSegment.cs" />
+    <Compile Include="D0\Submitted\AdditionalDocumentationSegment.cs" />
+    <Compile Include="D0\Submitted\ClaimBilling.cs" />
+    <Compile Include="D0\Submitted\ClaimBillingList.cs" />
+    <Compile Include="D0\Submitted\ClaimSegment.cs" />
+    <Compile Include="D0\Submitted\ClinicalSegment.cs" />
+    <Compile Include="D0\Submitted\CompoundSegment.cs" />
+    <Compile Include="D0\Submitted\CoordinationOfBenefitsSegment.cs" />
+    <Compile Include="D0\Submitted\CouponSegment.cs" />
+    <Compile Include="D0\Submitted\DurSegment.cs" />
+    <Compile Include="D0\Submitted\FacilitySegment.cs" />
+    <Compile Include="D0\Submitted\InsuranceSegment.cs" />
+    <Compile Include="D0\Submitted\NarrativeSegment.cs" />
+    <Compile Include="D0\Submitted\PatientSegment.cs" />
+    <Compile Include="D0\Submitted\PharmacyProviderSegment.cs" />
+    <Compile Include="D0\Submitted\PrescriberSegment.cs" />
+    <Compile Include="D0\Submitted\PricingSegment.cs" />
+    <Compile Include="D0\Submitted\TransactionHeaderSegment.cs" />
+    <Compile Include="D0\Submitted\Transmission.cs" />
+    <Compile Include="D0\Submitted\WorkersCompensationSegment.cs" />
+    <Compile Include="Core\Drug.cs" />
+    <Compile Include="Core\DrugList.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="InvalidIncomingLineException.cs" />
+    <Compile Include="NcpdpFieldAttribute.cs" />
+    <Compile Include="Core\Patient.cs" />
+    <Compile Include="Core\PatientExistsCommand.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\PAIdentity.cs" />
+    <Compile Include="Security\PAPrincipal.cs" />
+    <Compile Include="Utils\NcpdpString.cs" />
+    <Compile Include="Utils\Overpunch.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="E3\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="D0\CodeLists\" />
+    <Folder Include="E3\Response\" />
+    <Folder Include="E3\Submitted\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj">
+      <Project>{9467e711-a5d6-435a-be7d-cd36dd21c8c0}</Project>
+      <Name>PharmacyAdjudicator.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

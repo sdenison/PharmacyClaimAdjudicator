@@ -1,0 +1,641 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CslaContrib.Caliburn.Micro</name>
+    </assembly>
+    <members>
+        <member name="T:CslaContrib.Caliburn.Micro.ErrorEventArgs">
+            <summary>
+            Contains information about the error that
+            has occurred.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ErrorEventArgs.Error">
+            <summary>
+            Gets the Exception object for the error
+            that occurred.
+            </summary>
+        </member>
+        <member name="T:CslaContrib.Caliburn.Micro.ExecuteEventArgs">
+            <summary>
+            Arguments passed to a method invoked
+            by the Execute trigger action.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ExecuteEventArgs.TriggerSource">
+            <summary>
+            The control that raised the event that
+            triggered invocation of this method.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ExecuteEventArgs.MethodParameter">
+            <summary>
+            The MethodParameter value provided by
+            the designer.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ExecuteEventArgs.TriggerParameter">
+            <summary>
+            The EventArgs parameter from the event
+            that triggered invocation of this method.
+            </summary>
+        </member>
+        <member name="T:CslaContrib.Caliburn.Micro.IHaveModel">
+            <summary>
+            Defines a CSLA .NET Model
+            object.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.IHaveModel.Model">
+            <summary>
+            Gets or sets the Model property
+            of the ScreenWithModel object.
+            </summary>
+        </member>
+        <member name="T:CslaContrib.Caliburn.Micro.IHaveSubject">
+            <summary>
+            Indicates an item which has subject matter.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.IHaveSubject.WithSubject(System.Object)">
+            <summary>
+            Configures the screen with the subject.
+            </summary>
+            <param name="subject">The subject.</param>
+            <returns>Self</returns>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.IHaveSubject.Subject">
+            <summary>
+            Gets the subject.
+            </summary>
+            <value>The subject.</value>
+        </member>
+        <member name="T:CslaContrib.Caliburn.Micro.IHaveSubject`1">
+            <summary>
+            Indicates an item which has subject matter.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.IHaveSubject`1.WithSubject(`0)">
+            <summary>
+            Configures the screen with the subject.
+            </summary>
+            <param name="subject">The subject.</param>
+            <returns>Self</returns>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.IHaveSubject`1.Subject">
+            <summary>
+            Gets the subject.
+            </summary>
+            <value>The subject.</value>
+        </member>
+        <member name="T:CslaContrib.Caliburn.Micro.ScreenWithModel`1">
+            <summary>
+            Base class used to create ScreenWithModel objects,
+            with pre-existing verbs for use by
+            InvokeMethod or Invoke.
+            </summary>
+            <typeparam name="T">Type of the Model object.</typeparam>
+        </member>
+        <member name="T:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1">
+            <summary>
+            Base class used to create ScreenWithModel objects that
+            implement their own commands/verbs/actions.
+            </summary>
+            <typeparam name="T">Type of the Model object.</typeparam>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.#ctor">
+            <summary>
+            Create new instance of base class used to create ScreenWithModel objects that
+            implement their own commands/verbs/actions.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.#ctor(System.Boolean)">
+            <summary>
+            Create new instance of base class used to create ScreenWithModel objects that
+            implement their own commands/verbs/actions.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.InitAsync">
+            <summary>
+            Method used to perform async initialization of the
+            viewmodel. This method is usually invoked immediately
+            following construction of the object instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoInitAsync">
+            <summary>
+            Override this method to implement async initialization of
+            the model object. The result of this method is used
+            to set the Model property of the viewmodel.
+            </summary>
+            <returns>A Task that creates the model object.</returns>
+        </member>
+        <member name="F:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.ModelProperty">
+            <summary>
+            Gets or sets the Model object.
+            </summary>
+        </member>
+        <member name="F:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.ManageObjectLifetimeProperty">
+            <summary>
+            Gets or sets a value indicating whether the
+            ScreenWithModel should automatically managed the
+            lifetime of the Model.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnError(System.Exception)">
+            <summary>
+            Raises ErrorOccurred event when an error occurs
+            during processing.
+            </summary>
+            <param name="error"></param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.SetPropertiesAtObjectLevel">
+            <summary>
+            This method is only called from constuctor to set default values immediately.
+            Sets the properties at object level.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoRefresh(System.Func{`0})">
+            <summary>
+            Creates or retrieves a new instance of the
+            Model by invoking a static factory method.
+            </summary>
+            <param name="factoryMethod">Static factory method function.</param>
+            <example>DoRefresh(BusinessList.GetList)</example>
+            <example>DoRefresh(() => BusinessList.GetList())</example>
+            <example>DoRefresh(() => BusinessList.GetList(id))</example>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoRefresh(System.String,System.Object[])">
+            <summary>
+            Creates or retrieves a new instance of the
+            Model by invoking a static factory method.
+            </summary>
+            <param name="factoryMethod">Name of the static factory method.</param>
+            <param name="factoryParameters">Factory method parameters.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoRefresh(System.String)">
+            <summary>
+            Creates or retrieves a new instance of the
+            Model by invoking a static factory method.
+            </summary>
+            <param name="factoryMethod">Name of the static factory method.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.BeginRefresh(System.Action{System.EventHandler{Csla.DataPortalResult{`0}}})">
+            <summary>
+            Creates or retrieves a new instance of the
+            Model by invoking a static factory method.
+            </summary>
+            <param name="factoryMethod">Static factory method action.</param>
+            <example>BeginRefresh(BusinessList.BeginGetList)</example>
+            <example>BeginRefresh(handler => BusinessList.BeginGetList(handler))</example>
+            <example>BeginRefresh(handler => BusinessList.BeginGetList(id, handler))</example>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.BeginRefresh(System.String,System.Object[])">
+            <summary>
+            Creates or retrieves a new instance of the
+            Model by invoking a static factory method.
+            </summary>
+            <param name="factoryMethod">Name of the static factory method.</param>
+            <param name="factoryParameters">Factory method parameters.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.BeginRefresh(System.String)">
+            <summary>
+            Creates or retrieves a new instance of the
+            Model by invoking a static factory method.
+            </summary>
+            <param name="factoryMethod">Name of the static factory method.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnRefreshing(`0)">
+            <summary>
+            Method called after a refresh operation
+            has completed and before the model is updated
+            (when successful).
+            </summary>
+            <param name="model">The model.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnRefreshed">
+            <summary>
+            Method called after a refresh operation
+            has completed (whether successful or
+            not).
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoSave">
+            <summary>
+            Saves the Model, first committing changes
+            if ManagedObjectLifetime is true.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.SaveAsync">
+            <summary>
+            Saves the Model, first committing changes
+            if ManagedObjectLifetime is true.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.BeginSave">
+            <summary>
+            Saves the Model, first committing changes
+            if ManagedObjectLifetime is true.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnSaving(`0)">
+            <summary>
+            Method called after a save operation
+            has completed and before Model is updated
+            (when successful).
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnSaved">
+            <summary>
+            Method called after a save operation
+            has completed (whether successful or
+            not).
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoCancel">
+            <summary>
+            Cancels changes made to the model
+            if ManagedObjectLifetime is true.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoAddNew">
+            <summary>
+            Adds a new item to the Model (if it
+            is a collection).
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoRemove(System.Object)">
+            <summary>
+            Removes an item from the Model (if it
+            is a collection).
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DoDelete">
+            <summary>
+            Marks the Model for deletion (if it is an
+            editable root object).
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnModelChanged(`0,`0)">
+            <summary>
+            Invoked when the Model changes, allowing
+            event handlers to be unhooked from the old
+            object and hooked on the new object.
+            </summary>
+            <param name="oldValue">Previous Model reference.</param>
+            <param name="newValue">New Model reference.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnSetProperties">
+            <summary>
+            Override this method to hook into to logic of setting properties when model is changed or edited.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Refresh">
+            <summary>
+            Raises a change notification indicating that all bindings should be refreshed.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.NotifyOfPropertyChange(System.String)">
+            <summary>
+            Notifies subscribers of the property change.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.NotifyOfPropertyChange``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Notifies subscribers of the property change.
+            </summary>
+            <typeparam name="TProperty">The type of the property.</typeparam>
+            <param name="property">The property expression.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.RaisePropertyChangedEventImmediately(System.String)">
+            <summary>
+            Raises the property changed event immediately.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnDeserialized(System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Called when the object is deserialized.
+            </summary>
+            <param name="c">The streaming context.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.ShouldSerializeIsNotifying">
+            <summary>
+            Used to indicate whether or not the IsNotifying property is serialized to Xml.
+            </summary>
+            <returns>Whether or not to serialize the IsNotifying property. The default is false.</returns>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Caliburn#Micro#IActivate#Activate">
+            <summary>
+            Activates this instance.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnInitialize">
+            <summary>
+            Called when initializing.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnActivate">
+            <summary>
+            Called when activating.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Caliburn#Micro#IDeactivate#Deactivate(System.Boolean)">
+            <summary>
+            Deactivates this instance.
+            </summary>
+            <param name="close">Indicates whether or not this instance is being closed.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnDeactivate(System.Boolean)">
+            <summary>
+            Called when deactivating.
+            </summary>
+            <param name="close">Inidicates whether this instance will be closed.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanClose(System.Action{System.Boolean})">
+            <summary>
+            Called to check whether or not this instance can close.
+            </summary>
+            <param name="callback">The implementor calls this action with the result of the close check.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.TryClose">
+            <summary>
+            Tries to close this instance by asking its Parent to initiate shutdown or by asking its corresponding view to close.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.TryClose(System.Nullable{System.Boolean})">
+            <summary>
+            Closes this instance by asking its Parent to initiate shutdown or by asking it's corresponding view to close.
+            This overload also provides an opportunity to pass a dialog result to it's corresponding view.
+            </summary>
+            <param name="dialogResult">The dialog result.</param>
+        </member>
+        <member name="F:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CacheViewsByDefault">
+            <summary>
+            Indicates whether or not implementors of <see cref="T:Caliburn.Micro.IViewAware"/> should cache their views by default.
+            </summary>
+        </member>
+        <member name="F:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Views">
+            <summary>
+            The view chache for this instance.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Caliburn#Micro#IViewAware#AttachView(System.Object,System.Object)">
+            <summary>
+            Attaches a view to this instance.
+            </summary>
+            <param name="view">The view.</param>
+            <param name="context">The context in which the view appears.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnViewAttached(System.Object,System.Object)">
+            <summary>
+            Called when a view is attached.
+            </summary>
+            <param name="view">The view.</param>
+            <param name="context">The context in which the view appears.</param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.OnViewLoaded(System.Object)">
+            <summary>
+            Called when an attached view's Loaded event fires.
+            </summary>
+            <param name="view"></param>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.GetView(System.Object)">
+            <summary>
+            Gets a view previously attached to this instance.
+            </summary>
+            <param name="context">The context denoting which view to retrieve.</param>
+            <returns>The view.</returns>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Model">
+            <summary>
+            Gets or sets the Model object.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.ManageObjectLifetime">
+            <summary>
+            Gets or sets a value indicating whether the
+            ViewManageObjectLifetime should automatically managed the
+            lifetime of the ManageObjectLifetime.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Error">
+            <summary>
+            Gets the Error object corresponding to the
+            last asyncronous operation.
+            </summary>
+        </member>
+        <member name="E:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.ErrorOccurred">
+            <summary>
+            Event raised when an error occurs during processing.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.IsBusy">
+            <summary>
+            Gets a value indicating whether this object is
+            executing an asynchronous process.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.IsDirty">
+            <summary>
+            Gets a value indicating whether the Model
+            has been changed.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.IsValid">
+            <summary>
+            Gets a value indicating whether the Model
+            is currently valid (has no broken rules).
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanSave">
+            <summary>
+            Gets a value indicating whether the Model
+            can currently be saved.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanCancel">
+            <summary>
+            Gets a value indicating whether the Model
+            can currently be canceled.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanCreate">
+            <summary>
+            Gets a value indicating whether an instance
+            of the Model
+            can currently be created.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanDelete">
+            <summary>
+            Gets a value indicating whether the Model
+            can currently be deleted.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanFetch">
+            <summary>
+            Gets a value indicating whether an instance
+            of the Model
+            can currently be retrieved.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanRemove">
+            <summary>
+            Gets a value indicating whether the Model
+            can currently be removed.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanAddNew">
+            <summary>
+            Gets a value indicating whether the Model
+            can currently be added.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanCreateObject">
+            <summary>
+            Gets a value indicating whether the current
+            user is authorized to create a Model.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanGetObject">
+            <summary>
+            Gets a value indicating whether the current
+            user is authorized to retrieve a Model.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanEditObject">
+            <summary>
+            Gets a value indicating whether the current
+            user is authorized to save (insert or update
+            a Model.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CanDeleteObject">
+            <summary>
+            Gets a value indicating whether the current
+            user is authorized to delete
+            a Model.
+            </summary>
+        </member>
+        <member name="E:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.IsNotifying">
+            <summary>
+            Enables/Disables property change notification.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Parent">
+            <summary>
+            Gets or Sets the Parent <see cref="T:Caliburn.Micro.IConductor"/>
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.DisplayName">
+            <summary>
+            Gets or Sets the Display Name
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.IsActive">
+            <summary>
+            Indicates whether or not this instance is currently active.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.IsInitialized">
+            <summary>
+            Indicates whether or not this instance is currently initialized.
+            </summary>
+        </member>
+        <member name="E:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Activated">
+            <summary>
+            Raised after activation occurs.
+            </summary>
+        </member>
+        <member name="E:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.AttemptingDeactivation">
+            <summary>
+            Raised before deactivation.
+            </summary>
+        </member>
+        <member name="E:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.Deactivated">
+            <summary>
+            Raised after deactivation.
+            </summary>
+        </member>
+        <member name="E:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.ViewAttached">
+            <summary>
+            Raised when a view is attached.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithModelBase`1.CacheViews">
+            <summary>
+             Indicates whether or not this instance maintains a view cache.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModel`1.Save(System.Object,CslaContrib.Caliburn.Micro.ExecuteEventArgs)">
+            <summary>
+            Saves the Model, first committing changes
+            if ManagedObjectLifetime is true.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModel`1.Cancel(System.Object,CslaContrib.Caliburn.Micro.ExecuteEventArgs)">
+            <summary>
+            Cancels changes made to the model
+            if ManagedObjectLifetime is true.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModel`1.AddNew(System.Object,CslaContrib.Caliburn.Micro.ExecuteEventArgs)">
+            <summary>
+            Adds a new item to the Model (if it
+            is a collection).
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModel`1.Remove(System.Object,CslaContrib.Caliburn.Micro.ExecuteEventArgs)">
+            <summary>
+            Removes an item from the Model (if it
+            is a collection).
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithModel`1.Delete(System.Object,CslaContrib.Caliburn.Micro.ExecuteEventArgs)">
+            <summary>
+            Marks the Model for deletion (if it is an
+            editable root object).
+            </summary>
+        </member>
+        <member name="T:CslaContrib.Caliburn.Micro.ScreenWithSubject`1">
+            <summary>
+            A basic implementation of <see cref="T:CslaContrib.Caliburn.Micro.IHaveSubject`1"/>
+            </summary>
+            <typeparam name="T">The screen's type.</typeparam>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithSubject`1.CslaContrib#Caliburn#Micro#IHaveSubject#WithSubject(System.Object)">
+            <summary>
+            Configures the screen with the subject.
+            </summary>
+            <param name="subject">The subject.</param>
+            <returns>Self</returns>
+        </member>
+        <member name="M:CslaContrib.Caliburn.Micro.ScreenWithSubject`1.WithSubject(`0)">
+            <summary>
+            Configures the screen with the subject.
+            </summary>
+            <param name="subject">The subject.</param>
+            <returns>Self</returns>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithSubject`1.CslaContrib#Caliburn#Micro#IHaveSubject#Subject">
+            <summary>
+            Gets the subject.
+            </summary>
+            <value>The subject.</value>
+        </member>
+        <member name="P:CslaContrib.Caliburn.Micro.ScreenWithSubject`1.Subject">
+            <summary>
+            Gets the subject.
+            </summary>
+            <value>The subject.</value>
+        </member>
+    </members>
+</doc>
