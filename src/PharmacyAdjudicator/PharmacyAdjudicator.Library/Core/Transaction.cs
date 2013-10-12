@@ -8,23 +8,40 @@ namespace PharmacyAdjudicator.Library.Core
     {
         #region Business Methods
 
-        // TODO: add your own fields, properties and methods
+        [Fact]
+        public Drug Drug { get; private set; }
+        //public Patient Patient { get; private set; }
+        //public Pharmacy Pharmacy { get; private set; }
 
-        // example with private backing field
-        public static readonly PropertyInfo<int> IdProperty = RegisterProperty<int>(p => p.Id, RelationshipTypes.PrivateField);
-        private int _Id = IdProperty.DefaultValue;
-        public int Id
+        public static readonly PropertyInfo<string> TestFactProperty = RegisterProperty<string>(c => c.TestFact);
+        [Fact]
+        public string TestFact
         {
-            get { return GetProperty(IdProperty, _Id); }
-            set { SetProperty(IdProperty, ref _Id, value); }
+            get { return GetProperty(TestFactProperty); }
+            private set { LoadProperty(TestFactProperty, value); }
         }
 
-        // example with managed backing field
-        public static readonly PropertyInfo<string> NameProperty = RegisterProperty<string>(p => p.Name);
-        public string Name
+        public static readonly PropertyInfo<decimal> CopayProperty = RegisterProperty<decimal>(c => c.Copay);
+        [Inferrable]
+        public decimal Copay
         {
-            get { return GetProperty(NameProperty); }
-            set { SetProperty(NameProperty, value); }
+            get { return GetProperty(CopayProperty); }
+            set { SetProperty(CopayProperty, value); }
+        }
+
+        public static readonly PropertyInfo<bool> FormularyProperty = RegisterProperty<bool>(c => c.Formulary);
+        [Inferrable]
+        public bool Formulary
+        {
+            get { return GetProperty(FormularyProperty); }
+            set { SetProperty(FormularyProperty, value); }
+        }
+
+        public static readonly PropertyInfo<string> IdProperty = RegisterProperty<string>(c => c.Id);
+        public string Id
+        {
+            get { return GetProperty(IdProperty); }
+            private set { LoadProperty(IdProperty, value); }
         }
 
         #endregion
@@ -49,9 +66,11 @@ namespace PharmacyAdjudicator.Library.Core
 
         #region Factory Methods
 
-        public static Transaction NewEditableRoot()
+        public static Transaction NewTransaction(Drug drug)
         {
-            return DataPortal.Create<Transaction>();
+
+            return new Transaction(drug);
+            //return DataPortal.Create<Transaction>(patient, drug, pharmacy);
         }
 
         public static Transaction GetEditableRoot(int id)
@@ -67,6 +86,15 @@ namespace PharmacyAdjudicator.Library.Core
         private Transaction()
         { /* Require use of factory methods */ }
 
+        public Transaction(Drug drug)
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.Drug = drug;
+            this.Formulary = false;
+            this.TestFact = "ThisShouldBeTrue";
+            MarkOld();
+        }
+
         #endregion
 
         #region Data Access
@@ -74,9 +102,9 @@ namespace PharmacyAdjudicator.Library.Core
         [RunLocal]
         protected override void DataPortal_Create()
         {
-            // TODO: load default values
             // omit this override if you have no defaults to set
             base.DataPortal_Create();
+            Id = Guid.NewGuid().ToString();
         }
 
         private void DataPortal_Fetch(int criteria)
@@ -84,29 +112,27 @@ namespace PharmacyAdjudicator.Library.Core
             // TODO: load values
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Insert()
         {
             // TODO: insert values
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Update()
         {
             // TODO: update values
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_DeleteSelf()
         {
-            DataPortal_Delete(this.Id);
+            //DataPortal_Delete(this.Id);
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         private void DataPortal_Delete(int criteria)
         {
             // TODO: delete values
         }
+
+
 
         #endregion
     }

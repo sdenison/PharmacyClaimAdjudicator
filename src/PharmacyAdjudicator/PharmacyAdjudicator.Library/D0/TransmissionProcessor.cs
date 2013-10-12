@@ -4,18 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using NxBRE.InferenceEngine;
+using NxBRE.InferenceEngine.IO;
+
 namespace PharmacyAdjudicator.Library.D0
 {
     public class TransmissionProcessor
     {
-        public static Response.Transmission Process(Submitted.Transmission submittedTransmission)
+        public static Response.Transmission Process(Submitted.Transmission submittedTransmission, IRuleBaseAdapter rules = null)
         {
             Response.Transmission responseTransmission;
 
             switch (submittedTransmission.TransactionType)
             {
                 case Submitted.Transmission.TransactionTypeEnum.Billing:
-                    responseTransmission = ProcessBilling(submittedTransmission);
+                    responseTransmission = ProcessBilling(submittedTransmission, rules);
                     break;
                 case Submitted.Transmission.TransactionTypeEnum.Reversal:
                     responseTransmission = ProcessReversal(submittedTransmission);
@@ -29,7 +32,8 @@ namespace PharmacyAdjudicator.Library.D0
             return responseTransmission;
         }
 
-        public static Response.Transmission ProcessBilling(Submitted.Transmission submittedTransmission)
+        //Injecting rules for now until I get rules tied to plans
+        public static Response.Transmission ProcessBilling(Submitted.Transmission submittedTransmission, IRuleBaseAdapter rules)
         {
             Response.Transmission response = new Response.Transmission();
             response.TransactionHeader = new Response.TransactionHeaderSegment(submittedTransmission.TransactionHeader);
@@ -65,35 +69,65 @@ namespace PharmacyAdjudicator.Library.D0
                     throw ex;
             }
 
+
             //lookup insurance information
                 //Only the Bin and Processor Control Number are available to specify what plan is used.
-            //lookup service provider
-            //lookup drug information
-            //lookup prescriber information
 
-            //if anything is hinkey in there send response message segment rejecting transmission
-            foreach (var claim in submittedTransmission.Claims)
-            {
-                //look up the claim
-                //if it already exists then make new response status segment for claim rejecting claim
-                //Combine insurance information (inference engine value) with drug, person and prescriber to get covered status
-                //if covered status passed then get pricing information with inference enginea
-                if (claim.PriorAuthorization != null)
-                { 
-                }
+            //Need to figure out if patient is covered
+            bool patientCovered = true;
+            if (patientCovered)
+            { 
+
+                //lookup service provider
+                //lookup prescriber information
+
+                //if anything is hinkey in there send response message segment rejecting transmission
+                foreach (var claim in submittedTransmission.Claims)
+                {
+                    //var transaction = Core.Transaction
+
+
+
+                    var drug = Core.Drug.GetByNdc(claim.Claim.ProductServiceId);
+                    var transaction = new Core.Transaction(drug);
+
+                    var transactionAfterProcessing = Core.TransactionProcessor.Process(transaction, rules);
+
+                    //look up the claim
+                    //if it already exists then make new response status segment for claim rejecting claim
+                    //Combine insurance information (inference engine value) with drug, person and prescriber to get covered status
+                    //if covered status passed then get pricing information with inference enginea
+                    if (claim.PriorAuthorization != null)
+                    {
+
+                    }
+                    //var binder = new ClaimProcessorBinder(transaction);
+                    //var ie = new IEImpl(binder);
+                    //ie.LoadRuleBase(rules);
+                    //ie.Process(); 
+
+                    //if (transaction.IsDirty)
+                    //{
+                    //    var result = "Yay, it worked!";
+                    //}
+                    
+
                     //Lookup Prior Auth and mark it as used
-                //Core.Transaction transaction = Core.Transaction.GetBySubmittedClaim(claim);
-                //if (transaction.IsNew == true)
-                //{
-                //    transaction.Save();
-                //    //transaction is new and we need to keep processing the response
-                //}
-                //else
-                //{
-                //    //transaction is a repeat and we need to return 
+                    //Core.Transaction transaction = Core.Transaction.GetBySubmittedClaim(claim);
+                    //if (transaction.IsNew == true)
+                    //{
+                    //    transaction.Save();
+                    //    //transaction is new and we need to keep processing the response
+                    //}
+                    //else
+                    //{
+                    //    //transaction is a repeat and we need to return 
 
 
-                //}
+
+
+                    //}
+                }
             }
 
             return new Response.Transmission();

@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Group" Width="1.5" PointX="1.125" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.GroupFact" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientFact" Width="1.5" PointX="8.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientFact" Width="1.5" PointX="5.125" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientGroup" Width="1.5" PointX="7.875" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.FKGroupFacts397517" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.Group_PatientGroup_Rel" ManuallyRouted="false" />
@@ -17,6 +17,7 @@
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.Patient_PatientFacts_Rel" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientFacts_PatientFacts_Rel" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientGroup_PateintGroup_Rel" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.VaDrug" Width="2" PointX="8.375" PointY="5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

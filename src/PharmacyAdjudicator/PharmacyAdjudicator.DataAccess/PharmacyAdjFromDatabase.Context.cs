@@ -30,5 +30,6 @@ namespace PharmacyAdjudicator.DataAccess
         public DbSet<Patient> Patients { get; set; }
         public DbSet<PatientFact> PatientFacts { get; set; }
         public DbSet<PatientGroup> PatientGroups { get; set; }
+        public DbSet<VaDrug> VaDrugs { get; set; }
     }
 }

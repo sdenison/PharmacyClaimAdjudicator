@@ -23,12 +23,19 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
         [TestMethod]
         public void TestGetByNdc()
         {
-            //Drugs.Add(new DrugData() { Ndc = "999999981500", BrandName = "BRIEF,FITTED LARGE EXTRA ABSORBENT", Upn = "", VaClass = "XA399" });
-            var drug = Library.Core.Drug.GetByNdc("999999981500");
+            var drug = Library.Core.Drug.GetByNdc("55289035994");
 
-            Assert.AreEqual(drug.BrandName, "BRIEF,FITTED LARGE EXTRA ABSORBENT");
-            Assert.AreEqual(drug.Upn, "");
-            Assert.AreEqual(drug.VaClass, "XA399");
+            Assert.AreEqual(drug.BrandName, "POTASSIUM CHLORIDE 10MEQ TAB,SA (DISPERSIBLE)");
+            Assert.AreEqual(drug.VaClass, "POTASSIUM");
+        }
+
+        [TestMethod]
+        public void GetClinoril()
+        {
+            var drug = Library.Core.Drug.GetByNdc("00006094268");
+            Assert.AreEqual(drug.BrandName, "SULINDAC 200MG TAB");
+            Assert.AreEqual(drug.DosageForm, "TAB");
+            Assert.AreEqual(drug.VaClass, "NONSALICYLATE NSAIS,ANTIRHEUMATIC");
         }
     }
 }

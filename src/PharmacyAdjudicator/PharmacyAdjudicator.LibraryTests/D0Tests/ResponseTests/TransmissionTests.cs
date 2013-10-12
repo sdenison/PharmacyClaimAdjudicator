@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PharmacyAdjudicator.Library.D0.Response;
 
+
 namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
 {
     /// <summary>
@@ -60,7 +61,7 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
         #endregion
 
         [TestMethod]
-        public void TestBilling_34_5()
+        public void TestBilling_34_5_3()
         {
             string _submitted = "61ØØ66DØB1123456789Ø1Ø14563663bbbbbbbb2ØØ7Ø91598765bbbbb<1E><1C>AMØ1<1C>C41962Ø615<1C>C51<1C>CAJOSEPH<1C>CBSMITH<1C>CM123 MAIN STREET<1C>CNMY TOWN<1C>COCO<1C>CP34567<1C>CQ2Ø14658923<1C>HNJSMITH@NCPDP.ORG<1E><1C>AMØ4<1C>C2987654321<1D><1E><1C>AMØ7<1C>EM1<1C>D21234567<1C>E1Ø3<1C>D7ØØØØ6Ø94268<1C>E73ØØØØ<1C>D3Ø<1C>D53Ø<1C>D61<1C>D8Ø<1C>DE2ØØ7Ø915<1C>DF5<1C>DJ1<1C>NX1<1C>DK4<1C>C81<1C>DT1<1C>28EA<1E><1C>AMØ2<1C>EYØ5<1C>E93935933<1E><1C>AMØ3<1C>EZØ8<1C>DBØØG2345<1C>DRJONES<1C>PM2Ø13639572<1C>2EØ1<1C>DL1234566<1C>4EWRIGHT<1E><1C>AM11<1C>D9557{<1C>DC1ØØ{<1C>H71<1C>H8Ø1<1C>H915Ø{<1C>DQ867{<1C>DU8Ø7{<1C>DNØ3";
             string testString = NcpdpHelper.FromHumanReadableToNcpdp(_submitted);
@@ -68,6 +69,8 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             Assert.IsNotNull(submittedTransmission, "It's not alive");
 
             Library.D0.Response.Transmission responseTransmission = null;
+
+            //Response will be accepted and copay should be $15.  
 
             responseTransmission = Library.D0.TransmissionProcessor.Process(submittedTransmission);
 
