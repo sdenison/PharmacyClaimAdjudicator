@@ -113,37 +113,37 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             Assert.AreEqual(patient.CardholderId, "123456789");
         }
 
-        //[TestMethod]
-        //public void AddAPatient()
-        //{
-        //    //Library.Core.Patient newPatient = Library.Core.Patient.NewPatient();
-        //    //newPatient.FirstName = "Tony";
-        //    //newPatient.LastName = "Parker";
-        //    //newPatient.CardholderId = "456123789";
-        //    //newPatient.DateOfBirth = new DateTime(1982, 05, 17);
-        //    //int newPatientId = newPatient.PatientId;
+        [TestMethod]
+        public void AddAPatient()
+        {
+            Library.Core.Patient newPatient = Library.Core.Patient.NewPatient();
+            newPatient.FirstName = "Tony";
+            newPatient.LastName = "Parker";
+            newPatient.CardholderId = "456123789";
+            newPatient.DateOfBirth = new DateTime(1982, 05, 17);
+            int newPatientId = newPatient.PatientId;
 
-        //    //foreach (var brokenRule in newPatient.BrokenRulesCollection)
-        //    //{
-        //    //    string x = brokenRule.Description;
-        //    //} 
-        //    //newPatient.Save();
+            foreach (var brokenRule in newPatient.BrokenRulesCollection)
+            {
+                string x = brokenRule.Description;
+            } 
+            newPatient.Save();
 
-        //    //try
-        //    //{
-        //    //    Library.Core.Patient testGetPatient = Library.Core.Patient.GetByPatientId(newPatientId);
-        //    //    Assert.AreEqual(testGetPatient.FirstName, "Tony");
-        //    //}
-        //    //catch (Exception ex)
-        //    //{
-        //    //    if (ex.GetBaseException() is Library.DataNotFoundException)
-        //    //    {
-        //    //        throw ex;
-        //    //    }
-        //    //    else
-        //    //        throw ex;
-        //    //}
-        //}
+            try
+            {
+                Library.Core.Patient testGetPatient = Library.Core.Patient.GetByPatientId(newPatientId);
+                Assert.AreEqual(testGetPatient.FirstName, "Tony");
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() is Library.DataNotFoundException)
+                {
+                    throw ex;
+                }
+                else
+                    throw ex;
+            }
+        }
 
         [TestMethod]
         public void GetPatientAsync()

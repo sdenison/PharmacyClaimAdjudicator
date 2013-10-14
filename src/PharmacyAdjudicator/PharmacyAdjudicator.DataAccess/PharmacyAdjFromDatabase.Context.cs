@@ -27,7 +27,7 @@ namespace PharmacyAdjudicator.DataAccess
     
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupFact> GroupFacts { get; set; }
-        public DbSet<Patient> Patient { get; set; }
+        public DbSet<Patient> Patients { get; set; }
         public DbSet<PatientFact> PatientFacts { get; set; }
         public DbSet<PatientGroup> PatientGroups { get; set; }
         public DbSet<VaDrug> VaDrugs { get; set; }

@@ -8,10 +8,18 @@ namespace PharmacyAdjudicator.Library.Core
     {
         #region Business Methods
 
-        [ComplexFact]
+        [Fact]
         public Drug Drug { get; private set; }
         //public Patient Patient { get; private set; }
         //public Pharmacy Pharmacy { get; private set; }
+
+        public static readonly PropertyInfo<string> TestFactProperty = RegisterProperty<string>(c => c.TestFact);
+        [Fact]
+        public string TestFact
+        {
+            get { return GetProperty(TestFactProperty); }
+            private set { LoadProperty(TestFactProperty, value); }
+        }
 
         public static readonly PropertyInfo<decimal> CopayProperty = RegisterProperty<decimal>(c => c.Copay);
         [Inferrable]
@@ -23,7 +31,6 @@ namespace PharmacyAdjudicator.Library.Core
 
         public static readonly PropertyInfo<bool> FormularyProperty = RegisterProperty<bool>(c => c.Formulary);
         [Inferrable]
-        [Fact]
         public bool Formulary
         {
             get { return GetProperty(FormularyProperty); }
@@ -84,6 +91,7 @@ namespace PharmacyAdjudicator.Library.Core
             this.Id = Guid.NewGuid().ToString();
             this.Drug = drug;
             this.Formulary = false;
+            this.TestFact = "ThisShouldBeTrue";
             MarkOld();
         }
 

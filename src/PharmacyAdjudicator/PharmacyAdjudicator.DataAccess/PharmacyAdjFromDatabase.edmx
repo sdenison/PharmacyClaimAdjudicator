@@ -8,7 +8,7 @@
   <EntityContainer Name="PharmacyClaimAdjudicatorModelStoreContainer">
     <EntitySet Name="Groups" EntityType="PharmacyClaimAdjudicatorModel.Store.Groups" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GroupFacts" EntityType="PharmacyClaimAdjudicatorModel.Store.GroupFacts" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Patient" EntityType="PharmacyClaimAdjudicatorModel.Store.Patient" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Patients" EntityType="PharmacyClaimAdjudicatorModel.Store.Patients" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PatientFacts" EntityType="PharmacyClaimAdjudicatorModel.Store.PatientFacts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PatientGroups" EntityType="PharmacyClaimAdjudicatorModel.Store.PatientGroups" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VaDrugs" EntityType="PharmacyClaimAdjudicatorModel.Store.VaDrugs" store:Type="Tables" Schema="dbo" />
@@ -25,11 +25,11 @@
       <End Role="GroupFacts1" EntitySet="GroupFacts" />
     </AssociationSet>
     <AssociationSet Name="Patient_PateintFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Store.Patient_PateintFacts_Rel">
-      <End Role="Patient" EntitySet="Patient" />
+      <End Role="Patient" EntitySet="Patients" />
       <End Role="PatientGroup" EntitySet="PatientGroups" />
     </AssociationSet>
     <AssociationSet Name="Patient_PatientFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Store.Patient_PatientFacts_Rel">
-      <End Role="Patient" EntitySet="Patient" />
+      <End Role="Patient" EntitySet="Patients" />
       <End Role="PatientFacts" EntitySet="PatientFacts" />
     </AssociationSet>
     <AssociationSet Name="PatientFacts_PatientFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Store.PatientFacts_PatientFacts_Rel">
@@ -63,7 +63,7 @@
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="GroupId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="Patient">
+  <EntityType Name="Patients">
     <Key>
       <PropertyRef Name="PatientId" />
     </Key>
@@ -174,7 +174,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="Patient_PateintFacts_Rel">
-    <End Role="Patient" Type="PharmacyClaimAdjudicatorModel.Store.Patient" Multiplicity="1" />
+    <End Role="Patient" Type="PharmacyClaimAdjudicatorModel.Store.Patients" Multiplicity="1" />
     <End Role="PatientGroup" Type="PharmacyClaimAdjudicatorModel.Store.PatientGroups" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Patient">
@@ -186,7 +186,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="Patient_PatientFacts_Rel">
-    <End Role="Patient" Type="PharmacyClaimAdjudicatorModel.Store.Patient" Multiplicity="1" />
+    <End Role="Patient" Type="PharmacyClaimAdjudicatorModel.Store.Patients" Multiplicity="1" />
     <End Role="PatientFacts" Type="PharmacyClaimAdjudicatorModel.Store.PatientFacts" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Patient">
@@ -228,7 +228,7 @@
         <EntityContainer Name="PharmacyClaimAdjudicatorEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Groups" EntityType="PharmacyClaimAdjudicatorModel.Group" />
           <EntitySet Name="GroupFacts" EntityType="PharmacyClaimAdjudicatorModel.GroupFact" />
-          <EntitySet Name="Patient" EntityType="PharmacyClaimAdjudicatorModel.Patient" />
+          <EntitySet Name="Patients" EntityType="PharmacyClaimAdjudicatorModel.Patient" />
           <EntitySet Name="PatientFacts" EntityType="PharmacyClaimAdjudicatorModel.PatientFact" />
           <EntitySet Name="PatientGroups" EntityType="PharmacyClaimAdjudicatorModel.PatientGroup" />
           <AssociationSet Name="FKGroupFacts397517" Association="PharmacyClaimAdjudicatorModel.FKGroupFacts397517">
@@ -244,11 +244,11 @@
             <End Role="GroupFacts1" EntitySet="GroupFacts" />
           </AssociationSet>
           <AssociationSet Name="Patient_PateintFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel">
-            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Patient" EntitySet="Patients" />
             <End Role="PatientGroup" EntitySet="PatientGroups" />
           </AssociationSet>
           <AssociationSet Name="Patient_PatientFacts_Rel" Association="PharmacyClaimAdjudicatorModel.Patient_PatientFacts_Rel">
-            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Patient" EntitySet="Patients" />
             <End Role="PatientFacts" EntitySet="PatientFacts" />
           </AssociationSet>
           <AssociationSet Name="PatientFacts_PatientFacts_Rel" Association="PharmacyClaimAdjudicatorModel.PatientFacts_PatientFacts_Rel">
@@ -485,9 +485,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Patient">
+    <EntitySetMapping Name="Patients">
       <EntityTypeMapping TypeName="IsTypeOf(PharmacyClaimAdjudicatorModel.Patient)">
-        <MappingFragment StoreEntitySet="Patient">
+        <MappingFragment StoreEntitySet="Patients">
           <ScalarProperty Name="PatientId" ColumnName="PatientId" />
           <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
           <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
