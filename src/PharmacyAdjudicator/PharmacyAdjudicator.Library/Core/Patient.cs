@@ -355,7 +355,7 @@ namespace PharmacyAdjudicator.Library.Core
                 DataAccess.Patient newPatient = new DataAccess.Patient();
                 newPatient.RecordCreatedDateTime = DateTime.Now;
                 newPatient.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
-                ctx.Patients.Add(newPatient);
+                ctx.Patient.Add(newPatient);
                 ctx.SaveChanges();
                 this.PatientId = newPatient.PatientId;
             }

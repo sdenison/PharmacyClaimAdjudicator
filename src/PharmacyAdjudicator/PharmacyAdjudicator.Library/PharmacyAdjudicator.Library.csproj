@@ -46,9 +46,6 @@
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.2.0.0-rc1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="NxBRE">
-      <HintPath>..\..\..\..\..\..\learn\Projects\nxbre-3_2_0\Source\bin\Release\NxBRE.dll</HintPath>
-    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -64,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ComplexFact.cs" />
     <Compile Include="Core\FactAttribute.cs" />
     <Compile Include="Core\InferrableAttribute.cs" />
     <Compile Include="Core\NamespaceDoc.cs" />
@@ -139,6 +137,10 @@
     <Folder Include="E3\Submitted\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NxBRE\NxBRE.csproj">
+      <Project>{c5a2507e-550e-4eec-b3c2-a278ecb27e30}</Project>
+      <Name>NxBRE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj">
       <Project>{9467e711-a5d6-435a-be7d-cd36dd21c8c0}</Project>
       <Name>PharmacyAdjudicator.DataAccess</Name>

@@ -11,25 +11,16 @@ namespace PharmacyAdjudicator.Library.Core
 {
     public class TransactionProcessorBinder :  AbstractBinder
     {
-
-        //Require constructor with arguments to be used
-        private TransactionProcessorBinder()
+        public TransactionProcessorBinder()
             : base(BindingTypes.BeforeAfter)
         { }
-
-        public TransactionProcessorBinder(Core.Transaction transaction)
-            : base(BindingTypes.BeforeAfter)
-        {
-            BusinessObjects["TRANSACTION"] = transaction;
-
-        }
 
         public override void BeforeProcess()
         {
             GrindObjectToFacts(BusinessObjects["TRANSACTION"]);
         }
 
-        public override NxBRE.InferenceEngine.NewFactEvent OnNewFact
+        public override NewFactEvent OnNewFact
         {
             get
             {
@@ -39,57 +30,65 @@ namespace PharmacyAdjudicator.Library.Core
 
         public void NewFactHandler(NewFactEventArgs nfea)
         {
-            //if (nfea.Fact.Type == "Formulary")
-            //    ((Core.Transaction)nfea.Fact.GetPredicateValue(0)).Formulary = bool.Parse(nfea.Fact.GetPredicateValue(1).ToString());
+            HandleFact(nfea.Fact);
+        }
 
-            if (nfea.Fact.GetPredicateValue(0) is Core.Transaction)
+        public override NewFactEvent OnModifyFact
+        {
+            get
             {
-                PropertyInfo property = typeof(Core.Transaction).GetProperty(nfea.Fact.Type);
+                return new NxBRE.InferenceEngine.NewFactEvent(ModifiedFactHandler);
+            }
+        }
+
+        public void ModifiedFactHandler(NewFactEventArgs nfea)
+        {
+            HandleFact(nfea.OtherFact);
+        }
+
+        /// <summary>
+        /// Fires when facts are asserted or modified.  Binds implications back to business objects.
+        /// </summary>
+        /// <param name="fact"></param>
+        private void HandleFact(NxBRE.InferenceEngine.Rules.Fact fact)
+        {
+            if(fact.GetPredicateValue(0) is Core.Transaction)
+            {
+                PropertyInfo property = typeof(Core.Transaction).GetProperty(fact.Type);
                 if (Attribute.IsDefined(property, typeof(InferrableAttribute)))
                 {
                     if (property.PropertyType == typeof(bool))
-                        property.SetValue(((Core.Transaction)nfea.Fact.GetPredicateValue(0)), bool.Parse(nfea.Fact.GetPredicateValue(1).ToString()));
+                        property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), bool.Parse(fact.GetPredicateValue(1).ToString()));
                     else if (property.PropertyType == typeof(string))
-                        property.SetValue(((Core.Transaction)nfea.Fact.GetPredicateValue(0)), nfea.Fact.GetPredicateValue(1).ToString());
+                        property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), fact.GetPredicateValue(1).ToString());
                     else if (property.PropertyType == typeof(decimal))
-                        property.SetValue(((Core.Transaction)nfea.Fact.GetPredicateValue(0)), decimal.Parse(nfea.Fact.GetPredicateValue(1).ToString()));
+                        property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), decimal.Parse(fact.GetPredicateValue(1).ToString()));
                 }
                 else
                 {
-                    throw new Exception("Tried to set property type of " + nfea.Fact.Type + " but the property is not marked as Inferrable");
+                    throw new Exception("Tried to set property type of " + fact.Type + " but the property is not marked as Inferrable");
                 }
             }
         }
 
+        /// <summary>
+        /// Grinds business objects to facts so that the inference engine can reason about them.
+        /// </summary>
+        /// <param name="objectToGrind"></param>
         private void GrindObjectToFacts(object objectToGrind)
         {
             List<PropertyInfo> properties = new List<PropertyInfo>(objectToGrind.GetType().GetProperties());
             foreach (var property in properties)
             {
-                var isFact = Attribute.IsDefined(property, typeof(FactAttribute));
-                if (isFact)
+                //Properties to be ground into facts need to have the Fact or ComplexFact attribute set.
+                if (Attribute.IsDefined(property, typeof(FactAttribute)))
                 {
-                    if (property.PropertyType == typeof(Core.Drug))
-                    {
-                        GrindObjectToFacts(objectToGrind, (Core.Drug)property.GetValue(objectToGrind));
-                    }
-                    else
-                    {
-                        IEF.AssertNewFactOrFail(property.Name, objectToGrind, property.GetValue(objectToGrind));
-                    }
+                    IEF.AssertNewFactOrFail(property.Name, objectToGrind, property.GetValue(objectToGrind));
                 }
-            }
-        }
-
-        private void GrindObjectToFacts(object objectToGrind, Core.Drug drug)
-        {
-            List<PropertyInfo> properties = new List<PropertyInfo>(drug.GetType().GetProperties());
-            foreach (var property in properties)
-            {
-                var isFact = Attribute.IsDefined(property, typeof(FactAttribute));
-                if (isFact)
+                else if (Attribute.IsDefined(property, typeof(ComplexFactAttribute)))
                 {
-                    IEF.AssertNewFactOrFail(property.Name, objectToGrind, drug, property.GetValue(drug));
+                    IEF.AssertNewFactOrFail("Contains", objectToGrind, property.GetValue(objectToGrind)); 
+                    GrindObjectToFacts(property.GetValue(objectToGrind));
                 }
             }
         }

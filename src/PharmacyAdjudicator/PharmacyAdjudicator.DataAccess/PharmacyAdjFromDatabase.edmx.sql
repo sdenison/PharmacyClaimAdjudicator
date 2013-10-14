@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/10/2013 13:20:04
+-- Date Created: 10/13/2013 19:45:36
 -- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -88,8 +88,8 @@ CREATE TABLE [dbo].[GroupFacts] (
 );
 GO
 
--- Creating table 'Patients'
-CREATE TABLE [dbo].[Patients] (
+-- Creating table 'Patient'
+CREATE TABLE [dbo].[Patient] (
     [PatientId] int IDENTITY(1,1) NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL
@@ -178,9 +178,9 @@ ADD CONSTRAINT [PK_GroupFacts]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
--- Creating primary key on [PatientId] in table 'Patients'
-ALTER TABLE [dbo].[Patients]
-ADD CONSTRAINT [PK_Patients]
+-- Creating primary key on [PatientId] in table 'Patient'
+ALTER TABLE [dbo].[Patient]
+ADD CONSTRAINT [PK_Patient]
     PRIMARY KEY CLUSTERED ([PatientId] ASC);
 GO
 
@@ -252,7 +252,7 @@ GO
 ALTER TABLE [dbo].[PatientGroups]
 ADD CONSTRAINT [FK_Patient_PateintFacts_Rel]
     FOREIGN KEY ([PatientId])
-    REFERENCES [dbo].[Patients]
+    REFERENCES [dbo].[Patient]
         ([PatientId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -266,7 +266,7 @@ GO
 ALTER TABLE [dbo].[PatientFacts]
 ADD CONSTRAINT [FK_Patient_PatientFacts_Rel]
     FOREIGN KEY ([PatientId])
-    REFERENCES [dbo].[Patients]
+    REFERENCES [dbo].[Patient]
         ([PatientId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
