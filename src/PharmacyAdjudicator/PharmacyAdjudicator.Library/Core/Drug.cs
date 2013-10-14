@@ -38,7 +38,7 @@ namespace PharmacyAdjudicator.Library.Core
 
         public static readonly PropertyInfo<string> VaClassProperty = RegisterProperty<string>(c => c.VaClass);
         [Fact]
-        public string  VaClass
+        public string VaClass
         {
             get { return ReadProperty(VaClassProperty); }
             private set { LoadProperty(VaClassProperty, value); }
