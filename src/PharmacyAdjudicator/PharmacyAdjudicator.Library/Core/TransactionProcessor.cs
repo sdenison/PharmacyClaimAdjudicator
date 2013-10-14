@@ -22,23 +22,13 @@ namespace PharmacyAdjudicator.Library.Core
         /// <param name="transaction">Incoming transaction to process</param>
         /// <param name="rules">Rules to apply to the transaction</param>
         /// <returns>A transformation of the transaction according to the rules applied</returns>
-        public static Transaction Process(Transaction transaction, IRuleBaseAdapter rules, IRuleBaseAdapter otherRules = null)
+        public static Transaction Process(Transaction transaction, IRuleBaseAdapter rules)
         {
-            var binder = new TransactionProcessorBinder(transaction);
+            var binder = new TransactionProcessorBinder();
             var ie = new IEImpl(binder);
-
             Hashtable transactions = new Hashtable();
             transactions.Add("TRANSACTION", transaction);
-
-            //Testing if multiple rule bases can be loaded
-            if (otherRules != null)
-            {
-                foreach (var implication in otherRules.Implications)
-                    rules.Implications.Add(implication);
-            }
             ie.LoadRuleBase(rules);
-
-
             ie.Process(transactions);
             return transaction;
         }

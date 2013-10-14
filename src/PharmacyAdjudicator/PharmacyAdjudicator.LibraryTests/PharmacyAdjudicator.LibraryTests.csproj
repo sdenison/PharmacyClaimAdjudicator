@@ -99,6 +99,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="RuleFiles\AM111OnFormulary.ruleml" />
+    <None Include="RuleFiles\AM900OnFormulary.ruleml" />
     <None Include="Scripts\recreate_database.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -110,12 +112,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="RuleFiles\AM111OnFormulary.ruleml.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="RuleFiles\AM900OnFormulary.ruleml.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Scripts\Create_database_with_test_data.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
