@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ComplexFact.cs" />
+    <Compile Include="Core\Enums\ResponseStatus.cs" />
     <Compile Include="Core\FactAttribute.cs" />
     <Compile Include="Core\InferrableAttribute.cs" />
     <Compile Include="Core\NamespaceDoc.cs" />
@@ -135,7 +136,6 @@
     <Content Include="E3\Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Enums\" />
     <Folder Include="D0\CodeLists\" />
     <Folder Include="E3\Response\" />
     <Folder Include="E3\Submitted\" />

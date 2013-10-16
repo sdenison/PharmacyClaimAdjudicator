@@ -24,6 +24,13 @@ namespace PharmacyAdjudicator.Library.D0.Response
         {
         }
 
+        public ClaimBilling(Core.Transaction transaction)
+        {
+            this.Status = new StatusSegment(transaction);
+            this.Claim = new ClaimSegment(transaction);
+            this.Pricing = new PricingSegment(transaction);
+        }
+
         public string ToNcpdpString()
         {
             StringBuilder returnValue = new StringBuilder();

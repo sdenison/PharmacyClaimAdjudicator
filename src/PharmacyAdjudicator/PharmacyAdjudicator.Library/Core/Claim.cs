@@ -91,25 +91,21 @@ namespace PharmacyAdjudicator.Library.Core
             // TODO: load values
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Insert()
         {
             // TODO: insert values
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Update()
         {
             // TODO: update values
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_DeleteSelf()
         {
             DataPortal_Delete(this.Id);
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         private void DataPortal_Delete(int criteria)
         {
             // TODO: delete values

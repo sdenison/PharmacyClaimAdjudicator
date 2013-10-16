@@ -56,7 +56,11 @@ namespace PharmacyAdjudicator.Library.D0.Response
         /// <para>Count of preferred product occurences.</para>
         /// </remarks>
         [NcpdpField("551-9F")]
-        public int? PreferredProductCount { get; set; }
+        public int? PreferredProductCount 
+        {
+            get { return PreferredProducts != null ? PreferredProducts.Count : 0; }
+            private set;
+        }
 
         /// <summary>
         /// List of perferred products
@@ -79,13 +83,13 @@ namespace PharmacyAdjudicator.Library.D0.Response
             this.SegmentIdentification = "22";
         }
 
-        //Provided to transform a submitted ClaimSegment into a repsonse ClaimSegment
-        public ClaimSegment(Submitted.ClaimSegment submittedClaim)
+        public ClaimSegment(Core.Transaction transaction)
         {
             this.SegmentIdentification = "22";
-            this.PrescriptionReferenceNumberQualifier = submittedClaim.PrescriptionReferenceNumberQualifier;
-            this.PrescriptionServiceReferenceNumber = submittedClaim.PrescriptionServiceReferenceNumber;
-            this.MedicaidSubrogationInternalControlNumber = submittedClaim.MedicaidSubrogationInternalControlNumber;
+            this.PrescriptionReferenceNumberQualifier = "3"; //Rx Billing: 3 = Telecommunication v D0 or higher Rx-12 bytes
+            this.PrescriptionServiceReferenceNumber = transaction.PrescriptionNumber;
+
+            //TODO: Add ability for transaction to contain preferred products and assign them to the ClaimSegment
         }
 
         public string ToNcpdpString()

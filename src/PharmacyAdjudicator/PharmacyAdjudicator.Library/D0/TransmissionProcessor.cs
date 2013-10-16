@@ -84,14 +84,20 @@ namespace PharmacyAdjudicator.Library.D0
                 //if anything is hinkey in there send response message segment rejecting transmission
                 foreach (var claim in submittedTransmission.Claims)
                 {
-                    //var transaction = Core.Transaction
-
-
+                    //Task<Core.TransactionList> patientTransactions = Core.TransactionList
 
                     var drug = Core.Drug.GetByNdc(claim.Claim.ProductServiceId);
                     var transaction = new Core.Transaction(drug);
 
-                    var transactionAfterProcessing = Core.TransactionProcessor.Process(transaction, rules);
+                    transaction.Save();
+
+                    //Will modify the transaction during processing
+                    Core.TransactionProcessor.Process(transaction, rules);
+                    var responseClaim = new Response.ClaimBilling(transaction);
+
+                    response.Claims.Add(responseClaim);
+
+
 
                     //look up the claim
                     //if it already exists then make new response status segment for claim rejecting claim
@@ -101,17 +107,6 @@ namespace PharmacyAdjudicator.Library.D0
                     {
 
                     }
-                    //var binder = new ClaimProcessorBinder(transaction);
-                    //var ie = new IEImpl(binder);
-                    //ie.LoadRuleBase(rules);
-                    //ie.Process(); 
-
-                    //if (transaction.IsDirty)
-                    //{
-                    //    var result = "Yay, it worked!";
-                    //}
-                    
-
                     //Lookup Prior Auth and mark it as used
                     //Core.Transaction transaction = Core.Transaction.GetBySubmittedClaim(claim);
                     //if (transaction.IsNew == true)

@@ -30,6 +30,30 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(FormularyProperty, value); }
         }
 
+        public static readonly PropertyInfo<Enums.ResponseStatus> ResponseStatusProperty = RegisterProperty<Enums.ResponseStatus>(c => c.ResponseStatus);
+        [NcpdpField("111-AM")]
+        public Enums.ResponseStatus ResponseStatus
+        {
+            get { return GetProperty(ResponseStatusProperty); }
+            set { SetProperty(ResponseStatusProperty, value); }
+        }
+
+        public static readonly PropertyInfo<string> AuthorizationNumberProperty = RegisterProperty<string>(c => c.AuthorizationNumber);
+        [NcpdpField("112-AN")]
+        public string AuthorizationNumber
+        {
+            get { return GetProperty(AuthorizationNumberProperty); }
+            private set { LoadProperty(AuthorizationNumberProperty, value); }
+        }
+
+        public static readonly PropertyInfo<string> PrescriptionNumberProperty = RegisterProperty<string>(c => c.PrescriptionNumber);
+        [NcpdpField("402-D2")]
+        public string PrescriptionNumber
+        {
+            get { return GetProperty(PrescriptionNumberProperty); }
+            set { SetProperty(PrescriptionNumberProperty, value); }
+        }
+
         public static readonly PropertyInfo<string> IdProperty = RegisterProperty<string>(c => c.Id);
         public string Id
         {
@@ -125,5 +149,6 @@ namespace PharmacyAdjudicator.Library.Core
         }
 
         #endregion
+
     }
 }

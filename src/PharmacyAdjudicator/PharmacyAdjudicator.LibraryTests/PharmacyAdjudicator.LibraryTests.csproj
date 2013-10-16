@@ -106,6 +106,9 @@
     <None Include="RuleFiles\AM900OnFormulary.ruleml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="RuleFiles\CliniorilShouldHave10copayAndMaxFeeOf8.ruleml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\recreate_database.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

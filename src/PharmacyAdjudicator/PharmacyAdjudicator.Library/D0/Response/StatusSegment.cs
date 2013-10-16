@@ -160,6 +160,14 @@ namespace PharmacyAdjudicator.Library.D0.Response
             this.SegmentIdentification = "21";
         }
 
+        public StatusSegment(Core.Transaction transaction)
+        {
+            this.AuthorizationNumber = transaction.AuthorizationNumber;
+            this.TransactionResponseStatus = Core.Enums.ResponseStatusConverter.ToString(transaction.ResponseStatus);
+            this.HelpDeskPhoneNumberQualifier = "03";
+            this.HelpDeskPhoneNumber = "8305158129";
+        }
+
         public string ToNcpdpString()
         {
             StringBuilder returnValue = new StringBuilder();
