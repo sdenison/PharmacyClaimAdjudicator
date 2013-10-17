@@ -88,15 +88,21 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             IRuleBaseAdapter rules = new NxBRE.InferenceEngine.IO.RuleML09NafDatalogAdapter("RuleFiles\\CliniorilShouldHave10copayAndMaxFeeOf8.ruleml", System.IO.FileAccess.Read);
             responseTransmission = Library.D0.TransmissionProcessor.Process(submittedTransmission, rules);
 
-            //Assert.AreEqual(responseTransmission.Claims[0].Claim.PrescriptionServiceReferenceNumber, "1234567");
-            //Assert.AreEqual(responseTransmission.Claims[0].Claim.)
+
+
+
+
+            Assert.AreEqual(responseTransmission.Claims[0].Claim.PrescriptionServiceReferenceNumber, "1234567");
+            Assert.AreEqual(responseTransmission.Claims[0].Claim.PrescriptionReferenceNumberQualifier, submittedTransmission.Claims[0].Claim.PrescriptionReferenceNumberQualifier);
+            Assert.AreEqual(responseTransmission.Claims[0].Pricing.IngredientCostPaid, submittedTransmission.Claims[0].Pricing.IngredientCostSubmitted);
+            Assert.AreEqual(responseTransmission.Claims[0].Pricing.BasisOfReimbursementDetermination, "1");
+            Assert.AreEqual(responseTransmission.Claims[0].Pricing.DispensingFeePaid, (decimal)8);
 
             //string expectedResponse = "DØB11AØ14563663bbbbbbbb2ØØ7Ø915<1E><1C>AM2Ø<1C>F4TRANSMISSION MESSAGE TEXT<1D><1E><1C>AM21<1C>ANP<1C>F3123456789123456789<1C>UF1<1C>UHØ1<1C>FQTRANSACTION MESSAGE TEXT<1C>7FØ3<1C>8F6Ø2357Ø862<1E><1C>AM22<1C>EM1<1C>D21234567<1C>9F1<1C>APØ3<1C>AR17236Ø569Ø1<1E><1C>AM23<1C>F51ØØ{<1C>F6557{<1C>F71ØØ{<1C>AV1<1C>J21<1C>J3Ø1<1C>J415Ø{<1C>F97Ø7{<1C>FM1<1C>FN2Ø{<1C>FI8Ø{<1C>AW2Ø{<1C>EQ2Ø{";
 
             //Assert.AreEqual(responseTransmission.
 
             //Assert.IsNotNull(responseTransmission);
-            Assert.IsTrue(true); //for now
         }
 
     }

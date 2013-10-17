@@ -87,13 +87,18 @@ namespace PharmacyAdjudicator.Library.D0
                     //Task<Core.TransactionList> patientTransactions = Core.TransactionList
 
                     var drug = Core.Drug.GetByNdc(claim.Claim.ProductServiceId);
-                    var transaction = new Core.Transaction(drug);
+                    //var transaction = new Core.Transaction(drug, patient, serviceProvider, prescriber, claim);
+                    var transaction = new Core.Transaction(drug, patient, claim); //serviceProvider, prescriber, claim);
+
+                    transaction.IngredientCostSubmitted = claim.Pricing.IngredientCostSubmitted.Value;
 
                     transaction.Save();
 
                     //Will modify the transaction during processing
                     Core.TransactionProcessor.Process(transaction, rules);
                     var responseClaim = new Response.ClaimBilling(transaction);
+                    if (response.Claims == null)
+                        response.Claims = new List<Response.ClaimBilling>();
                     response.Claims.Add(responseClaim);
 
 
@@ -123,7 +128,7 @@ namespace PharmacyAdjudicator.Library.D0
                 }
             }
 
-            return new Response.Transmission();
+            return response;
         }
 
         //private Core.Patient GetPatient(Submitted.Transmission submittedTransmission)

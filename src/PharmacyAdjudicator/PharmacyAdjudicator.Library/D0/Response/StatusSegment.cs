@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PharmacyAdjudicator.Library.D0.Response
 {
-    public class StatusSegment
+    public class StatusSegment //: NcpdpBindable
     {
         /// <summary>
         /// Segment Identification
@@ -164,6 +164,7 @@ namespace PharmacyAdjudicator.Library.D0.Response
         {
             this.AuthorizationNumber = transaction.AuthorizationNumber;
             this.TransactionResponseStatus = Core.Enums.ResponseStatusConverter.ToString(transaction.ResponseStatus);
+            
             this.HelpDeskPhoneNumberQualifier = "03";
             this.HelpDeskPhoneNumber = "8305158129";
         }

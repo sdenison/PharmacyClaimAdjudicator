@@ -43,7 +43,7 @@
       </Implies>
     <Implies>
       <oid>
-        <Ind>label:Formulary Drugs have Basis of Reimbursement Determination of 1;action:modify</Ind>
+        <Ind>label:Formulary Drugs have Basis of Reimbursement Determination of 1;action:modify;precondition:Clinioril should be covered with 10 dollar copay</Ind>
       </oid>
       <body>
         <And>
@@ -59,6 +59,27 @@
           <Rel>BasisOfReimbursement</Rel>
           <Var>Transaction</Var>
           <Ind>1</Ind>
+        </Atom>
+      </head>
+    </Implies>
+    <Implies>
+      <oid>
+        <Ind>label:If BasisOfReimbursement is IngredientCost then IngredientCostPaid is IngredientCostSubmitted;action:assert</Ind>
+      </oid>
+      <body>
+        <And>
+          <Atom>
+            <Rel>BasisOfReimbursement</Rel>
+            <Var>Transaction</Var>
+            <Ind>1</Ind>
+          </Atom>
+        </And>
+      </body>
+      <head>
+        <Atom>
+          <Rel>IngredientCostPaid</Rel>
+          <Var>Transaction</Var>
+          <Ind uri="nxbre://binder">CalculateIngredientCostPaid(Transaction)</Ind>
         </Atom>
       </head>
     </Implies>
@@ -104,6 +125,29 @@
           </Atom>
         </head>
       </Implies>
-
+    <Implies>
+      <body>
+        <Atom>
+          <Rel>DefaultDispensingFeePaid</Rel>
+          <Var>Value</Var>
+        </Atom>
+      </body>
+      <head>
+        <Atom>
+          <Rel>DispensingFeePaid</Rel>
+          <Var>Transaction</Var>
+          <Var>Value</Var>
+        </Atom>
+      </head>
+    </Implies>
+    </Assert>
+    <Assert mapDirection="forward">
+      <Atom>
+        <oid>
+          <Ind>label:Dispensing Fee Paid</Ind>
+        </oid>
+        <Rel>DefaultDispensingFeePaid</Rel>
+        <Ind>8</Ind>
+      </Atom>
     </Assert>
 </RuleML>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -65,7 +66,9 @@ namespace PharmacyAdjudicator.Library.Core
                     else if (property.PropertyType == typeof(decimal))
                         property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), decimal.Parse(fact.GetPredicateValue(1).ToString()));
                     else if (property.PropertyType == typeof(Enums.BasisOfReimbursement))
+                    {
                         property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), (Enums.BasisOfReimbursement)int.Parse(fact.GetPredicateValue(1).ToString()));
+                    }
                 }
                 else
                 {
@@ -80,6 +83,14 @@ namespace PharmacyAdjudicator.Library.Core
         /// <param name="objectToGrind"></param>
         private void GrindObjectToFacts(object objectToGrind)
         {
+            //var originalFactsCopy = new List<NxBRE.InferenceEngine.Rules.Fact>();
+            //var originalFacts = IEF.Facts;
+            //while (originalFacts.MoveNext())
+            //{
+            //    var originalFact = (NxBRE.InferenceEngine.Rules.Fact)originalFacts.Current;
+            //    originalFactsCopy.Add(originalFact);
+            //}
+
             List<PropertyInfo> properties = new List<PropertyInfo>(objectToGrind.GetType().GetProperties());
             foreach (var property in properties)
             {
@@ -94,6 +105,40 @@ namespace PharmacyAdjudicator.Library.Core
                     GrindObjectToFacts(property.GetValue(objectToGrind));
                 }
             }
+
+            //if (IEF.FactExists("Dispensing Fee Paid"))
+            //{
+            //    IEF.Modify("Dispensing Fee Paid", IEF.GetFact("Dispensing Fee Paid"));
+            //}
+            
+            //foreach (var fact in originalFactsCopy)
+            //{
+            //    IEF.Modify(fact, fact);
+            //}
+
         }
+
+        private decimal CalculateIngredientCostPaid(Core.Transaction transaction)
+        {
+            switch (transaction.BasisOfReimbursement)
+            {
+                case(Enums.BasisOfReimbursement.IngredientCostPaid):
+                    return transaction.IngredientCostSubmitted;
+                default:
+                    throw new NotImplementedException("BasisOfReimbursement '" + transaction.BasisOfReimbursement + "' is not defined.");
+            }
+        }
+
+        public override object Compute(string operationName, System.Collections.IDictionary arguments)
+        {
+            if (operationName == "CalculateIngredientCostPaid")
+            {
+                return CalculateIngredientCostPaid((Core.Transaction)arguments["Transaction"]);
+            }
+            else
+            {
+                throw new NotImplementedException("Operation '" + operationName + "' is not supported by this binder.");
+            }
+        } 
     }
 }

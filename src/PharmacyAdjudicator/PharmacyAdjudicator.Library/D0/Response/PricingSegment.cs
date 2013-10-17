@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PharmacyAdjudicator.Library.D0.Response
 {
-    public class PricingSegment
+    public class PricingSegment 
     {
         /// <summary>
         /// Segment Identification
@@ -585,17 +585,19 @@ namespace PharmacyAdjudicator.Library.D0.Response
         public PricingSegment(Core.Transaction transaction)
         {
             this.SegmentIdentification = "23";
+
+            //Doing attribute binding instead
             this.PatientPayAmount = transaction.PatientPayAmount;
             this.IngredientCostPaid = transaction.IngredientCostPaid;
             this.DispensingFeePaid = transaction.DispensingFeePaid;
             this.TaxExemptIndicator = transaction.TaxExemptIndicator;
+
             //TODO: implement other amount paid loop
             //this.OtherAmountPaidCount = transaction.OtherAmountPaids.Count();
             //foreach (var otherAmountPaid in transaction.OtherAmountPaids)
             //    this.OtherAmountPaids.Add(new OtherAmountPaidContainer() { OtherAmountPaid = otherAmountPaid.AmountPaid, OtherAmountPaidQualifier = otherAmountPaid.Qualifier });
             this.TotalAmountPaid = transaction.TotalAmountPaid;
             this.BasisOfReimbursementDetermination = ((int)transaction.BasisOfReimbursement).ToString();
-
 
         }
 

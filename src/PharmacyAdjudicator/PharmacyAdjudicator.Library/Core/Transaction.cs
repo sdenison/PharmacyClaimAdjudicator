@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using Csla;
 
 namespace PharmacyAdjudicator.Library.Core
@@ -12,6 +13,14 @@ namespace PharmacyAdjudicator.Library.Core
         public Drug Drug { get; private set; }
         //public Patient Patient { get; private set; }
         //public Pharmacy Pharmacy { get; private set; }
+
+        public static readonly PropertyInfo<decimal> IngredientCostSubmittedProperty = RegisterProperty<decimal>(c => c.IngredientCostSubmitted);
+        [Fact]
+        public decimal IngredientCostSubmitted
+        {
+            get { return GetProperty(IngredientCostSubmittedProperty); }
+            set { SetProperty(IngredientCostSubmittedProperty, value); }
+        }
 
         public static readonly PropertyInfo<decimal> CopayProperty = RegisterProperty<decimal>(c => c.Copay);
         [Inferrable]
@@ -84,6 +93,7 @@ namespace PharmacyAdjudicator.Library.Core
         public static readonly PropertyInfo<decimal> DispensingFeePaidProperty = RegisterProperty<decimal>(c => c.DispensingFeePaid);
         [NcpdpField("507-F7")]
         [Inferrable]
+        [Fact]
         public decimal DispensingFeePaid
         {
             get { return GetProperty(DispensingFeePaidProperty); }
@@ -173,6 +183,34 @@ namespace PharmacyAdjudicator.Library.Core
             this.Drug = drug;
             this.Formulary = false;
             MarkOld();
+        }
+
+        public Transaction(Drug drug, Patient patient, D0.Submitted.ClaimBilling claim)
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.Drug = drug;
+            this.Formulary = false;
+            BindClaimBilling(claim);
+        }
+
+        private void BindClaimBilling(D0.Submitted.ClaimBilling claim)
+        {
+            foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
+            {
+                if (Attribute.IsDefined(propertyInfo, typeof(NcpdpFieldAttribute)))
+                {
+                    var ncpdpField = (NcpdpFieldAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(NcpdpFieldAttribute));
+                    // 111-AM is SegmentIdentification and should not be bound
+                    if (!ncpdpField.NcpdpFieldName.Equals("111-AM"))
+                    {
+                        var value = ncpdpField.FindPropertyInObject(claim);
+                        if (value != null)
+                            propertyInfo.SetValue(this, value);
+                    }
+                }
+            }
+
+
         }
 
         #endregion

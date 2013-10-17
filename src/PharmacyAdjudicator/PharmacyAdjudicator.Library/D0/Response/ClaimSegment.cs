@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PharmacyAdjudicator.Library.D0.Response
 {
-    public class ClaimSegment
+    public class ClaimSegment 
     {
         /// <summary>
         /// Segment Identification
@@ -85,6 +85,8 @@ namespace PharmacyAdjudicator.Library.D0.Response
             this.PrescriptionReferenceNumberQualifier = transaction.PrescriptionNumberIdQualifier;
             this.PrescriptionServiceReferenceNumber = transaction.PrescriptionNumber;
             this.MedicaidSubrogationInternalControlNumber = "";
+
+            //this.Bind(transaction);
 
             //TODO: Add ability for transaction to contain preferred products and assign them to the ClaimSegment
         }
