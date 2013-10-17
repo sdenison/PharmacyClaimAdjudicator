@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ComplexFact.cs" />
+    <Compile Include="Core\Enums\BasisOfReimbursement.cs" />
     <Compile Include="Core\Enums\ResponseStatus.cs" />
     <Compile Include="Core\FactAttribute.cs" />
     <Compile Include="Core\InferrableAttribute.cs" />

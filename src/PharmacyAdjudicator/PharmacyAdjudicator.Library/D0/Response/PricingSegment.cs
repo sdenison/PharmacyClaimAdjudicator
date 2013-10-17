@@ -588,12 +588,14 @@ namespace PharmacyAdjudicator.Library.D0.Response
             this.PatientPayAmount = transaction.PatientPayAmount;
             this.IngredientCostPaid = transaction.IngredientCostPaid;
             this.DispensingFeePaid = transaction.DispensingFeePaid;
-            this.TaxExemptIndicator = transaction.TaxExemptyIndicator;
-            this.OtherAmountPaidCount = transaction.OtherAmountPaids.Count();
-            foreach (var otherAmountPaid in transaction.OtherAmountPaids)
-                this.OtherAmountPaids.Add(new OtherAmountPaidContainer() { OtherAmountPaid = otherAmountPaid.AmountPaid, OtherAmountPaidQualifier = otherAmountPaid.Qualifier });
+            this.TaxExemptIndicator = transaction.TaxExemptIndicator;
+            //TODO: implement other amount paid loop
+            //this.OtherAmountPaidCount = transaction.OtherAmountPaids.Count();
+            //foreach (var otherAmountPaid in transaction.OtherAmountPaids)
+            //    this.OtherAmountPaids.Add(new OtherAmountPaidContainer() { OtherAmountPaid = otherAmountPaid.AmountPaid, OtherAmountPaidQualifier = otherAmountPaid.Qualifier });
             this.TotalAmountPaid = transaction.TotalAmountPaid;
-            this.BasisOfReimbursementDetermination = transaction.BasisOfReimbursementDetermination;
+            this.BasisOfReimbursementDetermination = ((int)transaction.BasisOfReimbursement).ToString();
+
 
         }
 

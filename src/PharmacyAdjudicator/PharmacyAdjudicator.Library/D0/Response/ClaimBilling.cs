@@ -28,7 +28,12 @@ namespace PharmacyAdjudicator.Library.D0.Response
         {
             this.Status = new StatusSegment(transaction);
             this.Claim = new ClaimSegment(transaction);
-            this.Pricing = new PricingSegment(transaction);
+
+            if ((transaction.ResponseStatus == Core.Enums.ResponseStatus.Approved) ||
+                (transaction.ResponseStatus == Core.Enums.ResponseStatus.Paid))
+            {
+                this.Pricing = new PricingSegment(transaction);
+            }
         }
 
         public string ToNcpdpString()

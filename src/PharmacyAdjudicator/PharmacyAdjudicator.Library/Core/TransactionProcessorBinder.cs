@@ -64,6 +64,8 @@ namespace PharmacyAdjudicator.Library.Core
                         property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), fact.GetPredicateValue(1).ToString());
                     else if (property.PropertyType == typeof(decimal))
                         property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), decimal.Parse(fact.GetPredicateValue(1).ToString()));
+                    else if (property.PropertyType == typeof(Enums.BasisOfReimbursement))
+                        property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), (Enums.BasisOfReimbursement)int.Parse(fact.GetPredicateValue(1).ToString()));
                 }
                 else
                 {

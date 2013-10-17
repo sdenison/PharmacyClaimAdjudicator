@@ -8,17 +8,13 @@
         <body>
           <And>
             <Atom>
-              <op>
-                <Rel>VaClass</Rel>
-              </op>
+              <Rel>VaClass</Rel>
               <Var>Drug</Var>
               <Ind>NONSALICYLATE NSAIS,ANTIRHEUMATIC</Ind>
             </Atom>
             <Or>
               <Atom>
-                <op>
-                  <Rel>DosageForm</Rel>
-                </op>
+                <Rel>DosageForm</Rel>
                 <Var>Drug</Var>
                 <Ind>PWDR,RENST-ORAL</Ind>
               </Atom>
@@ -31,9 +27,7 @@
               </Atom>
             </Or>
             <Atom>
-              <op>
-                <Rel>Contains</Rel>
-              </op>
+              <Rel>Contains</Rel>
               <Var>Transaction</Var>
               <Var>Drug</Var>
             </Atom>
@@ -41,15 +35,33 @@
         </body>
         <head>
           <Atom>
-            <op>
-              <Rel>Formulary</Rel>
-            </op>
+            <Rel>Formulary</Rel>
             <Var>Transaction</Var>
             <Ind>True</Ind>
           </Atom>
         </head>
       </Implies>
-
+    <Implies>
+      <oid>
+        <Ind>label:Formulary Drugs have Basis of Reimbursement Determination of 1;action:modify</Ind>
+      </oid>
+      <body>
+        <And>
+          <Atom>
+            <Rel>Formulary</Rel>
+            <Var>Transaction</Var>
+            <Ind>True</Ind>
+          </Atom>
+        </And>
+      </body>
+      <head>
+        <Atom>
+          <Rel>BasisOfReimbursement</Rel>
+          <Var>Transaction</Var>
+          <Ind>1</Ind>
+        </Atom>
+      </head>
+    </Implies>
       <Implies>
         <oid>
           <Ind>Formulary Drugs Are $10 Copay</Ind>
@@ -57,9 +69,7 @@
         <body>
           <And>
             <Atom>
-              <op>
-                <Rel>Formulary</Rel>
-              </op>
+              <Rel>Formulary</Rel>
               <Var>Transaction</Var>
               <Ind>True</Ind>
             </Atom>
@@ -67,9 +77,7 @@
         </body>
         <head>
           <Atom>
-            <op>
-              <Rel>Copay</Rel>
-            </op>
+            <Rel>Copay</Rel>
             <Var>Transaction</Var>
             <Ind>10</Ind>
           </Atom>
@@ -82,9 +90,7 @@
         <body>
           <And>
             <Atom>
-              <op>
-                <Rel>Formulary</Rel>
-              </op>
+              <Rel>Formulary</Rel>
               <Var>Transaction</Var>
               <Ind>False</Ind>
             </Atom>
@@ -92,13 +98,12 @@
         </body>
         <head>
           <Atom>
-            <op>
-              <Rel>Copay</Rel>
-            </op>
+            <Rel>Copay</Rel>
             <Var>Transaction</Var>
             <Ind>20</Ind>
           </Atom>
         </head>
       </Implies>
+
     </Assert>
 </RuleML>

@@ -94,9 +94,7 @@ namespace PharmacyAdjudicator.Library.D0
                     //Will modify the transaction during processing
                     Core.TransactionProcessor.Process(transaction, rules);
                     var responseClaim = new Response.ClaimBilling(transaction);
-
                     response.Claims.Add(responseClaim);
-
 
 
                     //look up the claim

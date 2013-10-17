@@ -32,6 +32,7 @@ namespace PharmacyAdjudicator.Library.Core
 
         public static readonly PropertyInfo<Enums.ResponseStatus> ResponseStatusProperty = RegisterProperty<Enums.ResponseStatus>(c => c.ResponseStatus);
         [NcpdpField("111-AM")]
+        [Inferrable]
         public Enums.ResponseStatus ResponseStatus
         {
             get { return GetProperty(ResponseStatusProperty); }
@@ -46,12 +47,75 @@ namespace PharmacyAdjudicator.Library.Core
             private set { LoadProperty(AuthorizationNumberProperty, value); }
         }
 
+        public static readonly PropertyInfo<string> PrescriptionNumberIdQualifierProperty = RegisterProperty<string>(c => c.PrescriptionNumberIdQualifier);
+        [NcpdpField("455-EM")]
+        public string PrescriptionNumberIdQualifier
+        {
+            get { return GetProperty(PrescriptionNumberIdQualifierProperty); }
+            set { SetProperty(PrescriptionNumberIdQualifierProperty, value); }
+        }
+
         public static readonly PropertyInfo<string> PrescriptionNumberProperty = RegisterProperty<string>(c => c.PrescriptionNumber);
         [NcpdpField("402-D2")]
         public string PrescriptionNumber
         {
             get { return GetProperty(PrescriptionNumberProperty); }
             set { SetProperty(PrescriptionNumberProperty, value); }
+        }
+
+        public static readonly PropertyInfo<decimal> PatientPayAmountProperty = RegisterProperty<decimal>(c => c.PatientPayAmount);
+        [NcpdpField("505-F5")]
+        [Inferrable]
+        public decimal PatientPayAmount
+        {
+            get { return GetProperty(PatientPayAmountProperty); }
+            set { SetProperty(PatientPayAmountProperty, value); }
+        }
+
+        public static readonly PropertyInfo<decimal> IngredientCostPaidProperty = RegisterProperty<decimal>(c => c.IngredientCostPaid);
+        [NcpdpField("506-F6")]
+        [Inferrable]
+        public decimal IngredientCostPaid
+        {
+            get { return GetProperty(IngredientCostPaidProperty); }
+            set { SetProperty(IngredientCostPaidProperty, value); }
+        }
+
+        public static readonly PropertyInfo<decimal> DispensingFeePaidProperty = RegisterProperty<decimal>(c => c.DispensingFeePaid);
+        [NcpdpField("507-F7")]
+        [Inferrable]
+        public decimal DispensingFeePaid
+        {
+            get { return GetProperty(DispensingFeePaidProperty); }
+            set { SetProperty(DispensingFeePaidProperty, value); }
+        }
+
+        public static readonly PropertyInfo<string> TaxExemptIndicatorProperty = RegisterProperty<string>(c => c.TaxExemptIndicator);
+        [NcpdpField("557-AV")]
+        [Inferrable]
+        public string TaxExemptIndicator
+        {
+            get { return GetProperty(TaxExemptIndicatorProperty); }
+            set { SetProperty(TaxExemptIndicatorProperty, value); }
+        }
+
+        public static readonly PropertyInfo<decimal> TotalAmountPaidProperty = RegisterProperty<decimal>(c => c.TotalAmountPaid);
+        [NcpdpField("509-F9")]
+        [Inferrable]
+        public decimal TotalAmountPaid
+        {
+            get { return GetProperty(TotalAmountPaidProperty); }
+            set { SetProperty(TotalAmountPaidProperty, value); }
+        }
+
+        public static readonly PropertyInfo<Enums.BasisOfReimbursement> BasisOfReimbursementProperty = RegisterProperty<Enums.BasisOfReimbursement>(c => c.BasisOfReimbursement);
+        [NcpdpField("522-FM")]
+        [Inferrable]
+        [Fact]
+        public Enums.BasisOfReimbursement BasisOfReimbursement
+        {
+            get { return GetProperty(BasisOfReimbursementProperty); }
+            set { SetProperty(BasisOfReimbursementProperty, value); }
         }
 
         public static readonly PropertyInfo<string> IdProperty = RegisterProperty<string>(c => c.Id);
