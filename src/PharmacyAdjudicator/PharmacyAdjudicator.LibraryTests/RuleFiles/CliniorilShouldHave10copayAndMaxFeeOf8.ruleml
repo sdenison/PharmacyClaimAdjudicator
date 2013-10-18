@@ -125,29 +125,12 @@
           </Atom>
         </head>
       </Implies>
-    <Implies>
-      <body>
-        <Atom>
-          <Rel>DefaultDispensingFeePaid</Rel>
-          <Var>Value</Var>
-        </Atom>
-      </body>
-      <head>
-        <Atom>
-          <Rel>DispensingFeePaid</Rel>
-          <Var>Transaction</Var>
-          <Var>Value</Var>
-        </Atom>
-      </head>
-    </Implies>
-    </Assert>
-    <Assert mapDirection="forward">
-      <Atom>
-        <oid>
-          <Ind>label:Dispensing Fee Paid</Ind>
-        </oid>
-        <Rel>DefaultDispensingFeePaid</Rel>
-        <Ind>8</Ind>
-      </Atom>
+    <Atom>
+      <oid>
+        <Ind>DefaultDispensingFee</Ind>
+      </oid>
+      <Rel>DefaultDispFee</Rel>
+      <Ind>8.0</Ind>
+    </Atom>
     </Assert>
 </RuleML>

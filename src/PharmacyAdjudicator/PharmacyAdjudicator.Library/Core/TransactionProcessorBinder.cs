@@ -19,6 +19,13 @@ namespace PharmacyAdjudicator.Library.Core
 
         public override void BeforeProcess()
         {
+            if (IEF.FactExists("DefaultDispensingFee"))
+            {
+                var fact2 = IEF.GetFact("DefaultDispensingFee");
+                var defaultDipsFee = decimal.Parse(fact2.GetPredicateValue(0).ToString());
+                ((Core.Transaction)BusinessObjects["TRANSACTION"]).DispensingFeePaid = defaultDipsFee;
+            }
+
             GrindObjectToFacts(BusinessObjects["TRANSACTION"]);
         }
 
@@ -106,6 +113,7 @@ namespace PharmacyAdjudicator.Library.Core
                 }
             }
 
+            
             //if (IEF.FactExists("Dispensing Fee Paid"))
             //{
             //    IEF.Modify("Dispensing Fee Paid", IEF.GetFact("Dispensing Fee Paid"));
