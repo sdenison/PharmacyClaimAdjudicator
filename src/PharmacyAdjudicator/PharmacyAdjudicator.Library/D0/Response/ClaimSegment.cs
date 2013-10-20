@@ -56,7 +56,17 @@ namespace PharmacyAdjudicator.Library.D0.Response
         /// <para>Count of preferred product occurences.</para>
         /// </remarks>
         [NcpdpField("551-9F")]
-        public int? PreferredProductCount { get; set; }
+        //public int? PreferredProductCount { get; set; }
+        public int PreferredProductCount 
+        { 
+            get
+            {
+                if (PreferredProducts != null)
+                    return PreferredProducts.Count;
+                else
+                    return 0;
+            } 
+        }
 
         /// <summary>
         /// List of perferred products
@@ -98,11 +108,13 @@ namespace PharmacyAdjudicator.Library.D0.Response
             //Append properties to returnValue.
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.PrescriptionReferenceNumberQualifier, this.PrescriptionReferenceNumberQualifier));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.PrescriptionServiceReferenceNumber, this.PrescriptionServiceReferenceNumber));
-            returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.PreferredProductCount, this.PreferredProductCount.ToString()));
 
             if (this.PreferredProductCount > 0 && this.PreferredProducts != null)
+            {
+                returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.PreferredProductCount, this.PreferredProductCount.ToString()));
                 foreach (var product in this.PreferredProducts)
                     returnValue.Append(product.ToNcpdpString());
+            }
             
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.MedicaidSubrogationInternalControlNumber, this.MedicaidSubrogationInternalControlNumber));
 

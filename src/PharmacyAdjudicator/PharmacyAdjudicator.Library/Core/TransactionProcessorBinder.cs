@@ -19,12 +19,7 @@ namespace PharmacyAdjudicator.Library.Core
 
         public override void BeforeProcess()
         {
-            if (IEF.FactExists("DefaultDispensingFee"))
-            {
-                var fact2 = IEF.GetFact("DefaultDispensingFee");
-                var defaultDipsFee = decimal.Parse(fact2.GetPredicateValue(0).ToString());
-                ((Core.Transaction)BusinessObjects["TRANSACTION"]).DispensingFeePaid = defaultDipsFee;
-            }
+
 
             GrindObjectToFacts(BusinessObjects["TRANSACTION"]);
         }
@@ -63,24 +58,15 @@ namespace PharmacyAdjudicator.Library.Core
         {
             if (fact.GetPredicateValue(0) is Core.Transaction)
             {
+                var transaction = (Core.Transaction)fact.GetPredicateValue(0);
+                var value = fact.GetPredicateValue(1).ToString();
                 PropertyInfo property = typeof(Core.Transaction).GetProperty(fact.Type);
-                if (Attribute.IsDefined(property, typeof(InferrableAttribute)))
-                {
-                    if (property.PropertyType == typeof(bool))
-                        property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), bool.Parse(fact.GetPredicateValue(1).ToString()));
-                    else if (property.PropertyType == typeof(string))
-                        property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), fact.GetPredicateValue(1).ToString());
-                    else if (property.PropertyType == typeof(decimal))
-                        property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), decimal.Parse(fact.GetPredicateValue(1).ToString()));
-                    else if (property.PropertyType == typeof(Enums.BasisOfReimbursement))
-                    {
-                        property.SetValue(((Core.Transaction)fact.GetPredicateValue(0)), (Enums.BasisOfReimbursement)int.Parse(fact.GetPredicateValue(1).ToString()));
-                    }
-                }
-                else
-                {
-                    throw new Exception("Tried to set property type of " + fact.Type + " but the property is not marked as Inferrable");
-                }
+
+                SetProperty(property, transaction, value);
+            }
+            else
+            {
+                throw new Exception("Tried to set a property for a type that is not Core.Transaction.  This is not supported yet.");
             }
         }
 
@@ -90,17 +76,16 @@ namespace PharmacyAdjudicator.Library.Core
         /// <param name="objectToGrind"></param>
         private void GrindObjectToFacts(object objectToGrind)
         {
-            //var originalFactsCopy = new List<NxBRE.InferenceEngine.Rules.Fact>();
-            //var originalFacts = IEF.Facts;
-            //while (originalFacts.MoveNext())
-            //{
-            //    var originalFact = (NxBRE.InferenceEngine.Rules.Fact)originalFacts.Current;
-            //    originalFactsCopy.Add(originalFact);
-            //}
-
             List<PropertyInfo> properties = new List<PropertyInfo>(objectToGrind.GetType().GetProperties());
             foreach (var property in properties)
             {
+                //Bind defaults from rules
+                if (IEF.FactExists("Default " + property.Name))
+                {
+                    var fact = IEF.GetFact("Default " + property.Name);
+                    if (objectToGrind.GetType() == typeof(Core.Transaction))
+                        SetProperty(property, (Core.Transaction) objectToGrind, fact.GetPredicateValue(0).ToString());
+                }
                 //Properties to be ground into facts need to have the Fact or ComplexFact attribute set.
                 if (Attribute.IsDefined(property, typeof(FactAttribute)))
                 {
@@ -112,18 +97,33 @@ namespace PharmacyAdjudicator.Library.Core
                     GrindObjectToFacts(property.GetValue(objectToGrind));
                 }
             }
+        }
 
-            
-            //if (IEF.FactExists("Dispensing Fee Paid"))
-            //{
-            //    IEF.Modify("Dispensing Fee Paid", IEF.GetFact("Dispensing Fee Paid"));
-            //}
-            
-            //foreach (var fact in originalFactsCopy)
-            //{
-            //    IEF.Modify(fact, fact);
-            //}
-
+        /// <summary>
+        /// Sets the property on the transaction record from the object value
+        /// </summary>
+        /// <param name="property">Description of property to set value on</param>
+        /// <param name="transaction">Object to set the property on</param>
+        /// <param name="value">Value that the property should be set to.  Throws Exception if types don't cast correctly</param>
+        private void SetProperty(PropertyInfo property, Core.Transaction transaction, string value)
+        {
+            if (Attribute.IsDefined(property, typeof(InferrableAttribute)))
+            {
+                if (property.PropertyType == typeof(bool))
+                    property.SetValue(transaction, bool.Parse(value));
+                else if (property.PropertyType == typeof(string))
+                    property.SetValue(transaction, (string)value);
+                else if (property.PropertyType == typeof(decimal))
+                    property.SetValue(transaction, decimal.Parse(value.ToString()));
+                else if (property.PropertyType == typeof(Enums.BasisOfReimbursement))
+                    property.SetValue(transaction, (Enums.BasisOfReimbursement)int.Parse(value));
+                else
+                    throw new Exception("No conversion defined for " + property.Name + ".");
+            }
+            else
+            {
+                throw new Exception("Tried to set property type of " + property.Name + " but the property is not marked as Inferrable");
+            }
         }
 
         private decimal CalculateIngredientCostPaid(Core.Transaction transaction)

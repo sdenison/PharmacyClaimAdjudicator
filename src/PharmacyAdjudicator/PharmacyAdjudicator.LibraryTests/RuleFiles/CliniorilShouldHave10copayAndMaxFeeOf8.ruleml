@@ -127,7 +127,7 @@
       </Implies>
     <Atom>
       <oid>
-        <Ind>DefaultDispensingFee</Ind>
+        <Ind>Default DispensingFeePaid</Ind>
       </oid>
       <Rel>DefaultDispFee</Rel>
       <Ind>8.0</Ind>
