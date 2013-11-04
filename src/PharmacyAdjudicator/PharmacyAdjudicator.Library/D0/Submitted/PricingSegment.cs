@@ -18,7 +18,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// </remarks>
         [Required]
         [MaxLength(2)]
-        [NcpdpFieldAttribute("111-AM")]
+        [NcpdpField("111-AM")]
         public string SegmentIdentification { get; set; }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// </para>
         /// </remarks>
         [Required]
-        [NcpdpFieldAttribute("409-D9")]
+        [NcpdpField("409-D9")]
         public decimal? IngredientCostSubmitted { get; set; }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// in the 'Gross Amount Due' (430-DU).
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("430-DU")]
+        [NcpdpField("430-DU")]
         public decimal? DispensingFeeSubmitted { get; set; }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// Amount submitted by the provider for professional services rendered.
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("477-BE")] 
+        [NcpdpField("477-BE")] 
         public decimal? ProfessionalServiceFeeSubmitted { get; set; }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// dispensed.
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("433-DX")]
+        [NcpdpField("433-DX")]
         public decimal? PatientPaidAmountSubmitted { get; set; }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// 'Gross Amount Due' (430-DU).
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("438-E3")]
+        [NcpdpField("438-E3")]
         public decimal? IncentiveAmountSubmitted { get; set; }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// Count of other amount claimed submitted occurrences.
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("478-H7")]
+        [NcpdpField("478-H7")]
         public int OtherAmountClaimedSubmittedCount { get; set; }
 
         /// <summary>
@@ -106,6 +106,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// <para>NCPDP 479-H8 and 480-H8</para>
         /// <para>Repeating fields held in a list object</para>
         /// </remarks>
+        [NcpdpLoop("OtherAmountClaimSubmitted")]
         public List<OtherAmountClaimedSubmittedContainer> OtherAmountClaimedSubmittedList { get; set; }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// in the 'Gross Amount Due' (430-DU).
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("481-HA")]
+        [NcpdpField("481-HA")]
         public decimal? FlatSalesTaxAmountSubmitted { get; set; }
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// <para>NCPDP 482-GE</para>
         /// <para>Percentage sales tax submitted</para>
         /// </remarks>
-        [NcpdpFieldAttribute("482-GE")]
+        [NcpdpField("482-GE")]
         public decimal? PercentageSalesTaxRateAmountSubmitted { get; set; }
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// Amount Submitted' (482-GE).
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("483-HE")]
+        [NcpdpField("483-HE")]
         public decimal? PercentageSalesTaxRateSubmitted { get; set; }
 
         /// <summary>
@@ -151,7 +152,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// <para>NCPDP 484-JE</para>
         /// <para>Code indicating the basis for precentage sales tax.</para>
         /// </remarks>
-        [NcpdpFieldAttribute("484-JE")]
+        [NcpdpField("484-JE")]
         public string PercentageSalesTaxBasisSubmitted { get; set; }
 
         /// <summary>
@@ -164,7 +165,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// sales tax or other amounts claimed.
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("426-DQ")]
+        [NcpdpField("426-DQ")]
         public decimal? UsualAndCustomaryCharge { get; set; }
 
         /// <summary>
@@ -190,7 +191,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// </para>
         /// </remarks>
         [Required]
-        [NcpdpFieldAttribute("430-DU")]
+        [NcpdpField("430-DU")]
         public decimal? GrossAmountDue { get; set; }
 
         /// <summary>
@@ -203,7 +204,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// (Field 409-D9) was calculated.
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("423-DN")]
+        [NcpdpField("423-DN")]
         public string BasisOfCostDetermination { get; set; }
 
         /// <summary>
@@ -215,7 +216,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
         /// Amount paid by the Medicaid Agency.
         /// </para>
         /// </remarks>
-        [NcpdpFieldAttribute("113-N3")] 
+        [NcpdpField("113-N3")] 
         public decimal? MedicaidPaidAmount { get; set; }
 
         /// <summary>
@@ -327,7 +328,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
             /// Amount Claimed Submitted' (480-H9).
             /// </para>
             /// </remarks>
-            [NcpdpFieldAttribute("479-H8")] 
+            [NcpdpField("479-H8")] 
             public string OtherAmountClaimedSubmittedQualifier { get; set; }
 
             /// <summary>
@@ -340,7 +341,7 @@ namespace PharmacyAdjudicator.Library.D0.Submitted
             /// dispensed prescription or service.
             /// </para>
             /// </remarks>
-            [NcpdpFieldAttribute("480-H9")] 
+            [NcpdpField("480-H9")] 
             public decimal OtherAmountClaimedSubmitted { get; set; }
         }
     }

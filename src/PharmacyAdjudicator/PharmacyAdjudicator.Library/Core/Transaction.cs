@@ -16,18 +16,20 @@ namespace PharmacyAdjudicator.Library.Core
 
         public static readonly PropertyInfo<decimal> IngredientCostSubmittedProperty = RegisterProperty<decimal>(c => c.IngredientCostSubmitted);
         [Fact]
+        [NcpdpField("409-D9")]
         public decimal IngredientCostSubmitted
         {
             get { return GetProperty(IngredientCostSubmittedProperty); }
             set { SetProperty(IngredientCostSubmittedProperty, value); }
         }
 
-        public static readonly PropertyInfo<decimal> CopayProperty = RegisterProperty<decimal>(c => c.Copay);
+        public static readonly PropertyInfo<decimal> AmountOfCopayProperty = RegisterProperty<decimal>(c => c.AmountOfCopay);
         [Inferrable]
-        public decimal Copay
+        [NcpdpField("518-FI")]
+        public decimal AmountOfCopay
         {
-            get { return GetProperty(CopayProperty); }
-            set { SetProperty(CopayProperty, value); }
+            get { return GetProperty(AmountOfCopayProperty); }
+            set { SetProperty(AmountOfCopayProperty, value); }
         }
 
         public static readonly PropertyInfo<bool> FormularyProperty = RegisterProperty<bool>(c => c.Formulary);
@@ -72,13 +74,42 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(PrescriptionNumberProperty, value); }
         }
 
-        public static readonly PropertyInfo<decimal> PatientPayAmountProperty = RegisterProperty<decimal>(c => c.PatientPayAmount);
+        //public static readonly PropertyInfo<decimal> PatientPayAmountProperty = RegisterProperty<decimal>(c => c.PatientPayAmount);
+        //[NcpdpField("505-F5")]
+        //[Inferrable]
+        //public decimal PatientPayAmount2
+        //{
+        //    get { return GetProperty(PatientPayAmountProperty); }
+        //    set { SetProperty(PatientPayAmountProperty, value); }
+        //}
+
         [NcpdpField("505-F5")]
-        [Inferrable]
         public decimal PatientPayAmount
         {
-            get { return GetProperty(PatientPayAmountProperty); }
-            set { SetProperty(PatientPayAmountProperty, value); }
+            get
+            {
+                return this.AmountOfCopay + this.PatientPaySalesTaxAmount;
+            }
+            private set { }
+        }
+
+        public static readonly PropertyInfo<decimal> PatientPaySalesTaxAmountProperty = RegisterProperty<decimal>(c => c.PatientPaySalesTaxAmount);
+        [NcpdpField("575-EQ")]
+        [Inferrable]
+        public decimal PatientPaySalesTaxAmount
+        {
+            get { return GetProperty(PatientPaySalesTaxAmountProperty); }
+            set { SetProperty(PatientPaySalesTaxAmountProperty, value); }
+        }
+
+        public static readonly PropertyInfo<decimal> FlatSalesTaxAmountPaidProperty = RegisterProperty<decimal>(c => c.FlatSalesTaxAmountPaid);
+        [NcpdpField("558-AW")]
+        [Inferrable]
+        [Fact]
+        public decimal FlatSalesTaxAmountPaid
+        {
+            get { return GetProperty(FlatSalesTaxAmountPaidProperty); }
+            set { SetProperty(FlatSalesTaxAmountPaidProperty, value); }
         }
 
         public static readonly PropertyInfo<decimal> IngredientCostPaidProperty = RegisterProperty<decimal>(c => c.IngredientCostPaid);
@@ -126,6 +157,13 @@ namespace PharmacyAdjudicator.Library.Core
         {
             get { return GetProperty(BasisOfReimbursementProperty); }
             set { SetProperty(BasisOfReimbursementProperty, value); }
+        }
+
+        [NcpdpLoop("OtherAmountClaimSubmitted")]
+        public OtherAmountClaimedSubmittedList OtherAmountsClaimed
+        {
+            get;
+            set;
         }
 
         public static readonly PropertyInfo<string> IdProperty = RegisterProperty<string>(c => c.Id);
@@ -190,6 +228,7 @@ namespace PharmacyAdjudicator.Library.Core
             this.Id = Guid.NewGuid().ToString();
             this.Drug = drug;
             this.Formulary = false;
+            this.OtherAmountsClaimed = OtherAmountClaimedSubmittedList.NewOtherAmountList();
             BindClaimBilling(claim);
         }
 
@@ -208,9 +247,23 @@ namespace PharmacyAdjudicator.Library.Core
                             propertyInfo.SetValue(this, value);
                     }
                 }
+                else if (Attribute.IsDefined(propertyInfo, typeof(NcpdpLoopAttribute)))
+                {
+                    //TODO: Add way to handle NCPDP Loops rather than creating list items and assigning values with known types
+                    var ncpdpField = (NcpdpLoopAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(NcpdpLoopAttribute));
+                    if (ncpdpField.NcpdpFieldName.Equals("OtherAmountClaimSubmitted"))
+                    {
+                        foreach(var otherAmt in claim.Pricing.OtherAmountClaimedSubmittedList)
+                        {
+                            var transOtherAmt = OtherAmountClaimedSubmitted.NewOtherAmount();
+                            transOtherAmt.Qualifier = otherAmt.OtherAmountClaimedSubmittedQualifier;
+                            transOtherAmt.OtherAmountClaimed = otherAmt.OtherAmountClaimedSubmitted;
+                            this.OtherAmountsClaimed.Add(transOtherAmt);
+                        }
+                    }
+
+                }
             }
-
-
         }
 
         #endregion

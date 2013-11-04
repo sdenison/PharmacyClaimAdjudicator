@@ -98,9 +98,9 @@
         </body>
         <head>
           <Atom>
-            <Rel>Copay</Rel>
+            <Rel>AmountOfCopay</Rel>
             <Var>Transaction</Var>
-            <Ind>10</Ind>
+            <Ind>8</Ind>
           </Atom>
         </head>
       </Implies>
@@ -119,18 +119,43 @@
         </body>
         <head>
           <Atom>
-            <Rel>Copay</Rel>
+            <Rel>AmountOfCopay</Rel>
             <Var>Transaction</Var>
             <Ind>20</Ind>
           </Atom>
         </head>
       </Implies>
+    <Implies>
+      <oid>
+        <Ind>Flat Sales Tax Applied to Patient Sales Tax</Ind>
+      </oid>
+      <body>
+        <Atom>
+          <Rel>FlatSalesTaxAmountPaid</Rel>
+          <Var>Transaction</Var>
+        </Atom>
+      </body>
+      <head>
+        <Atom>
+          <Rel>PatientSalesTaxAmount</Rel>
+          <Var>Transaction</Var>
+          <Ind uri="nxbre://binder">Transaction.FlatSalesTaxAmountPaid</Ind>
+        </Atom>
+      </head>
+    </Implies>
     <Atom>
       <oid>
         <Ind>Default DispensingFeePaid</Ind>
       </oid>
       <Rel>DefaultDispFee</Rel>
       <Ind>8.0</Ind>
+    </Atom>
+    <Atom>
+      <oid>
+        <Ind>Default FlatSalesTaxAmountPaid</Ind>
+      </oid>
+      <Rel>DefaultFlatSalesTaxAmountPaid</Rel>
+      <Ind>2.0</Ind>
     </Atom>
     </Assert>
 </RuleML>

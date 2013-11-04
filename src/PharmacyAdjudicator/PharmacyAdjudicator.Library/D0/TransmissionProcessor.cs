@@ -90,7 +90,7 @@ namespace PharmacyAdjudicator.Library.D0
                     //var transaction = new Core.Transaction(drug, patient, serviceProvider, prescriber, claim);
                     var transaction = new Core.Transaction(drug, patient, claim); //serviceProvider, prescriber, claim);
 
-                    transaction.IngredientCostSubmitted = claim.Pricing.IngredientCostSubmitted.Value;
+                    //transaction.IngredientCostSubmitted = claim.Pricing.IngredientCostSubmitted.Value;
 
                     transaction.Save();
 

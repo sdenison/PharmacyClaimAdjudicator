@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace PharmacyAdjudicator.Library.D0.Response
 {
@@ -211,7 +212,7 @@ namespace PharmacyAdjudicator.Library.D0.Response
         /// </para>
         /// </remarks>
         [NcpdpField("522-FM")]
-        public string BasisOfReimbursementDetermination { get; set; }
+        public Core.Enums.BasisOfReimbursement BasisOfReimbursementDetermination { get; set; }
 
         /// <summary>
         /// Amount Attributed to Sales Tax
@@ -586,24 +587,47 @@ namespace PharmacyAdjudicator.Library.D0.Response
         {
             this.SegmentIdentification = "23";
 
-            //Doing attribute binding instead
-            this.PatientPayAmount = transaction.PatientPayAmount;
-            this.IngredientCostPaid = transaction.IngredientCostPaid;
-            this.DispensingFeePaid = transaction.DispensingFeePaid;
-            this.TaxExemptIndicator = transaction.TaxExemptIndicator;
+            ////Doing attribute binding instead
+            //this.PatientPayAmount = transaction.PatientPayAmount;
+            //this.IngredientCostPaid = transaction.IngredientCostPaid;
+            //this.DispensingFeePaid = transaction.DispensingFeePaid;
+            //this.TaxExemptIndicator = transaction.TaxExemptIndicator;
+            //this.AmountOfCopay = transaction.Copay;
 
-            //TODO: implement other amount paid loop
-            //this.OtherAmountPaidCount = transaction.OtherAmountPaids.Count();
-            //foreach (var otherAmountPaid in transaction.OtherAmountPaids)
-            //    this.OtherAmountPaids.Add(new OtherAmountPaidContainer() { OtherAmountPaid = otherAmountPaid.AmountPaid, OtherAmountPaidQualifier = otherAmountPaid.Qualifier });
-            this.TotalAmountPaid = transaction.TotalAmountPaid;
-            this.BasisOfReimbursementDetermination = ((int)transaction.BasisOfReimbursement).ToString();
+            ////TODO: implement other amount paid loop
+            ////this.OtherAmountPaidCount = transaction.OtherAmountPaids.Count();
+            ////foreach (var otherAmountPaid in transaction.OtherAmountPaids)
+            ////    this.OtherAmountPaids.Add(new OtherAmountPaidContainer() { OtherAmountPaid = otherAmountPaid.AmountPaid, OtherAmountPaidQualifier = otherAmountPaid.Qualifier });
+            //this.TotalAmountPaid = transaction.TotalAmountPaid;
+            //this.BasisOfReimbursementDetermination = ((int)transaction.BasisOfReimbursement).ToString();
 
+            BindTransaction(transaction);
         }
+
+
 
         private void BindTransaction(Core.Transaction transaction)
         {
-            //foreach ()
+            foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
+            {
+                if (Attribute.IsDefined(propertyInfo, typeof(NcpdpFieldAttribute)))
+                {
+                    var ncpdpField = (NcpdpFieldAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(NcpdpFieldAttribute));
+                    // 111-AM is SegmentIdentification and should not be bound
+                    if (!ncpdpField.NcpdpFieldName.Equals("111-AM"))
+                    {
+                        var value = ncpdpField.FindPropertyInObject(transaction);
+                        if (value != null)
+                        { 
+                            propertyInfo.SetValue(this, value);
+                        }
+                    }
+                }
+                else if (Attribute.IsDefined(propertyInfo, typeof(NcpdpLoopAttribute)))
+                { 
+
+                }
+            }
         }
         
         public string ToNcpdpString() 
@@ -627,7 +651,8 @@ namespace PharmacyAdjudicator.Library.D0.Response
                     returnValue.Append(otherAmount.ToNcpdpString());
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.OtherPayerAmountRecognized, this.OtherPayerAmountRecognized));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.TotalAmountPaid, this.TotalAmountPaid));
-            returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfReimbursementDetermination, this.BasisOfReimbursementDetermination));
+            returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfReimbursementDetermination, Core.Enums.EnumConvert.ToString(this.BasisOfReimbursementDetermination)));
+            //returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfReimbursementDetermination, this.BasisOfReimbursementDetermination.ToString()));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.AmountAttributedToSalesTax, this.AmountAttributedToSalesTax));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.AccumulatedDeductibleAmount, this.AccumulatedDeductibleAmount));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.RemainingDeductibleAmount, this.RemainingDeductibleAmount));

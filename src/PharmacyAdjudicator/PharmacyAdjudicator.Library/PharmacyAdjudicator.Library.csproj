@@ -66,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ComplexFact.cs" />
+    <Compile Include="Core\Enums\EnumConvert.cs" />
+    <Compile Include="Core\OtherAmountClaimedSubmitted.cs" />
+    <Compile Include="Core\OtherAmountClaimedSubmittedList.cs" />
     <Compile Include="Core\Enums\BasisOfReimbursement.cs" />
     <Compile Include="Core\Enums\ResponseStatus.cs" />
     <Compile Include="Core\FactAttribute.cs" />
@@ -127,6 +130,7 @@
     <Compile Include="NcpdpFieldAttribute.cs" />
     <Compile Include="Core\Patient.cs" />
     <Compile Include="Core\PatientExistsCommand.cs" />
+    <Compile Include="NcpdpLoopAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\PAIdentity.cs" />
     <Compile Include="Security\PAPrincipal.cs" />

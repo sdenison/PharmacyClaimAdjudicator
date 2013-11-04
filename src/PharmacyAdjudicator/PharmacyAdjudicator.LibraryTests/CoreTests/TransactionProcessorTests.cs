@@ -15,7 +15,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             var transaction = new Library.Core.Transaction(drug);
             var transAfterProcessing = Library.Core.TransactionProcessor.Process(transaction, rules);
             Assert.IsFalse(transAfterProcessing.Formulary);
-            Assert.AreEqual(transAfterProcessing.Copay, (decimal)20.0);
+            Assert.AreEqual(transAfterProcessing.AmountOfCopay, (decimal)20.0);
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             var transaction = new Library.Core.Transaction(drug);
             var transAfterProcessing = Library.Core.TransactionProcessor.Process(transaction, rules);
             Assert.IsTrue(transAfterProcessing.Formulary);
-            Assert.AreEqual(transAfterProcessing.Copay, (decimal)5.0);
+            Assert.AreEqual(transAfterProcessing.AmountOfCopay, (decimal)5.0);
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             var transaction = new Library.Core.Transaction(drug);
             var transAfterProcessing = Library.Core.TransactionProcessor.Process(transaction, compositeRules);
             Assert.IsTrue(transAfterProcessing.Formulary);
-            Assert.AreEqual(transAfterProcessing.Copay, (decimal)5.0);
+            Assert.AreEqual(transAfterProcessing.AmountOfCopay, (decimal)5.0);
 
 
             //Should be non-formulary with copay of 20
@@ -53,7 +53,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             transaction = new Library.Core.Transaction(drug);
             transAfterProcessing = Library.Core.TransactionProcessor.Process(transaction, compositeRules);
             Assert.IsFalse(transAfterProcessing.Formulary);
-            Assert.AreEqual(transAfterProcessing.Copay, (decimal)20.0);
+            Assert.AreEqual(transAfterProcessing.AmountOfCopay, (decimal)20.0);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             var transAfterProcessing = Library.Core.TransactionProcessor.Process(transaction, rules);
             Assert.IsFalse(transAfterProcessing.Formulary);
 
-            Assert.AreEqual(transAfterProcessing.Copay, (decimal)20.0);
+            Assert.AreEqual(transAfterProcessing.AmountOfCopay, (decimal)20.0);
         }
     }
 }

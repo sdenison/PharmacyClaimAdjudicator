@@ -62,6 +62,9 @@ namespace PharmacyAdjudicator.Library.Core
                 var value = fact.GetPredicateValue(1).ToString();
                 PropertyInfo property = typeof(Core.Transaction).GetProperty(fact.Type);
 
+                if (property == null)
+                    throw new Exception("No property is defined on Core.Transaction for fact labeled " + fact.Type + ".");
+
                 SetProperty(property, transaction, value);
             }
             else
@@ -142,6 +145,13 @@ namespace PharmacyAdjudicator.Library.Core
             if (operationName == "CalculateIngredientCostPaid")
             {
                 return CalculateIngredientCostPaid((Core.Transaction)arguments["Transaction"]);
+            }
+            else if (operationName.StartsWith("Transaction."))
+            {
+                var transaction = (Core.Transaction)arguments["Transaction"];
+                //typeof(Core.Transaction).GetProperty(fact.Type)
+                PropertyInfo property = typeof(Core.Transaction).GetProperty(operationName.Replace("Transaction.", ""));
+                return property.GetValue(transaction);
             }
             else
             {
