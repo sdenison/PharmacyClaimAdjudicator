@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="Core\ComplexFact.cs" />
     <Compile Include="Core\Enums\EnumConvert.cs" />
+    <Compile Include="Core\OtherAmountPaidList.cs" />
+    <Compile Include="Core\OtherAmountPaid.cs" />
     <Compile Include="Core\OtherAmountClaimedSubmitted.cs" />
     <Compile Include="Core\OtherAmountClaimedSubmittedList.cs" />
     <Compile Include="Core\Enums\BasisOfReimbursement.cs" />

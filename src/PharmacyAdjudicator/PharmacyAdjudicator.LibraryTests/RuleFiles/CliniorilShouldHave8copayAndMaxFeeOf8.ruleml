@@ -127,19 +127,20 @@
       </Implies>
     <Implies>
       <oid>
-        <Ind>Flat Sales Tax Applied to Patient Sales Tax</Ind>
+        <Ind>Sales Tax Paid By Patient</Ind>
       </oid>
       <body>
         <Atom>
           <Rel>FlatSalesTaxAmountPaid</Rel>
           <Var>Transaction</Var>
+          <Var>Amount</Var>
         </Atom>
       </body>
       <head>
         <Atom>
-          <Rel>PatientSalesTaxAmount</Rel>
+          <Rel>PatientPaySalesTaxAmount</Rel>
           <Var>Transaction</Var>
-          <Ind uri="nxbre://binder">Transaction.FlatSalesTaxAmountPaid</Ind>
+          <Var>Amount</Var>
         </Atom>
       </head>
     </Implies>
@@ -156,6 +157,13 @@
       </oid>
       <Rel>DefaultFlatSalesTaxAmountPaid</Rel>
       <Ind>2.0</Ind>
+    </Atom>
+    <Atom>
+      <oid>
+        <Ind>Default TaxExemptIndicator</Ind>
+      </oid>
+      <Rel>DefaultTaxExemptIndicator</Rel>
+      <Ind>1</Ind>
     </Atom>
     </Assert>
 </RuleML>

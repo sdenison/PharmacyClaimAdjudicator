@@ -75,7 +75,8 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.OtherAmountPaids = new List<PricingSegment.OtherAmountPaidContainer>();
             pricing.OtherAmountPaids.Add(otherAmount);
 
-            pricing.TotalAmountPaid = (decimal)70.70;
+            //Chagned TotalAmountPaid to calculated amount
+            //pricing.TotalAmountPaid = (decimal)70.70;
             pricing.BasisOfReimbursementDetermination = Library.Core.Enums.BasisOfReimbursement.IngredientCostPaid;
             pricing.AmountAttributedToSalesTax = 2;
             pricing.AmountOfCopay = 8;
@@ -97,12 +98,15 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.IngredientCostPaid = (decimal)55.7;
             pricing.DispensingFeePaid = 10;
             pricing.TaxExemptIndicator = "1";
-            pricing.TotalAmountPaid = (decimal)70.70;
+
+            //Changed TotalAmountPaid to calculated field
+            //pricing.TotalAmountPaid = (decimal)70.70;
             pricing.BasisOfReimbursementDetermination = Library.Core.Enums.BasisOfReimbursement.IngredientCostPaid;
             //It's 8.00 but should be 15.00
             pricing.AmountOfCopay = 15;
 
-            string expectedNcpdpString = "<1E><1C>AM23<1C>F515Ø{<1C>F6557{<1C>F71ØØ{<1C>AV1<1C>F97Ø7{<1C>FM1<1C>FI15Ø{";
+            //Had to change Total Amount Paid from 70.70 to 50.70
+            string expectedNcpdpString = "<1E><1C>AM23<1C>F515Ø{<1C>F6557{<1C>F71ØØ{<1C>AV1<1C>F95Ø7{<1C>FM1<1C>FI15Ø{";
             string ncpdpString = pricing.ToNcpdpString();
             Assert.AreEqual(NcpdpHelper.FromNcpdpToHumanReadable(ncpdpString), expectedNcpdpString);
         }
@@ -115,7 +119,7 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.IngredientCostPaid = (decimal)55.7;
             pricing.DispensingFeePaid = 5;
             pricing.TaxExemptIndicator = "1";
-            pricing.TotalAmountPaid = (decimal)50.70;
+            //pricing.TotalAmountPaid = (decimal)50.70;
             pricing.BasisOfReimbursementDetermination = Library.Core.Enums.BasisOfReimbursement.IngredientCostPaid;
 
             string expectedNcpdpString = "<1E><1C>AM23<1C>F51ØØ{<1C>F6557{<1C>F75Ø{<1C>AV1<1C>F95Ø7{<1C>FM1";
@@ -131,10 +135,10 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.IngredientCostPaid = (decimal)55.7;
             pricing.DispensingFeePaid = 5;
             pricing.TaxExemptIndicator = "1";
-            pricing.TotalAmountPaid = 0;
+            //pricing.TotalAmountPaid = 0;
             pricing.BasisOfReimbursementDetermination = Library.Core.Enums.BasisOfReimbursement.IngredientCostPaid;
 
-            string expectedNcpdpString = "<1E><1C>AM23<1C>F51ØØ{<1C>F6557{<1C>F75Ø{<1C>AV1<1C>F9{<1C>FM1";
+            string expectedNcpdpString = "<1E><1C>AM23<1C>F51ØØ{<1C>F6557{<1C>F75Ø{<1C>AV1<1C>F95Ø7{<1C>FM1";
             string ncpdpString = pricing.ToNcpdpString();
             Assert.AreEqual(NcpdpHelper.FromNcpdpToHumanReadable(ncpdpString), expectedNcpdpString);
         }
@@ -155,7 +159,7 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.OtherAmountPaids = new List<PricingSegment.OtherAmountPaidContainer>();
             pricing.OtherAmountPaids.Add(otherAmount);
 
-            pricing.TotalAmountPaid = (decimal)29.20;
+            //pricing.TotalAmountPaid = (decimal)29.20;
             pricing.BasisOfReimbursementDetermination = Library.Core.Enums.BasisOfReimbursement.IngredientCostPaid;
 
             string expectedNcpdpString = "<1E><1C>AM23<1C>F55Ø{<1C>F6142{<1C>F715Ø{<1C>AV1<1C>J21<1C>J3Ø1<1C>J45Ø{<1C>F9292{<1C>FM1"; 

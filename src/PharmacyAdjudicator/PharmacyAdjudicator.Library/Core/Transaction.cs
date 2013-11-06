@@ -93,9 +93,28 @@ namespace PharmacyAdjudicator.Library.Core
             private set { }
         }
 
+        [NcpdpField("523-FN")]
+        public decimal AmountAttributedToSalesTax
+        {
+            get
+            {
+                return this.FlatSalesTaxAmountPaid + this.PercentageSalesTaxAmountPaid;
+            }
+        }
+
+        public static readonly PropertyInfo<decimal> PercentageSalesTaxAmountPaidProperty = RegisterProperty<decimal>(c => c.PercentageSalesTaxAmountPaid);
+        [NcpdpField("559-AX")]
+        [Inferrable]
+        public decimal PercentageSalesTaxAmountPaid
+        {
+            get { return GetProperty(PercentageSalesTaxAmountPaidProperty); }
+            set { SetProperty(PercentageSalesTaxAmountPaidProperty, value); }
+        }
+
         public static readonly PropertyInfo<decimal> PatientPaySalesTaxAmountProperty = RegisterProperty<decimal>(c => c.PatientPaySalesTaxAmount);
         [NcpdpField("575-EQ")]
         [Inferrable]
+        [Fact]
         public decimal PatientPaySalesTaxAmount
         {
             get { return GetProperty(PatientPaySalesTaxAmountProperty); }
@@ -166,6 +185,13 @@ namespace PharmacyAdjudicator.Library.Core
             set;
         }
 
+        [NcpdpLoop("OtherAmountPaid")]
+        public OtherAmountPaidList OtherAmountsPaid
+        {
+            get;
+            set;
+        }
+
         public static readonly PropertyInfo<string> IdProperty = RegisterProperty<string>(c => c.Id);
         public string Id
         {
@@ -226,10 +252,17 @@ namespace PharmacyAdjudicator.Library.Core
         public Transaction(Drug drug, Patient patient, D0.Submitted.ClaimBilling claim)
         {
             this.Id = Guid.NewGuid().ToString();
+            this.AuthorizationNumber = Transaction.AssignNewAuthorizationNumber();
             this.Drug = drug;
             this.Formulary = false;
             this.OtherAmountsClaimed = OtherAmountClaimedSubmittedList.NewOtherAmountList();
+            this.OtherAmountsPaid = OtherAmountPaidList.NewOtherAmountList();
             BindClaimBilling(claim);
+        }
+
+        public static string AssignNewAuthorizationNumber()
+        {
+            return "123456789123456789";
         }
 
         private void BindClaimBilling(D0.Submitted.ClaimBilling claim)
@@ -260,8 +293,17 @@ namespace PharmacyAdjudicator.Library.Core
                             transOtherAmt.OtherAmountClaimed = otherAmt.OtherAmountClaimedSubmitted;
                             this.OtherAmountsClaimed.Add(transOtherAmt);
                         }
-                    }
 
+                        //For now just accept all other amounts
+                        foreach(var otherAmt in claim.Pricing.OtherAmountClaimedSubmittedList)
+                        {
+                            var otherAmtPaid = OtherAmountPaid.NewOtherAmount();
+                            otherAmtPaid.Qualifier = otherAmt.OtherAmountClaimedSubmittedQualifier;
+                            otherAmtPaid.OtherAmountClaimed = otherAmt.OtherAmountClaimedSubmitted;
+                            this.OtherAmountsPaid.Add(otherAmtPaid);
+                        }
+                        
+                    }
                 }
             }
         }

@@ -37,6 +37,7 @@ namespace PharmacyAdjudicator.Library.D0
         {
             Response.Transmission response = new Response.Transmission();
             response.TransactionHeader = new Response.TransactionHeaderSegment(submittedTransmission.TransactionHeader);
+            response.TransactionHeader.HeaderResponseStatus = "A"; //Accepted
             //lookup the person
             Core.Patient patient;
             try
@@ -95,6 +96,7 @@ namespace PharmacyAdjudicator.Library.D0
                     transaction.Save();
 
                     //Will modify the transaction during processing
+                    transaction.ResponseStatus = Core.Enums.ResponseStatus.Paid;
                     Core.TransactionProcessor.Process(transaction, rules);
                     var responseClaim = new Response.ClaimBilling(transaction);
                     if (response.Claims == null)

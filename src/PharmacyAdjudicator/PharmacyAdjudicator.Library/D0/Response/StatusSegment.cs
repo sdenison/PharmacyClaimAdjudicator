@@ -162,6 +162,7 @@ namespace PharmacyAdjudicator.Library.D0.Response
 
         public StatusSegment(Core.Transaction transaction)
         {
+            this.SegmentIdentification = "21";
             this.AuthorizationNumber = transaction.AuthorizationNumber;
             this.TransactionResponseStatus = Core.Enums.ResponseStatusConverter.ToString(transaction.ResponseStatus);
             

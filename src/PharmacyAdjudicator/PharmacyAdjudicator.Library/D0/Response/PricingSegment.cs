@@ -83,7 +83,7 @@ namespace PharmacyAdjudicator.Library.D0.Response
         /// (509-F9).
         /// </para>
         /// </remarks>
-        [NcpdpField("558-AW")] 
+        [NcpdpField("558-AW")]
         public decimal? FlatSalesTaxAmountPaid { get; set; }
 
         /// <summary>
@@ -163,6 +163,7 @@ namespace PharmacyAdjudicator.Library.D0.Response
         /// <summary>
         /// List of Other Amounts Paid
         /// </summary>
+        [NcpdpLoop("OtherAmountPaid")]
         public List<OtherAmountPaidContainer> OtherAmountPaids { get; set; }
 
         /// <summary>
@@ -199,7 +200,41 @@ namespace PharmacyAdjudicator.Library.D0.Response
         /// </remarks>
         [Required]
         [NcpdpField("509-F9")]
-        public decimal TotalAmountPaid { get; set; }
+        public decimal TotalAmountPaid 
+        { 
+            get
+            {
+                decimal returnValue = 0;
+
+                //Added fields
+                if (this.IngredientCostPaid.HasValue)
+                    returnValue += this.IngredientCostPaid.Value;
+                if (this.DispensingFeePaid.HasValue)
+                    returnValue += this.DispensingFeePaid.Value;
+                if (this.FlatSalesTaxAmountPaid.HasValue)
+                    returnValue += this.FlatSalesTaxAmountPaid.Value;
+                if (this.PercentageSalesTaxAmount.HasValue)
+                    returnValue += this.PercentageSalesTaxAmount.Value;
+                if (this.IncentiveAmountPaid.HasValue)
+                    returnValue += this.IncentiveAmountPaid.Value;
+                if (this.ProfessionalServiceFeePaid.HasValue)
+                    returnValue += this.ProfessionalServiceFeePaid.Value;
+                decimal otherAmountPaid = 0;
+                if (this.OtherAmountPaids != null)
+                    foreach (var otherAmount in this.OtherAmountPaids)
+                        if (otherAmount.OtherAmountPaid.HasValue)
+                            otherAmountPaid += otherAmount.OtherAmountPaid.Value;
+                returnValue += otherAmountPaid;
+
+                //Subtracted fields
+                if (this.PatientPayAmount.HasValue)
+                    returnValue -= this.PatientPayAmount.Value;
+                if (this.OtherPayerAmountRecognized.HasValue)
+                    returnValue -= this.OtherPayerAmountRecognized.Value;
+                return returnValue;
+            }
+            private set { }
+        }
 
         /// <summary>
         /// Basis of Reimbursement Determination
@@ -624,8 +659,23 @@ namespace PharmacyAdjudicator.Library.D0.Response
                     }
                 }
                 else if (Attribute.IsDefined(propertyInfo, typeof(NcpdpLoopAttribute)))
-                { 
-
+                {
+                    var ncpdpLoopField = (NcpdpLoopAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(NcpdpLoopAttribute));
+                    if (ncpdpLoopField.NcpdpFieldName.Equals("OtherAmountPaid"))
+                    {
+                        if (transaction.OtherAmountsPaid.Count > 0)
+                        {
+                            this.OtherAmountPaidCount = transaction.OtherAmountsPaid.Count();
+                            this.OtherAmountPaids = new List<OtherAmountPaidContainer>();
+                            foreach (var transOtherAmountPaid in transaction.OtherAmountsPaid)
+                            {
+                                var otherAmountPaid = new OtherAmountPaidContainer();
+                                otherAmountPaid.OtherAmountPaid = transOtherAmountPaid.OtherAmountClaimed;
+                                otherAmountPaid.OtherAmountPaidQualifier = transOtherAmountPaid.Qualifier;
+                                this.OtherAmountPaids.Add(otherAmountPaid);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -664,6 +714,9 @@ namespace PharmacyAdjudicator.Library.D0.Response
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfCalculationCopay, this.BasisOfCalculationCopay));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfCalculationFlatSalesTax, this.BasisOfCalculationFlatSalesTax));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfCalculationPercentageSalesTax, this.BasisOfCalculationPercentageSalesTax));
+            //Changed order of printing
+            //returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.FlatSalesTaxAmountPaid, this.FlatSalesTaxAmountPaid));
+
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.PatientSalesTaxAmount, this.PatientSalesTaxAmount));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.PlanSalesTaxAmount, this.PlanSalesTaxAmount));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.AmountOfCoinsurance, this.AmountOfCoinsurance));
