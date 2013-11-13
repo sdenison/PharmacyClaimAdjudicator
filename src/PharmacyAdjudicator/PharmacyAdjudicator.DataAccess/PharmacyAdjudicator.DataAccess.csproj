@@ -56,10 +56,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Atom.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AtomFact.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AtomGroup.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AtomGroupItems.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Group.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupFact.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Implication.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Patient.cs">
@@ -86,11 +101,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PharmacyAdjFromDatabase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Plan.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanFact.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanRules.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Rule.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RuleImplication.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="VaDrug.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>

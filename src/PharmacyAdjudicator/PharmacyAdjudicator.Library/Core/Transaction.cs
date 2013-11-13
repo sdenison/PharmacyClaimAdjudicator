@@ -74,15 +74,6 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(PrescriptionNumberProperty, value); }
         }
 
-        //public static readonly PropertyInfo<decimal> PatientPayAmountProperty = RegisterProperty<decimal>(c => c.PatientPayAmount);
-        //[NcpdpField("505-F5")]
-        //[Inferrable]
-        //public decimal PatientPayAmount2
-        //{
-        //    get { return GetProperty(PatientPayAmountProperty); }
-        //    set { SetProperty(PatientPayAmountProperty, value); }
-        //}
-
         [NcpdpField("505-F5")]
         public decimal PatientPayAmount
         {

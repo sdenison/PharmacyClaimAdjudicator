@@ -87,7 +87,9 @@ namespace PharmacyAdjudicator.Library.Core
                 {
                     var fact = IEF.GetFact("Default " + property.Name);
                     if (objectToGrind.GetType() == typeof(Core.Transaction))
-                        SetProperty(property, (Core.Transaction) objectToGrind, fact.GetPredicateValue(0).ToString());
+                    {
+                        SetProperty(property, (Core.Transaction)objectToGrind, fact.GetPredicateValue(0).ToString());
+                    }
                 }
                 //Properties to be ground into facts need to have the Fact or ComplexFact attribute set.
                 if (Attribute.IsDefined(property, typeof(FactAttribute)))
@@ -97,6 +99,7 @@ namespace PharmacyAdjudicator.Library.Core
                 else if (Attribute.IsDefined(property, typeof(ComplexFactAttribute)))
                 {
                     IEF.AssertNewFactOrFail("Contains", objectToGrind, property.GetValue(objectToGrind));
+                    //IEF.AssertNewFactOrFail("Contains", new NxBRE.InferenceEngine.Rules.Individual(objectToGrind), new NxBRE.InferenceEngine.Rules.Individual(property.GetValue(objectToGrind)));
                     GrindObjectToFacts(property.GetValue(objectToGrind));
                 }
             }

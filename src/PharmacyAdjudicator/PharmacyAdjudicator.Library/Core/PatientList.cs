@@ -97,7 +97,6 @@ namespace PharmacyAdjudicator.Library.Core
             }
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Update()
         {
             this.RaiseListChangedEvents = false;

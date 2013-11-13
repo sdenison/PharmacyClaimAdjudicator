@@ -1,5 +1,7 @@
 using System;
 using Csla;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace PharmacyAdjudicator.Library.Core
 {
@@ -8,23 +10,27 @@ namespace PharmacyAdjudicator.Library.Core
     {
         #region Business Methods
 
-        // TODO: add your own fields, properties and methods
-
-        // example with private backing field
-        public static readonly PropertyInfo<int> IdProperty = RegisterProperty<int>(p => p.Id, RelationshipTypes.PrivateField);
-        private int _Id = IdProperty.DefaultValue;
-        public int Id
+        public static readonly PropertyInfo<string> PlanIdProperty = RegisterProperty<string>(c => c.PlanId);
+        [Display(Name="Plan ID")]
+        public string PlanId
         {
-            get { return GetProperty(IdProperty, _Id); }
-            set { SetProperty(IdProperty, ref _Id, value); }
+            get { return GetProperty(PlanIdProperty); }
+            set { SetProperty(PlanIdProperty, value); }
         }
 
-        // example with managed backing field
         public static readonly PropertyInfo<string> NameProperty = RegisterProperty<string>(p => p.Name);
+        [Display(Name="Plan Name")]
         public string Name
         {
             get { return GetProperty(NameProperty); }
             set { SetProperty(NameProperty, value); }
+        }
+
+        public static readonly PropertyInfo<int> RecordIdProperty = RegisterProperty<int>(c => c.RecordId);
+        public int RecordId
+        {
+            get { return GetProperty(RecordIdProperty); }
+            private set { LoadProperty(RecordIdProperty, value); }
         }
 
         #endregion
@@ -49,19 +55,19 @@ namespace PharmacyAdjudicator.Library.Core
 
         #region Factory Methods
 
-        public static Plan NewEditableRoot()
+        public static Plan NewPlan(string planId)
         {
-            return DataPortal.Create<Plan>();
+            return DataPortal.Create<Plan>(planId);
         }
 
-        public static Plan GetEditableRoot(int id)
+        public static Plan GetPlanByPlanId(string planId)
         {
-            return DataPortal.Fetch<Plan>(id);
+            return DataPortal.Fetch<Plan>(planId);
         }
 
-        public static void DeleteEditableRoot(int id)
+        public static void DeletePlan(string planId)
         {
-            DataPortal.Delete<Plan>(id);
+            DataPortal.Delete<Plan>(planId);
         }
 
         private Plan()
@@ -71,41 +77,146 @@ namespace PharmacyAdjudicator.Library.Core
 
         #region Data Access
 
-        [RunLocal]
-        protected override void DataPortal_Create()
+        protected void DataPortal_Create(string planId)
         {
-            // TODO: load default values
-            // omit this override if you have no defaults to set
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                DataAccess.Plan newPlan = new DataAccess.Plan();
+                newPlan.PlanId = planId;
+                newPlan.RecordCreatedDateTime = DateTime.Now;
+                newPlan.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
+                ctx.DbContext.Plans.Add(newPlan);
+                ctx.DbContext.SaveChanges();
+                this.PlanId = planId;
+            }
             base.DataPortal_Create();
         }
 
-        private void DataPortal_Fetch(int criteria)
+        [Serializable]
+        private class CriteriaByPlanIdCompareDatetime : CriteriaBase<CriteriaByPlanIdCompareDatetime>
         {
-            // TODO: load values
+            public static readonly PropertyInfo<string> PlanIdProperty = RegisterProperty<string>(c => c.PlanId);
+            public string PlanId
+            {
+                get { return ReadProperty(PlanIdProperty); }
+                set { LoadProperty(PlanIdProperty, value); }
+            }
+
+            public static readonly PropertyInfo<DateTime> RecordCompareDatetimeProperty = RegisterProperty<DateTime>(c => c.RecordCompareDatetime);
+            public DateTime RecordCompareDatetime
+            {
+                get { return ReadProperty(RecordCompareDatetimeProperty); }
+                set { LoadProperty(RecordCompareDatetimeProperty, value); }
+            }
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
+        private void DataPortal_Fetch(CriteriaByPlanIdCompareDatetime criteria)
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                DataAccess.PlanFact planData;
+                //Gets the plan record active on the compare date/time passed in
+                planData = (from p in ctx.DbContext.PlanFacts
+                               where
+                               p.PlanId == criteria.PlanId
+                               && p.RecordId == (from p2 in ctx.DbContext.PlanFacts
+                                                 where p2.PlanId == criteria.PlanId
+                                                 && p2.Retraction == false
+                                                 && p2.RecordCreatedDateTime < criteria.RecordCompareDatetime
+                                                 && !ctx.DbContext.PlanFacts.Any(p3 => p3.PlanId == criteria.PlanId
+                                                     && p3.Retraction == true
+                                                     && p3.OriginalFactRecordId == p2.RecordId
+                                                     && p3.RecordCreatedDateTime < criteria.RecordCompareDatetime)
+                                                 select p2.RecordId).Max()
+                               select p).FirstOrDefault();
+                if (planData != null)
+                    using (BypassPropertyChecks)
+                        PopulateByRow(planData);
+                else
+                    throw new DataNotFoundException("PlanId = " + criteria.PlanId);
+            }
+        }
+
+        private void DataPortal_Fetch(string planId)
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                DataAccess.PlanFact planData;
+                planData = (from p in ctx.DbContext.PlanFacts
+                            where
+                            p.PlanId == planId
+                            && p.RecordId == (from p2 in ctx.DbContext.PlanFacts
+                                              where p2.PlanId == planId
+                                              && p2.Retraction == false
+                                              && ctx.DbContext.PlanFacts.Any(p3 => p3.PlanId == planId
+                                              && p3.Retraction == true
+                                              && p3.OriginalFactRecordId == p2.RecordId)
+                                              select p2.RecordId).Max()
+                            select p).FirstOrDefault();
+                if (planData != null)
+                    using (BypassPropertyChecks)
+                        PopulateByRow(planData);
+                else
+                    throw new DataNotFoundException("PlanId = " + planId);
+            }
+        }
+
         protected override void DataPortal_Insert()
         {
-            // TODO: insert values
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var planData = CreateNewEntity();
+                ctx.DbContext.PlanFacts.Add(planData);
+                ctx.DbContext.SaveChanges();
+                this.RecordId = planData.RecordId;
+            }
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Update()
         {
-            // TODO: update values
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var planData = CreateNewEntity();
+                ctx.DbContext.PlanFacts.Add(planData);
+                ctx.DbContext.SaveChanges();
+                this.RecordId = planData.RecordId;
+            }
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_DeleteSelf()
         {
-            DataPortal_Delete(this.Id);
+            DataPortal_Delete(this.PlanId);
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
-        private void DataPortal_Delete(int criteria)
+        private void DataPortal_Delete(string planId)
         {
-            // TODO: delete values
+            using (BypassPropertyChecks)
+            {
+                var planData = CreateNewEntity();
+                using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+                {
+                    planData.Retraction = true;
+                    planData.OriginalFactRecordId = this.RecordId;
+                    ctx.DbContext.PlanFacts.Add(planData);
+                    ctx.DbContext.SaveChanges();
+                }
+            }
+        }
+
+        private void PopulateByRow(DataAccess.PlanFact planData)
+        {
+            this.PlanId = planData.PlanId;
+            this.RecordId = planData.RecordId;
+        }
+
+        private DataAccess.PlanFact CreateNewEntity()
+        {
+            var planData = new DataAccess.PlanFact();
+            planData.PlanId = this.PlanId;
+            planData.Retraction = false;
+            planData.RecordCreatedDateTime = DateTime.Now;
+            planData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
+            return planData;
         }
 
         #endregion

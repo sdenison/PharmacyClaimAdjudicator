@@ -12,19 +12,12 @@ namespace PharmacyAdjudicator.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Group
+    public partial class PlanRules
     {
-        public Group()
-        {
-            this.GroupFacts = new HashSet<GroupFact>();
-            this.PatientGroups = new HashSet<PatientGroup>();
-        }
+        public int PlanRecordId { get; set; }
+        public string RuleId { get; set; }
     
-        public int GroupId { get; set; }
-        public System.DateTime RecordCreatedDateTime { get; set; }
-        public string RecordCreatedUser { get; set; }
-    
-        public virtual ICollection<GroupFact> GroupFacts { get; set; }
-        public virtual ICollection<PatientGroup> PatientGroups { get; set; }
+        public virtual Rule Rule { get; set; }
+        public virtual PlanFact PlanFact { get; set; }
     }
 }

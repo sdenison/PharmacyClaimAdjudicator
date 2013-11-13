@@ -14,11 +14,6 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class GroupFact
     {
-        public GroupFact()
-        {
-            this.GroupFacts1 = new HashSet<GroupFact>();
-        }
-    
         public int RecordId { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
@@ -27,9 +22,11 @@ namespace PharmacyAdjudicator.DataAccess
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
         public int GroupId { get; set; }
+        public string PlanId { get; set; }
+        public System.DateTime EffectiveDate { get; set; }
+        public System.DateTime ExpirationDate { get; set; }
     
         public virtual Group Group { get; set; }
-        public virtual ICollection<GroupFact> GroupFacts1 { get; set; }
-        public virtual GroupFact GroupFact1 { get; set; }
+        public virtual Plan Plan { get; set; }
     }
 }

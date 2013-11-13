@@ -1,37 +1,25 @@
 using System;
 using Csla;
 
-namespace PharmacyAdjudicator.Library.Core
+namespace PharmacyAdjudicator.Library.Core.Rules
 {
     [Serializable]
-    public class Claim : BusinessBase<Claim>
+    public class AtomGroup : BusinessBase<AtomGroup>
     {
         #region Business Methods
 
-
-        public static readonly PropertyInfo<TransactionList> TransactionsProperty = RegisterProperty<TransactionList>(p => p.Transactions, RelationshipTypes.PrivateField);
-        private TransactionList _Transactions;
-        public TransactionList Transactions
+        public static readonly PropertyInfo<NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator> LogicalOperatorProperty = RegisterProperty<NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator>(c => c.LogicalOperator);
+        public NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator LogicalOperator
         {
-            get { return GetProperty(TransactionsProperty, _Transactions); }
-            set { SetProperty(TransactionsProperty, ref _Transactions, value); }
+            get { return GetProperty(LogicalOperatorProperty); }
+            set { SetProperty(LogicalOperatorProperty, value); }
         }
 
-        // example with private backing field
-        public static readonly PropertyInfo<int> IdProperty = RegisterProperty<int>(p => p.Id, RelationshipTypes.PrivateField);
-        private int _Id = IdProperty.DefaultValue;
-        public int Id
+        public static readonly PropertyInfo<AtomList> AtomsProperty = RegisterProperty<AtomList>(c => c.Atoms);
+        public AtomList Atoms
         {
-            get { return GetProperty(IdProperty, _Id); }
-            set { SetProperty(IdProperty, ref _Id, value); }
-        }
-
-        // example with managed backing field
-        public static readonly PropertyInfo<string> NameProperty = RegisterProperty<string>(p => p.Name);
-        public string Name
-        {
-            get { return GetProperty(NameProperty); }
-            set { SetProperty(NameProperty, value); }
+            get { return GetProperty(AtomsProperty); }
+            set { SetProperty(AtomsProperty, value); }
         }
 
         #endregion
@@ -56,22 +44,22 @@ namespace PharmacyAdjudicator.Library.Core
 
         #region Factory Methods
 
-        public static Claim NewEditableRoot()
+        public static AtomGroup NewAtomGroup()
         {
-            return DataPortal.Create<Claim>();
+            return DataPortal.Create<AtomGroup>();
         }
 
-        public static Claim GetEditableRoot(int id)
+        public static AtomGroup GetById(int id)
         {
-            return DataPortal.Fetch<Claim>(id);
+            return DataPortal.Fetch<AtomGroup>(id);
         }
 
-        public static void DeleteEditableRoot(int id)
+        public static void DeleteById(int id)
         {
-            DataPortal.Delete<Claim>(id);
+            DataPortal.Delete<AtomGroup>(id);
         }
 
-        private Claim()
+        private AtomGroup()
         { /* Require use of factory methods */ }
 
         #endregion
@@ -103,7 +91,7 @@ namespace PharmacyAdjudicator.Library.Core
 
         protected override void DataPortal_DeleteSelf()
         {
-            DataPortal_Delete(this.Id);
+            //DataPortal_Delete(this.Id);
         }
 
         private void DataPortal_Delete(int criteria)

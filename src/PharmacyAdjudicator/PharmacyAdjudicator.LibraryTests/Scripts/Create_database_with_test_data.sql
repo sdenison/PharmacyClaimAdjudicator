@@ -1,334 +1,640 @@
-if not exists(select * from sys.databases where name = 'PharmacyClaimAdjudicator')
-	create database PharmacyClaimAdjudicator
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- --------------------------------------------------
+-- Date Created: 11/13/2013 00:01:46
+-- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
+-- --------------------------------------------------
+
+SET QUOTED_IDENTIFIER OFF;
+GO
+USE [PharmacyClaimAdjudicator];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
-use PharmacyClaimAdjudicator
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[FK_FKGroupFacts397517]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GroupFacts] DROP CONSTRAINT [FK_FKGroupFacts397517];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Group_PatientGroup_Rel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientGroups] DROP CONSTRAINT [FK_Group_PatientGroup_Rel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Patient_PateintFacts_Rel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientGroups] DROP CONSTRAINT [FK_Patient_PateintFacts_Rel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Patient_PatientFacts_Rel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientFacts] DROP CONSTRAINT [FK_Patient_PatientFacts_Rel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PlanPlanFact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PlanFacts] DROP CONSTRAINT [FK_PlanPlanFact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PlanGroupFact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GroupFacts] DROP CONSTRAINT [FK_PlanGroupFact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomGroupAtomGroupItems]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomAtomGroupItems]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomAtomGroupItems];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ImplicationAtomGroup]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomGroups] DROP CONSTRAINT [FK_ImplicationAtomGroup];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RuleRuleImplication]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RuleImplications] DROP CONSTRAINT [FK_RuleRuleImplication];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ImplicationRuleImplication]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RuleImplications] DROP CONSTRAINT [FK_ImplicationRuleImplication];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RulePlanRules]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PlanRules] DROP CONSTRAINT [FK_RulePlanRules];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PlanFactPlanRules]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PlanRules] DROP CONSTRAINT [FK_PlanFactPlanRules];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomImplication]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Implications] DROP CONSTRAINT [FK_AtomImplication];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomAtomFact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomFacts] DROP CONSTRAINT [FK_AtomAtomFact];
 GO
 
+-- --------------------------------------------------
+-- Dropping existing tables
+-- --------------------------------------------------
 
-
-ALTER TABLE PatientFacts DROP CONSTRAINT Patient_PatientFacts_Rel;
-ALTER TABLE PatientFacts DROP CONSTRAINT PatientFacts_PatientFacts_Rel;
-ALTER TABLE PatientGroup DROP CONSTRAINT Patient_PateintFacts_Rel;
-ALTER TABLE PatientGroup DROP CONSTRAINT PatientGroup_PateintGroup_Rel;
-ALTER TABLE PatientGroup DROP CONSTRAINT Group_PatientGroup_Rel;
-ALTER TABLE GroupFacts DROP CONSTRAINT FKGroupFacts397517;
-ALTER TABLE GroupFacts DROP CONSTRAINT GroupFacts_GroupFacts_Rel;
-ALTER TABLE DrugFacts DROP CONSTRAINT DrugFacts_DrugFacts_Rel;
-ALTER TABLE PharmacyFacts DROP CONSTRAINT FKPharmacyFa330200;
-ALTER TABLE ChainPharmacy DROP CONSTRAINT FKChainPharm455074;
-ALTER TABLE ChainPharmacy DROP CONSTRAINT FKChainPharm960365;
-ALTER TABLE ChainFacts DROP CONSTRAINT FKChainFacts100830;
-ALTER TABLE Claim DROP CONSTRAINT Claim_Pharmacy_Rel;
-ALTER TABLE Claim DROP CONSTRAINT Patient_Claim_Rel;
-ALTER TABLE NcpdpCommunicationLog DROP CONSTRAINT FKNcpdpCommu356639;
-ALTER TABLE DoctorFacts DROP CONSTRAINT FKDoctorFact693793;
-ALTER TABLE DoctorFacts DROP CONSTRAINT Doctor_DoctorFacts_Rel;
-ALTER TABLE Claim DROP CONSTRAINT Claim_Prescriber_Rel;
-ALTER TABLE Claim DROP CONSTRAINT Claim_PrimaryCare_Rel;
-ALTER TABLE CompoundIngredients DROP CONSTRAINT FKCompoundIn343611;
-ALTER TABLE CompoundIngredients DROP CONSTRAINT FKCompoundIn797620;
-ALTER TABLE Claim DROP CONSTRAINT FKClaim485369;
-ALTER TABLE ClaimCommunicationLog DROP CONSTRAINT FKClaimCommu570973;
-ALTER TABLE ClaimCommunicationLog DROP CONSTRAINT FKClaimCommu616237;
-ALTER TABLE PriorAuthorization DROP CONSTRAINT FKPriorAutho228362;
-ALTER TABLE PriorAuthorization DROP CONSTRAINT FKPriorAutho211304;
-ALTER TABLE DrugFacts DROP CONSTRAINT Drug_DrugFacts_Rel;
-ALTER TABLE ExternalDollarAmounts DROP CONSTRAINT ExternalDollarAmount_Self_Rel;
-ALTER TABLE ExternalDollarAmounts DROP CONSTRAINT Patient_ExternalDollar_Rel;
-DROP TABLE Patient;
-DROP TABLE PatientFacts;
-DROP TABLE PatientGroup;
-DROP TABLE [Group];
-DROP TABLE GroupFacts;
-DROP TABLE Claim;
-DROP TABLE Drug;
-DROP TABLE DrugFacts;
-DROP TABLE Pharmacy;
-DROP TABLE PharmacyFacts;
-DROP TABLE Chain;
-DROP TABLE ChainFacts;
-DROP TABLE ChainPharmacy;
-DROP TABLE NcpdpCommunicationLog;
-DROP TABLE Doctor;
-DROP TABLE DoctorFacts;
-DROP TABLE CompoundIngredients;
-DROP TABLE ClaimCommunicationLog;
-DROP TABLE PriorAuthorization;
-DROP TABLE ExternalDollarAmounts;
-CREATE TABLE Patient (
-  PatientId             int IDENTITY NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  CONSTRAINT Id 
-    PRIMARY KEY (PatientId));
-CREATE TABLE PatientFacts (
-  RecordId                int IDENTITY NOT NULL, 
-  FirstName               nvarchar(50) NOT NULL, 
-  MiddleName              nvarchar(50) NOT NULL, 
-  LastName                nvarchar(50) NOT NULL, 
-  CardholderId            nvarchar(20) NOT NULL, 
-  BirthDate               datetime NOT NULL, 
-  PersonCode              nvarchar(3) NOT NULL, 
-  PatientRelationshipCode nvarchar(2) NOT NULL, 
-  Gender                  char(1) NOT NULL, 
-  Retraction              bit NOT NULL, 
-  OriginalFactRecordId    int NULL, 
-  RecordCreatedDateTime   datetime NOT NULL, 
-  RecordCreatedUser       nvarchar(30) NOT NULL, 
-  PatientId               int NOT NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE PatientGroup (
-  RecordId              int IDENTITY NOT NULL, 
-  EffectiveDate         datetime NOT NULL, 
-  ExpirationDate        datetime NOT NULL, 
-  Retraction            bit NOT NULL, 
-  OriginalFactRecordId  int NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  PatientId             int NOT NULL, 
-  GroupId               int NOT NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE [Group] (
-  GroupId               int IDENTITY NOT NULL, 
-  GroupGroupId          int NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  PRIMARY KEY (GroupId));
-CREATE TABLE GroupFacts (
-  RecordId              int IDENTITY NOT NULL, 
-  Name                  nvarchar(100) NOT NULL, 
-  ShortName             nvarchar(100) NOT NULL, 
-  Retraction            bit NOT NULL, 
-  OriginalFactRecordId  int NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  GroupId               int NOT NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE Claim (
-  AuthorizationNumber               nvarchar(20) NOT NULL, 
-  PrescriptionNumberQualifier       char(1) NOT NULL, 
-  PrescriptionNumber                nvarchar(12) NOT NULL, 
-  Ndc                               char(11) NOT NULL, 
-  PharmacyId                        int NOT NULL, 
-  PatientId                         int NOT NULL, 
-  Reversal                          bit NOT NULL, 
-  OriginalAuthorizationNumber       nvarchar(20) NULL, 
-  RecordCreatedDateTime             datetime NOT NULL, 
-  RecordCreatedUser                 nvarchar(30) NOT NULL, 
-  PrescriberDoctorId                int NOT NULL, 
-  PrimaryCareDoctorId               int NOT NULL, 
-  BasisOfCostDeterminationSubmitted char(1) NULL, 
-  DispensingFeeSubmitted            decimal(19, 2) NULL, 
-  FlatSalesTaxAmountSubmitted       decimal(19, 2) NULL, 
-  GrossAmountDue                    int NULL, 
-  Compound                          char(1) NOT NULL, 
-  PRIMARY KEY (AuthorizationNumber));
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'Indicates the type of billing submitted.
-1 - Rx Billing
-2 - Service Billing', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'Claim', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'PrescriptionNumberQualifier';
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'The Claim table holds Claims and also Reversals.  Reversals must point to an original claim with the Authorization Number.', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'Claim', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'PrescriptionNumber';
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'NCPDP 423-DN
-Code indicating the method by which ''Ingredient Cost Submitted'' (Field 409-D9) was calculated.', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'Claim', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'BasisOfCostDeterminationSubmitted';
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'NCPDP 412-DC
-Dispensing fee submitted by the pharmacy. This amount is included in the ''Gross Amount Due'' (430-DU).', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'Claim', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'DispensingFeeSubmitted';
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'NCPDP 481-HA
-Flat sales tax submitted for prescription. This amount is included in the ''Gross Amount Due'' (430-DU).', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'Claim', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'FlatSalesTaxAmountSubmitted';
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'NCPDP 430-DU
-Total price claimed from all sources. For prescription claim request, field represents a sum of ‘Ingredient Cost Submitted’ (409-D9), ‘Dispensing Fee Submitted’ (412-DC), ‘Flat Sales Tax Amount Submitted’ (481-HA), ‘Percentage Sales Tax Amount Submitted’ (482-GE), ‘Incentive Amount Submitted’ (438-E3), ‘Other Amount Claimed’ (48Ø-H9). For service claim request, field represents a sum of ‘Professional Services Fee Submitted’ (477-BE), ‘Flat Sales Tax Amount Submitted’ (481-HA), ‘Percentage Sales Tax Amount Submitted’ (482-GE), ‘Other Amount Claimed’ (480-H9).', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'Claim', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'GrossAmountDue';
-CREATE TABLE Drug (
-  Ndc                  char(11) NOT NULL, 
-  RecordCreateDateTime datetime NOT NULL, 
-  RecordCreatedUser    nvarchar(30) NOT NULL, 
-  PRIMARY KEY (Ndc));
-CREATE TABLE DrugFacts (
-  RecordId                                 int IDENTITY NOT NULL, 
-  AverageAcquisitionCost                   decimal(19, 2) NULL, 
-  WholesaleAcquisitionCost                 decimal(19, 2) NULL, 
-  DirectPrice                              decimal(19, 2) NULL, 
-  SuggestedWholesalePrice                  decimal(19, 2) NULL, 
-  FederalFinancingParticipationUpperLimits decimal(19, 2) NULL, 
-  MedicarePartB                            decimal(19, 2) NULL, 
-  MedicaidStateMaximumAllowableCost        decimal(19, 2) NULL, 
-  AhfsCode                                 varchar(8) NULL, 
-  Retraction                               bit NOT NULL, 
-  OriginalFactRecordId                     int NULL, 
-  RecordCreatedDateTime                    datetime NOT NULL, 
-  RecordCreatedUser                        nvarchar(30) NOT NULL, 
-  Ndc                                      char(11) NOT NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE Pharmacy (
-  PharmacyId           int IDENTITY NOT NULL, 
-  RecordCreateDateTime datetime NOT NULL, 
-  RecordCreatedUser    nvarchar(30) NOT NULL, 
-  PRIMARY KEY (PharmacyId));
-CREATE TABLE PharmacyFacts (
-  RecordId              int IDENTITY NOT NULL, 
-  PharmacyName          nvarchar(100) NOT NULL, 
-  Nabp                  nvarchar(11) NULL, 
-  Npi                   nvarchar(11) NULL, 
-  PharmacyId            int NOT NULL, 
-  Retraction            bit NOT NULL, 
-  OriginalFactRecordId  int NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE Chain (
-  ChainId              int IDENTITY NOT NULL, 
-  RecordCreateDateTime datetime NOT NULL, 
-  RecordCreatedUser    nvarchar(30) NOT NULL, 
-  PRIMARY KEY (ChainId));
-CREATE TABLE ChainFacts (
-  RecordId              int IDENTITY NOT NULL, 
-  Name                  nvarchar(100) NOT NULL, 
-  ChainChainId          int NOT NULL, 
-  Retraction            bit NOT NULL, 
-  OriginalFactRecordId  int NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     datetime NOT NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE ChainPharmacy (
-  RecordId              int IDENTITY NOT NULL, 
-  EffectiveDate         datetime NOT NULL, 
-  ExpirationDate        datetime NOT NULL, 
-  Retraction            bit NOT NULL, 
-  OriginalFactRecordId  int NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  PharmacyId            int NOT NULL, 
-  ChainId               int NOT NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE NcpdpCommunicationLog (
-  RecordId              int IDENTITY NOT NULL, 
-  Direction             char(1) NOT NULL, 
-  NcpdpVersion          char(2) NOT NULL, 
-  Transmission          nvarchar(max) NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  ResponseRecordId      int NOT NULL, 
-  PRIMARY KEY (RecordId));
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'I - Incoming
-O - Outgoing', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'NcpdpCommunicationLog', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'Direction';
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'For a record with a Direction = ''O'' the ResponseRecordId should be the RecordId where Direction = ''I''.', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'NcpdpCommunicationLog', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'ResponseRecordId';
-CREATE TABLE Doctor (
-  DoctorId              int IDENTITY NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  PRIMARY KEY (DoctorId));
-CREATE TABLE DoctorFacts (
-  RecordId              int IDENTITY NOT NULL, 
-  FirstName             nvarchar(100) NULL, 
-  LastName              nvarchar(50) NULL, 
-  Upin                  nvarchar(20) NULL, 
-  Retraction            bit NOT NULL, 
-  OriginalRecordId      int NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  DoctorId              int NOT NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE CompoundIngredients (
-  RecordId                                   int IDENTITY NOT NULL, 
-  CompoundIngredientBasisOfCostDetermination int NOT NULL, 
-  Ndc                                        char(11) NOT NULL, 
-  AuthorizationNumber                        nvarchar(20) NOT NULL, 
-  PRIMARY KEY (RecordId));
-EXEC sp_addextendedproperty 
-  @NAME = N'MS_Description', @VALUE = 'NCPDP 490-UE
-Code indicating the method by which the drug cost of an ingredient used in a compound was calculated.', 
-  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = 'dbo', 
-  @LEVEL1TYPE = N'Table', @LEVEL1NAME = 'CompoundIngredients', 
-  @LEVEL2TYPE = N'Column', @LEVEL2NAME = 'CompoundIngredientBasisOfCostDetermination';
-CREATE TABLE ClaimCommunicationLog (
-  RecordId                      int IDENTITY NOT NULL, 
-  ClaimAuthorizationNumber      nvarchar(20) NOT NULL, 
-  NcpdpCommunicationLogRecordId int NOT NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE PriorAuthorization (
-  RecordId              int IDENTITY NOT NULL, 
-  PatientPatientId      int NOT NULL, 
-  PriorAuthNumber       varchar(20) NULL, 
-  Used                  bit NULL, 
-  AuthorizationNumber   nvarchar(20) NOT NULL, 
-  Retraction            bit NOT NULL, 
-  RecordCreatedDateTime datetime NULL, 
-  RecordCreatedUser     nvarchar(30) NULL, 
-  OriginalFactRecordId  int NULL, 
-  PRIMARY KEY (RecordId));
-CREATE TABLE ExternalDollarAmounts (
-  RecordId              int IDENTITY NOT NULL, 
-  Amount                decimal(19, 2) NOT NULL, 
-  Description           nvarchar(100) NOT NULL, 
-  EffectiveDate         datetime NOT NULL, 
-  ExpirationDate        datetime NOT NULL, 
-  Retraction            bit NOT NULL, 
-  RecordCreatedDateTime datetime NOT NULL, 
-  RecordCreatedUser     nvarchar(30) NOT NULL, 
-  OriginalFactRecordId  int NOT NULL, 
-  PatientId             int NOT NULL, 
-  PRIMARY KEY (RecordId));
-ALTER TABLE PatientFacts ADD CONSTRAINT Patient_PatientFacts_Rel FOREIGN KEY (PatientId) REFERENCES Patient (PatientId);
-ALTER TABLE PatientFacts ADD CONSTRAINT PatientFacts_PatientFacts_Rel FOREIGN KEY (OriginalFactRecordId) REFERENCES PatientFacts (RecordId);
-ALTER TABLE PatientGroup ADD CONSTRAINT Patient_PateintFacts_Rel FOREIGN KEY (PatientId) REFERENCES Patient (PatientId);
-ALTER TABLE PatientGroup ADD CONSTRAINT PatientGroup_PateintGroup_Rel FOREIGN KEY (OriginalFactRecordId) REFERENCES PatientGroup (RecordId);
-ALTER TABLE PatientGroup ADD CONSTRAINT Group_PatientGroup_Rel FOREIGN KEY (GroupId) REFERENCES [Group] (GroupId);
-ALTER TABLE GroupFacts ADD CONSTRAINT FKGroupFacts397517 FOREIGN KEY (GroupId) REFERENCES [Group] (GroupId);
-ALTER TABLE GroupFacts ADD CONSTRAINT GroupFacts_GroupFacts_Rel FOREIGN KEY (OriginalFactRecordId) REFERENCES GroupFacts (RecordId);
-ALTER TABLE DrugFacts ADD CONSTRAINT DrugFacts_DrugFacts_Rel FOREIGN KEY (OriginalFactRecordId) REFERENCES DrugFacts (RecordId);
-ALTER TABLE PharmacyFacts ADD CONSTRAINT FKPharmacyFa330200 FOREIGN KEY (PharmacyId) REFERENCES Pharmacy (PharmacyId);
-ALTER TABLE ChainPharmacy ADD CONSTRAINT FKChainPharm455074 FOREIGN KEY (PharmacyId) REFERENCES Pharmacy (PharmacyId);
-ALTER TABLE ChainPharmacy ADD CONSTRAINT FKChainPharm960365 FOREIGN KEY (ChainId) REFERENCES Chain (ChainId);
-ALTER TABLE ChainFacts ADD CONSTRAINT FKChainFacts100830 FOREIGN KEY (ChainChainId) REFERENCES Chain (ChainId);
-ALTER TABLE Claim ADD CONSTRAINT Claim_Pharmacy_Rel FOREIGN KEY (PharmacyId) REFERENCES Pharmacy (PharmacyId);
-ALTER TABLE Claim ADD CONSTRAINT Patient_Claim_Rel FOREIGN KEY (PatientId) REFERENCES Patient (PatientId);
-ALTER TABLE NcpdpCommunicationLog ADD CONSTRAINT FKNcpdpCommu356639 FOREIGN KEY (ResponseRecordId) REFERENCES NcpdpCommunicationLog (RecordId);
-ALTER TABLE DoctorFacts ADD CONSTRAINT FKDoctorFact693793 FOREIGN KEY (OriginalRecordId) REFERENCES DoctorFacts (RecordId);
-ALTER TABLE DoctorFacts ADD CONSTRAINT Doctor_DoctorFacts_Rel FOREIGN KEY (DoctorId) REFERENCES Doctor (DoctorId);
-ALTER TABLE Claim ADD CONSTRAINT Claim_Prescriber_Rel FOREIGN KEY (PrescriberDoctorId) REFERENCES Doctor (DoctorId);
-ALTER TABLE Claim ADD CONSTRAINT Claim_PrimaryCare_Rel FOREIGN KEY (PrimaryCareDoctorId) REFERENCES Doctor (DoctorId);
-ALTER TABLE CompoundIngredients ADD CONSTRAINT FKCompoundIn343611 FOREIGN KEY (Ndc) REFERENCES Drug (Ndc);
-ALTER TABLE CompoundIngredients ADD CONSTRAINT FKCompoundIn797620 FOREIGN KEY (AuthorizationNumber) REFERENCES Claim (AuthorizationNumber);
-ALTER TABLE Claim ADD CONSTRAINT FKClaim485369 FOREIGN KEY (Ndc) REFERENCES Drug (Ndc);
-ALTER TABLE ClaimCommunicationLog ADD CONSTRAINT FKClaimCommu570973 FOREIGN KEY (ClaimAuthorizationNumber) REFERENCES Claim (AuthorizationNumber);
-ALTER TABLE ClaimCommunicationLog ADD CONSTRAINT FKClaimCommu616237 FOREIGN KEY (NcpdpCommunicationLogRecordId) REFERENCES NcpdpCommunicationLog (RecordId);
-ALTER TABLE PriorAuthorization ADD CONSTRAINT FKPriorAutho228362 FOREIGN KEY (PatientPatientId) REFERENCES Patient (PatientId);
-ALTER TABLE PriorAuthorization ADD CONSTRAINT FKPriorAutho211304 FOREIGN KEY (AuthorizationNumber) REFERENCES Claim (AuthorizationNumber);
-ALTER TABLE DrugFacts ADD CONSTRAINT Drug_DrugFacts_Rel FOREIGN KEY (Ndc) REFERENCES Drug (Ndc);
-ALTER TABLE ExternalDollarAmounts ADD CONSTRAINT ExternalDollarAmount_Self_Rel FOREIGN KEY (OriginalFactRecordId) REFERENCES ExternalDollarAmounts (RecordId);
-ALTER TABLE ExternalDollarAmounts ADD CONSTRAINT Patient_ExternalDollar_Rel FOREIGN KEY (PatientId) REFERENCES Patient (PatientId);
-
+IF OBJECT_ID(N'[dbo].[Groups]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Groups];
 GO
+IF OBJECT_ID(N'[dbo].[GroupFacts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GroupFacts];
+GO
+IF OBJECT_ID(N'[dbo].[Patient]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Patient];
+GO
+IF OBJECT_ID(N'[dbo].[PatientFacts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PatientFacts];
+GO
+IF OBJECT_ID(N'[dbo].[PatientGroups]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PatientGroups];
+GO
+--IF OBJECT_ID(N'[dbo].[VaDrugs]', 'U') IS NOT NULL
+--    DROP TABLE [dbo].[VaDrugs];
+--GO
+IF OBJECT_ID(N'[dbo].[Plans]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Plans];
+GO
+IF OBJECT_ID(N'[dbo].[PlanFacts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PlanFacts];
+GO
+IF OBJECT_ID(N'[dbo].[Atoms]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Atoms];
+GO
+IF OBJECT_ID(N'[dbo].[AtomGroups]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AtomGroups];
+GO
+IF OBJECT_ID(N'[dbo].[AtomGroupItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AtomGroupItems];
+GO
+IF OBJECT_ID(N'[dbo].[Rules]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Rules];
+GO
+IF OBJECT_ID(N'[dbo].[PlanRules]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PlanRules];
+GO
+IF OBJECT_ID(N'[dbo].[Implications]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Implications];
+GO
+IF OBJECT_ID(N'[dbo].[RuleImplications]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RuleImplications];
+GO
+IF OBJECT_ID(N'[dbo].[AtomFacts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AtomFacts];
+GO
+
+-- --------------------------------------------------
+-- Creating all tables
+-- --------------------------------------------------
+
+-- Creating table 'Groups'
+CREATE TABLE [dbo].[Groups] (
+    [GroupId] int IDENTITY(1,1) NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
+);
+GO
+
+-- Creating table 'GroupFacts'
+CREATE TABLE [dbo].[GroupFacts] (
+    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(100)  NOT NULL,
+    [ShortName] nvarchar(100)  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] int  NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL,
+    [GroupId] int  NOT NULL,
+    [PlanId] nvarchar(20)  NOT NULL,
+    [EffectiveDate] datetime  NOT NULL,
+    [ExpirationDate] datetime  NOT NULL,
+    [Plan_PlanId] nvarchar(20)  NOT NULL
+);
+GO
+
+-- Creating table 'Patient'
+CREATE TABLE [dbo].[Patient] (
+    [PatientId] int IDENTITY(1,1) NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
+);
+GO
+
+-- Creating table 'PatientFacts'
+CREATE TABLE [dbo].[PatientFacts] (
+    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [FirstName] nvarchar(50)  NOT NULL,
+    [MiddleName] nvarchar(50)  NOT NULL,
+    [LastName] nvarchar(50)  NOT NULL,
+    [CardholderId] nvarchar(20)  NOT NULL,
+    [BirthDate] datetime  NOT NULL,
+    [PersonCode] nvarchar(3)  NOT NULL,
+    [PatientRelationshipCode] nvarchar(2)  NOT NULL,
+    [Gender] char(1)  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] int  NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL,
+    [PatientId] int  NOT NULL
+);
+GO
+
+-- Creating table 'PatientGroups'
+CREATE TABLE [dbo].[PatientGroups] (
+    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [EffectiveDate] datetime  NOT NULL,
+    [ExpirationDate] datetime  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] int  NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL,
+    [PatientId] int  NOT NULL,
+    [GroupId] int  NOT NULL
+);
+GO
+
+-- Creating table 'VaDrugs'
+CREATE TABLE [dbo].[VaDrugs] (
+    [Ndc_1] nvarchar(5)  NOT NULL,
+    [Ndc_2] nvarchar(4)  NOT NULL,
+    [Ndc_3] nvarchar(2)  NOT NULL,
+    [NdfNdc] nvarchar(11)  NOT NULL,
+    [Upn] nvarchar(max)  NULL,
+    [IDateNdc] datetime  NULL,
+    [Trade] nvarchar(max)  NOT NULL,
+    [VaProduct] nvarchar(max)  NOT NULL,
+    [IDateVap] datetime  NULL,
+    [ProductNu] nvarchar(max)  NOT NULL,
+    [FeeDer] nvarchar(max)  NOT NULL,
+    [Generic] nvarchar(max)  NOT NULL,
+    [PkgSz] decimal(18,0)  NOT NULL,
+    [PkgType] nvarchar(max)  NOT NULL,
+    [VaClass] nvarchar(max)  NOT NULL,
+    [Manufac] nvarchar(max)  NOT NULL,
+    [StandardMedRoute] nvarchar(max)  NULL,
+    [Strength] nvarchar(max)  NULL,
+    [Units] nvarchar(max)  NULL,
+    [DoseForm] nvarchar(max)  NOT NULL,
+    [NfName] nvarchar(max)  NOT NULL,
+    [Csfs] nvarchar(max)  NOT NULL,
+    [RxOtc] nvarchar(max)  NOT NULL,
+    [NfIndicat] nvarchar(max)  NOT NULL,
+    [VaPrn] nvarchar(max)  NULL,
+    [DispUnt] nvarchar(max)  NULL,
+    [Id] nvarchar(max)  NULL,
+    [Mark] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Plans'
+CREATE TABLE [dbo].[Plans] (
+    [PlanId] nvarchar(20)  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'PlanFacts'
+CREATE TABLE [dbo].[PlanFacts] (
+    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [PlanId] nvarchar(20)  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] int  NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
+);
+GO
+
+-- Creating table 'Atoms'
+CREATE TABLE [dbo].[Atoms] (
+    [AtomId] int IDENTITY(1,1) NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(50)  NOT NULL
+);
+GO
+
+-- Creating table 'AtomGroups'
+CREATE TABLE [dbo].[AtomGroups] (
+    [AtomGroupId] int IDENTITY(1,1) NOT NULL,
+    [LogicalOperator] nvarchar(max)  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Implication_ImplicationId] int  NOT NULL
+);
+GO
+
+-- Creating table 'AtomGroupItems'
+CREATE TABLE [dbo].[AtomGroupItems] (
+    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [AtomGroupId] nvarchar(max)  NOT NULL,
+    [AtomId] nvarchar(max)  NOT NULL,
+    [ContainedAtomGroupId] int  NOT NULL,
+    [AtomGroup_AtomGroupId] int  NULL,
+    [Atom_AtomId] int  NULL
+);
+GO
+
+-- Creating table 'Rules'
+CREATE TABLE [dbo].[Rules] (
+    [RuleId] int IDENTITY(1,1) NOT NULL,
+    [RuleType] nvarchar(max)  NOT NULL,
+    [DefaultValue] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'PlanRules'
+CREATE TABLE [dbo].[PlanRules] (
+    [PlanRecordId] int  NOT NULL,
+    [RuleId] nvarchar(max)  NOT NULL,
+    [Rule_RuleId] int  NOT NULL,
+    [PlanFact_RecordId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Implications'
+CREATE TABLE [dbo].[Implications] (
+    [ImplicationId] int IDENTITY(1,1) NOT NULL,
+    [AtomGroupId] nvarchar(max)  NOT NULL,
+    [DeductionAtomId] int  NOT NULL,
+    [AtomImplication_Implication_AtomId] int  NULL
+);
+GO
+
+-- Creating table 'RuleImplications'
+CREATE TABLE [dbo].[RuleImplications] (
+    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [RuleId] nvarchar(max)  NOT NULL,
+    [ImplicationId] nvarchar(max)  NOT NULL,
+    [Priority] nvarchar(max)  NOT NULL,
+    [Rule_RuleId] int  NOT NULL,
+    [Implication_ImplicationId] int  NOT NULL
+);
+GO
+
+-- Creating table 'AtomFacts'
+CREATE TABLE [dbo].[AtomFacts] (
+    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [AtomId] int  NOT NULL,
+    [Class] nvarchar(50)  NOT NULL,
+    [Property] nvarchar(50)  NOT NULL,
+    [Value] nvarchar(max)  NOT NULL,
+    [Operation] nvarchar(max)  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] int  NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(max)  NOT NULL
+);
+GO
+
+-- --------------------------------------------------
+-- Creating all PRIMARY KEY constraints
+-- --------------------------------------------------
+
+-- Creating primary key on [GroupId] in table 'Groups'
+ALTER TABLE [dbo].[Groups]
+ADD CONSTRAINT [PK_Groups]
+    PRIMARY KEY CLUSTERED ([GroupId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'GroupFacts'
+ALTER TABLE [dbo].[GroupFacts]
+ADD CONSTRAINT [PK_GroupFacts]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [PatientId] in table 'Patient'
+ALTER TABLE [dbo].[Patient]
+ADD CONSTRAINT [PK_Patient]
+    PRIMARY KEY CLUSTERED ([PatientId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'PatientFacts'
+ALTER TABLE [dbo].[PatientFacts]
+ADD CONSTRAINT [PK_PatientFacts]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'PatientGroups'
+ALTER TABLE [dbo].[PatientGroups]
+ADD CONSTRAINT [PK_PatientGroups]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [NdfNdc] in table 'VaDrugs'
+ALTER TABLE [dbo].[VaDrugs]
+ADD CONSTRAINT [PK_VaDrugs]
+    PRIMARY KEY CLUSTERED ([NdfNdc] ASC);
+GO
+
+-- Creating primary key on [PlanId] in table 'Plans'
+ALTER TABLE [dbo].[Plans]
+ADD CONSTRAINT [PK_Plans]
+    PRIMARY KEY CLUSTERED ([PlanId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'PlanFacts'
+ALTER TABLE [dbo].[PlanFacts]
+ADD CONSTRAINT [PK_PlanFacts]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [AtomId] in table 'Atoms'
+ALTER TABLE [dbo].[Atoms]
+ADD CONSTRAINT [PK_Atoms]
+    PRIMARY KEY CLUSTERED ([AtomId] ASC);
+GO
+
+-- Creating primary key on [AtomGroupId] in table 'AtomGroups'
+ALTER TABLE [dbo].[AtomGroups]
+ADD CONSTRAINT [PK_AtomGroups]
+    PRIMARY KEY CLUSTERED ([AtomGroupId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'AtomGroupItems'
+ALTER TABLE [dbo].[AtomGroupItems]
+ADD CONSTRAINT [PK_AtomGroupItems]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [RuleId] in table 'Rules'
+ALTER TABLE [dbo].[Rules]
+ADD CONSTRAINT [PK_Rules]
+    PRIMARY KEY CLUSTERED ([RuleId] ASC);
+GO
+
+-- Creating primary key on [PlanRecordId] in table 'PlanRules'
+ALTER TABLE [dbo].[PlanRules]
+ADD CONSTRAINT [PK_PlanRules]
+    PRIMARY KEY CLUSTERED ([PlanRecordId] ASC);
+GO
+
+-- Creating primary key on [ImplicationId] in table 'Implications'
+ALTER TABLE [dbo].[Implications]
+ADD CONSTRAINT [PK_Implications]
+    PRIMARY KEY CLUSTERED ([ImplicationId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'RuleImplications'
+ALTER TABLE [dbo].[RuleImplications]
+ADD CONSTRAINT [PK_RuleImplications]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'AtomFacts'
+ALTER TABLE [dbo].[AtomFacts]
+ADD CONSTRAINT [PK_AtomFacts]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- --------------------------------------------------
+-- Creating all FOREIGN KEY constraints
+-- --------------------------------------------------
+
+-- Creating foreign key on [GroupId] in table 'GroupFacts'
+ALTER TABLE [dbo].[GroupFacts]
+ADD CONSTRAINT [FK_FKGroupFacts397517]
+    FOREIGN KEY ([GroupId])
+    REFERENCES [dbo].[Groups]
+        ([GroupId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FKGroupFacts397517'
+CREATE INDEX [IX_FK_FKGroupFacts397517]
+ON [dbo].[GroupFacts]
+    ([GroupId]);
+GO
+
+-- Creating foreign key on [GroupId] in table 'PatientGroups'
+ALTER TABLE [dbo].[PatientGroups]
+ADD CONSTRAINT [FK_Group_PatientGroup_Rel]
+    FOREIGN KEY ([GroupId])
+    REFERENCES [dbo].[Groups]
+        ([GroupId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Group_PatientGroup_Rel'
+CREATE INDEX [IX_FK_Group_PatientGroup_Rel]
+ON [dbo].[PatientGroups]
+    ([GroupId]);
+GO
+
+-- Creating foreign key on [PatientId] in table 'PatientGroups'
+ALTER TABLE [dbo].[PatientGroups]
+ADD CONSTRAINT [FK_Patient_PateintFacts_Rel]
+    FOREIGN KEY ([PatientId])
+    REFERENCES [dbo].[Patient]
+        ([PatientId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Patient_PateintFacts_Rel'
+CREATE INDEX [IX_FK_Patient_PateintFacts_Rel]
+ON [dbo].[PatientGroups]
+    ([PatientId]);
+GO
+
+-- Creating foreign key on [PatientId] in table 'PatientFacts'
+ALTER TABLE [dbo].[PatientFacts]
+ADD CONSTRAINT [FK_Patient_PatientFacts_Rel]
+    FOREIGN KEY ([PatientId])
+    REFERENCES [dbo].[Patient]
+        ([PatientId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Patient_PatientFacts_Rel'
+CREATE INDEX [IX_FK_Patient_PatientFacts_Rel]
+ON [dbo].[PatientFacts]
+    ([PatientId]);
+GO
+
+-- Creating foreign key on [PlanId] in table 'PlanFacts'
+ALTER TABLE [dbo].[PlanFacts]
+ADD CONSTRAINT [FK_PlanPlanFact]
+    FOREIGN KEY ([PlanId])
+    REFERENCES [dbo].[Plans]
+        ([PlanId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PlanPlanFact'
+CREATE INDEX [IX_FK_PlanPlanFact]
+ON [dbo].[PlanFacts]
+    ([PlanId]);
+GO
+
+-- Creating foreign key on [Plan_PlanId] in table 'GroupFacts'
+ALTER TABLE [dbo].[GroupFacts]
+ADD CONSTRAINT [FK_PlanGroupFact]
+    FOREIGN KEY ([Plan_PlanId])
+    REFERENCES [dbo].[Plans]
+        ([PlanId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PlanGroupFact'
+CREATE INDEX [IX_FK_PlanGroupFact]
+ON [dbo].[GroupFacts]
+    ([Plan_PlanId]);
+GO
+
+-- Creating foreign key on [AtomGroup_AtomGroupId] in table 'AtomGroupItems'
+ALTER TABLE [dbo].[AtomGroupItems]
+ADD CONSTRAINT [FK_AtomGroupAtomGroupItems]
+    FOREIGN KEY ([AtomGroup_AtomGroupId])
+    REFERENCES [dbo].[AtomGroups]
+        ([AtomGroupId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupAtomGroupItems'
+CREATE INDEX [IX_FK_AtomGroupAtomGroupItems]
+ON [dbo].[AtomGroupItems]
+    ([AtomGroup_AtomGroupId]);
+GO
+
+-- Creating foreign key on [Atom_AtomId] in table 'AtomGroupItems'
+ALTER TABLE [dbo].[AtomGroupItems]
+ADD CONSTRAINT [FK_AtomAtomGroupItems]
+    FOREIGN KEY ([Atom_AtomId])
+    REFERENCES [dbo].[Atoms]
+        ([AtomId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomGroupItems'
+CREATE INDEX [IX_FK_AtomAtomGroupItems]
+ON [dbo].[AtomGroupItems]
+    ([Atom_AtomId]);
+GO
+
+-- Creating foreign key on [Implication_ImplicationId] in table 'AtomGroups'
+ALTER TABLE [dbo].[AtomGroups]
+ADD CONSTRAINT [FK_ImplicationAtomGroup]
+    FOREIGN KEY ([Implication_ImplicationId])
+    REFERENCES [dbo].[Implications]
+        ([ImplicationId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ImplicationAtomGroup'
+CREATE INDEX [IX_FK_ImplicationAtomGroup]
+ON [dbo].[AtomGroups]
+    ([Implication_ImplicationId]);
+GO
+
+-- Creating foreign key on [Rule_RuleId] in table 'RuleImplications'
+ALTER TABLE [dbo].[RuleImplications]
+ADD CONSTRAINT [FK_RuleRuleImplication]
+    FOREIGN KEY ([Rule_RuleId])
+    REFERENCES [dbo].[Rules]
+        ([RuleId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RuleRuleImplication'
+CREATE INDEX [IX_FK_RuleRuleImplication]
+ON [dbo].[RuleImplications]
+    ([Rule_RuleId]);
+GO
+
+-- Creating foreign key on [Implication_ImplicationId] in table 'RuleImplications'
+ALTER TABLE [dbo].[RuleImplications]
+ADD CONSTRAINT [FK_ImplicationRuleImplication]
+    FOREIGN KEY ([Implication_ImplicationId])
+    REFERENCES [dbo].[Implications]
+        ([ImplicationId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ImplicationRuleImplication'
+CREATE INDEX [IX_FK_ImplicationRuleImplication]
+ON [dbo].[RuleImplications]
+    ([Implication_ImplicationId]);
+GO
+
+-- Creating foreign key on [Rule_RuleId] in table 'PlanRules'
+ALTER TABLE [dbo].[PlanRules]
+ADD CONSTRAINT [FK_RulePlanRules]
+    FOREIGN KEY ([Rule_RuleId])
+    REFERENCES [dbo].[Rules]
+        ([RuleId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RulePlanRules'
+CREATE INDEX [IX_FK_RulePlanRules]
+ON [dbo].[PlanRules]
+    ([Rule_RuleId]);
+GO
+
+-- Creating foreign key on [PlanFact_RecordId] in table 'PlanRules'
+ALTER TABLE [dbo].[PlanRules]
+ADD CONSTRAINT [FK_PlanFactPlanRules]
+    FOREIGN KEY ([PlanFact_RecordId])
+    REFERENCES [dbo].[PlanFacts]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PlanFactPlanRules'
+CREATE INDEX [IX_FK_PlanFactPlanRules]
+ON [dbo].[PlanRules]
+    ([PlanFact_RecordId]);
+GO
+
+-- Creating foreign key on [AtomImplication_Implication_AtomId] in table 'Implications'
+ALTER TABLE [dbo].[Implications]
+ADD CONSTRAINT [FK_AtomImplication]
+    FOREIGN KEY ([AtomImplication_Implication_AtomId])
+    REFERENCES [dbo].[Atoms]
+        ([AtomId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomImplication'
+CREATE INDEX [IX_FK_AtomImplication]
+ON [dbo].[Implications]
+    ([AtomImplication_Implication_AtomId]);
+GO
+
+-- Creating foreign key on [AtomId] in table 'AtomFacts'
+ALTER TABLE [dbo].[AtomFacts]
+ADD CONSTRAINT [FK_AtomAtomFact]
+    FOREIGN KEY ([AtomId])
+    REFERENCES [dbo].[Atoms]
+        ([AtomId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomFact'
+CREATE INDEX [IX_FK_AtomAtomFact]
+ON [dbo].[AtomFacts]
+    ([AtomId]);
+GO
+
+-- --------------------------------------------------
+-- Script has ended
+-- --------------------------------------------------
 
 
 set identity_insert dbo.patient on;

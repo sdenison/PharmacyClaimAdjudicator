@@ -31,5 +31,15 @@ namespace PharmacyAdjudicator.DataAccess
         public DbSet<PatientFact> PatientFacts { get; set; }
         public DbSet<PatientGroup> PatientGroups { get; set; }
         public DbSet<VaDrug> VaDrugs { get; set; }
+        public DbSet<Plan> Plans { get; set; }
+        public DbSet<PlanFact> PlanFacts { get; set; }
+        public DbSet<Atom> Atoms { get; set; }
+        public DbSet<AtomGroup> AtomGroups { get; set; }
+        public DbSet<AtomGroupItems> AtomGroupItems { get; set; }
+        public DbSet<Rule> Rules { get; set; }
+        public DbSet<PlanRules> PlanRules { get; set; }
+        public DbSet<Implication> Implications { get; set; }
+        public DbSet<RuleImplication> RuleImplications { get; set; }
+        public DbSet<AtomFact> AtomFacts { get; set; }
     }
 }

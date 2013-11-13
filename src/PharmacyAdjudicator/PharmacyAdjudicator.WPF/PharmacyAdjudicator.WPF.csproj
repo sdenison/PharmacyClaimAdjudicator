@@ -182,6 +182,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\learn\Projects\nxbre\NxBRE3\Source\NxBRE.csproj">
+      <Project>{c5a2507e-550e-4eec-b3c2-a278ecb27e30}</Project>
+      <Name>NxBRE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PharmacyAdjudicator.Library\PharmacyAdjudicator.Library.csproj">
       <Project>{c350b73e-0d48-4dd0-b320-e68261e3418f}</Project>
       <Name>PharmacyAdjudicator.Library</Name>

@@ -14,11 +14,6 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class PatientGroup
     {
-        public PatientGroup()
-        {
-            this.PatientGroup1 = new HashSet<PatientGroup>();
-        }
-    
         public int RecordId { get; set; }
         public System.DateTime EffectiveDate { get; set; }
         public System.DateTime ExpirationDate { get; set; }
@@ -31,7 +26,5 @@ namespace PharmacyAdjudicator.DataAccess
     
         public virtual Group Group { get; set; }
         public virtual Patient Patient { get; set; }
-        public virtual ICollection<PatientGroup> PatientGroup1 { get; set; }
-        public virtual PatientGroup PatientGroup2 { get; set; }
     }
 }

@@ -72,9 +72,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CoreTests\AtomTests.cs" />
     <Compile Include="CoreTests\GroupTest.cs" />
     <Compile Include="CoreTests\PatientHistoryTests.cs" />
     <Compile Include="CoreTests\PatientTests.cs" />
+    <Compile Include="CoreTests\PlanTests.cs" />
     <Compile Include="CoreTests\TransactionProcessorTests.cs" />
     <Compile Include="D0Tests\NcpdpHelper.cs" />
     <Compile Include="D0Tests\ResponseTests\ClaimSegmentTests.cs" />
@@ -101,9 +103,11 @@
     </None>
     <None Include="RuleFiles\AM900OnFormulary.ruleml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="RuleFiles\CliniorilShouldHave8copayAndMaxFeeOf8.ruleml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\recreate_database.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -120,7 +124,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\Create_test_data.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\Create_database_with_test_data.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\PharmacyAdjFromDatabase.edmx.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

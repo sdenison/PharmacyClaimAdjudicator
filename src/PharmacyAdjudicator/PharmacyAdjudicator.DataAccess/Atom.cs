@@ -12,19 +12,21 @@ namespace PharmacyAdjudicator.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Group
+    public partial class Atom
     {
-        public Group()
+        public Atom()
         {
-            this.GroupFacts = new HashSet<GroupFact>();
-            this.PatientGroups = new HashSet<PatientGroup>();
+            this.AtomGroupItems = new HashSet<AtomGroupItems>();
+            this.Implications = new HashSet<Implication>();
+            this.AtomFacts = new HashSet<AtomFact>();
         }
     
-        public int GroupId { get; set; }
+        public int AtomId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     
-        public virtual ICollection<GroupFact> GroupFacts { get; set; }
-        public virtual ICollection<PatientGroup> PatientGroups { get; set; }
+        public virtual ICollection<AtomGroupItems> AtomGroupItems { get; set; }
+        public virtual ICollection<Implication> Implications { get; set; }
+        public virtual ICollection<AtomFact> AtomFacts { get; set; }
     }
 }

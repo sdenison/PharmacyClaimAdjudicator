@@ -14,11 +14,6 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class PatientFact
     {
-        public PatientFact()
-        {
-            this.PatientFacts1 = new HashSet<PatientFact>();
-        }
-    
         public int RecordId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -35,7 +30,5 @@ namespace PharmacyAdjudicator.DataAccess
         public int PatientId { get; set; }
     
         public virtual Patient Patient { get; set; }
-        public virtual ICollection<PatientFact> PatientFacts1 { get; set; }
-        public virtual PatientFact PatientFact1 { get; set; }
     }
 }

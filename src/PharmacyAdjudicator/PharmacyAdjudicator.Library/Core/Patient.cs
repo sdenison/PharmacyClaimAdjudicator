@@ -347,16 +347,15 @@ namespace PharmacyAdjudicator.Library.Core
             }
         }
 
-        [RunLocal]
         protected override void DataPortal_Create()
         {
-            using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 DataAccess.Patient newPatient = new DataAccess.Patient();
                 newPatient.RecordCreatedDateTime = DateTime.Now;
                 newPatient.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
-                ctx.Patient.Add(newPatient);
-                ctx.SaveChanges();
+                ctx.DbContext.Patient.Add(newPatient);
+                ctx.DbContext.SaveChanges();
                 this.PatientId = newPatient.PatientId;
             }
             base.DataPortal_Create();
@@ -367,18 +366,18 @@ namespace PharmacyAdjudicator.Library.Core
         /// </summary>
         private void DataPortal_Fetch(CriteriaByPatientIdCompareDatetime criteria)
         {
-            using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 DataAccess.PatientFact patientData;
                 //Gets the patient record active on the compare date/time passed in
-                patientData = (from p in ctx.PatientFacts
+                patientData = (from p in ctx.DbContext.PatientFacts
                                where
                                p.PatientId == criteria.PatientId
-                               && p.RecordId == (from p2 in ctx.PatientFacts
+                               && p.RecordId == (from p2 in ctx.DbContext.PatientFacts
                                                  where p2.PatientId == criteria.PatientId
                                                  && p2.Retraction == false
                                                  && p2.RecordCreatedDateTime < criteria.RecordCompareDatetime 
-                                                 && !ctx.PatientFacts.Any(p3 => p3.PatientId == criteria.PatientId
+                                                 && !ctx.DbContext.PatientFacts.Any(p3 => p3.PatientId == criteria.PatientId
                                                      && p3.Retraction == true
                                                      && p3.OriginalFactRecordId == p2.RecordId
                                                      && p3.RecordCreatedDateTime < criteria.RecordCompareDatetime)
@@ -394,10 +393,10 @@ namespace PharmacyAdjudicator.Library.Core
 
         private void DataPortal_Fetch(CriteriaByRecordIdEF criteria)
         {
-            using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 //No sub-selects necessary since we are getting the record by the unique identifier
-                DataAccess.PatientFact patientData = (from p in ctx.PatientFacts
+                DataAccess.PatientFact patientData = (from p in ctx.DbContext.PatientFacts
                                   where p.RecordId == criteria.RecordId
                                   select p).FirstOrDefault();
                 if (patientData != null)
@@ -410,17 +409,17 @@ namespace PharmacyAdjudicator.Library.Core
 
         private void DataPortal_Fetch(CriteriaByPatientIdEF criteria)
         {
-            using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 DataAccess.PatientFact patientData;
                 //Pulls the most recent patient record
-                patientData = (from p in ctx.PatientFacts
+                patientData = (from p in ctx.DbContext.PatientFacts
                                where 
                                p.PatientId == criteria.PatientId
-                               && p.RecordId == (from p2 in ctx.PatientFacts
+                               && p.RecordId == (from p2 in ctx.DbContext.PatientFacts
                                                     where p2.PatientId == criteria.PatientId
                                                     && p2.Retraction == false
-                                                    && !ctx.PatientFacts.Any(p3 => p3.PatientId == criteria.PatientId
+                                                    && !ctx.DbContext.PatientFacts.Any(p3 => p3.PatientId == criteria.PatientId
                                                         && p3.Retraction == true
                                                         && p3.OriginalFactRecordId == p2.RecordId)
                                                     select p2.RecordId).Max()
@@ -436,12 +435,12 @@ namespace PharmacyAdjudicator.Library.Core
         //Searching for unique patient given the criteria available from the transmission
         private void DataPortal_Fetch(CriteriaByTransmission criteria)
         {
-            using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 //Cardholder ID, Birth Date and Gender are all reqired in the transmission.
                 //We'll keep this simple for now.  When real patients are added something
                 //more sophisticated will need to be put in place.
-                var patientIds = ((from p in ctx.PatientFacts 
+                var patientIds = ((from p in ctx.DbContext.PatientFacts 
                           where p.CardholderId == criteria.CardholderId
                           && p.BirthDate == criteria.DateOfBirth
                           && p.Gender == criteria.PatientGenderCode
@@ -481,26 +480,24 @@ namespace PharmacyAdjudicator.Library.Core
             this._RecordId = patientData.RecordId;
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Insert()
         {
-            using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var patientData = CreateNewEntity();
-                ctx.PatientFacts.Add(patientData);
-                ctx.SaveChanges();
+                ctx.DbContext.PatientFacts.Add(patientData);
+                ctx.DbContext.SaveChanges();
                 var recordId = patientData.RecordId;
             }
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Update()
         {
-            using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var patientData = CreateNewEntity();
-                ctx.PatientFacts.Add(patientData);
-                ctx.SaveChanges();
+                ctx.DbContext.PatientFacts.Add(patientData);
+                ctx.DbContext.SaveChanges();
                 var recordId = patientData.RecordId;
             }
         }
@@ -509,18 +506,17 @@ namespace PharmacyAdjudicator.Library.Core
         /// Deleting items is really just retracting previously asserted facts which 
         /// result in a retraction record being added.
         /// </summary>
-        [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_DeleteSelf()
         {
             using (BypassPropertyChecks)
             {
                 var patientData = CreateNewEntity();
-                using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
+                using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
                 {
                     patientData.Retraction = true;
                     patientData.OriginalFactRecordId = this._RecordId;
-                    ctx.PatientFacts.Add(patientData);
-                    ctx.SaveChanges();
+                    ctx.DbContext.PatientFacts.Add(patientData);
+                    ctx.DbContext.SaveChanges();
                 }
             }
         }
