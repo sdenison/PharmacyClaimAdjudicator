@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PharmacyAdjudicator.Library.Core;
 
-namespace PharmacyAdjudicator.TestLibrary.CoreTests
+namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
 {
     [TestClass]
     public class AtomTests

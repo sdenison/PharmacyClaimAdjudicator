@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/13/2013 00:01:46
+-- Date Created: 11/14/2013 14:42:02
 -- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -35,15 +35,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PlanGroupFact]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[GroupFacts] DROP CONSTRAINT [FK_PlanGroupFact];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AtomGroupAtomGroupItems]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AtomAtomGroupItems]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomAtomGroupItems];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ImplicationAtomGroup]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AtomGroups] DROP CONSTRAINT [FK_ImplicationAtomGroup];
-GO
 IF OBJECT_ID(N'[dbo].[FK_RuleRuleImplication]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RuleImplications] DROP CONSTRAINT [FK_RuleRuleImplication];
 GO
@@ -56,11 +47,23 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PlanFactPlanRules]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PlanRules] DROP CONSTRAINT [FK_PlanFactPlanRules];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AtomImplication]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Implications] DROP CONSTRAINT [FK_AtomImplication];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AtomAtomFact]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AtomFacts] DROP CONSTRAINT [FK_AtomAtomFact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomGroupAtomGroupItems]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomAtomGroupItems]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomAtomGroupItems];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomGroupAtomGroupItems1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems1];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomGroupImplication]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Implications] DROP CONSTRAINT [FK_AtomGroupImplication];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomImplication]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Implications] DROP CONSTRAINT [FK_AtomImplication];
 GO
 
 -- --------------------------------------------------
@@ -82,9 +85,9 @@ GO
 IF OBJECT_ID(N'[dbo].[PatientGroups]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PatientGroups];
 GO
---IF OBJECT_ID(N'[dbo].[VaDrugs]', 'U') IS NOT NULL
---    DROP TABLE [dbo].[VaDrugs];
---GO
+IF OBJECT_ID(N'[dbo].[VaDrugs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VaDrugs];
+GO
 IF OBJECT_ID(N'[dbo].[Plans]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Plans];
 GO
@@ -251,19 +254,17 @@ GO
 CREATE TABLE [dbo].[AtomGroups] (
     [AtomGroupId] int IDENTITY(1,1) NOT NULL,
     [LogicalOperator] nvarchar(max)  NOT NULL,
-    [Name] nvarchar(max)  NOT NULL,
-    [Implication_ImplicationId] int  NOT NULL
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'AtomGroupItems'
 CREATE TABLE [dbo].[AtomGroupItems] (
     [RecordId] int IDENTITY(1,1) NOT NULL,
-    [AtomGroupId] nvarchar(max)  NOT NULL,
-    [AtomId] nvarchar(max)  NOT NULL,
-    [ContainedAtomGroupId] int  NOT NULL,
-    [AtomGroup_AtomGroupId] int  NULL,
-    [Atom_AtomId] int  NULL
+    [AtomGroupId] int  NOT NULL,
+    [AtomId] int  NULL,
+    [ContainedAtomGroupId] int  NULL,
+    [Priority] int  NOT NULL
 );
 GO
 
@@ -287,9 +288,8 @@ GO
 -- Creating table 'Implications'
 CREATE TABLE [dbo].[Implications] (
     [ImplicationId] int IDENTITY(1,1) NOT NULL,
-    [AtomGroupId] nvarchar(max)  NOT NULL,
-    [DeductionAtomId] int  NOT NULL,
-    [AtomImplication_Implication_AtomId] int  NULL
+    [AtomGroupId] int  NOT NULL,
+    [DeductionAtomId] int  NULL
 );
 GO
 
@@ -507,48 +507,6 @@ ON [dbo].[GroupFacts]
     ([Plan_PlanId]);
 GO
 
--- Creating foreign key on [AtomGroup_AtomGroupId] in table 'AtomGroupItems'
-ALTER TABLE [dbo].[AtomGroupItems]
-ADD CONSTRAINT [FK_AtomGroupAtomGroupItems]
-    FOREIGN KEY ([AtomGroup_AtomGroupId])
-    REFERENCES [dbo].[AtomGroups]
-        ([AtomGroupId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupAtomGroupItems'
-CREATE INDEX [IX_FK_AtomGroupAtomGroupItems]
-ON [dbo].[AtomGroupItems]
-    ([AtomGroup_AtomGroupId]);
-GO
-
--- Creating foreign key on [Atom_AtomId] in table 'AtomGroupItems'
-ALTER TABLE [dbo].[AtomGroupItems]
-ADD CONSTRAINT [FK_AtomAtomGroupItems]
-    FOREIGN KEY ([Atom_AtomId])
-    REFERENCES [dbo].[Atoms]
-        ([AtomId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomGroupItems'
-CREATE INDEX [IX_FK_AtomAtomGroupItems]
-ON [dbo].[AtomGroupItems]
-    ([Atom_AtomId]);
-GO
-
--- Creating foreign key on [Implication_ImplicationId] in table 'AtomGroups'
-ALTER TABLE [dbo].[AtomGroups]
-ADD CONSTRAINT [FK_ImplicationAtomGroup]
-    FOREIGN KEY ([Implication_ImplicationId])
-    REFERENCES [dbo].[Implications]
-        ([ImplicationId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ImplicationAtomGroup'
-CREATE INDEX [IX_FK_ImplicationAtomGroup]
-ON [dbo].[AtomGroups]
-    ([Implication_ImplicationId]);
-GO
-
 -- Creating foreign key on [Rule_RuleId] in table 'RuleImplications'
 ALTER TABLE [dbo].[RuleImplications]
 ADD CONSTRAINT [FK_RuleRuleImplication]
@@ -605,20 +563,6 @@ ON [dbo].[PlanRules]
     ([PlanFact_RecordId]);
 GO
 
--- Creating foreign key on [AtomImplication_Implication_AtomId] in table 'Implications'
-ALTER TABLE [dbo].[Implications]
-ADD CONSTRAINT [FK_AtomImplication]
-    FOREIGN KEY ([AtomImplication_Implication_AtomId])
-    REFERENCES [dbo].[Atoms]
-        ([AtomId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AtomImplication'
-CREATE INDEX [IX_FK_AtomImplication]
-ON [dbo].[Implications]
-    ([AtomImplication_Implication_AtomId]);
-GO
-
 -- Creating foreign key on [AtomId] in table 'AtomFacts'
 ALTER TABLE [dbo].[AtomFacts]
 ADD CONSTRAINT [FK_AtomAtomFact]
@@ -631,6 +575,76 @@ ADD CONSTRAINT [FK_AtomAtomFact]
 CREATE INDEX [IX_FK_AtomAtomFact]
 ON [dbo].[AtomFacts]
     ([AtomId]);
+GO
+
+-- Creating foreign key on [AtomGroupId] in table 'AtomGroupItems'
+ALTER TABLE [dbo].[AtomGroupItems]
+ADD CONSTRAINT [FK_AtomGroupAtomGroupItems]
+    FOREIGN KEY ([AtomGroupId])
+    REFERENCES [dbo].[AtomGroups]
+        ([AtomGroupId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupAtomGroupItems'
+CREATE INDEX [IX_FK_AtomGroupAtomGroupItems]
+ON [dbo].[AtomGroupItems]
+    ([AtomGroupId]);
+GO
+
+-- Creating foreign key on [AtomId] in table 'AtomGroupItems'
+ALTER TABLE [dbo].[AtomGroupItems]
+ADD CONSTRAINT [FK_AtomAtomGroupItems]
+    FOREIGN KEY ([AtomId])
+    REFERENCES [dbo].[Atoms]
+        ([AtomId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomGroupItems'
+CREATE INDEX [IX_FK_AtomAtomGroupItems]
+ON [dbo].[AtomGroupItems]
+    ([AtomId]);
+GO
+
+-- Creating foreign key on [ContainedAtomGroupId] in table 'AtomGroupItems'
+ALTER TABLE [dbo].[AtomGroupItems]
+ADD CONSTRAINT [FK_AtomGroupAtomGroupItems1]
+    FOREIGN KEY ([ContainedAtomGroupId])
+    REFERENCES [dbo].[AtomGroups]
+        ([AtomGroupId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupAtomGroupItems1'
+CREATE INDEX [IX_FK_AtomGroupAtomGroupItems1]
+ON [dbo].[AtomGroupItems]
+    ([ContainedAtomGroupId]);
+GO
+
+-- Creating foreign key on [AtomGroupId] in table 'Implications'
+ALTER TABLE [dbo].[Implications]
+ADD CONSTRAINT [FK_AtomGroupImplication]
+    FOREIGN KEY ([AtomGroupId])
+    REFERENCES [dbo].[AtomGroups]
+        ([AtomGroupId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupImplication'
+CREATE INDEX [IX_FK_AtomGroupImplication]
+ON [dbo].[Implications]
+    ([AtomGroupId]);
+GO
+
+-- Creating foreign key on [DeductionAtomId] in table 'Implications'
+ALTER TABLE [dbo].[Implications]
+ADD CONSTRAINT [FK_AtomImplication]
+    FOREIGN KEY ([DeductionAtomId])
+    REFERENCES [dbo].[Atoms]
+        ([AtomId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomImplication'
+CREATE INDEX [IX_FK_AtomImplication]
+ON [dbo].[Implications]
+    ([DeductionAtomId]);
 GO
 
 -- --------------------------------------------------

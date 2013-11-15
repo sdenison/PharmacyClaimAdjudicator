@@ -78,6 +78,8 @@
     <Compile Include="Core\PatientHistory.cs" />
     <Compile Include="Core\Plan.cs" />
     <Compile Include="Core\RuleBase.cs" />
+    <Compile Include="Core\Rules\Predicate.cs" />
+    <Compile Include="Core\Rules\PredicateList.cs" />
     <Compile Include="Core\TransactionProcessor.cs" />
     <Compile Include="Core\TransactionProcessorBinder.cs" />
     <Compile Include="D0\Response\ClaimBilling.cs" />

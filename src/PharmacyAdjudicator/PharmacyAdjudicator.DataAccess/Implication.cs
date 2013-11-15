@@ -16,15 +16,15 @@ namespace PharmacyAdjudicator.DataAccess
     {
         public Implication()
         {
-            this.AtomGroups = new HashSet<AtomGroup>();
             this.RuleImplications = new HashSet<RuleImplication>();
         }
     
         public int ImplicationId { get; set; }
-        public string AtomGroupId { get; set; }
-        public int DeductionAtomId { get; set; }
+        public int AtomGroupId { get; set; }
+        public Nullable<int> DeductionAtomId { get; set; }
     
-        public virtual ICollection<AtomGroup> AtomGroups { get; set; }
         public virtual ICollection<RuleImplication> RuleImplications { get; set; }
+        public virtual AtomGroup AtomGroup { get; set; }
+        public virtual Atom Atom { get; set; }
     }
 }

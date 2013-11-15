@@ -72,7 +72,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CoreTests\AtomTests.cs" />
+    <Compile Include="CoreTests\RulesTests\AtomGroupTests.cs" />
+    <Compile Include="CoreTests\RulesTests\AtomTests.cs" />
     <Compile Include="CoreTests\GroupTest.cs" />
     <Compile Include="CoreTests\PatientHistoryTests.cs" />
     <Compile Include="CoreTests\PatientTests.cs" />

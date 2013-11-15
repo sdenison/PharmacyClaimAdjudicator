@@ -51,6 +51,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return new NxBRE.InferenceEngine.Rules.Atom(this.Property, new NxBRE.InferenceEngine.Rules.Variable(this.Class), new NxBRE.InferenceEngine.Rules.Individual(this.Value));
         }
 
+        public NxBRE.InferenceEngine.Rules.Atom ToNxBre()
+        {
+            return new NxBRE.InferenceEngine.Rules.Atom(this.Property, new NxBRE.InferenceEngine.Rules.Variable(this.Class), new NxBRE.InferenceEngine.Rules.Individual(this.Value));
+        }
+
         #endregion
 
         #region Business Rules

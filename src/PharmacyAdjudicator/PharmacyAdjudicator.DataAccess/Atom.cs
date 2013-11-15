@@ -16,17 +16,17 @@ namespace PharmacyAdjudicator.DataAccess
     {
         public Atom()
         {
+            this.AtomFacts = new HashSet<AtomFact>();
             this.AtomGroupItems = new HashSet<AtomGroupItems>();
             this.Implications = new HashSet<Implication>();
-            this.AtomFacts = new HashSet<AtomFact>();
         }
     
         public int AtomId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     
+        public virtual ICollection<AtomFact> AtomFacts { get; set; }
         public virtual ICollection<AtomGroupItems> AtomGroupItems { get; set; }
         public virtual ICollection<Implication> Implications { get; set; }
-        public virtual ICollection<AtomFact> AtomFacts { get; set; }
     }
 }

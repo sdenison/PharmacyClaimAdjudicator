@@ -46,18 +46,6 @@
       <End Role="Plan" EntitySet="Plans" />
       <End Role="GroupFact" EntitySet="GroupFacts" />
     </AssociationSet>
-    <AssociationSet Name="AtomGroupAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.Store.AtomGroupAtomGroupItems">
-      <End Role="AtomGroup" EntitySet="AtomGroups" />
-      <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
-    </AssociationSet>
-    <AssociationSet Name="AtomAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.Store.AtomAtomGroupItems">
-      <End Role="Atom" EntitySet="Atoms" />
-      <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
-    </AssociationSet>
-    <AssociationSet Name="ImplicationAtomGroup" Association="PharmacyClaimAdjudicatorModel.Store.ImplicationAtomGroup">
-      <End Role="Implication" EntitySet="Implications" />
-      <End Role="AtomGroup" EntitySet="AtomGroups" />
-    </AssociationSet>
     <AssociationSet Name="RuleRuleImplication" Association="PharmacyClaimAdjudicatorModel.Store.RuleRuleImplication">
       <End Role="Rule" EntitySet="Rules" />
       <End Role="RuleImplication" EntitySet="RuleImplications" />
@@ -74,13 +62,29 @@
       <End Role="PlanFact" EntitySet="PlanFacts" />
       <End Role="PlanRules" EntitySet="PlanRules" />
     </AssociationSet>
-    <AssociationSet Name="AtomImplication" Association="PharmacyClaimAdjudicatorModel.Store.AtomImplication">
-      <End Role="Atom" EntitySet="Atoms" />
-      <End Role="Implication" EntitySet="Implications" />
-    </AssociationSet>
     <AssociationSet Name="AtomAtomFact" Association="PharmacyClaimAdjudicatorModel.Store.AtomAtomFact">
       <End Role="Atom" EntitySet="Atoms" />
       <End Role="AtomFact" EntitySet="AtomFacts" />
+    </AssociationSet>
+    <AssociationSet Name="AtomGroupAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.Store.AtomGroupAtomGroupItems">
+      <End Role="AtomGroup" EntitySet="AtomGroups" />
+      <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
+    </AssociationSet>
+    <AssociationSet Name="AtomAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.Store.AtomAtomGroupItems">
+      <End Role="Atom" EntitySet="Atoms" />
+      <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
+    </AssociationSet>
+    <AssociationSet Name="AtomGroupAtomGroupItems1" Association="PharmacyClaimAdjudicatorModel.Store.AtomGroupAtomGroupItems1">
+      <End Role="AtomGroup" EntitySet="AtomGroups" />
+      <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
+    </AssociationSet>
+    <AssociationSet Name="AtomGroupImplication" Association="PharmacyClaimAdjudicatorModel.Store.AtomGroupImplication">
+      <End Role="AtomGroup" EntitySet="AtomGroups" />
+      <End Role="Implication" EntitySet="Implications" />
+    </AssociationSet>
+    <AssociationSet Name="AtomImplication" Association="PharmacyClaimAdjudicatorModel.Store.AtomImplication">
+      <End Role="Atom" EntitySet="Atoms" />
+      <End Role="Implication" EntitySet="Implications" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Groups">
@@ -217,18 +221,16 @@
     <Property Name="AtomGroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="LogicalOperator" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Implication_ImplicationId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AtomGroupItems">
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
     <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AtomGroupId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="AtomId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ContainedAtomGroupId" Type="int" Nullable="false" />
-    <Property Name="AtomGroup_AtomGroupId" Type="int" Nullable="true" />
-    <Property Name="Atom_AtomId" Type="int" Nullable="true" />
+    <Property Name="AtomGroupId" Type="int" Nullable="false" />
+    <Property Name="AtomId" Type="int" Nullable="true" />
+    <Property Name="ContainedAtomGroupId" Type="int" Nullable="true" />
+    <Property Name="Priority" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Rules">
     <Key>
@@ -252,9 +254,8 @@
       <PropertyRef Name="ImplicationId" />
     </Key>
     <Property Name="ImplicationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AtomGroupId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DeductionAtomId" Type="int" Nullable="false" />
-    <Property Name="AtomImplication_Implication_AtomId" Type="int" Nullable="true" />
+    <Property Name="AtomGroupId" Type="int" Nullable="false" />
+    <Property Name="DeductionAtomId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="RuleImplications">
     <Key>
@@ -354,42 +355,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="AtomGroupAtomGroupItems">
-    <End Role="AtomGroup" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroups" Multiplicity="0..1" />
-    <End Role="AtomGroupItems" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroupItems" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AtomGroup">
-        <PropertyRef Name="AtomGroupId" />
-      </Principal>
-      <Dependent Role="AtomGroupItems">
-        <PropertyRef Name="AtomGroup_AtomGroupId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AtomAtomGroupItems">
-    <End Role="Atom" Type="PharmacyClaimAdjudicatorModel.Store.Atoms" Multiplicity="0..1" />
-    <End Role="AtomGroupItems" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroupItems" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Atom">
-        <PropertyRef Name="AtomId" />
-      </Principal>
-      <Dependent Role="AtomGroupItems">
-        <PropertyRef Name="Atom_AtomId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ImplicationAtomGroup">
-    <End Role="Implication" Type="PharmacyClaimAdjudicatorModel.Store.Implications" Multiplicity="1" />
-    <End Role="AtomGroup" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroups" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Implication">
-        <PropertyRef Name="ImplicationId" />
-      </Principal>
-      <Dependent Role="AtomGroup">
-        <PropertyRef Name="Implication_ImplicationId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="RuleRuleImplication">
     <End Role="Rule" Type="PharmacyClaimAdjudicatorModel.Store.Rules" Multiplicity="1" />
     <End Role="RuleImplication" Type="PharmacyClaimAdjudicatorModel.Store.RuleImplications" Multiplicity="*" />
@@ -438,18 +403,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="AtomImplication">
-    <End Role="Atom" Type="PharmacyClaimAdjudicatorModel.Store.Atoms" Multiplicity="0..1" />
-    <End Role="Implication" Type="PharmacyClaimAdjudicatorModel.Store.Implications" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Atom">
-        <PropertyRef Name="AtomId" />
-      </Principal>
-      <Dependent Role="Implication">
-        <PropertyRef Name="AtomImplication_Implication_AtomId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="AtomAtomFact">
     <End Role="Atom" Type="PharmacyClaimAdjudicatorModel.Store.Atoms" Multiplicity="1" />
     <End Role="AtomFact" Type="PharmacyClaimAdjudicatorModel.Store.AtomFacts" Multiplicity="*" />
@@ -459,6 +412,66 @@
       </Principal>
       <Dependent Role="AtomFact">
         <PropertyRef Name="AtomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AtomGroupAtomGroupItems">
+    <End Role="AtomGroup" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroups" Multiplicity="1" />
+    <End Role="AtomGroupItems" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroupItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AtomGroup">
+        <PropertyRef Name="AtomGroupId" />
+      </Principal>
+      <Dependent Role="AtomGroupItems">
+        <PropertyRef Name="AtomGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AtomAtomGroupItems">
+    <End Role="Atom" Type="PharmacyClaimAdjudicatorModel.Store.Atoms" Multiplicity="0..1" />
+    <End Role="AtomGroupItems" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroupItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Atom">
+        <PropertyRef Name="AtomId" />
+      </Principal>
+      <Dependent Role="AtomGroupItems">
+        <PropertyRef Name="AtomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AtomGroupAtomGroupItems1">
+    <End Role="AtomGroup" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroups" Multiplicity="0..1" />
+    <End Role="AtomGroupItems" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroupItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AtomGroup">
+        <PropertyRef Name="AtomGroupId" />
+      </Principal>
+      <Dependent Role="AtomGroupItems">
+        <PropertyRef Name="ContainedAtomGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AtomGroupImplication">
+    <End Role="AtomGroup" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroups" Multiplicity="1" />
+    <End Role="Implication" Type="PharmacyClaimAdjudicatorModel.Store.Implications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AtomGroup">
+        <PropertyRef Name="AtomGroupId" />
+      </Principal>
+      <Dependent Role="Implication">
+        <PropertyRef Name="AtomGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AtomImplication">
+    <End Role="Atom" Type="PharmacyClaimAdjudicatorModel.Store.Atoms" Multiplicity="0..1" />
+    <End Role="Implication" Type="PharmacyClaimAdjudicatorModel.Store.Implications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Atom">
+        <PropertyRef Name="AtomId" />
+      </Principal>
+      <Dependent Role="Implication">
+        <PropertyRef Name="DeductionAtomId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -502,21 +515,9 @@
           <EntitySet Name="Atoms" EntityType="PharmacyClaimAdjudicatorModel.Atom" />
           <EntitySet Name="AtomGroups" EntityType="PharmacyClaimAdjudicatorModel.AtomGroup" />
           <EntitySet Name="AtomGroupItems" EntityType="PharmacyClaimAdjudicatorModel.AtomGroupItems" />
-          <AssociationSet Name="AtomGroupAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems">
-            <End Role="AtomGroup" EntitySet="AtomGroups" />
-            <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
-          </AssociationSet>
-          <AssociationSet Name="AtomAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems">
-            <End Role="Atom" EntitySet="Atoms" />
-            <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
-          </AssociationSet>
           <EntitySet Name="Rules" EntityType="PharmacyClaimAdjudicatorModel.Rule" />
           <EntitySet Name="PlanRules" EntityType="PharmacyClaimAdjudicatorModel.PlanRules" />
           <EntitySet Name="Implications" EntityType="PharmacyClaimAdjudicatorModel.Implication" />
-          <AssociationSet Name="ImplicationAtomGroup" Association="PharmacyClaimAdjudicatorModel.ImplicationAtomGroup">
-            <End Role="Implication" EntitySet="Implications" />
-            <End Role="AtomGroup" EntitySet="AtomGroups" />
-          </AssociationSet>
           <EntitySet Name="RuleImplications" EntityType="PharmacyClaimAdjudicatorModel.RuleImplication" />
           <AssociationSet Name="RuleRuleImplication" Association="PharmacyClaimAdjudicatorModel.RuleRuleImplication">
             <End Role="Rule" EntitySet="Rules" />
@@ -534,14 +535,30 @@
             <End Role="PlanFact" EntitySet="PlanFacts" />
             <End Role="PlanRules" EntitySet="PlanRules" />
           </AssociationSet>
-          <AssociationSet Name="AtomImplication" Association="PharmacyClaimAdjudicatorModel.AtomImplication">
-            <End Role="Atom" EntitySet="Atoms" />
-            <End Role="Implication" EntitySet="Implications" />
-          </AssociationSet>
           <EntitySet Name="AtomFacts" EntityType="PharmacyClaimAdjudicatorModel.AtomFact" />
           <AssociationSet Name="AtomAtomFact" Association="PharmacyClaimAdjudicatorModel.AtomAtomFact">
             <End Role="Atom" EntitySet="Atoms" />
             <End Role="AtomFact" EntitySet="AtomFacts" />
+          </AssociationSet>
+          <AssociationSet Name="AtomGroupAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems">
+            <End Role="AtomGroup" EntitySet="AtomGroups" />
+            <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
+          </AssociationSet>
+          <AssociationSet Name="AtomAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems">
+            <End Role="Atom" EntitySet="Atoms" />
+            <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
+          </AssociationSet>
+          <AssociationSet Name="AtomGroupAtomGroupItems1" Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems1">
+            <End Role="AtomGroup" EntitySet="AtomGroups" />
+            <End Role="AtomGroupItems" EntitySet="AtomGroupItems" />
+          </AssociationSet>
+          <AssociationSet Name="AtomGroupImplication" Association="PharmacyClaimAdjudicatorModel.AtomGroupImplication">
+            <End Role="AtomGroup" EntitySet="AtomGroups" />
+            <End Role="Implication" EntitySet="Implications" />
+          </AssociationSet>
+          <AssociationSet Name="AtomImplication" Association="PharmacyClaimAdjudicatorModel.AtomImplication">
+            <End Role="Atom" EntitySet="Atoms" />
+            <End Role="Implication" EntitySet="Implications" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Group">
@@ -743,11 +760,11 @@
             <PropertyRef Name="AtomId" />
           </Key>
           <Property Name="AtomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="AtomGroupItems" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" FromRole="Atom" ToRole="AtomGroupItems" />
-          <NavigationProperty Name="Implications" Relationship="PharmacyClaimAdjudicatorModel.AtomImplication" FromRole="Atom" ToRole="Implication" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="50" />
           <NavigationProperty Name="AtomFacts" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomFact" FromRole="Atom" ToRole="AtomFact" />
+          <NavigationProperty Name="AtomGroupItems" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" FromRole="Atom" ToRole="AtomGroupItems" />
+          <NavigationProperty Name="Implications" Relationship="PharmacyClaimAdjudicatorModel.AtomImplication" FromRole="Atom" ToRole="Implication" />
         </EntityType>
         <EntityType Name="AtomGroup">
           <Key>
@@ -755,29 +772,24 @@
           </Key>
           <Property Name="AtomGroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LogicalOperator" Type="String" Nullable="false" />
-          <NavigationProperty Name="AtomGroupItems" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" FromRole="AtomGroup" ToRole="AtomGroupItems" />
-          <NavigationProperty Name="Implication" Relationship="PharmacyClaimAdjudicatorModel.ImplicationAtomGroup" FromRole="AtomGroup" ToRole="Implication" />
           <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="AtomGroupItems" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" FromRole="AtomGroup" ToRole="AtomGroupItems" />
+          <NavigationProperty Name="AtomGroupItems1" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems1" FromRole="AtomGroup" ToRole="AtomGroupItems" />
+          <NavigationProperty Name="Implications" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupImplication" FromRole="AtomGroup" ToRole="Implication" />
         </EntityType>
         <EntityType Name="AtomGroupItems">
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
           <Property Name="RecordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AtomGroupId" Type="String" Nullable="false" />
-          <Property Name="AtomId" Type="String" Nullable="false" />
+          <Property Name="AtomGroupId" Type="Int32" Nullable="false" />
+          <Property Name="AtomId" Type="Int32" Nullable="true" />
+          <Property Name="ContainedAtomGroupId" Type="Int32" Nullable="true" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AtomGroup" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" FromRole="AtomGroupItems" ToRole="AtomGroup" />
           <NavigationProperty Name="Atom" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" FromRole="AtomGroupItems" ToRole="Atom" />
-          <Property Name="ContainedAtomGroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AtomGroup1" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems1" FromRole="AtomGroupItems" ToRole="AtomGroup" />
         </EntityType>
-        <Association Name="AtomGroupAtomGroupItems">
-          <End Type="PharmacyClaimAdjudicatorModel.AtomGroup" Role="AtomGroup" Multiplicity="0..1" />
-          <End Type="PharmacyClaimAdjudicatorModel.AtomGroupItems" Role="AtomGroupItems" Multiplicity="*" />
-        </Association>
-        <Association Name="AtomAtomGroupItems">
-          <End Type="PharmacyClaimAdjudicatorModel.Atom" Role="Atom" Multiplicity="0..1" />
-          <End Type="PharmacyClaimAdjudicatorModel.AtomGroupItems" Role="AtomGroupItems" Multiplicity="*" />
-        </Association>
         <EntityType Name="Rule">
           <Key>
             <PropertyRef Name="RuleId" />
@@ -802,15 +814,12 @@
             <PropertyRef Name="ImplicationId" />
           </Key>
           <Property Name="ImplicationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AtomGroupId" Type="String" Nullable="false" />
-          <Property Name="DeductionAtomId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AtomGroups" Relationship="PharmacyClaimAdjudicatorModel.ImplicationAtomGroup" FromRole="Implication" ToRole="AtomGroup" />
+          <Property Name="AtomGroupId" Type="Int32" Nullable="false" />
+          <Property Name="DeductionAtomId" Type="Int32" Nullable="true" />
           <NavigationProperty Name="RuleImplications" Relationship="PharmacyClaimAdjudicatorModel.ImplicationRuleImplication" FromRole="Implication" ToRole="RuleImplication" />
+          <NavigationProperty Name="AtomGroup" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupImplication" FromRole="Implication" ToRole="AtomGroup" />
+          <NavigationProperty Name="Atom" Relationship="PharmacyClaimAdjudicatorModel.AtomImplication" FromRole="Implication" ToRole="Atom" />
         </EntityType>
-        <Association Name="ImplicationAtomGroup">
-          <End Type="PharmacyClaimAdjudicatorModel.Implication" Role="Implication" Multiplicity="1" />
-          <End Type="PharmacyClaimAdjudicatorModel.AtomGroup" Role="AtomGroup" Multiplicity="*" />
-        </Association>
         <EntityType Name="RuleImplication">
           <Key>
             <PropertyRef Name="RecordId" />
@@ -838,10 +847,6 @@
           <End Type="PharmacyClaimAdjudicatorModel.PlanFact" Role="PlanFact" Multiplicity="1" />
           <End Type="PharmacyClaimAdjudicatorModel.PlanRules" Role="PlanRules" Multiplicity="*" />
         </Association>
-        <Association Name="AtomImplication">
-          <End Type="PharmacyClaimAdjudicatorModel.Atom" Role="Atom" Multiplicity="0..1" />
-          <End Type="PharmacyClaimAdjudicatorModel.Implication" Role="Implication" Multiplicity="*" />
-        </Association>
         <EntityType Name="AtomFact">
           <Key>
             <PropertyRef Name="RecordId" />
@@ -867,6 +872,66 @@
             </Principal>
             <Dependent Role="AtomFact">
               <PropertyRef Name="AtomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AtomGroupAtomGroupItems">
+          <End Type="PharmacyClaimAdjudicatorModel.AtomGroup" Role="AtomGroup" Multiplicity="1" />
+          <End Type="PharmacyClaimAdjudicatorModel.AtomGroupItems" Role="AtomGroupItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AtomGroup">
+              <PropertyRef Name="AtomGroupId" />
+            </Principal>
+            <Dependent Role="AtomGroupItems">
+              <PropertyRef Name="AtomGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AtomAtomGroupItems">
+          <End Type="PharmacyClaimAdjudicatorModel.Atom" Role="Atom" Multiplicity="0..1" />
+          <End Type="PharmacyClaimAdjudicatorModel.AtomGroupItems" Role="AtomGroupItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Atom">
+              <PropertyRef Name="AtomId" />
+            </Principal>
+            <Dependent Role="AtomGroupItems">
+              <PropertyRef Name="AtomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AtomGroupAtomGroupItems1">
+          <End Type="PharmacyClaimAdjudicatorModel.AtomGroup" Role="AtomGroup" Multiplicity="0..1" />
+          <End Type="PharmacyClaimAdjudicatorModel.AtomGroupItems" Role="AtomGroupItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AtomGroup">
+              <PropertyRef Name="AtomGroupId" />
+            </Principal>
+            <Dependent Role="AtomGroupItems">
+              <PropertyRef Name="ContainedAtomGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AtomGroupImplication">
+          <End Type="PharmacyClaimAdjudicatorModel.AtomGroup" Role="AtomGroup" Multiplicity="1" />
+          <End Type="PharmacyClaimAdjudicatorModel.Implication" Role="Implication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AtomGroup">
+              <PropertyRef Name="AtomGroupId" />
+            </Principal>
+            <Dependent Role="Implication">
+              <PropertyRef Name="AtomGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AtomImplication">
+          <End Type="PharmacyClaimAdjudicatorModel.Atom" Role="Atom" Multiplicity="0..1" />
+          <End Type="PharmacyClaimAdjudicatorModel.Implication" Role="Implication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Atom">
+              <PropertyRef Name="AtomId" />
+            </Principal>
+            <Dependent Role="Implication">
+              <PropertyRef Name="DeductionAtomId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1027,6 +1092,7 @@
           <ScalarProperty Name="AtomGroupId" ColumnName="AtomGroupId" />
           <ScalarProperty Name="AtomId" ColumnName="AtomId" />
           <ScalarProperty Name="ContainedAtomGroupId" ColumnName="ContainedAtomGroupId" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1090,32 +1156,6 @@
         <ScalarProperty Name="RecordId" ColumnName="RecordId" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="AtomGroupAtomGroupItems" TypeName="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" StoreEntitySet="AtomGroupItems">
-      <EndProperty Name="AtomGroup">
-        <ScalarProperty Name="AtomGroupId" ColumnName="AtomGroup_AtomGroupId" />
-      </EndProperty>
-      <EndProperty Name="AtomGroupItems">
-        <ScalarProperty Name="RecordId" ColumnName="RecordId" />
-      </EndProperty>
-      <Condition ColumnName="AtomGroup_AtomGroupId" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="AtomAtomGroupItems" TypeName="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" StoreEntitySet="AtomGroupItems">
-      <EndProperty Name="Atom">
-        <ScalarProperty Name="AtomId" ColumnName="Atom_AtomId" />
-      </EndProperty>
-      <EndProperty Name="AtomGroupItems">
-        <ScalarProperty Name="RecordId" ColumnName="RecordId" />
-      </EndProperty>
-      <Condition ColumnName="Atom_AtomId" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ImplicationAtomGroup" TypeName="PharmacyClaimAdjudicatorModel.ImplicationAtomGroup" StoreEntitySet="AtomGroups">
-      <EndProperty Name="Implication">
-        <ScalarProperty Name="ImplicationId" ColumnName="Implication_ImplicationId" />
-      </EndProperty>
-      <EndProperty Name="AtomGroup">
-        <ScalarProperty Name="AtomGroupId" ColumnName="AtomGroupId" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="RuleRuleImplication" TypeName="PharmacyClaimAdjudicatorModel.RuleRuleImplication" StoreEntitySet="RuleImplications">
       <EndProperty Name="Rule">
         <ScalarProperty Name="RuleId" ColumnName="Rule_RuleId" />
@@ -1147,15 +1187,6 @@
       <EndProperty Name="PlanRules">
         <ScalarProperty Name="PlanRecordId" ColumnName="PlanRecordId" />
       </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="AtomImplication" TypeName="PharmacyClaimAdjudicatorModel.AtomImplication" StoreEntitySet="Implications">
-      <EndProperty Name="Atom">
-        <ScalarProperty Name="AtomId" ColumnName="AtomImplication_Implication_AtomId" />
-      </EndProperty>
-      <EndProperty Name="Implication">
-        <ScalarProperty Name="ImplicationId" ColumnName="ImplicationId" />
-      </EndProperty>
-      <Condition ColumnName="AtomImplication_Implication_AtomId" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
