@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.WPF", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.DataAccess", "PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj", "{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfPlay", "WpfPlay\WpfPlay.csproj", "{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NxBRE", "..\..\..\..\..\learn\Projects\nxbre\NxBRE3\Source\NxBRE.csproj", "{C5A2507E-550E-4EEC-B3C2-A278ECB27E30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.ModernUI", "PharmacyAdjudicator.ModernUI\PharmacyAdjudicator.ModernUI.csproj", "{8D4B6594-0D82-4408-96D8-6E6C78C12A56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +37,14 @@ Global
 		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD5F86B2-0348-4ACA-AF57-5FB7B19E4FDF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5A2507E-550E-4EEC-B3C2-A278ECB27E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5A2507E-550E-4EEC-B3C2-A278ECB27E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5A2507E-550E-4EEC-B3C2-A278ECB27E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5A2507E-550E-4EEC-B3C2-A278ECB27E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D4B6594-0D82-4408-96D8-6E6C78C12A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D4B6594-0D82-4408-96D8-6E6C78C12A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D4B6594-0D82-4408-96D8-6E6C78C12A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D4B6594-0D82-4408-96D8-6E6C78C12A56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

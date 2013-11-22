@@ -86,6 +86,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -107,8 +108,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrappper.cs" />
-    <Compile Include="ViewModels\PatientScreen.xaml.cs">
-      <DependentUpon>PatientScreen.xaml</DependentUpon>
+    <Compile Include="ViewModels\AtomGroupViewModel.cs" />
+    <Compile Include="ViewModels\AtomViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelEdit.cs" />
+    <Compile Include="Views\AtomView.xaml.cs">
+      <DependentUpon>AtomView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PatientWindow.xaml.cs">
       <DependentUpon>PatientWindow.xaml</DependentUpon>
@@ -130,7 +135,7 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Page Include="ViewModels\PatientScreen.xaml">
+    <Page Include="Views\AtomView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -193,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fonts\" />
+    <Folder Include="Patient\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
