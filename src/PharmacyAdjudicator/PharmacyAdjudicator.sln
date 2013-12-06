@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.Library
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.LibraryTests", "PharmacyAdjudicator.LibraryTests\PharmacyAdjudicator.LibraryTests.csproj", "{CBB80456-CF7E-4206-B29D-616B31C67D94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.WPF", "PharmacyAdjudicator.WPF\PharmacyAdjudicator.WPF.csproj", "{12C8426F-F0C1-460D-892C-17805ABA0B39}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAdjudicator.DataAccess", "PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj", "{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NxBRE", "..\..\..\..\..\learn\Projects\nxbre\NxBRE3\Source\NxBRE.csproj", "{C5A2507E-550E-4EEC-B3C2-A278ECB27E30}"
@@ -29,10 +27,6 @@ Global
 		{CBB80456-CF7E-4206-B29D-616B31C67D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBB80456-CF7E-4206-B29D-616B31C67D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBB80456-CF7E-4206-B29D-616B31C67D94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12C8426F-F0C1-460D-892C-17805ABA0B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12C8426F-F0C1-460D-892C-17805ABA0B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12C8426F-F0C1-460D-892C-17805ABA0B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12C8426F-F0C1-460D-892C-17805ABA0B39}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9467E711-A5D6-435A-BE7D-CD36DD21C8C0}.Release|Any CPU.ActiveCfg = Release|Any CPU

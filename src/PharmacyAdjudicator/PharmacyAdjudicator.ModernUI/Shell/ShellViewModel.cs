@@ -19,12 +19,10 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         }
 
         public LinkGroupCollection MenuLinkGroups { get; set; }
-        private bool _wasAuthenticated = false;
         private LinkCollection _titleLinks;
         public LinkCollection TitleLinks
         {
-            get
-            {
+            get {
                 return _titleLinks;
             }
             private set
