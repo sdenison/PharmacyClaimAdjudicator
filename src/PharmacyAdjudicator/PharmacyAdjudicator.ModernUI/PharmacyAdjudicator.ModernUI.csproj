@@ -73,6 +73,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EventMessages\LoginChangedMessage.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -100,6 +101,7 @@
       <DependentUpon>WelcomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Welcome\WelcomeViewModel.cs" />
+    <Compile Include="Xaml\PasswordBinder.cs" />
     <Page Include="Login\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

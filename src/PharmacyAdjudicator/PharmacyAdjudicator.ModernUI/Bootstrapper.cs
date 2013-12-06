@@ -38,10 +38,16 @@ namespace PharmacyAdjudicator.ModernUI
                 @"(([A-Za-z_]\w*\.)*)?ViewModels\.([A-Za-z_]\w*\.)*[A-Za-z_]\w*ViewModel$"
             );
 
+            //_container = new CompositionContainer(
+            //        new AggregateCatalog(
+            //        new AssemblyCatalog(typeof(IShellViewModel).Assembly),
+            //        AssemblySource.Instance.Select(x => new AssemblyCatalog(x)).OfType<ComposablePartCatalog>().FirstOrDefault()
+            //    )
+            //);
+
             _container = new CompositionContainer(
                     new AggregateCatalog(
-                    new AssemblyCatalog(typeof(IShellViewModel).Assembly),
-                    AssemblySource.Instance.Select(x => new AssemblyCatalog(x)).OfType<ComposablePartCatalog>().FirstOrDefault()
+                    new AssemblyCatalog(typeof(IShellViewModel).Assembly)
                 )
             );
 

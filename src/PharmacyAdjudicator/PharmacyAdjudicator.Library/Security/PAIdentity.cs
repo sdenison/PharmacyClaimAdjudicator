@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Csla;
 using Csla.Serialization;
 using Csla.Security;
@@ -17,6 +18,11 @@ namespace PharmacyAdjudicator.Library.Security
             DataPortal.BeginFetch<PAIdentity>(new UsernameCriteria(username, password), callback);
         }
 
+        public static async Task<PAIdentity> GetPAIdentityAsync(string username, string password)
+        {
+            return await DataPortal.FetchAsync<PAIdentity>(new UsernameCriteria(username, password));
+        }
+
 #if !SILVERLIGHT && !NETFX_CORE && !WINDOWS_PHONE
         public static PAIdentity GetPAIdentity(string username, string password)
         {
@@ -28,22 +34,42 @@ namespace PharmacyAdjudicator.Library.Security
             return DataPortal.Fetch<PAIdentity>(username);
         }
 
-        private void DataPortal_Fetch(string username, string password)
+        private void DataPortal_Fetch(UsernameCriteria criteria)
         {
+            var username = criteria.Username.ToLower();
+            var password = criteria.Password.ToLower();
             try
             {
-                if (Membership.ValidateUser(username, password))
+                base.IsAuthenticated = false;
+                //Faking logins until AspNet.Identity is finished or good identity management system is found.
+                if (username.Equals("sam") || username.Equals("manager") || username.Equals("admin"))
                 {
-                    var user = Membership.GetUser(username);
-                    base.Name = username;
-                    base.IsAuthenticated = true;
-                    base.AuthenticationType = "Membership";
-                    //Just testing
-                    //TODO: Add real user management here
-                    base.Roles = new Csla.Core.MobileList<string>();
-                    base.Roles.Add("Manager");
+                    if (password.Equals("password"))
+                    {
+                        base.Name = username;
+                        base.IsAuthenticated = true;
+                        base.AuthenticationType = "Custom";
+
+                        base.Roles = new Csla.Core.MobileList<string>();
+
+                        switch (username)
+                        {
+                            case "sam":
+                                base.Roles.Add("User");
+                                break;
+                            case "manager":
+                                base.Roles.Add("Admin");
+                                base.Roles.Add("Manager");
+                                break;
+                            case "admin":
+                                base.Roles.Add("Admin");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
-                else
+                if (base.IsAuthenticated == false)
                 {
                     base.Name = string.Empty;
                     base.IsAuthenticated = false;

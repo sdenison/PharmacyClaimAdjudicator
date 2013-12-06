@@ -6,7 +6,7 @@ using Csla.Serialization;
 namespace PharmacyAdjudicator.Library.Security
 {
     [Serializable]
-    class PAPrincipal : CslaPrincipal
+    public class PAPrincipal : CslaPrincipal
     {
         public PAPrincipal()
         {
@@ -17,15 +17,17 @@ namespace PharmacyAdjudicator.Library.Security
         {
         }
 
-        public static void BeginLogin(string username, string password)
+        public static async System.Threading.Tasks.Task LoginAsync(string username, string password)
         {
-            PAIdentity.GetPAIdentity(username, password, (o, e) =>
-                {
-                    if (e.Error == null && e.Object != null)
-                        SetPrincipal(e.Object);
-                    else
-                        Logout();
-                });
+            try
+            {
+                var identity = await PAIdentity.GetPAIdentityAsync(username, password);
+                SetPrincipal(identity);
+            }
+            catch
+            {
+                Logout();
+            }
         }
 
 #if !SILVERLIGHT && !NETFX_CORE
@@ -48,6 +50,10 @@ namespace PharmacyAdjudicator.Library.Security
             {
                 PAPrincipal principal = new PAPrincipal(identity);
                 Csla.ApplicationContext.User = principal;
+            }
+            else
+            {
+                Csla.ApplicationContext.User = new UnauthenticatedPrincipal();
             }
             OnNewUser();
             return identity.IsAuthenticated;

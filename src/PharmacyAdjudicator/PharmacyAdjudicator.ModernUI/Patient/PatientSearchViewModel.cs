@@ -13,9 +13,9 @@ namespace PharmacyAdjudicator.ModernUI.Patient
     {
         public string LastNameSearchString { get; set; } 
 
-        public PatientViewModel Search()
-        {
+        //public PatientViewModel Search()
+        //{
 
-        }
+        //}
     }
 }
