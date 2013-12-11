@@ -43,11 +43,19 @@
     <Reference Include="CslaContrib.Caliburn.Micro">
       <HintPath>..\packages\CslaContrib-Caliburn.Micro.WPF.4.5.30\lib\net45\CslaContrib.Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="FirstFloor.ModernUI">
-      <HintPath>..\packages\ModernUI.WPF.1.0.5\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.0-rc1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0-rc1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -73,25 +81,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EventMessages\DisplayViewModelMessage.cs" />
     <Compile Include="EventMessages\LoginChangedMessage.cs" />
+    <Compile Include="EventMessages\NavigateGoBackMessage.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Interface\INavigationService.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Login\LoginViewModel.cs" />
-    <Compile Include="Patient\PatientSearchResultView.xaml.cs">
-      <DependentUpon>PatientSearchResultView.xaml</DependentUpon>
+    <Compile Include="Patient\PatientEditView.xaml.cs">
+      <DependentUpon>PatientEditView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Patient\PatientSearchResultViewModel.cs" />
-    <Compile Include="Patient\PatientSearchView.xaml.cs">
-      <DependentUpon>PatientSearchView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Patient\PatientSearchViewModel.cs" />
-    <Compile Include="Patient\PatientView.xaml.cs">
-      <DependentUpon>PatientView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Patient\PatientViewModel.cs" />
+    <Compile Include="Patient\PatientEditViewModel.cs" />
     <Compile Include="Services\CaliburnContentLoader.cs" />
+    <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Shell\IShellViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -137,15 +141,7 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Page Include="Patient\PatientSearchResultView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Patient\PatientSearchView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Patient\PatientView.xaml">
+    <Page Include="Patient\PatientEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,10 +159,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\Downloads\mui-102578\1.0\FirstFloor.ModernUI\FirstFloor.ModernUI\FirstFloor.ModernUI.csproj">
+      <Project>{9a653a28-fe46-40e8-a14f-48b0e325165d}</Project>
+      <Name>FirstFloor.ModernUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj">
+      <Project>{9467e711-a5d6-435a-be7d-cd36dd21c8c0}</Project>
+      <Name>PharmacyAdjudicator.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PharmacyAdjudicator.Library\PharmacyAdjudicator.Library.csproj">
       <Project>{c350b73e-0d48-4dd0-b320-e68261e3418f}</Project>
       <Name>PharmacyAdjudicator.Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

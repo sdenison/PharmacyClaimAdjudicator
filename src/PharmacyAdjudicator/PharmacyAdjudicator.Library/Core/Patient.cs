@@ -149,7 +149,7 @@ namespace PharmacyAdjudicator.Library.Core
         public static void AddObjectAuthorizationRules()
         {
             //Requires that the user be in the RuleManager role to create, edit or delete an Patient object
-            //Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.GetObject, "RuleManager"));
+            Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.GetObject, "RuleManager", "User"));
             Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.CreateObject, "RuleManager"));
             Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.EditObject, "RuleManager"));
             Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.DeleteObject, "RuleManager"));

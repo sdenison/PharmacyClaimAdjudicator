@@ -166,7 +166,7 @@
     <Property Name="Trade" Type="nvarchar(max)" Nullable="false" />
     <Property Name="VaProduct" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IDateVap" Type="datetime" Nullable="true" />
-    <Property Name="ProductNu" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ProductNu" Type="nvarchar(max)" Nullable="true" />
     <Property Name="FeeDer" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Generic" Type="nvarchar(max)" Nullable="false" />
     <Property Name="PkgSz" Type="decimal" Nullable="false" />
@@ -696,7 +696,7 @@
           <Property Name="Trade" Type="String" Nullable="false" />
           <Property Name="VaProduct" Type="String" Nullable="false" />
           <Property Name="IDateVap" Type="DateTime" Nullable="true" />
-          <Property Name="ProductNu" Type="String" Nullable="false" />
+          <Property Name="ProductNu" Type="String" Nullable="true" />
           <Property Name="FeeDer" Type="String" Nullable="false" />
           <Property Name="Generic" Type="String" Nullable="false" />
           <Property Name="PkgSz" Type="Decimal" Nullable="false" />

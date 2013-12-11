@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/14/2013 14:31:24
+-- Date Created: 12/06/2013 12:44:59
 -- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -85,9 +85,9 @@ GO
 IF OBJECT_ID(N'[dbo].[PatientGroups]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PatientGroups];
 GO
-IF OBJECT_ID(N'[dbo].[VaDrugs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[VaDrugs];
-GO
+--IF OBJECT_ID(N'[dbo].[VaDrugs]', 'U') IS NOT NULL
+--    DROP TABLE [dbo].[VaDrugs];
+--GO
 IF OBJECT_ID(N'[dbo].[Plans]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Plans];
 GO
@@ -200,7 +200,7 @@ CREATE TABLE [dbo].[VaDrugs] (
     [Trade] nvarchar(max)  NOT NULL,
     [VaProduct] nvarchar(max)  NOT NULL,
     [IDateVap] datetime  NULL,
-    [ProductNu] nvarchar(max)  NOT NULL,
+    [ProductNu] nvarchar(max)  NULL,
     [FeeDer] nvarchar(max)  NOT NULL,
     [Generic] nvarchar(max)  NOT NULL,
     [PkgSz] decimal(18,0)  NOT NULL,

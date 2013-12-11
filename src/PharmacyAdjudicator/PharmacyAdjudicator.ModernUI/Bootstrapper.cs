@@ -32,11 +32,11 @@ namespace PharmacyAdjudicator.ModernUI
         protected override void Configure()
         {
             // Add New ViewLocator Rule
-            ViewLocator.NameTransformer.AddRule(
-                @"(?<nsbefore>([A-Za-z_]\w*\.)*)?(?<nsvm>ViewModels\.)(?<nsafter>([A-Za-z_]\w*\.)*)(?<basename>[A-Za-z_]\w*)(?<suffix>ViewModel$)",
-                @"${nsbefore}Views.${nsafter}${basename}View",
-                @"(([A-Za-z_]\w*\.)*)?ViewModels\.([A-Za-z_]\w*\.)*[A-Za-z_]\w*ViewModel$"
-            );
+            //ViewLocator.NameTransformer.AddRule(
+            //    @"(?<nsbefore>([A-Za-z_]\w*\.)*)?(?<nsvm>ViewModels\.)(?<nsafter>([A-Za-z_]\w*\.)*)(?<basename>[A-Za-z_]\w*)(?<suffix>ViewModel$)",
+            //    @"${nsbefore}Views.${nsafter}${basename}View",
+            //    @"(([A-Za-z_]\w*\.)*)?ViewModels\.([A-Za-z_]\w*\.)*[A-Za-z_]\w*ViewModel$"
+            //);
 
             //_container = new CompositionContainer(
             //        new AggregateCatalog(
@@ -54,6 +54,7 @@ namespace PharmacyAdjudicator.ModernUI
             var batch = new CompositionBatch();
             batch.AddExport<IWindowManager>(() => new WindowManager());
             batch.AddExport<IEventAggregator>(() => new EventAggregator());
+            batch.AddExport<Interface.INavigationService>(() => new Services.NavigationService());
             _container.Compose(batch);
         }
 

@@ -7,7 +7,8 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:myx="clr-namespace:PharmacyAdjudicator.ModernUI.Xaml"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="LoginViewInstance">
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
@@ -39,7 +40,9 @@
                                      myx:PasswordBinder.Password="{Binding Path=Password, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}" /> <!-- ="{Binding LastName, Mode=TwoWay, ValidatesOnDataErrors=True}"/> -->
                     </StackPanel>
                     <StackPanel>
-                        <Button x:Name="LoginUser" Content="Login" Margin="100,16,0,0" HorizontalAlignment="Left" />
+                        <Button x:Name="LoginUser" Content="Login" Margin="100,16,0,0" HorizontalAlignment="Left">
+                            
+                        </Button>
                         <Button x:Name="Cancel" Content="Cancel" Margin="5,16,0,0" HorizontalAlignment="Left" />
                     </StackPanel>
                 </StackPanel>

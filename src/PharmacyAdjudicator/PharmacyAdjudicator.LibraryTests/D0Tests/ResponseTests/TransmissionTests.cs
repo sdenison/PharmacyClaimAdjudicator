@@ -40,6 +40,15 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             }
         }
 
+        [TestInitialize()]
+        public void Setup()
+        {
+            var principal = new System.Security.Principal.GenericPrincipal(
+                new System.Security.Principal.GenericIdentity("Test"),
+                new string[] { "RuleManager" });
+            Csla.ApplicationContext.User = principal;
+        }
+
         #region Additional test attributes
         //
         // You can use the following additional attributes as you write your tests:

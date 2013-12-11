@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
     /// <summary>
-    /// Interaction logic for PatientView.xaml
+    /// Interaction logic for PatientEditView.xaml
     /// </summary>
-    public partial class PatientView : UserControl
+    public partial class PatientEditView : UserControl
     {
-        public PatientView()
+        public PatientEditView()
         {
             InitializeComponent();
         }
