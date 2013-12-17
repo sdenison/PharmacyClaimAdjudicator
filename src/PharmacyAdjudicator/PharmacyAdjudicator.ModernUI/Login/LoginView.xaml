@@ -40,7 +40,7 @@
                                      myx:PasswordBinder.Password="{Binding Path=Password, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}" /> <!-- ="{Binding LastName, Mode=TwoWay, ValidatesOnDataErrors=True}"/> -->
                     </StackPanel>
                     <StackPanel>
-                        <Button x:Name="LoginUser" Content="Login" Margin="100,16,0,0" HorizontalAlignment="Left">
+                        <Button x:Name="LoginUser" IsDefault="True" Content="Login" Margin="100,16,0,0" HorizontalAlignment="Left">
                             
                         </Button>
                         <Button x:Name="Cancel" Content="Cancel" Margin="5,16,0,0" HorizontalAlignment="Left" />

@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\PatientSearchCriteria.cs" />
     <Compile Include="Core\Rules\Atom.cs" />
     <Compile Include="Core\Rules\AtomGroup.cs" />
     <Compile Include="Core\Rules\AtomList.cs" />

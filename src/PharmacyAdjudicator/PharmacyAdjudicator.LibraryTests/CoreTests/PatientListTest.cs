@@ -87,7 +87,17 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
             patients.Save();
 
             Assert.IsTrue(patient.FirstName.Equals("Joe"), "First name not updated to John");
+        }
 
+        [TestMethod]
+        public void Can_use_search_criteria_to_return_PatientList()
+        {
+            var criteria = new Library.Core.PatientSearchCriteria();
+            criteria.PatientLastName = "Smith";
+            var matchingPatients = Library.Core.PatientList.GetBySearchObject(criteria);
+
+            Assert.IsNotNull(matchingPatients);
+            Assert.IsTrue(matchingPatients.Count > 0, "Expecting more than one result while searching for last name Smith");
         }
     }
 }

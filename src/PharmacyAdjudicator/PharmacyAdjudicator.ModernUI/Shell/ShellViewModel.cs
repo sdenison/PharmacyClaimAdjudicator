@@ -9,11 +9,12 @@ using System.Windows.Input;
 
 namespace PharmacyAdjudicator.ModernUI.Shell
 {
-    public class ShellViewModel : 
+    public class ShellViewModel : Conductor<IScreen>.Collection.OneActive, 
         IShellViewModel, 
         IHandle<EventMessages.LoginChangedMessage>,
         IHandle<EventMessages.DisplayViewModelMessage>,
-        IHandle<EventMessages.NavigateGoBackMessage>
+        IHandle<EventMessages.NavigateGoBackMessage>,
+        IHandle<EventMessages.PatientSearchResultsMessage>
     {
         [ImportingConstructor]
         public ShellViewModel(IEventAggregator events) : this()
@@ -44,6 +45,12 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             navService.Navigate<Welcome.WelcomeViewModel>();
         }
 
+        public void Handle(EventMessages.PatientSearchResultsMessage message)
+        {
+            var navService = AppBootstrapper.GetInstance<Interface.INavigationService>();
+            navService.Navigate<Patient.PatientFindAndEditViewModel>(message.PatientSearchResults);
+        }
+
         public LinkGroupCollection MenuLinkGroups { get; set; }
         private LinkCollection _titleLinks;
         public LinkCollection TitleLinks
@@ -68,9 +75,10 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         private LinkGroup PatientLinkGroup()
         {
             var patientLinkGroup = new LinkGroup { DisplayName = "Patient" };
-            var patientLink = new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) };
+            //var patientLink = new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) };
 
-            patientLinkGroup.Links.Add(patientLink);
+            patientLinkGroup.Links.Add(new Link { DisplayName = "Search", Source = new Uri("/Patient/PatientSearchView.xaml", UriKind.Relative) });
+            patientLinkGroup.Links.Add(new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) });
 
             return patientLinkGroup;
         }

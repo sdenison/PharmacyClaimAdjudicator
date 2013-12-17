@@ -19,5 +19,10 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             //For development
             this.Model = Library.Core.Patient.GetByPatientId(22);
         }
+
+        public PatientEditViewModel(Library.Core.Patient existingPatient)
+        {
+            this.Model = existingPatient;
+        }
     }
 }
