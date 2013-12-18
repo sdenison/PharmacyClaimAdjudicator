@@ -75,11 +75,8 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         private LinkGroup PatientLinkGroup()
         {
             var patientLinkGroup = new LinkGroup { DisplayName = "Patient" };
-            //var patientLink = new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) };
-
             patientLinkGroup.Links.Add(new Link { DisplayName = "Search", Source = new Uri("/Patient/PatientSearchView.xaml", UriKind.Relative) });
             patientLinkGroup.Links.Add(new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) });
-
             return patientLinkGroup;
         }
 
@@ -90,41 +87,19 @@ namespace PharmacyAdjudicator.ModernUI.Shell
                 var welcomeLinkGroup = new LinkGroup { DisplayName = "Welcome" };
                 var welcomeLink = new Link { DisplayName = "Welcome", Source = new Uri("/Welcome/WelcomeView.xaml", UriKind.Relative) };
                 welcomeLinkGroup.Links.Add(welcomeLink);
-
                 this.MenuLinkGroups.Add(welcomeLinkGroup);
-
                 if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(Library.Core.Patient)))
-                {
                     this.MenuLinkGroups.Add(PatientLinkGroup());
-                }
             }
             else
             {
                 if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(Library.Core.Patient)))
-                {
                     if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
-                    {
                         this.MenuLinkGroups.Add(PatientLinkGroup());
-                    }
-                }
                 else
-                {
                     if (MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
-                    {
                         this.MenuLinkGroups.Remove(MenuLinkGroups.FirstOrDefault(l => l.DisplayName.Equals("Patient")));
-                    }
-                }
             }
-
-            //if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(Library.Core.Patient)))
-            //{
-            //    var patientLinkGroup = new LinkGroup { DisplayName = "Patient" };
-            //    var patientLink = new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) };
-            
-            //    patientLinkGroup.Links.Add(patientLink);
-
-            //    this.MenuLinkGroups.Add(patientLinkGroup);
-            //}
 
             if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Settings")))
             {

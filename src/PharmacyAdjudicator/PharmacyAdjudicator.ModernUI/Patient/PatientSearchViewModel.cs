@@ -74,7 +74,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         public ObservableCollection<Library.Core.Patient> Results
         {
             get { return _results; }
-            set { _results = value;  }
+            set { _results = value; NotifyOfPropertyChange("Results"); }
         }
 
         [ImportingConstructor]
@@ -130,24 +130,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             patientSearchResutls.ToList().ForEach(p => _results.Add(p));
             this.PatientListLinks = ConvertPatientList(patientSearchResutls);
             this.PatientContentLoader = new PatientContentLoader(patientSearchResutls);
-            
-            //this.Results = new ObservableCollection<Library.Core.Patient>(patientSearchResutls);
-            //_eventAggregator.Publish(new EventMessages.PatientSearchResultsMessage() { PatientSearchResults = patientSearchResutls });
         }
-
-
-        //public event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged;
-
-
-        //private void OnPropertyChanged<T>([CallerMemberName]string caller = null)
-        //{
-        //    var handler = PropertyChanged;
-        //    if (handler != null)
-        //    {
-        //        handler(this, new PropertyChangedEventArgs(caller));
-        //    }
-
-        //}
     }
 
     public class PatientContentLoader : IContentLoader

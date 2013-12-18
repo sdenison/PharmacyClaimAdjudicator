@@ -86,6 +86,7 @@
     <Compile Include="EventMessages\NavigateGoBackMessage.cs" />
     <Compile Include="EventMessages\PatientSearchResultsMessage.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Interface\IDialog.cs" />
     <Compile Include="Interface\INavigationService.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -105,6 +106,7 @@
     </Compile>
     <Compile Include="Patient\PatientSearchViewModel.cs" />
     <Compile Include="Services\CaliburnContentLoader.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Shell\IShellViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">

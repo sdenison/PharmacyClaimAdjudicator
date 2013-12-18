@@ -88,7 +88,7 @@ namespace PharmacyAdjudicator.Library.Core
         }
 
 
-        public static readonly PropertyInfo<string> GenderProperty = RegisterProperty<string>(p => p.Gender);
+        public static readonly PropertyInfo<Enums.Gender> GenderProperty = RegisterProperty<Enums.Gender>(p => p.Gender);
         /// <summary>
         /// Patient Gender
         /// </summary>
@@ -96,7 +96,7 @@ namespace PharmacyAdjudicator.Library.Core
         /// NCPDP 310-CA
         /// </value>
         [Display(Name = "Gender")]
-        public string Gender
+        public Enums.Gender Gender
         {
             get { return GetProperty(GenderProperty); }
             set { SetProperty(GenderProperty, value); }
@@ -476,7 +476,7 @@ namespace PharmacyAdjudicator.Library.Core
             this.DateOfBirth = patientData.BirthDate;
             this.PersonCode = patientData.PersonCode;
             this.PatientRelationshipCode = patientData.PatientRelationshipCode;
-            this.Gender = patientData.Gender;
+            this.Gender = string.IsNullOrWhiteSpace(patientData.Gender) ? Enums.Gender.NotSet : (Enums.Gender)int.Parse(patientData.Gender);
             this._RecordId = patientData.RecordId;
         }
 
@@ -532,7 +532,7 @@ namespace PharmacyAdjudicator.Library.Core
             patientData.BirthDate = this.DateOfBirth.Value;
             patientData.PersonCode = this.PersonCode;
             patientData.PatientRelationshipCode = this.PatientRelationshipCode;
-            patientData.Gender = this.Gender;
+            patientData.Gender = ((int)this.Gender).ToString();
             patientData.Retraction = false;
             patientData.RecordCreatedDateTime = DateTime.Now;
             patientData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;

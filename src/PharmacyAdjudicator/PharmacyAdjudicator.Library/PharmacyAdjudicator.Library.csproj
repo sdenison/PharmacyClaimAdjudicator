@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\PatientSearchCriteria.cs" />
     <Compile Include="Core\Rules\Atom.cs" />
     <Compile Include="Core\Rules\AtomGroup.cs" />

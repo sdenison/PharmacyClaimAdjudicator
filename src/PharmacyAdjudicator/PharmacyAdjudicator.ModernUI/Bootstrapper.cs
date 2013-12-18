@@ -55,6 +55,7 @@ namespace PharmacyAdjudicator.ModernUI
             batch.AddExport<IWindowManager>(() => new WindowManager());
             batch.AddExport<IEventAggregator>(() => new EventAggregator());
             batch.AddExport<Interface.INavigationService>(() => new Services.NavigationService());
+            batch.AddExport<Interface.IDialog>(() => new Services.DialogService());
             _container.Compose(batch);
         }
 

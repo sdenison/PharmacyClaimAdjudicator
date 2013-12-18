@@ -58,18 +58,9 @@
             </StackPanel>
         </ScrollViewer>
         <StackPanel Grid.Column="1" Orientation="Vertical">
-            <!--<StackPanel Orientation="Horizontal" >
-                <Label Content="First Name" Target="{Binding ElementName=SelectedItemFirstName}" Padding="0,0,6,0"/>
-                <TextBox Width="150" Text="{Binding Path=SelectedPatientFirstName, Mode=OneWay}"/>
-            </StackPanel>-->
-            <!--<ContentControl Content="{Binding SelectedPatientViewModel}"></ContentControl>-->
-            
             <Grid>
-                <mui:ModernTab SelectedSource="0" Layout="List" Links="{Binding Path=PatientListLinks}" ContentLoader="{Binding Path=PatientContentLoader}">
-                    
-                </mui:ModernTab>
+                <mui:ModernTab SelectedSource="0" Layout="List" Links="{Binding Path=PatientListLinks}" ContentLoader="{Binding Path=PatientContentLoader}" />
             </Grid>
-            
         </StackPanel>
     </Grid>
 </UserControl>

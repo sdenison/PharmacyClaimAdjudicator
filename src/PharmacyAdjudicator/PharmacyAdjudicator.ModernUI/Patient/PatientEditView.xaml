@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:myenums="clr-namespace:PharmacyAdjudicator.Library.Core.Enums"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Style="{StaticResource ContentRoot}">
@@ -41,8 +42,8 @@
                         <TextBox x:Name="LastName" Width="150" Text="{Binding Path=Model.LastName, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Gender" Target="{Binding ElementName=Gender}" />
-                        <TextBox x:Name="Gender" Width="150" Text="{Binding Path=Model.Gender, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                        <Label Content="Gender" Target="{Binding ElementName=GenderComboBox}" />
+                        <ComboBox SelectedItem="{Binding Path=Model.Gender}" ItemsSource="{Binding Path=GenderValues}" />
                     </StackPanel>
                     <StackPanel>
                         <Label Content="Cardholder ID" Target="{Binding ElementName=CardholderId}" />
