@@ -7,7 +7,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:myenums="clr-namespace:PharmacyAdjudicator.Library.Core.Enums"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="400">
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
@@ -19,7 +19,7 @@
                             <Setter Property="Margin" Value="0,0,0,4" />
                         </Style>
                         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-                            <Setter Property="Width" Value="100" />
+                            <Setter Property="Width" Value="120" />
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
@@ -46,14 +46,25 @@
                         <ComboBox SelectedItem="{Binding Path=Model.Gender}" ItemsSource="{Binding Path=GenderValues}" />
                     </StackPanel>
                     <StackPanel>
+                        <Label Content="Date of Birth" Target="{Binding ElementName=DateOfBirth}" />
+                        <DatePicker x:Name="DateOfBirth" Width="150" SelectedDate="{Binding Path=Model.DateOfBirth, Mode=TwoWay, ValidatesOnDataErrors=True}" />
+                    </StackPanel>
+                    <StackPanel>
                         <Label Content="Cardholder ID" Target="{Binding ElementName=CardholderId}" />
                         <TextBox x:Name="CardholderId" Width="150" Text="{Binding Path=Model.CardholderId, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="DateOfBirth" Target="{Binding ElementName=DateOfBirth}" />
-                        <DatePicker x:Name="DateOfBirth" Width="150" SelectedDate="{Binding Path=Model.DateOfBirth, Mode=TwoWay, ValidatesOnDataErrors=True}" />
+                        <Label Content="Person Code" Target="{Binding ElementName=PersonCode}" />
+                        <TextBox x:Name="PersonCode" Width="50" Text="{Binding Path=Model.PersonCode, Mode=TwoWay, ValidatesOnDataErrors=True}" />
                     </StackPanel>
-                    <Button x:Name="Save" Content="Save" Margin="100, 16, 0,0" HorizontalAlignment="Left" Visibility="{Binding Path=IsChild}"/>
+                    <StackPanel>
+                        <Label Content="Relationship Code" Target="{Binding ElementName=RelationshipCode}" />
+                        <TextBox x:Name="RelationshipCode" Width="50" Text="{Binding Path=Model.PatientRelationshipCode, Mode=TwoWay, ValidatesOnDataErrors=True}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="Save" Content="Save" Margin="120, 16, 0,0" HorizontalAlignment="Left" Visibility="{Binding Path=IsChild}"/>
+                        <Button x:Name="NewWindow" Content="New Window" Margin="8, 16, 0,0" HorizontalAlignment="Left" Visibility="{Binding Path=IsChild}"/>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

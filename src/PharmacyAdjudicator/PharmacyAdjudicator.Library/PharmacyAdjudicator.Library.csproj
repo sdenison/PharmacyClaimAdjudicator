@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\DynamicRoot1.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\PatientDynamicList.cs" />
     <Compile Include="Core\PatientSearchCriteria.cs" />
