@@ -90,6 +90,22 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void Individual_patient_from_list_cannot_use_its_own_save_method()
+        {
+            PatientList patients = PatientList.GetAll();
+            Patient patient = patients[2];
+
+            Assert.IsTrue(patient.FirstName.Equals("Richard"), "First name not equal to Joe");
+
+            patient.FirstName = "Joe";
+            //Will throw exception because patient is a child object.
+            patient.Save();
+
+            Assert.IsTrue(patient.FirstName.Equals("Joe"), "First name not updated to John");
+        }
+
+        [TestMethod]
         public void Can_use_search_criteria_to_return_PatientList()
         {
             var criteria = new Library.Core.PatientSearchCriteria();
@@ -98,6 +114,17 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
 
             Assert.IsNotNull(matchingPatients);
             Assert.IsTrue(matchingPatients.Count > 0, "Expecting more than one result while searching for last name Smith");
+        }
+
+        [TestMethod]
+        public void Can_search_for_patients_by_groupid()
+        {
+            var criteria = new Library.Core.PatientSearchCriteria();
+            criteria.GroupId = "Group1";
+            var matchingPatients = Library.Core.PatientList.GetBySearchObject(criteria);
+
+            Assert.IsNotNull(matchingPatients);
+            Assert.IsTrue(matchingPatients.Count > 0, "Expecting at least one result for Group1");
         }
     }
 }

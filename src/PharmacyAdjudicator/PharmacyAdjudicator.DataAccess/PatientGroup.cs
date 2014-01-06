@@ -18,11 +18,11 @@ namespace PharmacyAdjudicator.DataAccess
         public System.DateTime EffectiveDate { get; set; }
         public System.DateTime ExpirationDate { get; set; }
         public bool Retraction { get; set; }
-        public int OriginalFactRecordId { get; set; }
+        public Nullable<int> OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
         public int PatientId { get; set; }
-        public int GroupId { get; set; }
+        public string GroupId { get; set; }
     
         public virtual Group Group { get; set; }
         public virtual Patient Patient { get; set; }

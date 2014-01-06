@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/06/2013 12:44:59
+-- Date Created: 12/20/2013 18:04:38
 -- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -125,7 +125,7 @@ GO
 
 -- Creating table 'Groups'
 CREATE TABLE [dbo].[Groups] (
-    [GroupId] int IDENTITY(1,1) NOT NULL,
+    [GroupId] nvarchar(20)  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
@@ -135,12 +135,11 @@ GO
 CREATE TABLE [dbo].[GroupFacts] (
     [RecordId] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(100)  NOT NULL,
-    [ShortName] nvarchar(100)  NOT NULL,
     [Retraction] bit  NOT NULL,
     [OriginalFactRecordId] int  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
-    [GroupId] int  NOT NULL,
+    [GroupId] nvarchar(20)  NOT NULL,
     [PlanId] nvarchar(20)  NOT NULL,
     [EffectiveDate] datetime  NOT NULL,
     [ExpirationDate] datetime  NOT NULL,
@@ -181,11 +180,11 @@ CREATE TABLE [dbo].[PatientGroups] (
     [EffectiveDate] datetime  NOT NULL,
     [ExpirationDate] datetime  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] int  NOT NULL,
+    [OriginalFactRecordId] int  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
     [PatientId] int  NOT NULL,
-    [GroupId] int  NOT NULL
+    [GroupId] nvarchar(20)  NOT NULL
 );
 GO
 

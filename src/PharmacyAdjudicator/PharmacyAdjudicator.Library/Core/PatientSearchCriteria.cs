@@ -24,5 +24,19 @@ namespace PharmacyAdjudicator.Library.Core
             get { return ReadProperty(PatientFirstNameProperty); }
             set { LoadProperty(PatientFirstNameProperty, value); }
         }
+
+        public static readonly PropertyInfo<string> CardholderIdProperty = RegisterProperty<string>(c => c.CardholderId);
+        public string CardholderId
+        {
+            get { return ReadProperty(CardholderIdProperty); }
+            set { LoadProperty(CardholderIdProperty, value); }
+        }
+
+        public static readonly PropertyInfo<string> GroupIdProperty = RegisterProperty<string>(c => c.GroupId);
+        public string GroupId
+        {
+            get { return ReadProperty(GroupIdProperty); }
+            set { LoadProperty(GroupIdProperty, value); }
+        }
     }
 }

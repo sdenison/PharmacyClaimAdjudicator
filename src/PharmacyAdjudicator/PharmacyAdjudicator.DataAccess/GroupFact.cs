@@ -16,12 +16,11 @@ namespace PharmacyAdjudicator.DataAccess
     {
         public int RecordId { get; set; }
         public string Name { get; set; }
-        public string ShortName { get; set; }
         public bool Retraction { get; set; }
         public int OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
-        public int GroupId { get; set; }
+        public string GroupId { get; set; }
         public string PlanId { get; set; }
         public System.DateTime EffectiveDate { get; set; }
         public System.DateTime ExpirationDate { get; set; }

@@ -91,7 +91,7 @@
     <Key>
       <PropertyRef Name="GroupId" />
     </Key>
-    <Property Name="GroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GroupId" Type="nvarchar" StoreGeneratedPattern="Identity" Nullable="false" MaxLength="20" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
   </EntityType>
@@ -101,12 +101,11 @@
     </Key>
     <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="ShortName" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
     <Property Name="OriginalFactRecordId" Type="int" Nullable="false" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
-    <Property Name="GroupId" Type="int" Nullable="false" />
+    <Property Name="GroupId" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="PlanId" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="EffectiveDate" Type="datetime" Nullable="false" />
     <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
@@ -147,11 +146,11 @@
     <Property Name="EffectiveDate" Type="datetime" Nullable="false" />
     <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
-    <Property Name="OriginalFactRecordId" Type="int" Nullable="false" />
+    <Property Name="OriginalFactRecordId" Type="int" Nullable="true" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="PatientId" Type="int" Nullable="false" />
-    <Property Name="GroupId" Type="int" Nullable="false" />
+    <Property Name="GroupId" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <EntityType Name="VaDrugs">
     <Key>
@@ -565,7 +564,7 @@
           <Key>
             <PropertyRef Name="GroupId" />
           </Key>
-          <Property Name="GroupId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupId" Type="String" Nullable="false" p1:StoreGeneratedPattern="Identity" MaxLength="20" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="GroupFacts" Relationship="PharmacyClaimAdjudicatorModel.FKGroupFacts397517" FromRole="Group" ToRole="GroupFacts" />
@@ -577,12 +576,11 @@
           </Key>
           <Property Name="RecordId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
           <Property Name="OriginalFactRecordId" Type="Int32" Nullable="false" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
-          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="String" Nullable="false" MaxLength="20" />
           <NavigationProperty Name="Group" Relationship="PharmacyClaimAdjudicatorModel.FKGroupFacts397517" FromRole="GroupFacts" ToRole="Group" />
           <Property Name="PlanId" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="EffectiveDate" Type="DateTime" Nullable="false" />
@@ -627,11 +625,11 @@
           <Property Name="EffectiveDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ExpirationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
-          <Property Name="OriginalFactRecordId" Type="Int32" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Int32" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
           <Property Name="PatientId" Type="Int32" Nullable="false" />
-          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="String" Nullable="false" MaxLength="20" />
           <NavigationProperty Name="Group" Relationship="PharmacyClaimAdjudicatorModel.Group_PatientGroup_Rel" FromRole="PatientGroup" ToRole="Group" />
           <NavigationProperty Name="Patient" Relationship="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel" FromRole="PatientGroup" ToRole="Patient" />
           </EntityType>
@@ -955,7 +953,6 @@
         <MappingFragment StoreEntitySet="GroupFacts">
           <ScalarProperty Name="RecordId" ColumnName="RecordId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
           <ScalarProperty Name="Retraction" ColumnName="Retraction" />
           <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
           <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />

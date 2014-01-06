@@ -233,6 +233,12 @@ namespace PharmacyAdjudicator.Library.Core
         private Patient()
         { /* Require use of factory methods */ }
 
+        internal Patient(DataAccess.PatientFact patientData)
+        {
+            using (BypassPropertyChecks)
+                PopulateByRow(patientData);
+        }
+
 #endif
 
         #endregion
@@ -539,10 +545,49 @@ namespace PharmacyAdjudicator.Library.Core
             return patientData;
         }
 
+        //private void Child_Fetch(DataAccess.PatientFact patientData)
+        //{
+        //    using (BypassPropertyChecks)
+        //        PopulateByRow(patientData);
+        //}
+
+        private void Fetch(DataAccess.PatientFact patientData)
+        {
+            using (BypassPropertyChecks)
+                PopulateByRow(patientData);
+        }
+
+        #endregion
+
+        #region Child Data Access
+
+        protected override void Child_Create()
+        {
+            base.Child_Create();
+        }
+
         private void Child_Fetch(DataAccess.PatientFact patientData)
         {
             using (BypassPropertyChecks)
                 PopulateByRow(patientData);
+        }
+
+        private void Child_Insert(object parent)
+        {
+            // TODO: insert values
+            DataPortal_Insert();
+        }
+
+        private void Child_Update(object parent)
+        {
+            // TODO: update values
+            DataPortal_Update();
+        }
+
+        private void Child_DeleteSelf(object parent)
+        {
+            // TODO: delete values
+            DataPortal_DeleteSelf();
         }
 
         #endregion

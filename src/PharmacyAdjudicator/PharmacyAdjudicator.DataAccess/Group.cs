@@ -20,7 +20,7 @@ namespace PharmacyAdjudicator.DataAccess
             this.PatientGroups = new HashSet<PatientGroup>();
         }
     
-        public int GroupId { get; set; }
+        public string GroupId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     

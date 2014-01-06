@@ -92,15 +92,11 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Login\LoginViewModel.cs" />
-    <Compile Include="Patient\FindPatientViewModel.cs" />
+    <Compile Include="Patient\PatientContentLoader.cs" />
     <Compile Include="Patient\PatientEditView.xaml.cs">
       <DependentUpon>PatientEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patient\PatientEditViewModel.cs" />
-    <Compile Include="Patient\PatientFindAndEditView.xaml.cs">
-      <DependentUpon>PatientFindAndEditView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Patient\PatientFindAndEditViewModel.cs" />
     <Compile Include="Patient\PatientSearchView.xaml.cs">
       <DependentUpon>PatientSearchView.xaml</DependentUpon>
     </Compile>
@@ -154,10 +150,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Page Include="Patient\PatientEditView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Patient\PatientFindAndEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

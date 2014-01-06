@@ -53,7 +53,7 @@
                         <Label Content="DateOfBirth" Target="{Binding ElementName=DateOfBirth}" />
                         <DatePicker x:Name="DateOfBirth" Width="150" SelectedDate="{Binding Path=Model.DateOfBirth, Mode=TwoWay, ValidatesOnDataErrors=True}" />
                     </StackPanel>
-                    <Button x:Name="Save" Content="Save" Margin="100, 16, 0,0" HorizontalAlignment="Left"/>
+                    <Button x:Name="Save" Content="Save" Margin="100, 16, 0,0" HorizontalAlignment="Left" Visibility="{Binding Path=IsChild}"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

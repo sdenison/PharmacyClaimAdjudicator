@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\PatientDynamicList.cs" />
     <Compile Include="Core\PatientSearchCriteria.cs" />
     <Compile Include="Core\Rules\Atom.cs" />
     <Compile Include="Core\Rules\AtomGroup.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Core\RuleBase.cs" />
     <Compile Include="Core\Rules\Predicate.cs" />
     <Compile Include="Core\Rules\PredicateList.cs" />
+    <Compile Include="Core\SwitchableObject1.cs" />
     <Compile Include="Core\TransactionProcessor.cs" />
     <Compile Include="Core\TransactionProcessorBinder.cs" />
     <Compile Include="D0\Response\ClaimBilling.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Core\TransactionList.cs" />
     <Compile Include="DataNotFoundException.cs" />
     <Compile Include="DbContextManager.cs" />
+    <Compile Include="EditableRoot1.cs" />
     <Compile Include="IncomingTransmissionException.cs" />
     <Compile Include="InvalidResponseException.cs" />
     <Compile Include="D0\Response\TransactionHeaderSegment.cs" />

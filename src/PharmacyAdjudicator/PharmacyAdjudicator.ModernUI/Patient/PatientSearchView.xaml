@@ -9,13 +9,18 @@
              d:DesignHeight="300" d:DesignWidth="600">
     <Grid Style="{StaticResource ContentRoot}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="600" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.Column="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <!--Grid.ColumnSpan="2" Grid.Row="0">-->
             <StackPanel MinWidth="200">
                 <TextBlock Text="PATIENT SEARCH" Style="{StaticResource Heading2}" />
-                <ProgressBar Minimum="0" Maximum="1" Height="16" IsIndeterminate="True" Margin="0,0,0,16" Visibility="{Binding Path=IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <StackPanel x:Name="PatientSearchForm" Orientation="Vertical">
                     <StackPanel.Resources>
                         <Style TargetType="StackPanel">
@@ -33,34 +38,44 @@
                             <Setter Property="Padding" Value="0,3" />
                         </Style>
                     </StackPanel.Resources>
-                    <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="300"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0">
                         <Label Content="First Name" Target="{Binding ElementName=FirstName}" />
                         <TextBox x:Name="PatientFirstName" Width="150" Text="{Binding Path=Model.PatientFirstName, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
                     </StackPanel>
-                    <StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1">
                         <Label Content="Last Name" Target="{Binding ElementName=LastName}" />
                         <TextBox x:Name="PatientLastName" Width="150" Text="{Binding Path=Model.PatientLastName, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
                     </StackPanel>
-                    <Button x:Name="Search" Content="Search" Margin="100, 16, 0,0" HorizontalAlignment="Left"/>
+                    <StackPanel Grid.Column="1">
+                        <Label Content="Cardholder ID" Target="{Binding ElementName=CardholderId}" />
+                        <TextBox x:Name="CardholderId" Width="150" Text="{Binding Path=Model.CardholderId, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1">
+                        <Label Content="Group ID" Target="{Binding ElementName=GroupId}" />
+                        <TextBox x:Name="GroupId" Width="150" Text="{Binding Path=Model.GroupId, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                    </StackPanel>
+                    <Button Grid.Column="1" Grid.Row="2" x:Name="Search" Content="Search" Margin="0,16,52,0" HorizontalAlignment="Right"/>
+                    </Grid>
                 </StackPanel>
-                <ListBox x:Name="Results" Margin="10" 
-                         ItemsSource="{Binding Path=Results}"
-                         SelectedItem="{Binding Path=SelectedPatient, Mode=TwoWay}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Path=FirstName}" />
-                                <TextBlock Text="{Binding Path=LastName}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Grid.Column="1" Orientation="Vertical">
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
             <Grid>
-                <mui:ModernTab SelectedSource="0" Layout="List" Links="{Binding Path=PatientListLinks}" ContentLoader="{Binding Path=PatientContentLoader}" />
+                <mui:ModernTab Layout="List" Links="{Binding Path=PatientListLinks}" ContentLoader="{Binding Path=PatientContentLoader}" />
             </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" >
+            <ProgressBar Minimum="0" Maximum="1" Height="16" IsIndeterminate="True" Margin="0,0,0,16" Visibility="{Binding Path=IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
     </Grid>
 </UserControl>

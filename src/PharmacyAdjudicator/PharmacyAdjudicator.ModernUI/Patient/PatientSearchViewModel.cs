@@ -19,6 +19,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
     public class PatientSearchViewModel : ScreenWithModel<Library.Core.PatientSearchCriteria>, INotifyPropertyChanged
     {
         private readonly IEventAggregator _eventAggregator;
+        private readonly Interface.IDialog _dialogManager;
         private PatientContentLoader _patientContentLoader;
         public PatientContentLoader PatientContentLoader 
         {
@@ -78,15 +79,29 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         }
 
         [ImportingConstructor]
-        public PatientSearchViewModel(IEventAggregator eventAggregator)
+        public PatientSearchViewModel(IEventAggregator eventAggregator, Interface.IDialog dialogManager)
         {
             //this.IsBusy = true;
+
+            
             _eventAggregator = eventAggregator;
+            _dialogManager = dialogManager;
+
             this.Model = new Library.Core.PatientSearchCriteria();
-            var patients = Library.Core.PatientList.GetAll();
+            //var patients = Library.Core.PatientList.GetAll();
+            //_results = new ObservableCollection<Library.Core.Patient>(patients);
+            //this.PatientListLinks = ConvertPatientList(patients);
+            //_patientContentLoader = new PatientContentLoader(patients);
+
+            var patients = Library.Core.PatientList.NewPatientList();
             _results = new ObservableCollection<Library.Core.Patient>(patients);
             this.PatientListLinks = ConvertPatientList(patients);
             _patientContentLoader = new PatientContentLoader(patients);
+            //this.PatientListLinks = 
+
+
+
+
             //this.IsBusy = false;
             //GetDefaultPatients();
             //_initializingTask = GetDefaultPatients();
@@ -106,68 +121,29 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             return links;
         }
 
-        //private readonly Task _initializingTask;
-
-        //private Library.Core.PatientList _defaultPatients;
-
-        //public async Task GetDefaultPatients()
-        //{
-        //    this.IsBusy = true;
-        //    //var patients = await Library.Core.PatientList.GetAllAsync();
-        //    _defaultPatients = await Library.Core.PatientList.GetAllAsync();
-        //    //_results = new ObservableCollection<Library.Core.Patient>(patients);
-
-        //    this.IsBusy = false;
-        //    //return Task.Delay(0);
-        //}
-
         public async void Search()
         {
-            this.IsBusy = true;
-            var patientSearchResutls = await Library.Core.PatientList.GetBySearchObjectAsync(this.Model);
-            this.IsBusy = false;
-            _results.Clear();
-            patientSearchResutls.ToList().ForEach(p => _results.Add(p));
-            this.PatientListLinks = ConvertPatientList(patientSearchResutls);
-            this.PatientContentLoader = new PatientContentLoader(patientSearchResutls);
-        }
-    }
-
-    public class PatientContentLoader : IContentLoader
-    {
-        private PatientContentLoader()
-        {
-        }
-
-        private Library.Core.PatientList _patients;
-        public PatientContentLoader(Library.Core.PatientList patients)
-        {
-            _patients = patients;
-        }
-        
-        public Task<object> LoadContentAsync(Uri uri, System.Threading.CancellationToken cancellationToken)
-            
-        {
-            var patientIdentifier = int.Parse(uri.ToString());
-
-            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            PatientEditViewModel pew = new PatientEditViewModel(_patients[patientIdentifier]);
-            return Task.Factory.StartNew(() => LoadContent(pew), cancellationToken, TaskCreationOptions.None, scheduler);
-        }
-
-        public virtual object LoadContent(PatientEditViewModel patientEditVm)
-        {
-            if (FirstFloor.ModernUI.ModernUIHelper.IsInDesignMode)
+            if ((string.IsNullOrWhiteSpace(Model.PatientFirstName)) && (string.IsNullOrWhiteSpace(Model.PatientLastName))
+                && (string.IsNullOrWhiteSpace(Model.GroupId)) && (string.IsNullOrWhiteSpace(Model.CardholderId)))
             {
-                return null;
+                MessageBoxButton btn = MessageBoxButton.OK;
+                _dialogManager.ShowMessage("Please enter search criteria", "Search Criteria Missing", btn);
             }
-
-            var content = Application.LoadComponent(new Uri("/Patient/PatientEditView.xaml", UriKind.Relative));
-            if (content is DependencyObject)
+            else
             {
-                Caliburn.Micro.ViewModelBinder.Bind(patientEditVm, content as DependencyObject, null);
+                this.IsBusy = true;
+                var patientSearchResutls = await Library.Core.PatientList.GetBySearchObjectAsync(this.Model);
+                if (patientSearchResutls.Count == 0)
+                {
+                    MessageBoxButton btn = MessageBoxButton.OK;
+                    _dialogManager.ShowMessage("No patients found for search criteria.", "No Records Found", btn);
+                }
+                _results.Clear();
+                patientSearchResutls.ToList().ForEach(p => _results.Add(p));
+                this.PatientListLinks = ConvertPatientList(patientSearchResutls);
+                this.PatientContentLoader = new PatientContentLoader(patientSearchResutls);
+                this.IsBusy = false;
             }
-            return content;
         }
     }
 }

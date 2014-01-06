@@ -61,4 +61,12 @@ insert into dbo.patientfacts (recordid, firstname, middlename, lastname, cardhol
 insert into dbo.patientfacts (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
 	values (1028, 'Josephina', '', 'Smith', '987654321', '1962-06-15', '04', '3', '2', @FALSE, sysdatetime(), 'SDENISON', null, 62);
 
-set identity_insert dbo.patientfacts off;
+set identity_insert dbo.PatientFacts off;
+
+insert into dbo.groups (groupid, recordcreateddatetime, recordcreateduser)
+	values('GROUP1', sysdatetime(), 'SDENISON');
+
+set identity_insert dbo.PatientGroups on;
+insert into dbo.patientgroups (recordid, effectivedate, expirationdate, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, patientid, groupid)
+	values (1, '2003-01-31', '9999-12-31', @FALSE, null, sysdatetime(), 'SDENISON', 61, 'GROUP1');
+set identity_insert dbo.PatientGroups off;

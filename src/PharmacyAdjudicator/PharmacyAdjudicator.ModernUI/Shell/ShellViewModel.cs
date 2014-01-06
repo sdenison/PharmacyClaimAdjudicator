@@ -13,8 +13,8 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         IShellViewModel, 
         IHandle<EventMessages.LoginChangedMessage>,
         IHandle<EventMessages.DisplayViewModelMessage>,
-        IHandle<EventMessages.NavigateGoBackMessage>,
-        IHandle<EventMessages.PatientSearchResultsMessage>
+        IHandle<EventMessages.NavigateGoBackMessage>//,
+        //IHandle<EventMessages.PatientSearchResultsMessage>
     {
         [ImportingConstructor]
         public ShellViewModel(IEventAggregator events) : this()
@@ -45,11 +45,11 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             navService.Navigate<Welcome.WelcomeViewModel>();
         }
 
-        public void Handle(EventMessages.PatientSearchResultsMessage message)
-        {
-            var navService = AppBootstrapper.GetInstance<Interface.INavigationService>();
-            navService.Navigate<Patient.PatientFindAndEditViewModel>(message.PatientSearchResults);
-        }
+        //public void Handle(EventMessages.PatientSearchResultsMessage message)
+        //{
+        //    var navService = AppBootstrapper.GetInstance<Interface.INavigationService>();
+        //    navService.Navigate<Patient.PatientFindAndEditViewModel>(message.PatientSearchResults);
+        //}
 
         public LinkGroupCollection MenuLinkGroups { get; set; }
         private LinkCollection _titleLinks;
@@ -94,11 +94,15 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             else
             {
                 if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(Library.Core.Patient)))
+                {
                     if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
                         this.MenuLinkGroups.Add(PatientLinkGroup());
+                }
                 else
+                {
                     if (MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
                         this.MenuLinkGroups.Remove(MenuLinkGroups.FirstOrDefault(l => l.DisplayName.Equals("Patient")));
+                }
             }
 
             if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Settings")))
