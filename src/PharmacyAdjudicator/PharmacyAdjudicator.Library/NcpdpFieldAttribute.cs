@@ -45,7 +45,6 @@ namespace PharmacyAdjudicator.Library
                 else if (!(object.ReferenceEquals(propertyInfo.DeclaringType, objectToFindPropertyIn.GetType())))
                 {
                     //Should be inherited members that we want to ignore.
-                    var x = "break here";
                 }
                 else
                 {

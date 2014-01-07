@@ -176,7 +176,7 @@ namespace PharmacyAdjudicator.Library.Core
 #if !WINDOWS_PHONE
         public async static System.Threading.Tasks.Task<Patient> GetByPatientIdAsync(int patientId)
         {
-            await System.Threading.Tasks.Task.Delay(10000);
+            //await System.Threading.Tasks.Task.Delay(10000);
             return await DataPortal.FetchAsync<Patient>(new CriteriaByPatientIdEF { PatientId = patientId });
         }
 #endif

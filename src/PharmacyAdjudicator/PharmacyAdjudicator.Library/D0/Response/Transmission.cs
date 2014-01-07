@@ -52,16 +52,6 @@ namespace PharmacyAdjudicator.Library.D0.Response
             }
 
             return returnValue.ToString();
-            
-            //returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.TransactionResponseStatus, this.TransactionResponseStatus));
-            //returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.AuthorizationNumber, this.AuthorizationNumber));
-            if (returnValue.Length > 0)
-            {
-                //returnValue.Insert(0, Utils.NcpdpString.ToNcpdpFieldString(() => this.SegmentIdentification, this.SegmentIdentification));
-                returnValue.Insert(0, Utils.NcpdpString.SegmentSeparator);
-            }
-
-            return returnValue.ToString();
         }
         
     }

@@ -97,6 +97,10 @@
       <DependentUpon>PatientEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patient\PatientEditViewModel.cs" />
+    <Compile Include="Patient\PatientSearchResultsView.xaml.cs">
+      <DependentUpon>PatientSearchResultsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patient\PatientSearchResultsViewModel.cs" />
     <Compile Include="Patient\PatientSearchView.xaml.cs">
       <DependentUpon>PatientSearchView.xaml</DependentUpon>
     </Compile>
@@ -150,6 +154,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Page Include="Patient\PatientEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Patient\PatientSearchResultsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

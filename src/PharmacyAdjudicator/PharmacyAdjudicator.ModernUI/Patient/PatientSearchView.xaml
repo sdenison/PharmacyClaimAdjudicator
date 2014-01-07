@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d" 
+             xmlns:pat="clr-namespace:PharmacyAdjudicator.ModernUI.Patient"
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="600">
     <Grid Style="{StaticResource ContentRoot}">
         <Grid.ColumnDefinitions>
@@ -13,14 +14,14 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <!--Grid.ColumnSpan="2" Grid.Row="0">-->
             <StackPanel MinWidth="200">
-                <TextBlock Text="PATIENT SEARCH" Style="{StaticResource Heading2}" />
+                <TextBlock Text="SEARCH CRITERIA" Style="{StaticResource Heading2}" />
                 <StackPanel x:Name="PatientSearchForm" Orientation="Vertical">
                     <StackPanel.Resources>
                         <Style TargetType="StackPanel">
@@ -69,10 +70,45 @@
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" >
+            <!--<pat:PatientSearchResultsView DataContext="{Binding Path=Results}"></pat:PatientSearchResultsView>--> 
+            
+            
+            <!--<ListBox x:Name="Results" Margin="10" BorderThickness="3" ItemsSource="{Binding Path=Results}" SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=FirstName}" />
+                            <TextBlock Text="{Binding Path=LastName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>-->
+
+            <TextBlock Text="SEARCH RESULTS" Style="{StaticResource Heading2}" />
+
+            <DataGrid Name="PatientSearchDataGrid" ItemsSource="{Binding Path=Results}" SelectedItem="{Binding Path=SelectedPatient, Mode=TwoWay}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <mui:DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="Cardholder ID" Binding="{Binding CardholderId}" IsReadOnly="True"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content ="Edit Patient" 
+                                        cal:Message.Attach="ShowPatient($dataContext)"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+
+            <!--Content loader works ok.  I want something more list like though where the edit screens are opened in a different window
             <Grid>
                 <mui:ModernTab Layout="List" Links="{Binding Path=PatientListLinks}" ContentLoader="{Binding Path=PatientContentLoader}" />
-            </Grid>
+            </Grid>-->
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" >
             <ProgressBar Minimum="0" Maximum="1" Height="16" IsIndeterminate="True" Margin="0,0,0,16" Visibility="{Binding Path=IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>

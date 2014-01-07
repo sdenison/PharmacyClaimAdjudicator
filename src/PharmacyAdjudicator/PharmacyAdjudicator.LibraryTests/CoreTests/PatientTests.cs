@@ -151,14 +151,11 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             System.Threading.Tasks.Task<Patient> patTask = Patient.GetByPatientIdAsync(100);
 
             string x = "this should be happening while getting the patient happens";
+            Assert.IsNotNull(x);
 
             Patient pat = patTask.Result;
         }
 
-        public async void TestGetPatientAsync()
-        {
-            return;
-        }
 
 
     }

@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows;
 using System.Windows;
+using FirstFloor.ModernUI.Windows.Controls;
 
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
@@ -71,8 +72,15 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             }
         }
 
-        private ObservableCollection<Library.Core.Patient> _results;
-        public ObservableCollection<Library.Core.Patient> Results
+        //private ObservableCollection<Library.Core.Patient> _results;
+        //public ObservableCollection<Library.Core.Patient> Results
+        //{
+        //    get { return _results; }
+        //    set { _results = value; NotifyOfPropertyChange("Results"); }
+        //}
+
+        private Library.Core.PatientList _results;
+        public Library.Core.PatientList Results
         {
             get { return _results; }
             set { _results = value; NotifyOfPropertyChange("Results"); }
@@ -94,7 +102,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             //_patientContentLoader = new PatientContentLoader(patients);
 
             var patients = Library.Core.PatientList.NewPatientList();
-            _results = new ObservableCollection<Library.Core.Patient>(patients);
+            //_results = new ObservableCollection<Library.Core.Patient>(patients);
             this.PatientListLinks = ConvertPatientList(patients);
             _patientContentLoader = new PatientContentLoader(patients);
             //this.PatientListLinks = 
@@ -138,12 +146,37 @@ namespace PharmacyAdjudicator.ModernUI.Patient
                     MessageBoxButton btn = MessageBoxButton.OK;
                     _dialogManager.ShowMessage("No patients found for search criteria.", "No Records Found", btn);
                 }
-                _results.Clear();
-                patientSearchResutls.ToList().ForEach(p => _results.Add(p));
+                this.Results = patientSearchResutls;
+                //_results.Clear();
+                //patientSearchResutls.ToList().ForEach(p => _results.Add(p));
                 this.PatientListLinks = ConvertPatientList(patientSearchResutls);
                 this.PatientContentLoader = new PatientContentLoader(patientSearchResutls);
                 this.IsBusy = false;
             }
+        }
+
+        public async void ShowPatient(Library.Core.Patient patient)
+        {
+            var x = "got here.  yay!";
+            this.IsBusy = true;
+            var pat = await Library.Core.Patient.GetByPatientIdAsync(patient.PatientId);
+            this.IsBusy = false;
+            var patVM = new PatientEditViewModel(pat);
+
+            var content = Application.LoadComponent(new Uri("/Patient/PatientEditView.xaml", UriKind.Relative));
+            if (content is DependencyObject)
+            {
+                Caliburn.Micro.ViewModelBinder.Bind(patVM, content as DependencyObject, null);
+            }
+
+            var wnd = new ModernWindow
+            {
+                Style = (System.Windows.Style)App.Current.Resources["EmptyWindow"],
+                Content = content,
+                Width = 480,
+                Height = 480
+            };
+            wnd.Show();
         }
     }
 }
