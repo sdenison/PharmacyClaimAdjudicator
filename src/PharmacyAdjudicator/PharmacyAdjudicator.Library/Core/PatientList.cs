@@ -128,13 +128,13 @@ namespace PharmacyAdjudicator.Library.Core
 
                 if (!String.IsNullOrWhiteSpace(criteria.PatientFirstName))
                 {
-                    AddToWhere(where, "p.firstname like @firstname");
+                    AddToWhere(where, "p.firstname like @firstname + '%'");
                     parameters.Add(new SqlParameter("@firstname", criteria.PatientFirstName));
                 }
 
                 if (!String.IsNullOrWhiteSpace(criteria.PatientLastName))
                 {
-                    AddToWhere(where, "p.lastname like @lastname");
+                    AddToWhere(where, "p.lastname like @lastname + '%'");
                     parameters.Add(new SqlParameter("@lastname", criteria.PatientLastName));
                 }
 

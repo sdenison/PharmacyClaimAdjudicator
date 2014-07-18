@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="PharmacyAdjudicator.ModernUI.Patient.OpenPatientsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:myenums="clr-namespace:PharmacyAdjudicator.Library.Core.Enums"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <Grid Style="{StaticResource ContentRoot}">
+        <StackPanel Orientation="Vertical">
+            <Button x:Name="Refresh">Refresh</Button>
+            <DataGrid Name="OpenPatientWindows" ItemsSource="{Binding Path=PatientWindows}" SelectedItem="{Binding Path=SelectedPatientWindow, Mode=TwoWay}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <mui:DataGridTextColumn Header="window" Binding="{Binding ContentSource}" IsReadOnly="True"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content ="Show Window" 
+                                        cal:Message.Attach="ShowWindow($dataContext)"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

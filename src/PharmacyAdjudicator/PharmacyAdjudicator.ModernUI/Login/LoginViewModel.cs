@@ -52,22 +52,22 @@ namespace PharmacyAdjudicator.ModernUI.Login
                 MessageBoxButton btn = MessageBoxButton.OK;
                 var result = _dialogManager.ShowMessage("Welcome, " + Csla.ApplicationContext.User.Identity.Name + "!", "Login succeded.", btn);
                 //Sets the TitleLink in the main window.
-                _eventAggregator.Publish(new EventMessages.LoginChangedMessage("Hello, " + Csla.ApplicationContext.User.Identity.Name));
+                _eventAggregator.PublishOnCurrentThread(new EventMessages.LoginChangedMessage("Hello, " + Csla.ApplicationContext.User.Identity.Name));
                 //Navigates to appropriate view model after Login is successful.
-                _eventAggregator.Publish(new EventMessages.DisplayViewModelMessage() { Requestor = this, ViewModel = AppBootstrapper.GetInstance<Welcome.WelcomeViewModel>() });
+                _eventAggregator.PublishOnCurrentThread(new EventMessages.DisplayViewModelMessage() { Requestor = this, ViewModel = AppBootstrapper.GetInstance<Welcome.WelcomeViewModel>() });
             }
             else
             {
                 MessageBoxButton btn = MessageBoxButton.OK; 
                 var result = _dialogManager.ShowMessage("Could not login in.  Bad username/password combination.", "Login failed", btn);
-                _eventAggregator.Publish(new EventMessages.LoginChangedMessage("Login"));
+                _eventAggregator.PublishOnCurrentThread(new EventMessages.LoginChangedMessage("Login"));
             }
         }
 
         public void LogoutUser()
         {
             PharmacyAdjudicator.Library.Security.PAPrincipal.Logout();
-            _eventAggregator.Publish(new EventMessages.LoginChangedMessage("Login"));
+            _eventAggregator.PublishOnCurrentThread(new EventMessages.LoginChangedMessage("Login"));
         }
     }
 }

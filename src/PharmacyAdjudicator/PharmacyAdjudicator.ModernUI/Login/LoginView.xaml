@@ -41,7 +41,6 @@
                     </StackPanel>
                     <StackPanel>
                         <Button x:Name="LoginUser" IsDefault="True" Content="Login" Margin="100,16,0,0" HorizontalAlignment="Left">
-                            
                         </Button>
                         <Button x:Name="Cancel" Content="Cancel" Margin="5,16,0,0" HorizontalAlignment="Left" />
                     </StackPanel>

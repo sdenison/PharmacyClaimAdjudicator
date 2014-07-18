@@ -1,0 +1,740 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CslaContrib</name>
+    </assembly>
+    <members>
+        <member name="T:CslaContrib.ObjectCaching.CacheDataPortal">
+            <summary>
+            CSLA Data Portal that directs fetch data access to cache as configured with fall 
+            through to underlying data portal as necessary
+            </summary>
+        </member>
+        <member name="F:CslaContrib.ObjectCaching.CacheDataPortal.CacheGroup">
+            <summary>
+            Csla.ApplicationContext.ClientContext key value for caching group used to identify cached items
+            shared by some group of users
+            </summary>
+        </member>
+        <member name="T:CslaContrib.ObjectCaching.CacheManager">
+            <summary>
+            Cache provider factory class
+            </summary>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.CacheManager.GetCacheProvider">
+            <summary>
+            Factory method to get configured cache provider, else null cache provider for support
+            </summary>
+            <returns>Configured ICacheProvider instance</returns>
+            <example>
+            <![CDATA[<appSettings>
+                 <add key="CachingProvider" value="CslaContrib.ObjectCaching.InMemoryCacheProvider, CslaContrib" />
+             </appSettings>]]>
+            </example>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.CacheManager.IsCacheConfigured(System.Type)">
+            <summary>
+            Test cache system configuration and type declaration
+            </summary>
+            <param name="objectType">Target business object type</param>
+            <returns>True if configuration is valid and type has ObjectCacheAttribute; else false</returns>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.CacheManager.SetCacheProvider(System.String)">
+            <summary>
+            Factory method to set pre-constructed provider, typically for test scenarios
+            </summary>
+            <param name="provider">Desired ICacheProvider instance</param>
+            <returns></returns>
+        </member>
+        <member name="T:CslaContrib.ObjectCaching.ICacheProvider">
+            <summary>
+            Interface for any cache provider
+            </summary>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Initialize">
+            <summary>
+            Provider initization method
+            </summary>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Put(System.String,System.Object)">
+            <summary>
+            Add OR Replace cache item by key
+            </summary>
+            <param name="key">unique item id</param>
+            <param name="value">cache data</param>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Put(System.String,System.Object,System.String)">
+            <summary>
+            Add OR Replace cache item by key
+            </summary>
+            <param name="key">unique item id</param>
+            <param name="value">cache data</param>
+            <param name="area">named cache area</param>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Put(System.String,System.Object,System.TimeSpan)">
+            <summary>
+            Add OR Replace cache item by key
+            </summary>
+            <param name="key">unique item id</param>
+            <param name="value">cache data</param>
+            <param name="timeout">expiration time span</param>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Put(System.String,System.Object,System.TimeSpan,System.String)">
+            <summary>
+            Add OR Replace cache item by key
+            </summary>
+            <param name="key">unique item id</param>
+            <param name="value">cache data</param>
+            <param name="timeout">expiration time span</param>
+            <param name="area">named cache area</param>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Get(System.String)">
+            <summary>
+            Get cache item by key
+            </summary>
+            <param name="key">unique item id</param>
+            <returns>cached data</returns>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Get(System.String,System.String)">
+            <summary>
+            Get cache item by key
+            </summary>
+            <param name="key">unique item id</param>
+            <param name="area">named cache area</param>
+            <returns>cached data</returns>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Get(System.String,System.TimeSpan)">
+            <summary>
+            Get cache item by key and slide expiration
+            </summary>
+            <param name="key">unique item id</param>
+            <param name="timeout">expiration time span</param>
+            <returns>cached data</returns>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Get(System.String,System.TimeSpan,System.String)">
+            <summary>
+            Get cache item by key and slide expiration
+            </summary>
+            <param name="key">unique item id</param>
+            <param name="timeout">expiration time span</param>
+            <param name="area">named cache area</param>
+            <returns>cached data</returns>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Remove(System.String)">
+            <summary>
+            Remove cache item by key
+            </summary>
+            <param name="key">unique item id</param>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.Remove(System.String,System.String)">
+            <summary>
+            Remove cache item by key
+            </summary>
+            <param name="key">unique item id</param>
+            <param name="area">named cache area</param>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.RemoveAllByKeyPrefix(System.String)">
+            <summary>
+            Remove all cache items where key begins with the specified prefix
+            </summary>
+            <param name="keyPrefix">item prefix</param>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.CreateArea(System.String)">
+            <summary>
+            Create cache area for segmentation
+            </summary>
+            <param name="area">named cache area</param>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ICacheProvider.RemoveArea(System.String)">
+            <summary>
+            Remove cache area
+            </summary>
+            <param name="area">named cache area</param>
+        </member>
+        <member name="P:CslaContrib.ObjectCaching.ICacheProvider.Entries">
+            <summary>
+            Catalog of entries used for cache invalidation management
+            </summary>
+        </member>
+        <member name="T:CslaContrib.ObjectCaching.InMemoryCacheProvider">
+            <summary>
+            In memory cache provider to support simple cache configuration
+            </summary>
+        </member>
+        <member name="T:CslaContrib.ObjectCaching.ObjectCacheAttribute">
+            <summary>
+            Class attribute for business objects that utilize caching.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ObjectCacheAttribute.GetObjectCacheAttribute(System.Type)">
+            <summary>
+            Get the cache attribute from a given type if present.
+            </summary>
+            <param name="objectType">Target object type.</param>
+            <returns>ObjectCacheAttribute instance if present else null.</returns>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ObjectCacheAttribute.#ctor">
+            <summary>
+            Default cache attribute CacheScope is Global, use Named Parameters to set
+            scope and/or criteria handling if desired.
+            </summary>
+            <example>
+            [ObjectCache(Scope = CacheScope.Group, CacheByCriteria = true)]
+            </example>
+        </member>
+        <member name="P:CslaContrib.ObjectCaching.ObjectCacheAttribute.Scope">
+            <summary>
+            Declares the CacheScope for the business object data when cached. Default is CacheScope.Global.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.ObjectCaching.ObjectCacheAttribute.CacheByCriteria">
+            <summary>
+            Declares criteria should be included for the business object data when cached . Default is false.
+            </summary>
+            <remarks>
+            Since the hash code for the criteria will included as part fo the cache entry key, it is necessary to 
+            override GetHashCode in these cases to guarantee two instances of the same criteria with equal criteria
+            values will result in the same hash code.
+            </remarks>
+            <example>
+            <![CDATA[class MyCriteria : Csla.SingleCriteria<MyCriteria, int>
+            {
+                public override int GetHashCode()
+                {
+                    return base.Value.GetHashCode();
+                }
+            }]]>
+            </example>
+        </member>
+        <member name="P:CslaContrib.ObjectCaching.ObjectCacheAttribute.Expiration">
+            <summary>
+            Declares specific time span in minutes for expiration. Default is 0.
+            </summary>
+        </member>
+        <member name="T:CslaContrib.ObjectCaching.CacheScope">
+            <summary>
+            Range of scope for cached data.
+            </summary>
+        </member>
+        <member name="T:CslaContrib.ObjectCaching.ObjectCacheEvictionAttribute">
+            <summary>
+            Class attribute for business objects that alter cached data.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ObjectCacheEvictionAttribute.GetObjectCacheEvictionAttribute(System.Type)">
+            <summary>
+            Get the cache eviction attribute from a given type if present.
+            </summary>
+            <param name="objectType">Target object type.</param>
+            <returns>ObjectCacheEvictionAttribute instance if present else null.</returns>
+        </member>
+        <member name="M:CslaContrib.ObjectCaching.ObjectCacheEvictionAttribute.#ctor">
+            <summary>
+            Default cache eviction attribute CacheScope is Global, use Named Parameters to set
+            scope and cached types as needed.
+            </summary>
+            <example>
+            [ObjectCacheEviction(Scope = CacheScope.Group, CachedTypes = new Type[]{ typeof() })]
+            </example>
+        </member>
+        <member name="P:CslaContrib.ObjectCaching.ObjectCacheEvictionAttribute.Scope">
+            <summary>
+            Declares the CacheScope for the business object data when cache items are evicted. Default is CacheScope.Global.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.ObjectCaching.ObjectCacheEvictionAttribute.CachedTypes">
+            <summary>
+            Array of Type objects for all affected cached objects to be evicted when data changes are made.
+            </summary>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.LessThan">
+            <summary>
+            Validates that primary property is less than compareToProperty
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.LessThan.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.LessThan"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="compareToProperty">The compare to property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.LessThan.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo,System.Func{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.LessThan"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="compareToProperty">The compare to property.</param>
+            <param name="errorMessageDelegate">The error message function.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.LessThan.GetMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.LessThan.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Does the check for primary propert less than compareTo property
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.LessThanOrEqual">
+            <summary>
+            Validates that primary property is less than or equal compareToProperty
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.LessThanOrEqual.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.LessThanOrEqual"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="compareToProperty">The compare to property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.LessThanOrEqual.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo,System.Func{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.LessThanOrEqual"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="compareToProperty">The compare to property.</param>
+            <param name="errorMessageDelegate">The error message function.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.LessThanOrEqual.GetMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.LessThanOrEqual.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Does the check for primary propert less than compareTo property
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.GreaterThan">
+            <summary>
+            Validates that primary property is greater than compareToProperty
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.GreaterThan.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.GreaterThan"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="compareToProperty">The compare to property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.GreaterThan.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo,System.Func{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.GreaterThan"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="compareToProperty">The compare to property.</param>
+            <param name="errorMessageDelegate">The error message function.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.GreaterThan.GetMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.GreaterThan.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Does the check for primary propert less than compareTo property
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.GreaterThanOrEqual">
+            <summary>
+            Validates that primary property is freater than or equal compareToProperty
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.GreaterThanOrEqual.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.GreaterThanOrEqual"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="compareToProperty">The compare to property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.GreaterThanOrEqual.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo,System.Func{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.GreaterThanOrEqual"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="compareToProperty">The compare to property.</param>
+            <param name="errorMessageDelegate">The error message function.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.GreaterThanOrEqual.GetMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.GreaterThanOrEqual.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Does the check for primary propert less than compareTo property
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.Range">
+            <summary>
+            Business rule for check a value is between a minimum and a maximum.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.Range.#ctor(Csla.Core.IPropertyInfo,System.IComparable,System.IComparable)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.Range"/> class. 
+            Creates an instance of the rule.
+            </summary>
+            <param name="primaryProperty">
+            Property to which the rule applies.
+            </param>
+            <param name="min">
+            Min value.
+            </param>
+            <param name="max">
+            Max value.
+            </param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.Range.#ctor(Csla.Core.IPropertyInfo,System.IComparable,System.IComparable,System.Func{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.Range"/> class. 
+            Creates an instance of the rule.
+            </summary>
+            <param name="primaryProperty">
+            Property to which the rule applies.
+            </param>
+            <param name="min">
+            Min value.
+            </param>
+            <param name="max">
+            Max value.
+            </param>
+            <param name="errorMessageDelegate">
+            The message delegate.
+            </param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.Range.GetMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value>
+            </value>
+            <returns>
+            The get message.
+            </returns>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.Range.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Rule implementation.
+            </summary>
+            <param name="context">
+            Rule context.
+            </param>
+        </member>
+        <member name="P:CslaContrib.Rules.CommonRules.Range.Min">
+            <summary>
+            Gets the minimum value.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Rules.CommonRules.Range.Max">
+            <summary>
+            Gets the maximum value.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Rules.CommonRules.Range.Format">
+            <summary>
+            Gets or sets the format string used
+            to format the minimum and maximum values.
+            </summary>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.StopIfNotCanWrite">
+            <summary>
+            ShortCircuit rule processing if user is not allowed to edit field.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.StopIfNotCanWrite.#ctor(Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.StopIfNotCanWrite"/> class.
+            </summary>
+            <param name="property">The property to check.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.StopIfNotCanWrite.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Rule indicating whether the user is authorized
+            to change the property value.
+            Will always be silent and never set rule to broken.
+            </summary>
+            <param name="context">Rule context object.</param>
+            <remarks>
+            Combine this Rule with short-circuiting to
+            prevent evaluation of other rules in the case
+            that the user isn't allowed to change the value.
+            </remarks>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.StopIfNotIsNew">
+            <summary>
+            ShortCircuit rule processing if target is not a new object
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.StopIfNotIsNew.#ctor(Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.StopIfNotIsNew"/> class.
+            </summary>
+            <param name="property">The property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.StopIfNotIsNew.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Executes the rule in specified context.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.StopIfNotIsExisting">
+            <summary>
+            ShortCircuit rule processing if target is not an existing object.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.StopIfNotIsExisting.#ctor(Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.StopIfNotIsExisting"/> class.
+            </summary>
+            <param name="property">The property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.StopIfNotIsExisting.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Executes the rule in specified context.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.StopIfAnyAdditionalHasValue">
+            <summary>
+            If any of the additional properties has a value stop rule processing 
+            for this field and make field valid. 
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.StopIfAnyAdditionalHasValue.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.StopIfAnyAdditionalHasValue"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="additionalProperties">The additional properties.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.StopIfAnyAdditionalHasValue.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Executes the rule in specified context.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.CalcSum">
+            <summary>
+            CalcSum rule will set primary property to the sum of all supplied properties.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.CalcSum.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.CalcSum"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="inputProperties">The input properties.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.CalcSum.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Business or validation rule implementation.
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.ToUpperCase">
+            <summary>
+            makes sure the property is formatted as uppercase string.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.ToUpperCase.#ctor(Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.ToUpperCase"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.ToUpperCase.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Business or validation rule implementation.
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.ToLowerCase">
+            <summary>
+            makes sure the property is formatted as uppercase string.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.ToLowerCase.#ctor(Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.ToLowerCase"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.ToLowerCase.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Business or validation rule implementation.
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.CollapseSpace">
+            <summary>
+            Removes leading, trailing and duplicate spaces.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.CollapseSpace.#ctor(Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.CollapseSpace"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.CollapseSpace.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Business or validation rule implementation.
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.CollapseWhiteSpace">
+            <summary>
+            Removes leading, trailing, duplicate white space characters.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.CollapseWhiteSpace.#ctor(Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.CollapseWhiteSpace"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.CollapseWhiteSpace.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Business or validation rule implementation.
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.AnyRequired">
+            <summary>
+            Check that at least one of the fields of type string or smartvalue field has a value.
+            Code must also add Dependency rules from each additional properties to primary property.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.AnyRequired.#ctor(Csla.Core.IPropertyInfo,Csla.Core.IPropertyInfo[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.AnyRequired"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="additionalProperties">The additional properties.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.AnyRequired.#ctor(Csla.Core.IPropertyInfo,System.Func{System.String},Csla.Core.IPropertyInfo[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:CslaContrib.Rules.CommonRules.AnyRequired"/> class.
+            </summary>
+            <param name="primaryProperty">The primary property.</param>
+            <param name="errorMessageDelegate">The error message function.</param>
+            <param name="additionalProperties">The additional properties.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.AnyRequired.GetMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.AnyRequired.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Executes the rule in specified context.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:CslaContrib.Rules.CommonRules.NoDuplicates`2">
+            <summary>
+            Validation rule for checking a property is unique at the collection level.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.NoDuplicates`2.#ctor(Csla.Core.IPropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="!:NoDuplicates"/> class.
+            </summary>
+            <param name="primaryProperty">Primary property for this rule.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.NoDuplicates`2.#ctor(Csla.Core.IPropertyInfo,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="!:NoDuplicates"/> class.
+            </summary>
+            <param name="primaryProperty">Primary property for this rule.</param>
+            <param name="errorMessageDelegate">The error message function.</param>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.NoDuplicates`2.GetMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:CslaContrib.Rules.CommonRules.NoDuplicates`2.Execute(Csla.Rules.RuleContext)">
+            <summary>
+            Validation rule implementation.
+            </summary>
+            <param name="context">Rule context object.</param>
+        </member>
+        <member name="T:CslaContrib.SmartDateExtendedParser">
+            <summary>
+            SmartDate extended parsing for relative dates and short date form parsing.
+            </summary>
+        </member>
+        <member name="M:CslaContrib.SmartDateExtendedParser.ExtendedParser(System.String)">
+            <summary>
+            Entry point for Csla.SmartDate customized parser.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="T:CslaContrib.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.AnyRequiredRule">
+            <summary>
+              Looks up a localized string similar to At least on of the fields {0} must have a value..
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.GreaterThanOrEqualRule">
+            <summary>
+              Looks up a localized string similar to {0} must be greater than or equal to {1}..
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.GreaterThanRule">
+            <summary>
+              Looks up a localized string similar to {0} must be greater than {1}..
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.LessThanOrEqualRule">
+            <summary>
+              Looks up a localized string similar to {0} must be less than or equal to {1}..
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.LessThanRule">
+            <summary>
+              Looks up a localized string similar to {0} must be less than {1}..
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.NoDuplicatesRule">
+            <summary>
+              Looks up a localized string similar to {0} must be unique..
+            </summary>
+        </member>
+        <member name="P:CslaContrib.Properties.Resources.RangeRule">
+            <summary>
+              Looks up a localized string similar to {0} must be between {1} and {2}..
+            </summary>
+        </member>
+    </members>
+</doc>

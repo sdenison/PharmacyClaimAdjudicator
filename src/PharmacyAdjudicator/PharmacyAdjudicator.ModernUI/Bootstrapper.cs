@@ -10,12 +10,13 @@ using PharmacyAdjudicator.ModernUI.Extensions;
 
 namespace PharmacyAdjudicator.ModernUI
 {
-    public class AppBootstrapper : Bootstrapper<IShellViewModel>
+    public class AppBootstrapper : BootstrapperBase // Bootstrapper<IShellViewModel>
     {
         private static CompositionContainer _container;
 
-        static AppBootstrapper()
+        public AppBootstrapper()
         {
+            StartRuntime();
         }
 
         public static T GetInstance<T>()
@@ -56,6 +57,9 @@ namespace PharmacyAdjudicator.ModernUI
             batch.AddExport<IEventAggregator>(() => new EventAggregator());
             batch.AddExport<Interface.INavigationService>(() => new Services.NavigationService());
             batch.AddExport<Interface.IDialog>(() => new Services.DialogService());
+            //batch.AddExport<Interface.IOpenViewModels>(() => new Services.OpenViewModels());
+            //
+            //batch.AddExport<Shell.IShellViewModel>(() => new ShellViewModel());
             _container.Compose(batch);
         }
 
@@ -79,5 +83,10 @@ namespace PharmacyAdjudicator.ModernUI
         {
             _container.SatisfyImportsOnce(instance);
         }
+
+        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
+        {
+            DisplayRootViewFor<IShellViewModel>();
+        } 
     }
 }

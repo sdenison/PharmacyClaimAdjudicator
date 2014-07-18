@@ -8,12 +8,14 @@ using System.Windows;
 using FirstFloor.ModernUI;
 using FirstFloor.ModernUI.Windows;
 
+using Caliburn.Micro;
+
 
 namespace PharmacyAdjudicator.ModernUI.Services 
 {
     public class CaliburnContentLoader : IContentLoader
     {
-        public Task<object> LoadContentAsync(Uri uri, CancellationToken cancellationToken)
+        Task<object> IContentLoader.LoadContentAsync(Uri uri, CancellationToken cancellationToken)
         {
             if (!Application.Current.Dispatcher.CheckAccess())
             {
@@ -37,13 +39,13 @@ namespace PharmacyAdjudicator.ModernUI.Services
             if (content == null)
                 return content;
 
-            var vm = Caliburn.Micro.ViewModelLocator.LocateForView(content);
+            var vm = ViewModelLocator.LocateForView(content);
             if (vm == null)
                 return content;
 
             if (content is DependencyObject)
             {
-                Caliburn.Micro.ViewModelBinder.Bind(vm, content as DependencyObject, null);
+                ViewModelBinder.Bind(vm, content as DependencyObject, null);
             }
             return content;
         }

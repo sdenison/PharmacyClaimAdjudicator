@@ -125,6 +125,13 @@ namespace PharmacyAdjudicator.Library.Core
             private set { LoadProperty(LastChangedDateTimeProperty, value); }
         }
 
+        public static readonly PropertyInfo<string> LastChangedUserNameProperty = RegisterProperty<string>(c => c.LastChangedUserName);
+        public string LastChangedUserName
+        {
+            get {  return GetProperty(LastChangedUserNameProperty); }
+            private set { LoadProperty(LastChangedUserNameProperty, value);  }
+        }
+
         private int _RecordId;
         private int RecordId
         {
@@ -484,6 +491,8 @@ namespace PharmacyAdjudicator.Library.Core
             this.PatientRelationshipCode = patientData.PatientRelationshipCode;
             this.Gender = string.IsNullOrWhiteSpace(patientData.Gender) ? Enums.Gender.NotSet : (Enums.Gender)int.Parse(patientData.Gender);
             this._RecordId = patientData.RecordId;
+            this.LastChangedDateTime = patientData.RecordCreatedDateTime;
+            this.LastChangedUserName = patientData.RecordCreatedUser;
         }
 
         protected override void DataPortal_Insert()
@@ -493,7 +502,7 @@ namespace PharmacyAdjudicator.Library.Core
                 var patientData = CreateNewEntity();
                 ctx.DbContext.PatientFacts.Add(patientData);
                 ctx.DbContext.SaveChanges();
-                var recordId = patientData.RecordId;
+                PopulateByRow(patientData);
             }
         }
 
@@ -504,7 +513,7 @@ namespace PharmacyAdjudicator.Library.Core
                 var patientData = CreateNewEntity();
                 ctx.DbContext.PatientFacts.Add(patientData);
                 ctx.DbContext.SaveChanges();
-                var recordId = patientData.RecordId;
+                PopulateByRow(patientData);
             }
         }
 
@@ -544,12 +553,6 @@ namespace PharmacyAdjudicator.Library.Core
             patientData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
             return patientData;
         }
-
-        //private void Child_Fetch(DataAccess.PatientFact patientData)
-        //{
-        //    using (BypassPropertyChecks)
-        //        PopulateByRow(patientData);
-        //}
 
         private void Fetch(DataAccess.PatientFact patientData)
         {

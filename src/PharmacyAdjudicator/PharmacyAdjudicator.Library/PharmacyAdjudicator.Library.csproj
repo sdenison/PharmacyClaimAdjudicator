@@ -30,11 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Csla">
-      <HintPath>..\packages\CSLA-Core.4.5.30\lib\net45\Csla.dll</HintPath>
-    </Reference>
-    <Reference Include="Csla.XmlSerializers">
-      <HintPath>..\packages\CSLA-Core.4.5.30\lib\net45\Csla.XmlSerializers.dll</HintPath>
+    <Reference Include="Csla, Version=4.5.501.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CSLA-Core.4.5.501\lib\net45\Csla.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -61,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\DynamicRoot1.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\PatientDynamicList.cs" />
     <Compile Include="Core\PatientSearchCriteria.cs" />
@@ -108,7 +105,6 @@
     <Compile Include="Core\TransactionList.cs" />
     <Compile Include="DataNotFoundException.cs" />
     <Compile Include="DbContextManager.cs" />
-    <Compile Include="EditableRoot1.cs" />
     <Compile Include="IncomingTransmissionException.cs" />
     <Compile Include="InvalidResponseException.cs" />
     <Compile Include="D0\Response\TransactionHeaderSegment.cs" />

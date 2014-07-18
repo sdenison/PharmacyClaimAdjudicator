@@ -10,6 +10,8 @@ using FirstFloor.ModernUI.Windows.Controls;
 using FirstFloor.ModernUI.Windows.Navigation;
 using PharmacyAdjudicator.ModernUI.Interface;
 using Newtonsoft.Json;
+using Caliburn.Micro;
+using System.Collections.ObjectModel;
 
 namespace PharmacyAdjudicator.ModernUI.Services
 {
@@ -26,6 +28,22 @@ namespace PharmacyAdjudicator.ModernUI.Services
                 //{ typeof(Patient.PatientFindAndEditViewModel), "/Patient/PatientFindAndEditView.xaml" }
             };
 
+        //private static readonly Dictionary<Type, Type> modelToViewModelRouting = new Dictionary<Type, Type>
+        //{
+        //    { typeof(Library.Core.Patient), typeof(Patient.PatientEditViewModel) },
+        //};
+
+        private ObservableCollection<ModernWindow> _openPatients = new ObservableCollection<ModernWindow>();
+        public ObservableCollection<ModernWindow> OpenPatients()
+        {
+            return _openPatients;
+        }
+        public ModernWindow SelectedItem { get; set; }
+
+        public void ShowWindow(ModernWindow window)
+        {
+            window.Show();
+        }
 
         ModernFrame mainFrame;
 
@@ -100,6 +118,25 @@ namespace PharmacyAdjudicator.ModernUI.Services
                 mainFrame.Source = newUrl;
             }
         }
+
+        public void OpenIndependentWindow<T>(IScreen vm)
+        {
+            var uri = new Uri(viewModelRouting[typeof(T)], UriKind.Relative);
+            var content = Application.LoadComponent(uri);
+            if (content is DependencyObject)
+            {
+                Caliburn.Micro.ViewModelBinder.Bind(vm, content as DependencyObject, null);
+            }
+            var wnd = new ModernWindow
+            {
+                Style = (System.Windows.Style)App.Current.Resources["EmptyWindow"],
+                Content = content,
+                SizeToContent = SizeToContent.WidthAndHeight
+            };
+            _openPatients.Add(wnd);
+            wnd.Show();
+        }
+
 
         /// <summary>
         /// Invokes the go back.

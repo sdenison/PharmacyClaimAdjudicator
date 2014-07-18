@@ -70,7 +70,7 @@
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" >
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" Visibility="{Binding CanShowResults, Converter={StaticResource BooleanToVisibilityConverter}}">
             <!--<pat:PatientSearchResultsView DataContext="{Binding Path=Results}"></pat:PatientSearchResultsView>--> 
             
             

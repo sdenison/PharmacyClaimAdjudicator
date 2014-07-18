@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace PharmacyAdjudicator.ModernUI.Shell
 {
-    public class ShellViewModel : Conductor<IScreen>.Collection.OneActive, 
+    public class ShellViewModel : //Conductor<IScreen>.Collection.OneActive, 
         IShellViewModel, 
         IHandle<EventMessages.LoginChangedMessage>,
         IHandle<EventMessages.DisplayViewModelMessage>,
@@ -20,6 +20,7 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         public ShellViewModel(IEventAggregator events) : this()
         {
             events.Subscribe(this);
+            IsBusy = true;
         }
 
         public void Handle(EventMessages.LoginChangedMessage message)
@@ -30,8 +31,8 @@ namespace PharmacyAdjudicator.ModernUI.Shell
 
         public string ContentSource { get; set; }
 
-        public IConductActiveItem ConductorArea { get; set; }
-        public IWindowManager wm { get; set; }
+        //public IConductActiveItem ConductorArea { get; set; }
+        //public IWindowManager wm { get; set; }
 
         public void Handle(EventMessages.NavigateGoBackMessage message)
         {
@@ -45,11 +46,10 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             navService.Navigate<Welcome.WelcomeViewModel>();
         }
 
-        //public void Handle(EventMessages.PatientSearchResultsMessage message)
-        //{
-        //    var navService = AppBootstrapper.GetInstance<Interface.INavigationService>();
-        //    navService.Navigate<Patient.PatientFindAndEditViewModel>(message.PatientSearchResults);
-        //}
+        public void Handle(EventMessages.PatientEditMessage message)
+        {
+            
+        }
 
         public LinkGroupCollection MenuLinkGroups { get; set; }
         private LinkCollection _titleLinks;
@@ -77,6 +77,7 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             var patientLinkGroup = new LinkGroup { DisplayName = "Patient" };
             patientLinkGroup.Links.Add(new Link { DisplayName = "Search", Source = new Uri("/Patient/PatientSearchView.xaml", UriKind.Relative) });
             patientLinkGroup.Links.Add(new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) });
+            patientLinkGroup.Links.Add(new Link { DisplayName = "Open Patients", Source = new Uri("/Patient/OpenPatientsView.xaml", UriKind.Relative) });
             return patientLinkGroup;
         }
 
@@ -137,5 +138,6 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             }
         }
 
+        public bool IsBusy { get; set; }
     }
 }
