@@ -99,10 +99,10 @@
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
-    <Property Name="OriginalFactRecordId" Type="int" Nullable="false" />
+    <Property Name="OriginalFactRecordId" Type="bigint" Nullable="false" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="GroupId" Type="nvarchar" Nullable="false" MaxLength="20" />
@@ -115,7 +115,7 @@
     <Key>
       <PropertyRef Name="PatientId" />
     </Key>
-    <Property Name="PatientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PatientId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
   </EntityType>
@@ -123,7 +123,7 @@
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="MiddleName" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
@@ -133,23 +133,23 @@
     <Property Name="PatientRelationshipCode" Type="nvarchar" Nullable="false" MaxLength="2" />
     <Property Name="Gender" Type="char" Nullable="false" MaxLength="1" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
-    <Property Name="OriginalFactRecordId" Type="int" Nullable="true" />
+    <Property Name="OriginalFactRecordId" Type="bigint" Nullable="true" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
-    <Property Name="PatientId" Type="int" Nullable="false" />
+    <Property Name="PatientId" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="PatientGroups">
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EffectiveDate" Type="datetime" Nullable="false" />
     <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
-    <Property Name="OriginalFactRecordId" Type="int" Nullable="true" />
+    <Property Name="OriginalFactRecordId" Type="bigint" Nullable="true" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
-    <Property Name="PatientId" Type="int" Nullable="false" />
+    <Property Name="PatientId" Type="bigint" Nullable="false" />
     <Property Name="GroupId" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <EntityType Name="VaDrugs">
@@ -198,10 +198,10 @@
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PlanId" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
-    <Property Name="OriginalFactRecordId" Type="int" Nullable="false" />
+    <Property Name="OriginalFactRecordId" Type="bigint" Nullable="false" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
   </EntityType>
@@ -209,7 +209,7 @@
     <Key>
       <PropertyRef Name="AtomId" />
     </Key>
-    <Property Name="AtomId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AtomId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="50" />
   </EntityType>
@@ -217,7 +217,7 @@
     <Key>
       <PropertyRef Name="AtomGroupId" />
     </Key>
-    <Property Name="AtomGroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AtomGroupId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="LogicalOperator" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -225,17 +225,17 @@
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AtomGroupId" Type="int" Nullable="false" />
-    <Property Name="AtomId" Type="int" Nullable="true" />
-    <Property Name="ContainedAtomGroupId" Type="int" Nullable="true" />
+    <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AtomGroupId" Type="bigint" Nullable="false" />
+    <Property Name="AtomId" Type="bigint" Nullable="true" />
+    <Property Name="ContainedAtomGroupId" Type="bigint" Nullable="true" />
     <Property Name="Priority" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Rules">
     <Key>
       <PropertyRef Name="RuleId" />
     </Key>
-    <Property Name="RuleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RuleId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RuleType" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DefaultValue" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -243,36 +243,37 @@
     <Key>
       <PropertyRef Name="PlanRecordId" />
     </Key>
-    <Property Name="PlanRecordId" Type="int" Nullable="false" />
-    <Property Name="RuleId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Rule_RuleId" Type="int" Nullable="false" />
-    <Property Name="PlanFact_RecordId" Type="int" Nullable="false" />
+    <Property Name="PlanRecordId" Type="bigint" Nullable="false" />
+    <Property Name="RuleId" Type="bigint" Nullable="false" />
+    <Property Name="Rule_RuleId" Type="bigint" Nullable="false" />
+    <Property Name="PlanFact_RecordId" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Implications">
     <Key>
       <PropertyRef Name="ImplicationId" />
     </Key>
-    <Property Name="ImplicationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AtomGroupId" Type="int" Nullable="false" />
-    <Property Name="DeductionAtomId" Type="int" Nullable="true" />
+    <Property Name="ImplicationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AtomGroupId" Type="bigint" Nullable="false" />
+    <Property Name="DeductionAtomId" Type="bigint" Nullable="true" />
+    <Property Name="Label" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="RuleImplications">
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RuleId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ImplicationId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RuleId" Type="bigint" Nullable="false" />
+    <Property Name="ImplicationId" Type="bigint" Nullable="false" />
     <Property Name="Priority" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Rule_RuleId" Type="int" Nullable="false" />
-    <Property Name="Implication_ImplicationId" Type="int" Nullable="false" />
+    <Property Name="Rule_RuleId" Type="bigint" Nullable="false" />
+    <Property Name="Implication_ImplicationId" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="AtomFacts">
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
     <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AtomId" Type="int" Nullable="false" />
+    <Property Name="AtomId" Type="bigint" Nullable="false" />
     <Property Name="Class" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Property" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
@@ -574,10 +575,10 @@
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordId" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
-          <Property Name="OriginalFactRecordId" Type="Int32" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Int64" Nullable="false" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
           <Property Name="GroupId" Type="String" Nullable="false" MaxLength="20" />
@@ -591,7 +592,7 @@
           <Key>
             <PropertyRef Name="PatientId" />
           </Key>
-          <Property Name="PatientId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="PatientGroups" Relationship="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel" FromRole="Patient" ToRole="PatientGroup" />
@@ -601,7 +602,7 @@
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordId" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="MiddleName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
@@ -611,24 +612,24 @@
           <Property Name="PatientRelationshipCode" Type="String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="false" />
           <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
-          <Property Name="OriginalFactRecordId" Type="Int32" />
+          <Property Name="OriginalFactRecordId" Type="Int64" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
-          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="PatientId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Patient" Relationship="PharmacyClaimAdjudicatorModel.Patient_PatientFacts_Rel" FromRole="PatientFacts" ToRole="Patient" />
           </EntityType>
         <EntityType Name="PatientGroup">
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordId" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="EffectiveDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ExpirationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
-          <Property Name="OriginalFactRecordId" Type="Int32" />
+          <Property Name="OriginalFactRecordId" Type="Int64" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
-          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="PatientId" Type="Int64" Nullable="false" />
           <Property Name="GroupId" Type="String" Nullable="false" MaxLength="20" />
           <NavigationProperty Name="Group" Relationship="PharmacyClaimAdjudicatorModel.Group_PatientGroup_Rel" FromRole="PatientGroup" ToRole="Group" />
           <NavigationProperty Name="Patient" Relationship="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel" FromRole="PatientGroup" ToRole="Patient" />
@@ -729,10 +730,10 @@
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PlanId" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
-          <Property Name="OriginalFactRecordId" Type="Int32" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Int64" Nullable="false" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
           <NavigationProperty Name="PlanRules" Relationship="PharmacyClaimAdjudicatorModel.PlanFactPlanRules" FromRole="PlanFact" ToRole="PlanRules" />
@@ -757,7 +758,7 @@
           <Key>
             <PropertyRef Name="AtomId" />
           </Key>
-          <Property Name="AtomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AtomId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="50" />
           <NavigationProperty Name="AtomFacts" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomFact" FromRole="Atom" ToRole="AtomFact" />
@@ -768,7 +769,7 @@
           <Key>
             <PropertyRef Name="AtomGroupId" />
           </Key>
-          <Property Name="AtomGroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AtomGroupId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LogicalOperator" Type="String" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="AtomGroupItems" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" FromRole="AtomGroup" ToRole="AtomGroupItems" />
@@ -779,10 +780,10 @@
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AtomGroupId" Type="Int32" Nullable="false" />
-          <Property Name="AtomId" Type="Int32" Nullable="true" />
-          <Property Name="ContainedAtomGroupId" Type="Int32" Nullable="true" />
+          <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AtomGroupId" Type="Int64" Nullable="false" />
+          <Property Name="AtomId" Type="Int64" Nullable="true" />
+          <Property Name="ContainedAtomGroupId" Type="Int64" Nullable="true" />
           <Property Name="Priority" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AtomGroup" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" FromRole="AtomGroupItems" ToRole="AtomGroup" />
           <NavigationProperty Name="Atom" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" FromRole="AtomGroupItems" ToRole="Atom" />
@@ -792,7 +793,7 @@
           <Key>
             <PropertyRef Name="RuleId" />
           </Key>
-          <Property Name="RuleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RuleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RuleType" Type="String" Nullable="false" />
           <Property Name="DefaultValue" Type="String" Nullable="false" />
           <NavigationProperty Name="RuleImplications" Relationship="PharmacyClaimAdjudicatorModel.RuleRuleImplication" FromRole="Rule" ToRole="RuleImplication" />
@@ -802,8 +803,8 @@
           <Key>
             <PropertyRef Name="PlanRecordId" />
           </Key>
-          <Property Name="PlanRecordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="RuleId" Type="String" Nullable="false" />
+          <Property Name="PlanRecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="RuleId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Rule" Relationship="PharmacyClaimAdjudicatorModel.RulePlanRules" FromRole="PlanRules" ToRole="Rule" />
           <NavigationProperty Name="PlanFact" Relationship="PharmacyClaimAdjudicatorModel.PlanFactPlanRules" FromRole="PlanRules" ToRole="PlanFact" />
         </EntityType>
@@ -811,20 +812,21 @@
           <Key>
             <PropertyRef Name="ImplicationId" />
           </Key>
-          <Property Name="ImplicationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AtomGroupId" Type="Int32" Nullable="false" />
-          <Property Name="DeductionAtomId" Type="Int32" Nullable="true" />
+          <Property Name="ImplicationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AtomGroupId" Type="Int64" Nullable="false" />
+          <Property Name="DeductionAtomId" Type="Int64" Nullable="true" />
           <NavigationProperty Name="RuleImplications" Relationship="PharmacyClaimAdjudicatorModel.ImplicationRuleImplication" FromRole="Implication" ToRole="RuleImplication" />
           <NavigationProperty Name="AtomGroup" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupImplication" FromRole="Implication" ToRole="AtomGroup" />
           <NavigationProperty Name="Atom" Relationship="PharmacyClaimAdjudicatorModel.AtomImplication" FromRole="Implication" ToRole="Atom" />
+          <Property Name="Label" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="RuleImplication">
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RuleId" Type="String" Nullable="false" />
-          <Property Name="ImplicationId" Type="String" Nullable="false" />
+          <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RuleId" Type="Int64" Nullable="false" />
+          <Property Name="ImplicationId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Rule" Relationship="PharmacyClaimAdjudicatorModel.RuleRuleImplication" FromRole="RuleImplication" ToRole="Rule" />
           <NavigationProperty Name="Implication" Relationship="PharmacyClaimAdjudicatorModel.ImplicationRuleImplication" FromRole="RuleImplication" ToRole="Implication" />
           <Property Name="Priority" Type="String" Nullable="false" />
@@ -850,7 +852,7 @@
             <PropertyRef Name="RecordId" />
           </Key>
           <Property Name="RecordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AtomId" Type="Int32" Nullable="false" />
+          <Property Name="AtomId" Type="Int64" Nullable="false" />
           <Property Name="Class" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="Property" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="Value" Type="String" Nullable="false" />
@@ -1116,6 +1118,7 @@
           <ScalarProperty Name="ImplicationId" ColumnName="ImplicationId" />
           <ScalarProperty Name="AtomGroupId" ColumnName="AtomGroupId" />
           <ScalarProperty Name="DeductionAtomId" ColumnName="DeductionAtomId" />
+          <ScalarProperty Name="Label" ColumnName="Label" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

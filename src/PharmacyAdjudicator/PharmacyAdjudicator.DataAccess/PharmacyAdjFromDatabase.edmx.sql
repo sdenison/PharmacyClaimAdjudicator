@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/20/2013 18:04:38
+-- Date Created: 07/30/2014 16:50:43
 -- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -133,10 +133,10 @@ GO
 
 -- Creating table 'GroupFacts'
 CREATE TABLE [dbo].[GroupFacts] (
-    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(100)  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] int  NOT NULL,
+    [OriginalFactRecordId] bigint  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
     [GroupId] nvarchar(20)  NOT NULL,
@@ -149,7 +149,7 @@ GO
 
 -- Creating table 'Patient'
 CREATE TABLE [dbo].[Patient] (
-    [PatientId] int IDENTITY(1,1) NOT NULL,
+    [PatientId] bigint IDENTITY(1,1) NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
@@ -157,7 +157,7 @@ GO
 
 -- Creating table 'PatientFacts'
 CREATE TABLE [dbo].[PatientFacts] (
-    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [FirstName] nvarchar(50)  NOT NULL,
     [MiddleName] nvarchar(50)  NOT NULL,
     [LastName] nvarchar(50)  NOT NULL,
@@ -167,23 +167,23 @@ CREATE TABLE [dbo].[PatientFacts] (
     [PatientRelationshipCode] nvarchar(2)  NOT NULL,
     [Gender] char(1)  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] int  NULL,
+    [OriginalFactRecordId] bigint  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
-    [PatientId] int  NOT NULL
+    [PatientId] bigint  NOT NULL
 );
 GO
 
 -- Creating table 'PatientGroups'
 CREATE TABLE [dbo].[PatientGroups] (
-    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [EffectiveDate] datetime  NOT NULL,
     [ExpirationDate] datetime  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] int  NULL,
+    [OriginalFactRecordId] bigint  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
-    [PatientId] int  NOT NULL,
+    [PatientId] bigint  NOT NULL,
     [GroupId] nvarchar(20)  NOT NULL
 );
 GO
@@ -232,10 +232,10 @@ GO
 
 -- Creating table 'PlanFacts'
 CREATE TABLE [dbo].[PlanFacts] (
-    [RecordId] int IDENTITY(1,1) NOT NULL,
+    [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [PlanId] nvarchar(20)  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] int  NOT NULL,
+    [OriginalFactRecordId] bigint  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
@@ -243,7 +243,7 @@ GO
 
 -- Creating table 'Atoms'
 CREATE TABLE [dbo].[Atoms] (
-    [AtomId] int IDENTITY(1,1) NOT NULL,
+    [AtomId] bigint IDENTITY(1,1) NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(50)  NOT NULL
 );
@@ -251,7 +251,7 @@ GO
 
 -- Creating table 'AtomGroups'
 CREATE TABLE [dbo].[AtomGroups] (
-    [AtomGroupId] int IDENTITY(1,1) NOT NULL,
+    [AtomGroupId] bigint IDENTITY(1,1) NOT NULL,
     [LogicalOperator] nvarchar(max)  NOT NULL,
     [Name] nvarchar(max)  NOT NULL
 );
@@ -259,17 +259,17 @@ GO
 
 -- Creating table 'AtomGroupItems'
 CREATE TABLE [dbo].[AtomGroupItems] (
-    [RecordId] int IDENTITY(1,1) NOT NULL,
-    [AtomGroupId] int  NOT NULL,
-    [AtomId] int  NULL,
-    [ContainedAtomGroupId] int  NULL,
+    [RecordId] bigint IDENTITY(1,1) NOT NULL,
+    [AtomGroupId] bigint  NOT NULL,
+    [AtomId] bigint  NULL,
+    [ContainedAtomGroupId] bigint  NULL,
     [Priority] int  NOT NULL
 );
 GO
 
 -- Creating table 'Rules'
 CREATE TABLE [dbo].[Rules] (
-    [RuleId] int IDENTITY(1,1) NOT NULL,
+    [RuleId] bigint IDENTITY(1,1) NOT NULL,
     [RuleType] nvarchar(max)  NOT NULL,
     [DefaultValue] nvarchar(max)  NOT NULL
 );
@@ -277,36 +277,37 @@ GO
 
 -- Creating table 'PlanRules'
 CREATE TABLE [dbo].[PlanRules] (
-    [PlanRecordId] int  NOT NULL,
-    [RuleId] nvarchar(max)  NOT NULL,
-    [Rule_RuleId] int  NOT NULL,
-    [PlanFact_RecordId] int  NOT NULL
+    [PlanRecordId] bigint  NOT NULL,
+    [RuleId] bigint  NOT NULL,
+    [Rule_RuleId] bigint  NOT NULL,
+    [PlanFact_RecordId] bigint  NOT NULL
 );
 GO
 
 -- Creating table 'Implications'
 CREATE TABLE [dbo].[Implications] (
-    [ImplicationId] int IDENTITY(1,1) NOT NULL,
-    [AtomGroupId] int  NOT NULL,
-    [DeductionAtomId] int  NULL
+    [ImplicationId] bigint IDENTITY(1,1) NOT NULL,
+    [AtomGroupId] bigint  NOT NULL,
+    [DeductionAtomId] bigint  NULL,
+    [Label] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'RuleImplications'
 CREATE TABLE [dbo].[RuleImplications] (
-    [RecordId] int IDENTITY(1,1) NOT NULL,
-    [RuleId] nvarchar(max)  NOT NULL,
-    [ImplicationId] nvarchar(max)  NOT NULL,
+    [RecordId] bigint IDENTITY(1,1) NOT NULL,
+    [RuleId] bigint  NOT NULL,
+    [ImplicationId] bigint  NOT NULL,
     [Priority] nvarchar(max)  NOT NULL,
-    [Rule_RuleId] int  NOT NULL,
-    [Implication_ImplicationId] int  NOT NULL
+    [Rule_RuleId] bigint  NOT NULL,
+    [Implication_ImplicationId] bigint  NOT NULL
 );
 GO
 
 -- Creating table 'AtomFacts'
 CREATE TABLE [dbo].[AtomFacts] (
     [RecordId] int IDENTITY(1,1) NOT NULL,
-    [AtomId] int  NOT NULL,
+    [AtomId] bigint  NOT NULL,
     [Class] nvarchar(50)  NOT NULL,
     [Property] nvarchar(50)  NOT NULL,
     [Value] nvarchar(max)  NOT NULL,
@@ -429,6 +430,7 @@ ADD CONSTRAINT [FK_FKGroupFacts397517]
     REFERENCES [dbo].[Groups]
         ([GroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_FKGroupFacts397517'
 CREATE INDEX [IX_FK_FKGroupFacts397517]
@@ -443,6 +445,7 @@ ADD CONSTRAINT [FK_Group_PatientGroup_Rel]
     REFERENCES [dbo].[Groups]
         ([GroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Group_PatientGroup_Rel'
 CREATE INDEX [IX_FK_Group_PatientGroup_Rel]
@@ -457,6 +460,7 @@ ADD CONSTRAINT [FK_Patient_PateintFacts_Rel]
     REFERENCES [dbo].[Patient]
         ([PatientId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Patient_PateintFacts_Rel'
 CREATE INDEX [IX_FK_Patient_PateintFacts_Rel]
@@ -471,6 +475,7 @@ ADD CONSTRAINT [FK_Patient_PatientFacts_Rel]
     REFERENCES [dbo].[Patient]
         ([PatientId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Patient_PatientFacts_Rel'
 CREATE INDEX [IX_FK_Patient_PatientFacts_Rel]
@@ -485,6 +490,7 @@ ADD CONSTRAINT [FK_PlanPlanFact]
     REFERENCES [dbo].[Plans]
         ([PlanId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanPlanFact'
 CREATE INDEX [IX_FK_PlanPlanFact]
@@ -499,6 +505,7 @@ ADD CONSTRAINT [FK_PlanGroupFact]
     REFERENCES [dbo].[Plans]
         ([PlanId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanGroupFact'
 CREATE INDEX [IX_FK_PlanGroupFact]
@@ -513,6 +520,7 @@ ADD CONSTRAINT [FK_RuleRuleImplication]
     REFERENCES [dbo].[Rules]
         ([RuleId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_RuleRuleImplication'
 CREATE INDEX [IX_FK_RuleRuleImplication]
@@ -527,6 +535,7 @@ ADD CONSTRAINT [FK_ImplicationRuleImplication]
     REFERENCES [dbo].[Implications]
         ([ImplicationId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ImplicationRuleImplication'
 CREATE INDEX [IX_FK_ImplicationRuleImplication]
@@ -541,6 +550,7 @@ ADD CONSTRAINT [FK_RulePlanRules]
     REFERENCES [dbo].[Rules]
         ([RuleId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_RulePlanRules'
 CREATE INDEX [IX_FK_RulePlanRules]
@@ -555,6 +565,7 @@ ADD CONSTRAINT [FK_PlanFactPlanRules]
     REFERENCES [dbo].[PlanFacts]
         ([RecordId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanFactPlanRules'
 CREATE INDEX [IX_FK_PlanFactPlanRules]
@@ -569,6 +580,7 @@ ADD CONSTRAINT [FK_AtomAtomFact]
     REFERENCES [dbo].[Atoms]
         ([AtomId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomFact'
 CREATE INDEX [IX_FK_AtomAtomFact]
@@ -583,6 +595,7 @@ ADD CONSTRAINT [FK_AtomGroupAtomGroupItems]
     REFERENCES [dbo].[AtomGroups]
         ([AtomGroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupAtomGroupItems'
 CREATE INDEX [IX_FK_AtomGroupAtomGroupItems]
@@ -597,6 +610,7 @@ ADD CONSTRAINT [FK_AtomAtomGroupItems]
     REFERENCES [dbo].[Atoms]
         ([AtomId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomGroupItems'
 CREATE INDEX [IX_FK_AtomAtomGroupItems]
@@ -611,6 +625,7 @@ ADD CONSTRAINT [FK_AtomGroupAtomGroupItems1]
     REFERENCES [dbo].[AtomGroups]
         ([AtomGroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupAtomGroupItems1'
 CREATE INDEX [IX_FK_AtomGroupAtomGroupItems1]
@@ -625,6 +640,7 @@ ADD CONSTRAINT [FK_AtomGroupImplication]
     REFERENCES [dbo].[AtomGroups]
         ([AtomGroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupImplication'
 CREATE INDEX [IX_FK_AtomGroupImplication]
@@ -639,6 +655,7 @@ ADD CONSTRAINT [FK_AtomImplication]
     REFERENCES [dbo].[Atoms]
         ([AtomId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomImplication'
 CREATE INDEX [IX_FK_AtomImplication]

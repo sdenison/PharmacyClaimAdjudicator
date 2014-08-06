@@ -7,6 +7,7 @@ using System.Linq;
 using Caliburn.Micro;
 using PharmacyAdjudicator.ModernUI.Shell;
 using PharmacyAdjudicator.ModernUI.Extensions;
+using PharmacyAdjudicator.ModernUI.Interface;
 
 namespace PharmacyAdjudicator.ModernUI
 {
@@ -32,20 +33,6 @@ namespace PharmacyAdjudicator.ModernUI
 
         protected override void Configure()
         {
-            // Add New ViewLocator Rule
-            //ViewLocator.NameTransformer.AddRule(
-            //    @"(?<nsbefore>([A-Za-z_]\w*\.)*)?(?<nsvm>ViewModels\.)(?<nsafter>([A-Za-z_]\w*\.)*)(?<basename>[A-Za-z_]\w*)(?<suffix>ViewModel$)",
-            //    @"${nsbefore}Views.${nsafter}${basename}View",
-            //    @"(([A-Za-z_]\w*\.)*)?ViewModels\.([A-Za-z_]\w*\.)*[A-Za-z_]\w*ViewModel$"
-            //);
-
-            //_container = new CompositionContainer(
-            //        new AggregateCatalog(
-            //        new AssemblyCatalog(typeof(IShellViewModel).Assembly),
-            //        AssemblySource.Instance.Select(x => new AssemblyCatalog(x)).OfType<ComposablePartCatalog>().FirstOrDefault()
-            //    )
-            //);
-
             _container = new CompositionContainer(
                     new AggregateCatalog(
                     new AssemblyCatalog(typeof(IShellViewModel).Assembly)
@@ -53,7 +40,11 @@ namespace PharmacyAdjudicator.ModernUI
             );
 
             var batch = new CompositionBatch();
-            batch.AddExport<IWindowManager>(() => new WindowManager());
+            //batch.AddExport<IWindowManager>(() => new WindowManager());
+            var windowManager = new Services.ModernWindowManager();
+            //batch.AddExport<IWindowManager>(() => new Services.ModernWindowManager());
+            batch.AddExport<IWindowManager>(() => windowManager);
+            batch.AddExport<IHaveWindowsForType>(() => windowManager);
             batch.AddExport<IEventAggregator>(() => new EventAggregator());
             batch.AddExport<Interface.INavigationService>(() => new Services.NavigationService());
             batch.AddExport<Interface.IDialog>(() => new Services.DialogService());

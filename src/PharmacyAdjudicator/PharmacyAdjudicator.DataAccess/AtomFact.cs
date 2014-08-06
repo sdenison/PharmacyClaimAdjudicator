@@ -20,7 +20,7 @@ namespace PharmacyAdjudicator.DataAccess
         }
     
         public int RecordId { get; set; }
-        public int AtomId { get; set; }
+        public long AtomId { get; set; }
         public string Class { get; set; }
         public string Property { get; set; }
         public string Value { get; set; }

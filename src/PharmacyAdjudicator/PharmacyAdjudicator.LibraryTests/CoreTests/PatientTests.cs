@@ -121,7 +121,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             newPatient.LastName = "Parker";
             newPatient.CardholderId = "456123789";
             newPatient.DateOfBirth = new DateTime(1982, 05, 17);
-            int newPatientId = newPatient.PatientId;
+            long newPatientId = newPatient.PatientId;
 
             foreach (var brokenRule in newPatient.BrokenRulesCollection)
             {

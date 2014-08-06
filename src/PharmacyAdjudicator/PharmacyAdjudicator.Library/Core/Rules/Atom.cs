@@ -37,8 +37,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(OperationProperty, value); }
         } 
 
-        public static readonly PropertyInfo<int> AtomIdProperty = RegisterProperty<int>(c => c.AtomId);
-        public int AtomId
+        public static readonly PropertyInfo<long> AtomIdProperty = RegisterProperty<long>(c => c.AtomId);
+        public long AtomId
         {
             get { return GetProperty(AtomIdProperty); }
             set { SetProperty(AtomIdProperty, value); }
@@ -83,12 +83,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Create<Atom>();
         }
 
-        public static Atom GetByAtomId(int atomId)
+        public static Atom GetByAtomId(long atomId)
         {
             return DataPortal.Fetch<Atom>(atomId);
         }
 
-        public static void DeleteByAtomId(int atomId)
+        public static void DeleteByAtomId(long atomId)
         {
             DataPortal.Delete<Atom>(atomId);
         }
@@ -114,7 +114,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             base.DataPortal_Create();
         }
 
-        private void DataPortal_Fetch(int atomId)
+        private void DataPortal_Fetch(long atomId)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -165,7 +165,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             DataPortal_Delete(this.AtomId);
         }
 
-        private void DataPortal_Delete(int criteria)
+        private void DataPortal_Delete(long criteria)
         {
             using(BypassPropertyChecks)
             {

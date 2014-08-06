@@ -14,10 +14,10 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class AtomGroupItems
     {
-        public int RecordId { get; set; }
-        public int AtomGroupId { get; set; }
-        public Nullable<int> AtomId { get; set; }
-        public Nullable<int> ContainedAtomGroupId { get; set; }
+        public long RecordId { get; set; }
+        public long AtomGroupId { get; set; }
+        public Nullable<long> AtomId { get; set; }
+        public Nullable<long> ContainedAtomGroupId { get; set; }
         public int Priority { get; set; }
     
         public virtual AtomGroup AtomGroup { get; set; }

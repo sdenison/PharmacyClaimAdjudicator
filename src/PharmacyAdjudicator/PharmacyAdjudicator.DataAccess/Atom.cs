@@ -21,7 +21,7 @@ namespace PharmacyAdjudicator.DataAccess
             this.Implications = new HashSet<Implication>();
         }
     
-        public int AtomId { get; set; }
+        public long AtomId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     

@@ -24,7 +24,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             //    new string[] { "PatientViewer" });
             Csla.ApplicationContext.User = principal;
 
-            //Using SQL Server script to recreate the database
+            //Using SQL Server script to recreate the datC:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.LibraryTests\CoreTests\RulesTests\AtomTests.csabase
             System.Diagnostics.Process proc = new System.Diagnostics.Process();
             proc.StartInfo.FileName = "Scripts\\recreate_database.bat";
             proc.StartInfo.RedirectStandardError = false;

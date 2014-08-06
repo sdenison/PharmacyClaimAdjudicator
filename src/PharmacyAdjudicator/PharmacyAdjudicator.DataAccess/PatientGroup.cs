@@ -14,14 +14,14 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class PatientGroup
     {
-        public int RecordId { get; set; }
+        public long RecordId { get; set; }
         public System.DateTime EffectiveDate { get; set; }
         public System.DateTime ExpirationDate { get; set; }
         public bool Retraction { get; set; }
-        public Nullable<int> OriginalFactRecordId { get; set; }
+        public Nullable<long> OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
-        public int PatientId { get; set; }
+        public long PatientId { get; set; }
         public string GroupId { get; set; }
     
         public virtual Group Group { get; set; }

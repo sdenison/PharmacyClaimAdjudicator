@@ -64,6 +64,8 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -96,21 +98,21 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Helpers\INavigation.cs" />
     <Compile Include="Interface\IDialog.cs" />
+    <Compile Include="Interface\IHaveUniqueId.cs" />
+    <Compile Include="Interface\IHaveWindowsForType.cs" />
     <Compile Include="Interface\INavigationService.cs" />
     <Compile Include="Interface\IOpenViewModels.cs" />
+    <Compile Include="Interface\IPatientEditManager.cs" />
     <Compile Include="Interface\IShowEditWindowService.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Login\LoginViewModel.cs" />
-    <Compile Include="Patient\OpenPatientsView.xaml.cs">
-      <DependentUpon>OpenPatientsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Patient\OpenPatientsViewModel.cs" />
     <Compile Include="Patient\PatientEditView.xaml.cs">
       <DependentUpon>PatientEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patient\PatientEditViewModel.cs" />
+    <Compile Include="Patient\PatientEditViewModelClosingMessage.cs" />
     <Compile Include="Patient\PatientSearchResultsView.xaml.cs">
       <DependentUpon>PatientSearchResultsView.xaml</DependentUpon>
     </Compile>
@@ -119,8 +121,13 @@
       <DependentUpon>PatientSearchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patient\PatientSearchViewModel.cs" />
+    <Compile Include="Patient\PatientView.xaml.cs">
+      <DependentUpon>PatientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patient\PatientViewModel.cs" />
     <Compile Include="Services\CaliburnContentLoader.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\ModernWindowManager.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\OpenViewModels.cs" />
     <Compile Include="Shell\IShellViewModel.cs" />
@@ -142,7 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="AppBootstrapper.cs" />
     <Page Include="Content\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -173,10 +180,6 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Page Include="Patient\OpenPatientsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Patient\PatientEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Patient\PatientSearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Patient\PatientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,10 +206,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <Resource Include="Fonts\fontawesome-webfont.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

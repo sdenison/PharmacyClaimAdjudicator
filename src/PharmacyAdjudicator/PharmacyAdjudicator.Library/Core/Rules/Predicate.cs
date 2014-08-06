@@ -4,13 +4,16 @@ using Csla;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
+    /// <summary>
+    /// Predicate can either be a
+    /// </summary>
     [Serializable]
     public class Predicate : BusinessBase<Predicate>
     {
         #region Business Methods
 
-        public static readonly PropertyInfo<int> AtomGroupIdProperty = RegisterProperty<int>(c => c.AtomGroupId);
-        public int AtomGroupId
+        public static readonly PropertyInfo<long> AtomGroupIdProperty = RegisterProperty<long>(c => c.AtomGroupId);
+        public long AtomGroupId
         {
             get { return GetProperty(AtomGroupIdProperty); }
             private set { LoadProperty(AtomGroupIdProperty, value); }
@@ -51,7 +54,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(PriorityProperty, value); }
         }
 
-        private int _RecordId;
+        private long _RecordId;
 
         #endregion
 
@@ -80,12 +83,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Create<Predicate>(parent);
         }
 
-        internal static Predicate GetByRecordId(int recordId)
+        internal static Predicate GetByRecordId(long recordId)
         {
             return DataPortal.Fetch<Predicate>(recordId);
         }
 
-        internal static void DeleteByRecordId(int recordId)
+        internal static void DeleteByRecordId(long recordId)
         {
             DataPortal.Delete<Predicate>(recordId);
         }
@@ -174,7 +177,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             UpdateChildren();
         }
 
-        private void DataPortal_Fetch(int recordId)
+        private void DataPortal_Fetch(long recordId)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {

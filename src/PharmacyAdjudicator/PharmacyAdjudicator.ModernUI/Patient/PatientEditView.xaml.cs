@@ -18,7 +18,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
     /// <summary>
     /// Interaction logic for PatientEditView.xaml
     /// </summary>
-    public partial class PatientEditView : UserControl
+    public partial class PatientEditView : UserControl 
     {
         public PatientEditView()
         {

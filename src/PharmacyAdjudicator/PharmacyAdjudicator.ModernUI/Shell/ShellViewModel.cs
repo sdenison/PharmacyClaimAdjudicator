@@ -75,6 +75,7 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         private LinkGroup PatientLinkGroup()
         {
             var patientLinkGroup = new LinkGroup { DisplayName = "Patient" };
+            patientLinkGroup.Links.Add(new Link { DisplayName = "Patient Manager", Source = new Uri("/Patient/PatientView.xaml", UriKind.Relative) });
             patientLinkGroup.Links.Add(new Link { DisplayName = "Search", Source = new Uri("/Patient/PatientSearchView.xaml", UriKind.Relative) });
             patientLinkGroup.Links.Add(new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) });
             patientLinkGroup.Links.Add(new Link { DisplayName = "Open Patients", Source = new Uri("/Patient/OpenPatientsView.xaml", UriKind.Relative) });

@@ -13,6 +13,7 @@ using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows;
 using System.Windows;
 using FirstFloor.ModernUI.Windows.Controls;
+using PharmacyAdjudicator.ModernUI.Interface;
 
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
@@ -22,6 +23,8 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         private readonly IEventAggregator _eventAggregator;
         private readonly Interface.IDialog _dialogManager;
         private readonly Interface.INavigationService _navigationService;
+        private readonly IWindowManager _windowManager;
+        private readonly IHaveWindowsForType _openWindows;
         private LinkCollection _patientListLinks;
         public LinkCollection PatientListLinks
         {
@@ -74,11 +77,13 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         //}
 
         [ImportingConstructor]
-        public PatientSearchViewModel(IEventAggregator eventAggregator, Interface.IDialog dialogManager, Interface.INavigationService navigationService)
+        public PatientSearchViewModel(IEventAggregator eventAggregator, Interface.IDialog dialogManager, Interface.INavigationService navigationService, IWindowManager windowManager, IHaveWindowsForType openWindows)
         {
             _eventAggregator = eventAggregator;
             _dialogManager = dialogManager;
             _navigationService = navigationService;
+            _windowManager = windowManager;
+            _openWindows = openWindows;
             this.Model = new Library.Core.PatientSearchCriteria();
             var patients = Library.Core.PatientList.NewPatientList();
             this.PatientListLinks = ConvertPatientList(patients);
@@ -123,8 +128,8 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         public async Task ShowPatient(Library.Core.Patient patient)
         {
             this.IsBusy = true;
-            var patientViewModel = await PatientEditViewModel.BuildViewModelAsync(patient.PatientId);
-            _navigationService.OpenIndependentWindow<PatientEditViewModel>(patientViewModel);
+            var patientViewModel = await PatientEditViewModel.BuildViewModelAsync(patient.PatientId, _eventAggregator);
+            _windowManager.ShowWindow(patientViewModel);
             this.IsBusy = false;
         }
 

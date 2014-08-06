@@ -20,7 +20,7 @@ namespace PharmacyAdjudicator.DataAccess
             this.PatientFacts = new HashSet<PatientFact>();
         }
     
-        public int PatientId { get; set; }
+        public long PatientId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     

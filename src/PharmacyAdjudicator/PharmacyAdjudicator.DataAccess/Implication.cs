@@ -19,9 +19,10 @@ namespace PharmacyAdjudicator.DataAccess
             this.RuleImplications = new HashSet<RuleImplication>();
         }
     
-        public int ImplicationId { get; set; }
-        public int AtomGroupId { get; set; }
-        public Nullable<int> DeductionAtomId { get; set; }
+        public long ImplicationId { get; set; }
+        public long AtomGroupId { get; set; }
+        public Nullable<long> DeductionAtomId { get; set; }
+        public string Label { get; set; }
     
         public virtual ICollection<RuleImplication> RuleImplications { get; set; }
         public virtual AtomGroup AtomGroup { get; set; }

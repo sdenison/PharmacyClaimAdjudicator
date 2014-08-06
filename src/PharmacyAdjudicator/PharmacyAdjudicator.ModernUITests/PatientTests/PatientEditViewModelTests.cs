@@ -8,6 +8,8 @@ using System.Threading;
 using PharmacyAdjudicator.ModernUI;
 using Csla;
 using System.Threading.Tasks;
+using Caliburn.Micro;
+using Moq;
 
 namespace PharmacyAdjudicator.ModernUITests.PatientTests
 {
@@ -17,6 +19,8 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
     [TestClass]
     public class PatientEditViewModelTests
     {
+        private Mock<IEventAggregator> _eventAggregator;
+
         public PatientEditViewModelTests()
         {
             //Using SQL Server script to recreate the database
@@ -27,6 +31,7 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
             proc.StartInfo.UseShellExecute = false;
             proc.Start();
             proc.WaitForExit();
+            _eventAggregator = new Mock<IEventAggregator>();
         }
 
         [TestInitialize]
@@ -40,17 +45,6 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
             //    new System.Security.Principal.GenericIdentity("Test"),
             //    new string[] { "PatientViewer" });
             Csla.ApplicationContext.User = principal;
-
-            
-
-
-            //var userName = "sam";
-            //var password = "password";
-            //PharmacyAdjudicator.Library.Security.PAPrincipal.Login(userName, password);
-            //if (!Csla.ApplicationContext.User.Identity.IsAuthenticated)
-            //{
-            //    throw new Exception("User should be authenticated");
-            //}
         }
 
         [TestMethod]
@@ -58,14 +52,11 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
         {
             try
             {
-                //var patient = Library.Core.Patient.GetByPatientId(22);
-                //Assert.AreEqual(patient.FirstName, "Joe");
-                var patientId = 22;
-                //var patientVM = new ModernUI.Patient.PatientEditViewModel(patientId);
-                var patientVM = await ModernUI.Patient.PatientEditViewModel.BuildViewModelAsync(patientId);
+                long patientId = 22;
+                var patientVM = await ModernUI.Patient.PatientEditViewModel.BuildViewModelAsync(patientId, _eventAggregator.Object);
                 patientVM.Model.FirstName = "John";
                 Assert.IsTrue(patientVM.CanSave, "Should be able to save after changing first name from Joe to John");
-                patientVM.Save(null, null);
+                await patientVM.SaveAsync();
 
                 var patientSecondFetch = Library.Core.Patient.GetByPatientId(22);
                 //Assert that the name from the database is now John.
@@ -78,7 +69,6 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
                     Assert.Fail(ex.GetBaseException().Message);
                 }
             }
-
         }
 
         //[TestMethod]

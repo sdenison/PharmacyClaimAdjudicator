@@ -12,28 +12,35 @@ using FirstFloor.ModernUI.Windows.Controls;
 using Csla.Xaml;
 using Csla;
 using System.Threading;
+using PharmacyAdjudicator.ModernUI.Interface;
+using System.ComponentModel.Composition.Hosting;
+using System.Reflection;
 
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
-    [Export]
-    public class PatientEditViewModel : ScreenWithModel<Library.Core.Patient>
+    //[Export]
+    public class PatientEditViewModel : ScreenWithModel<Library.Core.Patient>, Interface.IHaveUniqueId
     {
-        [ImportingConstructor]
-        public PatientEditViewModel()
-        {
-        }
+        [Import]
+        private IEventAggregator _eventAggregator;
 
-        private PatientEditViewModel(Library.Core.Patient existingPatient)
+        public PatientEditViewModel(Library.Core.Patient existingPatient, IEventAggregator eventAggregator)
         {
             this.Model = existingPatient;
+            _eventAggregator = eventAggregator;
             RefreshStatus();
         }
 
+        public void OnDeactivate()
+        {
+            base.OnDeactivate(true);
+        }
+
         //static async method that behave like a constructor       
-        async public static Task<PatientEditViewModel> BuildViewModelAsync(int patientId)
+        async public static Task<PatientEditViewModel> BuildViewModelAsync(long patientId, IEventAggregator eventAggregator)
         {
             var patientModel = await Library.Core.Patient.GetByPatientIdAsync(patientId);
-            return new PatientEditViewModel(patientModel);
+            return new PatientEditViewModel(patientModel, eventAggregator);
         }  
 
         //Supplies values for gender ComboBoxes 
@@ -121,6 +128,24 @@ namespace PharmacyAdjudicator.ModernUI.Patient
                 _lastUpdated = Model.LastChangedDateTime;
 
             }
+        }
+
+        //Used to locate any open view models.
+        public object Id
+        {
+            get { return Model.PatientId; }
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            _eventAggregator.PublishOnCurrentThread(new PatientEditViewModelClosingMessage() { PatientEditViewModel = this });
+            base.OnDeactivate(close);
+        }
+
+        public void Focus()
+        {
+            var window = GetView() as Window;
+            if (window != null) window.Activate();
         }
 
 

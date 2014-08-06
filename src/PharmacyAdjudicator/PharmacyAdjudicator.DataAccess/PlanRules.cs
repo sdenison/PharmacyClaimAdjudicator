@@ -14,8 +14,8 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class PlanRules
     {
-        public int PlanRecordId { get; set; }
-        public string RuleId { get; set; }
+        public long PlanRecordId { get; set; }
+        public long RuleId { get; set; }
     
         public virtual Rule Rule { get; set; }
         public virtual PlanFact PlanFact { get; set; }

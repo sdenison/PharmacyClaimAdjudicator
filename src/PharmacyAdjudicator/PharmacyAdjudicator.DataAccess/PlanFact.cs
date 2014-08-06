@@ -19,10 +19,10 @@ namespace PharmacyAdjudicator.DataAccess
             this.PlanRules = new HashSet<PlanRules>();
         }
     
-        public int RecordId { get; set; }
+        public long RecordId { get; set; }
         public string PlanId { get; set; }
         public bool Retraction { get; set; }
-        public int OriginalFactRecordId { get; set; }
+        public long OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     

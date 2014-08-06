@@ -1,0 +1,196 @@
+﻿<UserControl x:Class="PharmacyAdjudicator.ModernUI.Patient.PatientView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="900">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="3"/>
+                <RowDefinition Height="20*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Grid.Column="0">
+                <ScrollViewer Grid.Row="0" Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Orientation" Value="Horizontal" />
+                                <Setter Property="Margin" Value="0,0,0,4" />
+                            </Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                <!--<Setter Property="MinWidth" Value="150" />-->
+                                <Setter Property="MinHeight" Value="23"/>
+                                <Setter Property="MaxWidth" Value="150"/>
+                                <Setter Property="MaxHeight" Value="23"/>
+                            </Style>
+                            <Style TargetType="DockPanel">
+                                <Setter Property="Margin" Value="0,0,0,4"/>
+                                <Setter Property="MaxHeight" Value="30"/>
+                                <Setter Property="MinWidth" Value="200"/>
+                            </Style>
+                            <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                <Setter Property="Width" Value="100" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="10, 0, 0, 0"/>
+                            </Style>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                <Setter Property="Padding" Value="0,3" />
+                            </Style>
+                            <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                                <Setter Property="Padding" Value="0,3" />
+                            </Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Setter Property="Height" Value="30"></Setter>
+                            </Style>
+                        </Grid.Resources>
+
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2"  Text="SEARCH CRITERIA" Style="{StaticResource Heading2}" />
+                        <DockPanel Grid.Row="1" Grid.Column="0">
+                            <Label Content="First Name" Target="{Binding ElementName=FirstName}" />
+                            <TextBox x:Name="PatientFirstName" Text="{Binding Path=PatientSearchCriteria.PatientFirstName, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                        </DockPanel>
+                        <DockPanel Grid.Row="2" Grid.Column="0">
+                            <Label Content="Last Name" Target="{Binding ElementName=LastName}" />
+                            <TextBox x:Name="PatientLastName" Text="{Binding Path=PatientSearchCriteria.PatientLastName, Mode=TwoWay, ValidatesOnDataErrors=True}" Margin="0,0,0,7" MaxHeight="23"/>
+                        </DockPanel>
+                        <DockPanel Grid.Row="1" Grid.Column="1">
+                            <Label Content="Cardholder ID" Target="{Binding ElementName=CardholderId}" />
+                            <TextBox x:Name="CardholderId" Text="{Binding Path=PatientSearchCriteria.CardholderId, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                        </DockPanel>
+                        <DockPanel Grid.Column="1" Grid.Row="2">
+                            <Label Content="Group ID" Target="{Binding ElementName=GroupId}" />
+                            <TextBox x:Name="GroupId" Text="{Binding Path=PatientSearchCriteria.GroupId, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                        </DockPanel>
+                        <StackPanel Grid.Row="3" Grid.Column="0" Visibility="{Binding Path=IsFindingPatients, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock>Searching...</TextBlock>
+                            <mui:ModernProgressRing IsActive="{Binding Path=IsFindingPatients}" Width="20" Height="20" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
+                        </StackPanel>
+                        <Button Grid.Column="1" Grid.Row="3" x:Name="FindPatients" Content="Search" HorizontalAlignment="Right" Margin="0,1,10,2.333"/>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+            <GridSplitter Grid.Row="1"/>
+            <Border Grid.Row="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="SEARCH RESULTS" Style="{StaticResource Heading2}" />
+                    <DataGrid Grid.Row="1" Name="PatientSearchDataGrid" ItemsSource="{Binding Path=SearchResults}" Visibility="{Binding Path=CanShowSearchResults, Converter={StaticResource BooleanToVisibilityConverter}}" AutoGenerateColumns="False">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="cal:Message.Attach" Value="[MouseDoubleClick] = [Action ShowPatient($dataContext)]"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <mui:DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" IsReadOnly="True"/>
+                            <mui:DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" IsReadOnly="True"/>
+                            <mui:DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" IsReadOnly="True"/>
+                            <mui:DataGridTextColumn Header="Cardholder ID" Binding="{Binding CardholderId}" IsReadOnly="True"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content ="Edit Patient" 
+                                        cal:Message.Attach="ShowPatient($dataContext)"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Visibility="{Binding Path=IsOpeningPatientWindow, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBlock>Opening patient...</TextBlock>
+                        <mui:ModernProgressRing IsActive="{Binding Path=IsOpeningPatientWindow}" Width="20" Height="20" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}"></mui:ModernProgressRing>
+                    </StackPanel>
+                </Grid>
+                <!--
+            <DataGrid Name="PatientSearchDataGrid" ItemsSource="{Binding Path=Results}" SelectedItem="{Binding Path=SelectedPatient, Mode=TwoWay}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <mui:DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="Cardholder ID" Binding="{Binding CardholderId}" IsReadOnly="True"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content ="Edit Patient" 
+                                        cal:Message.Attach="ShowPatient($dataContext)"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>-->
+            </Border>
+        </Grid>
+        <GridSplitter Grid.Column="1"/>
+        <Border Grid.Column="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="OPEN PATIENT WINDOWS" Style="{StaticResource Heading2}" />
+                <DataGrid Grid.Row="1" Name="PatientSearchDataGrid2" ItemsSource="{Binding Path=Items}" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <mui:DataGridTextColumn Header="First Name" Binding="{Binding Path=Model.FirstName}" IsReadOnly="True"/>
+                        <mui:DataGridTextColumn Header="Last Name" Binding="{Binding Path=Model.LastName}" IsReadOnly="True"/>
+                        <mui:DataGridTextColumn Header="Date of Birth" Binding="{Binding Path=Model.DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" IsReadOnly="True"/>
+                        <mui:DataGridTextColumn Header="Cardholder ID" Binding="{Binding Path=Model.CardholderId}" IsReadOnly="True"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content ="Edit Patient" 
+                                        cal:Message.Attach="ShowPatientViewModel($dataContext)"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content ="Close Patient" 
+                                        cal:Message.Attach="DeactivateItem($dataContext)"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+
+    
+    
+    
+</UserControl>

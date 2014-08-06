@@ -102,14 +102,14 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(GenderProperty, value); }
         }
 
-        public static readonly PropertyInfo<int> PatientIdProperty = RegisterProperty<int>(c => c.PatientId);
+        public static readonly PropertyInfo<long> PatientIdProperty = RegisterProperty<long>(c => c.PatientId);
         /// <summary>
         /// Unique Patient Id
         /// </summary>
         /// <value>
         /// Internal to adjudication system and not part of NCPDP standard
         /// </value>
-        public int PatientId
+        public long PatientId
         {
             get { return GetProperty(PatientIdProperty); }
             private set { LoadProperty(PatientIdProperty, value); }
@@ -132,8 +132,8 @@ namespace PharmacyAdjudicator.Library.Core
             private set { LoadProperty(LastChangedUserNameProperty, value);  }
         }
 
-        private int _RecordId;
-        private int RecordId
+        private long _RecordId;
+        private long RecordId
         {
             get { return _RecordId; }
             set { _RecordId = value; }
@@ -181,7 +181,7 @@ namespace PharmacyAdjudicator.Library.Core
         //}
 
 #if !WINDOWS_PHONE
-        public async static System.Threading.Tasks.Task<Patient> GetByPatientIdAsync(int patientId)
+        public async static System.Threading.Tasks.Task<Patient> GetByPatientIdAsync(long patientId)
         {
             //await System.Threading.Tasks.Task.Delay(10000);
             return await DataPortal.FetchAsync<Patient>(new CriteriaByPatientIdEF { PatientId = patientId });
@@ -194,22 +194,22 @@ namespace PharmacyAdjudicator.Library.Core
             return DataPortal.Create<Patient>();
         }
 
-        public static Patient GetPatient(int patientId)
+        public static Patient GetPatient(long patientId)
         {
             return DataPortal.Fetch<Patient>(new CriteriaByPatientIdEF { PatientId = patientId });
         }
 
-        public static Patient GetByRecordId(int recordId)
+        public static Patient GetByRecordId(long recordId)
         {
             return DataPortal.Fetch<Patient>(new CriteriaByRecordIdEF { RecordId = recordId });
         }
 
-        public static Patient GetByPatientId(int patientId)
+        public static Patient GetByPatientId(long patientId)
         {
             return DataPortal.Fetch<Patient>(new CriteriaByPatientIdEF { PatientId = patientId });
         }
 
-        public static Patient GetByPatientIdCompareDate(int patientId, DateTime compareDateTime)
+        public static Patient GetByPatientIdCompareDate(long patientId, DateTime compareDateTime)
         {
             return DataPortal.Fetch<Patient>(new CriteriaByPatientIdCompareDatetime { PatientId = patientId, RecordCompareDatetime = compareDateTime });
         }
@@ -312,8 +312,8 @@ namespace PharmacyAdjudicator.Library.Core
         [Serializable]
         private class CriteriaByPatientIdCompareDatetime: CriteriaBase<CriteriaByPatientIdCompareDatetime>
         {
-            public static readonly PropertyInfo<int> PatientIdProperty = RegisterProperty<int>(r => r.PatientId);
-            public int PatientId
+            public static readonly PropertyInfo<long> PatientIdProperty = RegisterProperty<long>(r => r.PatientId);
+            public long PatientId
             {
                 get { return ReadProperty(PatientIdProperty); }
                 set { LoadProperty(PatientIdProperty, value);  }
@@ -330,8 +330,8 @@ namespace PharmacyAdjudicator.Library.Core
         [Serializable]
         private class CriteriaByRecordIdEF : CriteriaBase<CriteriaByRecordIdEF>
         {
-            public static readonly PropertyInfo<int> RecordIdProperty = RegisterProperty<int>(r => r.RecordId);
-            public int RecordId
+            public static readonly PropertyInfo<long> RecordIdProperty = RegisterProperty<long>(r => r.RecordId);
+            public long RecordId
             {
                 get { return ReadProperty(RecordIdProperty); }
                 set { LoadProperty(RecordIdProperty, value); }
@@ -341,8 +341,8 @@ namespace PharmacyAdjudicator.Library.Core
         [Serializable]
         private class CriteriaByPatientIdEF: CriteriaBase<CriteriaByPatientIdEF>
         {
-            public static readonly PropertyInfo<int> PatientIdProperty = RegisterProperty<int>(p => p.PatientId);
-            public int PatientId
+            public static readonly PropertyInfo<long> PatientIdProperty = RegisterProperty<long>(p => p.PatientId);
+            public long PatientId
             {
                 get { return ReadProperty(PatientIdProperty); }
                 set { LoadProperty(PatientIdProperty, value); }
@@ -352,8 +352,8 @@ namespace PharmacyAdjudicator.Library.Core
         [Serializable]
         private class CriteriaByRecordIdDS : CriteriaBase<CriteriaByRecordIdDS>
         {
-            public static readonly PropertyInfo<int> RecordIdProperty = RegisterProperty<int>(r => r.RecordId);
-            public int RecordId
+            public static readonly PropertyInfo<long> RecordIdProperty = RegisterProperty<long>(r => r.RecordId);
+            public long RecordId
             {
                 get { return ReadProperty(RecordIdProperty); }
                 set { LoadProperty(RecordIdProperty, value); }

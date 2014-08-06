@@ -21,7 +21,7 @@ namespace PharmacyAdjudicator.DataAccess
             this.Implications = new HashSet<Implication>();
         }
     
-        public int AtomGroupId { get; set; }
+        public long AtomGroupId { get; set; }
         public string LogicalOperator { get; set; }
         public string Name { get; set; }
     

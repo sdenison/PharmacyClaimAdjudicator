@@ -14,10 +14,10 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class GroupFact
     {
-        public int RecordId { get; set; }
+        public long RecordId { get; set; }
         public string Name { get; set; }
         public bool Retraction { get; set; }
-        public int OriginalFactRecordId { get; set; }
+        public long OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
         public string GroupId { get; set; }

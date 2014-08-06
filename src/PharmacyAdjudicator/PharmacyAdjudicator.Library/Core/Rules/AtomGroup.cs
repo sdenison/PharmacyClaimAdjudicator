@@ -24,8 +24,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(NameProperty, value); }
         }
 
-        public static readonly PropertyInfo<int> AtomGroupIdProperty = RegisterProperty<int>(c => c.AtomGroupId);
-        public int AtomGroupId
+        public static readonly PropertyInfo<long> AtomGroupIdProperty = RegisterProperty<long>(c => c.AtomGroupId);
+        public long AtomGroupId
         {
             get { return GetProperty(AtomGroupIdProperty); }
             set { SetProperty(AtomGroupIdProperty, value); }
@@ -51,6 +51,26 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         public void AddPredicate(AtomGroup predicate)
         {
             this.Predicates.Add(this, predicate);
+        }
+
+        public List<string> ComplexFactsUsed()
+        {
+            List<string> contains = new List<string>();
+            foreach (var predicate in this.Predicates)
+            {
+                if (predicate.PredicateType == Predicate.PredicateTypeEnum.Atom)
+                {
+                    if (!contains.Contains(predicate.Atom.Class))
+                        contains.Add(predicate.Atom.Class);
+                }
+                else if (predicate.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
+                {
+                    foreach (var complexFactUsed in predicate.AtomGroup.ComplexFactsUsed())
+                        if (!contains.Contains(complexFactUsed))
+                            contains.Add(complexFactUsed); 
+                }
+            }
+            return contains;
         }
 
         public NxBRE.InferenceEngine.Rules.AtomGroup GetInferenceEngineAtomGroup()
@@ -103,12 +123,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Create<AtomGroup>();
         }
 
-        public static AtomGroup GetById(int id)
+        public static AtomGroup GetById(long id)
         {
             return DataPortal.Fetch<AtomGroup>(id);
         }
 
-        public static void DeleteById(int id)
+        public static void DeleteById(long id)
         {
             DataPortal.Delete<AtomGroup>(id);
         }
@@ -128,7 +148,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             base.DataPortal_Create();
         }
 
-        private void DataPortal_Fetch(int atomGroupId)
+        private void DataPortal_Fetch(long atomGroupId)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -184,7 +204,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             //DataPortal_Delete(this.Id);
         }
 
-        private void DataPortal_Delete(int criteria)
+        private void DataPortal_Delete(long criteria)
         {
             // TODO: delete values
         }

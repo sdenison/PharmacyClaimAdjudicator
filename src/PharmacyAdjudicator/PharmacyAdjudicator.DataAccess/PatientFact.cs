@@ -14,7 +14,7 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class PatientFact
     {
-        public int RecordId { get; set; }
+        public long RecordId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -24,10 +24,10 @@ namespace PharmacyAdjudicator.DataAccess
         public string PatientRelationshipCode { get; set; }
         public string Gender { get; set; }
         public bool Retraction { get; set; }
-        public Nullable<int> OriginalFactRecordId { get; set; }
+        public Nullable<long> OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
-        public int PatientId { get; set; }
+        public long PatientId { get; set; }
     
         public virtual Patient Patient { get; set; }
     }

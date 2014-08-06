@@ -26,8 +26,8 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(NameProperty, value); }
         }
 
-        public static readonly PropertyInfo<int> RecordIdProperty = RegisterProperty<int>(c => c.RecordId);
-        public int RecordId
+        public static readonly PropertyInfo<long> RecordIdProperty = RegisterProperty<long>(c => c.RecordId);
+        public long RecordId
         {
             get { return GetProperty(RecordIdProperty); }
             private set { LoadProperty(RecordIdProperty, value); }

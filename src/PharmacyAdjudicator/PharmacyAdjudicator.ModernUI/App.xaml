@@ -13,9 +13,6 @@
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.xaml" />
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.Light.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="FontAwesome">
-                <Setter Property="TextElement.FontFamily" Value="pack://application:,,,/Fonts/#FontAwesome" />
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

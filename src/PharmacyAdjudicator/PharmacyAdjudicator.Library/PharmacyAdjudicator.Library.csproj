@@ -79,6 +79,7 @@
     <Compile Include="Core\PatientHistory.cs" />
     <Compile Include="Core\Plan.cs" />
     <Compile Include="Core\RuleBase.cs" />
+    <Compile Include="Core\Rules\Implication.cs" />
     <Compile Include="Core\Rules\Predicate.cs" />
     <Compile Include="Core\Rules\PredicateList.cs" />
     <Compile Include="Core\SwitchableObject1.cs" />
