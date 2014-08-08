@@ -104,14 +104,68 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             atom2.Class = "Drug";
             atom2.Property = "DosageForm";
             atom2.Value = "TAB";
+            atom2 = atom2.Save();
 
             var dosageAtomGroup = Library.Core.Rules.AtomGroup.NewAtomGroup();
             dosageAtomGroup.LogicalOperator = AtomGroup.LogicalOperator.Or;
+            //Needed to move save up here so there is a valid AtomGroupId
+            //dosageAtomGroup = dosageAtomGroup.Save();
             dosageAtomGroup.AddPredicate(atom1);
             dosageAtomGroup.AddPredicate(atom2);
-
-            dosageAtomGroup.Name = "Drug only atom group";
+            dosageAtomGroup.Name = "DosageForm is TAB or PWDR,RENST-ORAL";
             dosageAtomGroup = dosageAtomGroup.Save();
+            
+
+            var drugClassAtom = Library.Core.Rules.Atom.NewAtom();
+            drugClassAtom.Class = "Drug";
+            drugClassAtom.Property = "VaClass";
+            drugClassAtom.Value = "PENICILLINS,AMINO DERIVATIVES";
+            drugClassAtom = drugClassAtom.Save();
+
+            var dosageAndClassAtomGroup = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            dosageAndClassAtomGroup.LogicalOperator = AtomGroup.LogicalOperator.And;
+            dosageAndClassAtomGroup.AddPredicate(dosageAtomGroup);
+            dosageAndClassAtomGroup.AddPredicate(drugClassAtom);
+            dosageAndClassAtomGroup = dosageAndClassAtomGroup.Save();
+
+
+            var dosageClassFormularyImplication = Library.Core.Rules.Implication.NewImplication();
+            var head1 = Library.Core.Rules.Atom.NewAtom();
+            head1.Class = "Transaction";
+            head1.Property = "Formulary";
+            head1.Value = "True";
+            head1 = head1.Save();
+
+            dosageClassFormularyImplication.Head = head1;
+            dosageClassFormularyImplication.Body = dosageAndClassAtomGroup;
+            dosageClassFormularyImplication.Label = "PENICILLINS,AMINO DERIVATIVES with PWDR,RENST-ORAL OR TAB are formulary";
+            dosageClassFormularyImplication = dosageClassFormularyImplication.Save();
+
+            var formularyDrugsAre5Dollars = Library.Core.Rules.Implication.NewImplication();
+            formularyDrugsAre5Dollars.Label = "Formulary drugs have 5 dollar copay";
+            var amountOfCopay5Dollars = Library.Core.Rules.Atom.NewAtom();
+            amountOfCopay5Dollars.Class = "Transaction";
+            amountOfCopay5Dollars.Property = "AmountOfCopay";
+            amountOfCopay5Dollars.Value = "5";
+            amountOfCopay5Dollars = amountOfCopay5Dollars.Save();
+            formularyDrugsAre5Dollars.Head = amountOfCopay5Dollars;
+            var transFormularyTrue = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            transFormularyTrue.AddPredicate(head1);
+            transFormularyTrue = transFormularyTrue.Save();
+            formularyDrugsAre5Dollars.Body = transFormularyTrue;
+            formularyDrugsAre5Dollars = formularyDrugsAre5Dollars.Save();
+
+
+            onTheFlyRules.Implications.Add(dosageClassFormularyImplication.ToNxBre());
+            onTheFlyRules.Implications.Add(formularyDrugsAre5Dollars.ToNxBre());
+            var binder = new Library.Core.TransactionProcessorBinder();
+            IEImpl ie = new IEImpl(binder);
+
+            var transaction = new Library.Core.Transaction(drug);
+
+            var transAfterProcessing = Library.Core.TransactionProcessor.Process(transaction, onTheFlyRules);
+            Assert.IsTrue(transAfterProcessing.Formulary);
+            Assert.AreEqual(transAfterProcessing.AmountOfCopay, (decimal)5.0);
 
             foreach(var contains in dosageAtomGroup.ComplexFactsUsed())
             {

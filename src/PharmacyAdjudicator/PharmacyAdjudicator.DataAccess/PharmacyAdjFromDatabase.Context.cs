@@ -25,21 +25,21 @@ namespace PharmacyAdjudicator.DataAccess
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Group> Groups { get; set; }
-        public DbSet<GroupFact> GroupFacts { get; set; }
+        public DbSet<Group> Group { get; set; }
+        public DbSet<GroupFact> GroupFact { get; set; }
         public DbSet<Patient> Patient { get; set; }
-        public DbSet<PatientFact> PatientFacts { get; set; }
-        public DbSet<PatientGroup> PatientGroups { get; set; }
-        public DbSet<VaDrug> VaDrugs { get; set; }
-        public DbSet<Plan> Plans { get; set; }
-        public DbSet<PlanFact> PlanFacts { get; set; }
-        public DbSet<Atom> Atoms { get; set; }
-        public DbSet<AtomGroup> AtomGroups { get; set; }
-        public DbSet<AtomGroupItems> AtomGroupItems { get; set; }
-        public DbSet<Rule> Rules { get; set; }
-        public DbSet<PlanRules> PlanRules { get; set; }
-        public DbSet<Implication> Implications { get; set; }
-        public DbSet<RuleImplication> RuleImplications { get; set; }
-        public DbSet<AtomFact> AtomFacts { get; set; }
+        public DbSet<PatientFact> PatientFact { get; set; }
+        public DbSet<PatientGroup> PatientGroup { get; set; }
+        public DbSet<VaDrug> VaDrug { get; set; }
+        public DbSet<Plan> Plan { get; set; }
+        public DbSet<PlanFact> PlanFact { get; set; }
+        public DbSet<Atom> Atom { get; set; }
+        public DbSet<AtomGroup> AtomGroup { get; set; }
+        public DbSet<AtomGroupItem> AtomGroupItem { get; set; }
+        public DbSet<Rule> Rule { get; set; }
+        public DbSet<PlanRules> PlanRule { get; set; }
+        public DbSet<Implication> Implication { get; set; }
+        public DbSet<RuleImplication> RuleImplication { get; set; }
+        public DbSet<AtomFact> AtomFact { get; set; }
     }
 }

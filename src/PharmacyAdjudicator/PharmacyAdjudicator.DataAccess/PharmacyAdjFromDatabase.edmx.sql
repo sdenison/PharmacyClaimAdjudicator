@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/30/2014 16:50:43
+-- Date Created: 08/08/2014 15:17:42
 -- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -18,121 +18,121 @@ GO
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[FK_FKGroupFacts397517]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GroupFacts] DROP CONSTRAINT [FK_FKGroupFacts397517];
+    ALTER TABLE [dbo].[GroupFact] DROP CONSTRAINT [FK_FKGroupFacts397517];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Group_PatientGroup_Rel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PatientGroups] DROP CONSTRAINT [FK_Group_PatientGroup_Rel];
+    ALTER TABLE [dbo].[PatientGroup] DROP CONSTRAINT [FK_Group_PatientGroup_Rel];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Patient_PateintFacts_Rel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PatientGroups] DROP CONSTRAINT [FK_Patient_PateintFacts_Rel];
+    ALTER TABLE [dbo].[PatientGroup] DROP CONSTRAINT [FK_Patient_PateintFacts_Rel];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Patient_PatientFacts_Rel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PatientFacts] DROP CONSTRAINT [FK_Patient_PatientFacts_Rel];
+    ALTER TABLE [dbo].[PatientFact] DROP CONSTRAINT [FK_Patient_PatientFacts_Rel];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PlanPlanFact]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PlanFacts] DROP CONSTRAINT [FK_PlanPlanFact];
+    ALTER TABLE [dbo].[PlanFact] DROP CONSTRAINT [FK_PlanPlanFact];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PlanGroupFact]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GroupFacts] DROP CONSTRAINT [FK_PlanGroupFact];
+    ALTER TABLE [dbo].[GroupFact] DROP CONSTRAINT [FK_PlanGroupFact];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RuleRuleImplication]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RuleImplications] DROP CONSTRAINT [FK_RuleRuleImplication];
+    ALTER TABLE [dbo].[RuleImplication] DROP CONSTRAINT [FK_RuleRuleImplication];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ImplicationRuleImplication]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RuleImplications] DROP CONSTRAINT [FK_ImplicationRuleImplication];
+    ALTER TABLE [dbo].[RuleImplication] DROP CONSTRAINT [FK_ImplicationRuleImplication];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RulePlanRules]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PlanRules] DROP CONSTRAINT [FK_RulePlanRules];
+    ALTER TABLE [dbo].[PlanRule] DROP CONSTRAINT [FK_RulePlanRules];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PlanFactPlanRules]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PlanRules] DROP CONSTRAINT [FK_PlanFactPlanRules];
+    ALTER TABLE [dbo].[PlanRule] DROP CONSTRAINT [FK_PlanFactPlanRules];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AtomAtomFact]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AtomFacts] DROP CONSTRAINT [FK_AtomAtomFact];
+    ALTER TABLE [dbo].[AtomFact] DROP CONSTRAINT [FK_AtomAtomFact];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AtomGroupAtomGroupItems]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems];
+    ALTER TABLE [dbo].[AtomGroupItem] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AtomAtomGroupItems]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomAtomGroupItems];
+    ALTER TABLE [dbo].[AtomGroupItem] DROP CONSTRAINT [FK_AtomAtomGroupItems];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AtomGroupAtomGroupItems1]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AtomGroupItems] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems1];
+    ALTER TABLE [dbo].[AtomGroupItem] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems1];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AtomGroupImplication]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Implications] DROP CONSTRAINT [FK_AtomGroupImplication];
+    ALTER TABLE [dbo].[Implication] DROP CONSTRAINT [FK_AtomGroupImplication];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AtomImplication]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Implications] DROP CONSTRAINT [FK_AtomImplication];
+    ALTER TABLE [dbo].[Implication] DROP CONSTRAINT [FK_AtomImplication];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Groups]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Groups];
+IF OBJECT_ID(N'[dbo].[Group]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Group];
 GO
-IF OBJECT_ID(N'[dbo].[GroupFacts]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[GroupFacts];
+IF OBJECT_ID(N'[dbo].[GroupFact]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GroupFact];
 GO
 IF OBJECT_ID(N'[dbo].[Patient]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Patient];
 GO
-IF OBJECT_ID(N'[dbo].[PatientFacts]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PatientFacts];
+IF OBJECT_ID(N'[dbo].[PatientFact]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PatientFact];
 GO
-IF OBJECT_ID(N'[dbo].[PatientGroups]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PatientGroups];
+IF OBJECT_ID(N'[dbo].[PatientGroup]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PatientGroup];
 GO
-IF OBJECT_ID(N'[dbo].[VaDrugs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[VaDrugs];
+--IF OBJECT_ID(N'[dbo].[VaDrug]', 'U') IS NOT NULL
+--    DROP TABLE [dbo].[VaDrug];
+--GO
+IF OBJECT_ID(N'[dbo].[Plan]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Plan];
 GO
-IF OBJECT_ID(N'[dbo].[Plans]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Plans];
+IF OBJECT_ID(N'[dbo].[PlanFact]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PlanFact];
 GO
-IF OBJECT_ID(N'[dbo].[PlanFacts]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PlanFacts];
+IF OBJECT_ID(N'[dbo].[Atom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Atom];
 GO
-IF OBJECT_ID(N'[dbo].[Atoms]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Atoms];
+IF OBJECT_ID(N'[dbo].[AtomGroup]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AtomGroup];
 GO
-IF OBJECT_ID(N'[dbo].[AtomGroups]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AtomGroups];
+IF OBJECT_ID(N'[dbo].[AtomGroupItem]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AtomGroupItem];
 GO
-IF OBJECT_ID(N'[dbo].[AtomGroupItems]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AtomGroupItems];
+IF OBJECT_ID(N'[dbo].[Rule]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Rule];
 GO
-IF OBJECT_ID(N'[dbo].[Rules]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Rules];
+IF OBJECT_ID(N'[dbo].[PlanRule]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PlanRule];
 GO
-IF OBJECT_ID(N'[dbo].[PlanRules]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PlanRules];
+IF OBJECT_ID(N'[dbo].[Implication]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Implication];
 GO
-IF OBJECT_ID(N'[dbo].[Implications]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Implications];
+IF OBJECT_ID(N'[dbo].[RuleImplication]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RuleImplication];
 GO
-IF OBJECT_ID(N'[dbo].[RuleImplications]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[RuleImplications];
-GO
-IF OBJECT_ID(N'[dbo].[AtomFacts]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AtomFacts];
+IF OBJECT_ID(N'[dbo].[AtomFact]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AtomFact];
 GO
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
 
--- Creating table 'Groups'
-CREATE TABLE [dbo].[Groups] (
+-- Creating table 'Group'
+CREATE TABLE [dbo].[Group] (
     [GroupId] nvarchar(20)  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
 GO
 
--- Creating table 'GroupFacts'
-CREATE TABLE [dbo].[GroupFacts] (
+-- Creating table 'GroupFact'
+CREATE TABLE [dbo].[GroupFact] (
     [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(100)  NOT NULL,
     [Retraction] bit  NOT NULL,
@@ -155,8 +155,8 @@ CREATE TABLE [dbo].[Patient] (
 );
 GO
 
--- Creating table 'PatientFacts'
-CREATE TABLE [dbo].[PatientFacts] (
+-- Creating table 'PatientFact'
+CREATE TABLE [dbo].[PatientFact] (
     [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [FirstName] nvarchar(50)  NOT NULL,
     [MiddleName] nvarchar(50)  NOT NULL,
@@ -174,8 +174,8 @@ CREATE TABLE [dbo].[PatientFacts] (
 );
 GO
 
--- Creating table 'PatientGroups'
-CREATE TABLE [dbo].[PatientGroups] (
+-- Creating table 'PatientGroup'
+CREATE TABLE [dbo].[PatientGroup] (
     [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [EffectiveDate] datetime  NOT NULL,
     [ExpirationDate] datetime  NOT NULL,
@@ -188,41 +188,41 @@ CREATE TABLE [dbo].[PatientGroups] (
 );
 GO
 
--- Creating table 'VaDrugs'
-CREATE TABLE [dbo].[VaDrugs] (
-    [Ndc_1] nvarchar(5)  NOT NULL,
-    [Ndc_2] nvarchar(4)  NOT NULL,
-    [Ndc_3] nvarchar(2)  NOT NULL,
-    [NdfNdc] nvarchar(11)  NOT NULL,
-    [Upn] nvarchar(max)  NULL,
-    [IDateNdc] datetime  NULL,
-    [Trade] nvarchar(max)  NOT NULL,
-    [VaProduct] nvarchar(max)  NOT NULL,
-    [IDateVap] datetime  NULL,
-    [ProductNu] nvarchar(max)  NULL,
-    [FeeDer] nvarchar(max)  NOT NULL,
-    [Generic] nvarchar(max)  NOT NULL,
-    [PkgSz] decimal(18,0)  NOT NULL,
-    [PkgType] nvarchar(max)  NOT NULL,
-    [VaClass] nvarchar(max)  NOT NULL,
-    [Manufac] nvarchar(max)  NOT NULL,
-    [StandardMedRoute] nvarchar(max)  NULL,
-    [Strength] nvarchar(max)  NULL,
-    [Units] nvarchar(max)  NULL,
-    [DoseForm] nvarchar(max)  NOT NULL,
-    [NfName] nvarchar(max)  NOT NULL,
-    [Csfs] nvarchar(max)  NOT NULL,
-    [RxOtc] nvarchar(max)  NOT NULL,
-    [NfIndicat] nvarchar(max)  NOT NULL,
-    [VaPrn] nvarchar(max)  NULL,
-    [DispUnt] nvarchar(max)  NULL,
-    [Id] nvarchar(max)  NULL,
-    [Mark] nvarchar(max)  NOT NULL
-);
-GO
+-- Creating table 'VaDrug'
+--CREATE TABLE [dbo].[VaDrug] (
+--    [Ndc_1] nvarchar(5)  NOT NULL,
+--    [Ndc_2] nvarchar(4)  NOT NULL,
+--    [Ndc_3] nvarchar(2)  NOT NULL,
+--    [NdfNdc] nvarchar(11)  NOT NULL,
+--    [Upn] nvarchar(max)  NULL,
+--    [IDateNdc] datetime  NULL,
+--    [Trade] nvarchar(max)  NOT NULL,
+--    [VaProduct] nvarchar(max)  NOT NULL,
+--    [IDateVap] datetime  NULL,
+--    [ProductNu] nvarchar(max)  NULL,
+--    [FeeDer] nvarchar(max)  NOT NULL,
+--    [Generic] nvarchar(max)  NOT NULL,
+--    [PkgSz] decimal(18,0)  NOT NULL,
+--    [PkgType] nvarchar(max)  NOT NULL,
+--    [VaClass] nvarchar(max)  NOT NULL,
+--    [Manufac] nvarchar(max)  NOT NULL,
+--    [StandardMedRoute] nvarchar(max)  NULL,
+--    [Strength] nvarchar(max)  NULL,
+--    [Units] nvarchar(max)  NULL,
+--    [DoseForm] nvarchar(max)  NOT NULL,
+--    [NfName] nvarchar(max)  NOT NULL,
+--    [Csfs] nvarchar(max)  NOT NULL,
+--    [RxOtc] nvarchar(max)  NOT NULL,
+--    [NfIndicat] nvarchar(max)  NOT NULL,
+--    [VaPrn] nvarchar(max)  NULL,
+--    [DispUnt] nvarchar(max)  NULL,
+--    [Id] nvarchar(max)  NULL,
+--    [Mark] nvarchar(max)  NOT NULL
+--);
+--GO
 
--- Creating table 'Plans'
-CREATE TABLE [dbo].[Plans] (
+-- Creating table 'Plan'
+CREATE TABLE [dbo].[Plan] (
     [PlanId] nvarchar(20)  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
@@ -230,8 +230,8 @@ CREATE TABLE [dbo].[Plans] (
 );
 GO
 
--- Creating table 'PlanFacts'
-CREATE TABLE [dbo].[PlanFacts] (
+-- Creating table 'PlanFact'
+CREATE TABLE [dbo].[PlanFact] (
     [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [PlanId] nvarchar(20)  NOT NULL,
     [Retraction] bit  NOT NULL,
@@ -241,24 +241,24 @@ CREATE TABLE [dbo].[PlanFacts] (
 );
 GO
 
--- Creating table 'Atoms'
-CREATE TABLE [dbo].[Atoms] (
+-- Creating table 'Atom'
+CREATE TABLE [dbo].[Atom] (
     [AtomId] bigint IDENTITY(1,1) NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(50)  NOT NULL
 );
 GO
 
--- Creating table 'AtomGroups'
-CREATE TABLE [dbo].[AtomGroups] (
+-- Creating table 'AtomGroup'
+CREATE TABLE [dbo].[AtomGroup] (
     [AtomGroupId] bigint IDENTITY(1,1) NOT NULL,
     [LogicalOperator] nvarchar(max)  NOT NULL,
     [Name] nvarchar(max)  NOT NULL
 );
 GO
 
--- Creating table 'AtomGroupItems'
-CREATE TABLE [dbo].[AtomGroupItems] (
+-- Creating table 'AtomGroupItem'
+CREATE TABLE [dbo].[AtomGroupItem] (
     [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [AtomGroupId] bigint  NOT NULL,
     [AtomId] bigint  NULL,
@@ -267,16 +267,16 @@ CREATE TABLE [dbo].[AtomGroupItems] (
 );
 GO
 
--- Creating table 'Rules'
-CREATE TABLE [dbo].[Rules] (
+-- Creating table 'Rule'
+CREATE TABLE [dbo].[Rule] (
     [RuleId] bigint IDENTITY(1,1) NOT NULL,
     [RuleType] nvarchar(max)  NOT NULL,
     [DefaultValue] nvarchar(max)  NOT NULL
 );
 GO
 
--- Creating table 'PlanRules'
-CREATE TABLE [dbo].[PlanRules] (
+-- Creating table 'PlanRule'
+CREATE TABLE [dbo].[PlanRule] (
     [PlanRecordId] bigint  NOT NULL,
     [RuleId] bigint  NOT NULL,
     [Rule_RuleId] bigint  NOT NULL,
@@ -284,8 +284,8 @@ CREATE TABLE [dbo].[PlanRules] (
 );
 GO
 
--- Creating table 'Implications'
-CREATE TABLE [dbo].[Implications] (
+-- Creating table 'Implication'
+CREATE TABLE [dbo].[Implication] (
     [ImplicationId] bigint IDENTITY(1,1) NOT NULL,
     [AtomGroupId] bigint  NOT NULL,
     [DeductionAtomId] bigint  NULL,
@@ -293,8 +293,8 @@ CREATE TABLE [dbo].[Implications] (
 );
 GO
 
--- Creating table 'RuleImplications'
-CREATE TABLE [dbo].[RuleImplications] (
+-- Creating table 'RuleImplication'
+CREATE TABLE [dbo].[RuleImplication] (
     [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [RuleId] bigint  NOT NULL,
     [ImplicationId] bigint  NOT NULL,
@@ -304,8 +304,8 @@ CREATE TABLE [dbo].[RuleImplications] (
 );
 GO
 
--- Creating table 'AtomFacts'
-CREATE TABLE [dbo].[AtomFacts] (
+-- Creating table 'AtomFact'
+CREATE TABLE [dbo].[AtomFact] (
     [RecordId] int IDENTITY(1,1) NOT NULL,
     [AtomId] bigint  NOT NULL,
     [Class] nvarchar(50)  NOT NULL,
@@ -323,15 +323,15 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [GroupId] in table 'Groups'
-ALTER TABLE [dbo].[Groups]
-ADD CONSTRAINT [PK_Groups]
+-- Creating primary key on [GroupId] in table 'Group'
+ALTER TABLE [dbo].[Group]
+ADD CONSTRAINT [PK_Group]
     PRIMARY KEY CLUSTERED ([GroupId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'GroupFacts'
-ALTER TABLE [dbo].[GroupFacts]
-ADD CONSTRAINT [PK_GroupFacts]
+-- Creating primary key on [RecordId] in table 'GroupFact'
+ALTER TABLE [dbo].[GroupFact]
+ADD CONSTRAINT [PK_GroupFact]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
@@ -341,81 +341,81 @@ ADD CONSTRAINT [PK_Patient]
     PRIMARY KEY CLUSTERED ([PatientId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'PatientFacts'
-ALTER TABLE [dbo].[PatientFacts]
-ADD CONSTRAINT [PK_PatientFacts]
+-- Creating primary key on [RecordId] in table 'PatientFact'
+ALTER TABLE [dbo].[PatientFact]
+ADD CONSTRAINT [PK_PatientFact]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'PatientGroups'
-ALTER TABLE [dbo].[PatientGroups]
-ADD CONSTRAINT [PK_PatientGroups]
+-- Creating primary key on [RecordId] in table 'PatientGroup'
+ALTER TABLE [dbo].[PatientGroup]
+ADD CONSTRAINT [PK_PatientGroup]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
--- Creating primary key on [NdfNdc] in table 'VaDrugs'
-ALTER TABLE [dbo].[VaDrugs]
-ADD CONSTRAINT [PK_VaDrugs]
-    PRIMARY KEY CLUSTERED ([NdfNdc] ASC);
-GO
+-- Creating primary key on [NdfNdc] in table 'VaDrug'
+--ALTER TABLE [dbo].[VaDrug]
+--ADD CONSTRAINT [PK_VaDrug]
+--    PRIMARY KEY CLUSTERED ([NdfNdc] ASC);
+--GO
 
--- Creating primary key on [PlanId] in table 'Plans'
-ALTER TABLE [dbo].[Plans]
-ADD CONSTRAINT [PK_Plans]
+-- Creating primary key on [PlanId] in table 'Plan'
+ALTER TABLE [dbo].[Plan]
+ADD CONSTRAINT [PK_Plan]
     PRIMARY KEY CLUSTERED ([PlanId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'PlanFacts'
-ALTER TABLE [dbo].[PlanFacts]
-ADD CONSTRAINT [PK_PlanFacts]
+-- Creating primary key on [RecordId] in table 'PlanFact'
+ALTER TABLE [dbo].[PlanFact]
+ADD CONSTRAINT [PK_PlanFact]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
--- Creating primary key on [AtomId] in table 'Atoms'
-ALTER TABLE [dbo].[Atoms]
-ADD CONSTRAINT [PK_Atoms]
+-- Creating primary key on [AtomId] in table 'Atom'
+ALTER TABLE [dbo].[Atom]
+ADD CONSTRAINT [PK_Atom]
     PRIMARY KEY CLUSTERED ([AtomId] ASC);
 GO
 
--- Creating primary key on [AtomGroupId] in table 'AtomGroups'
-ALTER TABLE [dbo].[AtomGroups]
-ADD CONSTRAINT [PK_AtomGroups]
+-- Creating primary key on [AtomGroupId] in table 'AtomGroup'
+ALTER TABLE [dbo].[AtomGroup]
+ADD CONSTRAINT [PK_AtomGroup]
     PRIMARY KEY CLUSTERED ([AtomGroupId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'AtomGroupItems'
-ALTER TABLE [dbo].[AtomGroupItems]
-ADD CONSTRAINT [PK_AtomGroupItems]
+-- Creating primary key on [RecordId] in table 'AtomGroupItem'
+ALTER TABLE [dbo].[AtomGroupItem]
+ADD CONSTRAINT [PK_AtomGroupItem]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
--- Creating primary key on [RuleId] in table 'Rules'
-ALTER TABLE [dbo].[Rules]
-ADD CONSTRAINT [PK_Rules]
+-- Creating primary key on [RuleId] in table 'Rule'
+ALTER TABLE [dbo].[Rule]
+ADD CONSTRAINT [PK_Rule]
     PRIMARY KEY CLUSTERED ([RuleId] ASC);
 GO
 
--- Creating primary key on [PlanRecordId] in table 'PlanRules'
-ALTER TABLE [dbo].[PlanRules]
-ADD CONSTRAINT [PK_PlanRules]
+-- Creating primary key on [PlanRecordId] in table 'PlanRule'
+ALTER TABLE [dbo].[PlanRule]
+ADD CONSTRAINT [PK_PlanRule]
     PRIMARY KEY CLUSTERED ([PlanRecordId] ASC);
 GO
 
--- Creating primary key on [ImplicationId] in table 'Implications'
-ALTER TABLE [dbo].[Implications]
-ADD CONSTRAINT [PK_Implications]
+-- Creating primary key on [ImplicationId] in table 'Implication'
+ALTER TABLE [dbo].[Implication]
+ADD CONSTRAINT [PK_Implication]
     PRIMARY KEY CLUSTERED ([ImplicationId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'RuleImplications'
-ALTER TABLE [dbo].[RuleImplications]
-ADD CONSTRAINT [PK_RuleImplications]
+-- Creating primary key on [RecordId] in table 'RuleImplication'
+ALTER TABLE [dbo].[RuleImplication]
+ADD CONSTRAINT [PK_RuleImplication]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'AtomFacts'
-ALTER TABLE [dbo].[AtomFacts]
-ADD CONSTRAINT [PK_AtomFacts]
+-- Creating primary key on [RecordId] in table 'AtomFact'
+ALTER TABLE [dbo].[AtomFact]
+ADD CONSTRAINT [PK_AtomFact]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
@@ -423,38 +423,38 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [GroupId] in table 'GroupFacts'
-ALTER TABLE [dbo].[GroupFacts]
+-- Creating foreign key on [GroupId] in table 'GroupFact'
+ALTER TABLE [dbo].[GroupFact]
 ADD CONSTRAINT [FK_FKGroupFacts397517]
     FOREIGN KEY ([GroupId])
-    REFERENCES [dbo].[Groups]
+    REFERENCES [dbo].[Group]
         ([GroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_FKGroupFacts397517'
 CREATE INDEX [IX_FK_FKGroupFacts397517]
-ON [dbo].[GroupFacts]
+ON [dbo].[GroupFact]
     ([GroupId]);
 GO
 
--- Creating foreign key on [GroupId] in table 'PatientGroups'
-ALTER TABLE [dbo].[PatientGroups]
+-- Creating foreign key on [GroupId] in table 'PatientGroup'
+ALTER TABLE [dbo].[PatientGroup]
 ADD CONSTRAINT [FK_Group_PatientGroup_Rel]
     FOREIGN KEY ([GroupId])
-    REFERENCES [dbo].[Groups]
+    REFERENCES [dbo].[Group]
         ([GroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Group_PatientGroup_Rel'
 CREATE INDEX [IX_FK_Group_PatientGroup_Rel]
-ON [dbo].[PatientGroups]
+ON [dbo].[PatientGroup]
     ([GroupId]);
 GO
 
--- Creating foreign key on [PatientId] in table 'PatientGroups'
-ALTER TABLE [dbo].[PatientGroups]
+-- Creating foreign key on [PatientId] in table 'PatientGroup'
+ALTER TABLE [dbo].[PatientGroup]
 ADD CONSTRAINT [FK_Patient_PateintFacts_Rel]
     FOREIGN KEY ([PatientId])
     REFERENCES [dbo].[Patient]
@@ -464,12 +464,12 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Patient_PateintFacts_Rel'
 CREATE INDEX [IX_FK_Patient_PateintFacts_Rel]
-ON [dbo].[PatientGroups]
+ON [dbo].[PatientGroup]
     ([PatientId]);
 GO
 
--- Creating foreign key on [PatientId] in table 'PatientFacts'
-ALTER TABLE [dbo].[PatientFacts]
+-- Creating foreign key on [PatientId] in table 'PatientFact'
+ALTER TABLE [dbo].[PatientFact]
 ADD CONSTRAINT [FK_Patient_PatientFacts_Rel]
     FOREIGN KEY ([PatientId])
     REFERENCES [dbo].[Patient]
@@ -479,187 +479,187 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Patient_PatientFacts_Rel'
 CREATE INDEX [IX_FK_Patient_PatientFacts_Rel]
-ON [dbo].[PatientFacts]
+ON [dbo].[PatientFact]
     ([PatientId]);
 GO
 
--- Creating foreign key on [PlanId] in table 'PlanFacts'
-ALTER TABLE [dbo].[PlanFacts]
+-- Creating foreign key on [PlanId] in table 'PlanFact'
+ALTER TABLE [dbo].[PlanFact]
 ADD CONSTRAINT [FK_PlanPlanFact]
     FOREIGN KEY ([PlanId])
-    REFERENCES [dbo].[Plans]
+    REFERENCES [dbo].[Plan]
         ([PlanId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanPlanFact'
 CREATE INDEX [IX_FK_PlanPlanFact]
-ON [dbo].[PlanFacts]
+ON [dbo].[PlanFact]
     ([PlanId]);
 GO
 
--- Creating foreign key on [Plan_PlanId] in table 'GroupFacts'
-ALTER TABLE [dbo].[GroupFacts]
+-- Creating foreign key on [Plan_PlanId] in table 'GroupFact'
+ALTER TABLE [dbo].[GroupFact]
 ADD CONSTRAINT [FK_PlanGroupFact]
     FOREIGN KEY ([Plan_PlanId])
-    REFERENCES [dbo].[Plans]
+    REFERENCES [dbo].[Plan]
         ([PlanId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanGroupFact'
 CREATE INDEX [IX_FK_PlanGroupFact]
-ON [dbo].[GroupFacts]
+ON [dbo].[GroupFact]
     ([Plan_PlanId]);
 GO
 
--- Creating foreign key on [Rule_RuleId] in table 'RuleImplications'
-ALTER TABLE [dbo].[RuleImplications]
+-- Creating foreign key on [Rule_RuleId] in table 'RuleImplication'
+ALTER TABLE [dbo].[RuleImplication]
 ADD CONSTRAINT [FK_RuleRuleImplication]
     FOREIGN KEY ([Rule_RuleId])
-    REFERENCES [dbo].[Rules]
+    REFERENCES [dbo].[Rule]
         ([RuleId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_RuleRuleImplication'
 CREATE INDEX [IX_FK_RuleRuleImplication]
-ON [dbo].[RuleImplications]
+ON [dbo].[RuleImplication]
     ([Rule_RuleId]);
 GO
 
--- Creating foreign key on [Implication_ImplicationId] in table 'RuleImplications'
-ALTER TABLE [dbo].[RuleImplications]
+-- Creating foreign key on [Implication_ImplicationId] in table 'RuleImplication'
+ALTER TABLE [dbo].[RuleImplication]
 ADD CONSTRAINT [FK_ImplicationRuleImplication]
     FOREIGN KEY ([Implication_ImplicationId])
-    REFERENCES [dbo].[Implications]
+    REFERENCES [dbo].[Implication]
         ([ImplicationId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ImplicationRuleImplication'
 CREATE INDEX [IX_FK_ImplicationRuleImplication]
-ON [dbo].[RuleImplications]
+ON [dbo].[RuleImplication]
     ([Implication_ImplicationId]);
 GO
 
--- Creating foreign key on [Rule_RuleId] in table 'PlanRules'
-ALTER TABLE [dbo].[PlanRules]
+-- Creating foreign key on [Rule_RuleId] in table 'PlanRule'
+ALTER TABLE [dbo].[PlanRule]
 ADD CONSTRAINT [FK_RulePlanRules]
     FOREIGN KEY ([Rule_RuleId])
-    REFERENCES [dbo].[Rules]
+    REFERENCES [dbo].[Rule]
         ([RuleId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_RulePlanRules'
 CREATE INDEX [IX_FK_RulePlanRules]
-ON [dbo].[PlanRules]
+ON [dbo].[PlanRule]
     ([Rule_RuleId]);
 GO
 
--- Creating foreign key on [PlanFact_RecordId] in table 'PlanRules'
-ALTER TABLE [dbo].[PlanRules]
+-- Creating foreign key on [PlanFact_RecordId] in table 'PlanRule'
+ALTER TABLE [dbo].[PlanRule]
 ADD CONSTRAINT [FK_PlanFactPlanRules]
     FOREIGN KEY ([PlanFact_RecordId])
-    REFERENCES [dbo].[PlanFacts]
+    REFERENCES [dbo].[PlanFact]
         ([RecordId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanFactPlanRules'
 CREATE INDEX [IX_FK_PlanFactPlanRules]
-ON [dbo].[PlanRules]
+ON [dbo].[PlanRule]
     ([PlanFact_RecordId]);
 GO
 
--- Creating foreign key on [AtomId] in table 'AtomFacts'
-ALTER TABLE [dbo].[AtomFacts]
+-- Creating foreign key on [AtomId] in table 'AtomFact'
+ALTER TABLE [dbo].[AtomFact]
 ADD CONSTRAINT [FK_AtomAtomFact]
     FOREIGN KEY ([AtomId])
-    REFERENCES [dbo].[Atoms]
+    REFERENCES [dbo].[Atom]
         ([AtomId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomFact'
 CREATE INDEX [IX_FK_AtomAtomFact]
-ON [dbo].[AtomFacts]
+ON [dbo].[AtomFact]
     ([AtomId]);
 GO
 
--- Creating foreign key on [AtomGroupId] in table 'AtomGroupItems'
-ALTER TABLE [dbo].[AtomGroupItems]
+-- Creating foreign key on [AtomGroupId] in table 'AtomGroupItem'
+ALTER TABLE [dbo].[AtomGroupItem]
 ADD CONSTRAINT [FK_AtomGroupAtomGroupItems]
     FOREIGN KEY ([AtomGroupId])
-    REFERENCES [dbo].[AtomGroups]
+    REFERENCES [dbo].[AtomGroup]
         ([AtomGroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupAtomGroupItems'
 CREATE INDEX [IX_FK_AtomGroupAtomGroupItems]
-ON [dbo].[AtomGroupItems]
+ON [dbo].[AtomGroupItem]
     ([AtomGroupId]);
 GO
 
--- Creating foreign key on [AtomId] in table 'AtomGroupItems'
-ALTER TABLE [dbo].[AtomGroupItems]
+-- Creating foreign key on [AtomId] in table 'AtomGroupItem'
+ALTER TABLE [dbo].[AtomGroupItem]
 ADD CONSTRAINT [FK_AtomAtomGroupItems]
     FOREIGN KEY ([AtomId])
-    REFERENCES [dbo].[Atoms]
+    REFERENCES [dbo].[Atom]
         ([AtomId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomGroupItems'
 CREATE INDEX [IX_FK_AtomAtomGroupItems]
-ON [dbo].[AtomGroupItems]
+ON [dbo].[AtomGroupItem]
     ([AtomId]);
 GO
 
--- Creating foreign key on [ContainedAtomGroupId] in table 'AtomGroupItems'
-ALTER TABLE [dbo].[AtomGroupItems]
+-- Creating foreign key on [ContainedAtomGroupId] in table 'AtomGroupItem'
+ALTER TABLE [dbo].[AtomGroupItem]
 ADD CONSTRAINT [FK_AtomGroupAtomGroupItems1]
     FOREIGN KEY ([ContainedAtomGroupId])
-    REFERENCES [dbo].[AtomGroups]
+    REFERENCES [dbo].[AtomGroup]
         ([AtomGroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupAtomGroupItems1'
 CREATE INDEX [IX_FK_AtomGroupAtomGroupItems1]
-ON [dbo].[AtomGroupItems]
+ON [dbo].[AtomGroupItem]
     ([ContainedAtomGroupId]);
 GO
 
--- Creating foreign key on [AtomGroupId] in table 'Implications'
-ALTER TABLE [dbo].[Implications]
+-- Creating foreign key on [AtomGroupId] in table 'Implication'
+ALTER TABLE [dbo].[Implication]
 ADD CONSTRAINT [FK_AtomGroupImplication]
     FOREIGN KEY ([AtomGroupId])
-    REFERENCES [dbo].[AtomGroups]
+    REFERENCES [dbo].[AtomGroup]
         ([AtomGroupId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupImplication'
 CREATE INDEX [IX_FK_AtomGroupImplication]
-ON [dbo].[Implications]
+ON [dbo].[Implication]
     ([AtomGroupId]);
 GO
 
--- Creating foreign key on [DeductionAtomId] in table 'Implications'
-ALTER TABLE [dbo].[Implications]
+-- Creating foreign key on [DeductionAtomId] in table 'Implication'
+ALTER TABLE [dbo].[Implication]
 ADD CONSTRAINT [FK_AtomImplication]
     FOREIGN KEY ([DeductionAtomId])
-    REFERENCES [dbo].[Atoms]
+    REFERENCES [dbo].[Atom]
         ([AtomId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AtomImplication'
 CREATE INDEX [IX_FK_AtomImplication]
-ON [dbo].[Implications]
+ON [dbo].[Implication]
     ([DeductionAtomId]);
 GO
 

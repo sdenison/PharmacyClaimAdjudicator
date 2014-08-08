@@ -157,19 +157,19 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             //Add Or AtomGroup to first top level AtomGroup
             atomGroup.AddPredicate(atomGroup2);
 
-            //Hacked: The Contains fact need to be rethought.
-            var containsAtom = Library.Core.Rules.Atom.NewAtom(); 
-            containsAtom.Property = "Contains"; 
-            containsAtom.Class = "Transaction";
-            containsAtom.Value = "Drug";
-            containsAtom = containsAtom.Save();
+            ////Hacked: The Contains fact need to be rethought.
+            //var containsAtom = Library.Core.Rules.Atom.NewAtom(); 
+            //containsAtom.Property = "Contains"; 
+            //containsAtom.Class = "Transaction";
+            //containsAtom.Value = "Drug";
+            //containsAtom = containsAtom.Save();
 
-            atomGroup.AddPredicate(containsAtom);
+            //atomGroup.AddPredicate(containsAtom);
 
             atomGroup = atomGroup.Save();
 
             NxBRE.InferenceEngine.Rules.AtomGroup rulesEngineAtomGroup = atomGroup.ToNxBre();
-            Assert.AreEqual(rulesEngineAtomGroup.AllAtoms.Count, 4);
+            Assert.AreEqual(rulesEngineAtomGroup.AllAtoms.Count, 3);
         }
 
 

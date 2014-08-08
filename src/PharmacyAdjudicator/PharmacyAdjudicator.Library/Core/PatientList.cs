@@ -74,12 +74,12 @@ namespace PharmacyAdjudicator.Library.Core
         { 
             using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
             {
-                var data = (from p in ctx.PatientFacts
+                var data = (from p in ctx.PatientFact
                            where p.LastName.StartsWith(lastName)
-                           && p.RecordId == (from p2 in ctx.PatientFacts
+                           && p.RecordId == (from p2 in ctx.PatientFact
                                             where p2.PatientId == p.PatientId
                                             && p2.Retraction == false
-                                            && !ctx.PatientFacts.Any(p3 => p3.PatientId == p2.PatientId
+                                            && !ctx.PatientFact.Any(p3 => p3.PatientId == p2.PatientId
                                                                      && p3.Retraction == true
                                                                      && p3.OriginalFactRecordId == p2.RecordId)
                                             select p2.RecordId).Max()
@@ -98,11 +98,11 @@ namespace PharmacyAdjudicator.Library.Core
         {
             using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
             {
-                var data = (from p in ctx.PatientFacts
-                            where p.RecordId == (from p2 in ctx.PatientFacts
+                var data = (from p in ctx.PatientFact
+                            where p.RecordId == (from p2 in ctx.PatientFact
                                               where p2.PatientId == p.PatientId
                                               && p2.Retraction == false
-                                              && !ctx.PatientFacts.Any(p3 => p3.PatientId == p2.PatientId
+                                              && !ctx.PatientFact.Any(p3 => p3.PatientId == p2.PatientId
                                                                        && p3.Retraction == true
                                                                        && p3.OriginalFactRecordId == p2.RecordId)
                                               select p2.RecordId).Max()
@@ -122,7 +122,7 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 //Entity Framework is great, but sometimes SQL is better.
-                StringBuilder select = new StringBuilder("select p.* from patientfacts p ");
+                StringBuilder select = new StringBuilder("select p.* from patientfact p ");
                 StringBuilder where = new StringBuilder();
                 List<object> parameters = new List<object>();
 
@@ -146,15 +146,15 @@ namespace PharmacyAdjudicator.Library.Core
 
                 if (!String.IsNullOrWhiteSpace(criteria.GroupId))
                 {
-                    select.Append("inner join patientgroups pg on p.patientid = pg.patientid ");
+                    select.Append("inner join patientgroup pg on p.patientid = pg.patientid ");
                     AddToWhere(where, "pg.groupid like @groupid");
                     parameters.Add(new SqlParameter("@groupid", criteria.GroupId));
                 }
 
-                AddToWhere(where, "p.recordid = (select max(p2.recordid) from patientfacts p2 " +
+                AddToWhere(where, "p.recordid = (select max(p2.recordid) from patientfact p2 " +
                     "where p2.patientid = p.patientid " +
                     "and p2.retraction = 0 " +
-                    "and not exists (select 1 from patientfacts p3 " +
+                    "and not exists (select 1 from patientfact p3 " +
                         "where p3.patientid = p2.patientid " +
                         "and p3.retraction = 1 " +
                         "and p3.OriginalFactRecordId = p2.recordid))");
@@ -197,7 +197,7 @@ namespace PharmacyAdjudicator.Library.Core
                 //}
 
 
-                IQueryable<DataAccess.PatientFact> query = (from  p in ctx.DbContext.PatientFacts 
+                IQueryable<DataAccess.PatientFact> query = (from  p in ctx.DbContext.PatientFact 
                                                            select p);
 
                 //Add criteria to the where
@@ -212,7 +212,7 @@ namespace PharmacyAdjudicator.Library.Core
 
                 if (!String.IsNullOrWhiteSpace(criteria.GroupId))
                 {
-                    IQueryable<DataAccess.PatientGroup> groupQuery = (from pg in ctx.DbContext.PatientGroups
+                    IQueryable<DataAccess.PatientGroup> groupQuery = (from pg in ctx.DbContext.PatientGroup
                                                                  select pg);
                     //groupQuery = groupQuery.Where(g => g.GroupId.)
                     //query = query.Where(x => x.)
@@ -221,11 +221,11 @@ namespace PharmacyAdjudicator.Library.Core
 
                 var patientData = query.Select(q => q.PatientId).Distinct();//.ToList(); //from p in ctx.DbContext.PatientFacts)
 
-                var data = (from p in ctx.DbContext.PatientFacts
-                            where p.RecordId == (from p2 in ctx.DbContext.PatientFacts
+                var data = (from p in ctx.DbContext.PatientFact
+                            where p.RecordId == (from p2 in ctx.DbContext.PatientFact
                                                  where p2.PatientId == p.PatientId
                                                  && p2.Retraction == false
-                                                 && !ctx.DbContext.PatientFacts.Any(p3 => p3.PatientId == p2.PatientId
+                                                 && !ctx.DbContext.PatientFact.Any(p3 => p3.PatientId == p2.PatientId
                                                                           && p3.Retraction == true
                                                                           && p3.OriginalFactRecordId == p2.RecordId)
                                                  select p2.RecordId).Max()

@@ -16,8 +16,8 @@ namespace PharmacyAdjudicator.DataAccess
     {
         public AtomGroup()
         {
-            this.AtomGroupItems = new HashSet<AtomGroupItems>();
-            this.AtomGroupItems1 = new HashSet<AtomGroupItems>();
+            this.AtomGroupItems = new HashSet<AtomGroupItem>();
+            this.AtomGroupItems1 = new HashSet<AtomGroupItem>();
             this.Implications = new HashSet<Implication>();
         }
     
@@ -25,8 +25,8 @@ namespace PharmacyAdjudicator.DataAccess
         public string LogicalOperator { get; set; }
         public string Name { get; set; }
     
-        public virtual ICollection<AtomGroupItems> AtomGroupItems { get; set; }
-        public virtual ICollection<AtomGroupItems> AtomGroupItems1 { get; set; }
+        public virtual ICollection<AtomGroupItem> AtomGroupItems { get; set; }
+        public virtual ICollection<AtomGroupItem> AtomGroupItems1 { get; set; }
         public virtual ICollection<Implication> Implications { get; set; }
     }
 }

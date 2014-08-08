@@ -12,7 +12,7 @@ namespace PharmacyAdjudicator.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class AtomGroupItems
+    public partial class AtomGroupItem
     {
         public long RecordId { get; set; }
         public long AtomGroupId { get; set; }

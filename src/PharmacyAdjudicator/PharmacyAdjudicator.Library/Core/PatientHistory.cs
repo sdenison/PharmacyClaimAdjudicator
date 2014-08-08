@@ -39,7 +39,7 @@ namespace PharmacyAdjudicator.Library.Core
             IsReadOnly = false;
             using (var ctx = new DataAccess.PharmacyClaimAdjudicatorEntities())
             {
-                var patientFacts = (from p in ctx.PatientFacts
+                var patientFacts = (from p in ctx.PatientFact
                                    where p.PatientId == patientId
                                    orderby p.RecordId
                                    select p);

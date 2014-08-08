@@ -107,7 +107,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 var identityAtom = new DataAccess.Atom();
                 identityAtom.RecordCreatedDateTime = DateTime.Now;
                 identityAtom.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
-                ctx.DbContext.Atoms.Add(identityAtom);
+                ctx.DbContext.Atom.Add(identityAtom);
                 ctx.DbContext.SaveChanges();
                 this.AtomId = identityAtom.AtomId;
             }
@@ -119,12 +119,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 //Pull the most recent version of this atom
-                var atomData = (from a in ctx.DbContext.AtomFacts
+                var atomData = (from a in ctx.DbContext.AtomFact
                                 where a.AtomId == atomId
-                                && a.RecordId == (from a2 in ctx.DbContext.AtomFacts
+                                && a.RecordId == (from a2 in ctx.DbContext.AtomFact
                                                       where a2.AtomId == atomId
                                                       && a2.Retraction == false
-                                                      && !ctx.DbContext.AtomFacts.Any(a3 => a3.AtomId == atomId
+                                                      && !ctx.DbContext.AtomFact.Any(a3 => a3.AtomId == atomId
                                                       && a3.Retraction == true
                                                       && a3.OriginalFactRecordId == a2.RecordId)
                                                   select a2.RecordId).Max()
@@ -143,7 +143,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var atomData = CreateNewEntity();
-                ctx.DbContext.AtomFacts.Add(atomData);
+                ctx.DbContext.AtomFact.Add(atomData);
                 ctx.DbContext.SaveChanges();
                 _RecordId = atomData.RecordId;
             }
@@ -154,7 +154,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var atomData = CreateNewEntity();
-                ctx.DbContext.AtomFacts.Add(atomData);
+                ctx.DbContext.AtomFact.Add(atomData);
                 ctx.DbContext.SaveChanges();
                 _RecordId = atomData.RecordId;
             }
@@ -174,7 +174,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 {
                     atomData.Retraction = true;
                     atomData.OriginalFactRecordId = _RecordId;
-                    ctx.DbContext.AtomFacts.Add(atomData);
+                    ctx.DbContext.AtomFact.Add(atomData);
                     ctx.DbContext.SaveChanges();
                 }
             }

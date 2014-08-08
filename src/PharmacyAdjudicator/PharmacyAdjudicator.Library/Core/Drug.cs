@@ -122,7 +122,7 @@ namespace PharmacyAdjudicator.Library.Core
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var drug = (from d in ctx.DbContext.VaDrugs
+                var drug = (from d in ctx.DbContext.VaDrug
                             where d.NdfNdc == ndc
                             select d).FirstOrDefault();
                 if (drug == null)

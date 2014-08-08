@@ -364,6 +364,7 @@ namespace PharmacyAdjudicator.Library.Core
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
+                var guid = Guid.NewGuid();
                 DataAccess.Patient newPatient = new DataAccess.Patient();
                 newPatient.RecordCreatedDateTime = DateTime.Now;
                 newPatient.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
@@ -383,14 +384,14 @@ namespace PharmacyAdjudicator.Library.Core
             {
                 DataAccess.PatientFact patientData;
                 //Gets the patient record active on the compare date/time passed in
-                patientData = (from p in ctx.DbContext.PatientFacts
+                patientData = (from p in ctx.DbContext.PatientFact
                                where
                                p.PatientId == criteria.PatientId
-                               && p.RecordId == (from p2 in ctx.DbContext.PatientFacts
+                               && p.RecordId == (from p2 in ctx.DbContext.PatientFact
                                                  where p2.PatientId == criteria.PatientId
                                                  && p2.Retraction == false
                                                  && p2.RecordCreatedDateTime < criteria.RecordCompareDatetime 
-                                                 && !ctx.DbContext.PatientFacts.Any(p3 => p3.PatientId == criteria.PatientId
+                                                 && !ctx.DbContext.PatientFact.Any(p3 => p3.PatientId == criteria.PatientId
                                                      && p3.Retraction == true
                                                      && p3.OriginalFactRecordId == p2.RecordId
                                                      && p3.RecordCreatedDateTime < criteria.RecordCompareDatetime)
@@ -409,7 +410,7 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 //No sub-selects necessary since we are getting the record by the unique identifier
-                DataAccess.PatientFact patientData = (from p in ctx.DbContext.PatientFacts
+                DataAccess.PatientFact patientData = (from p in ctx.DbContext.PatientFact
                                   where p.RecordId == criteria.RecordId
                                   select p).FirstOrDefault();
                 if (patientData != null)
@@ -426,13 +427,13 @@ namespace PharmacyAdjudicator.Library.Core
             {
                 DataAccess.PatientFact patientData;
                 //Pulls the most recent patient record
-                patientData = (from p in ctx.DbContext.PatientFacts
+                patientData = (from p in ctx.DbContext.PatientFact
                                where 
                                p.PatientId == criteria.PatientId
-                               && p.RecordId == (from p2 in ctx.DbContext.PatientFacts
+                               && p.RecordId == (from p2 in ctx.DbContext.PatientFact
                                                     where p2.PatientId == criteria.PatientId
                                                     && p2.Retraction == false
-                                                    && !ctx.DbContext.PatientFacts.Any(p3 => p3.PatientId == criteria.PatientId
+                                                    && !ctx.DbContext.PatientFact.Any(p3 => p3.PatientId == criteria.PatientId
                                                         && p3.Retraction == true
                                                         && p3.OriginalFactRecordId == p2.RecordId)
                                                     select p2.RecordId).Max()
@@ -453,7 +454,7 @@ namespace PharmacyAdjudicator.Library.Core
                 //Cardholder ID, Birth Date and Gender are all reqired in the transmission.
                 //We'll keep this simple for now.  When real patients are added something
                 //more sophisticated will need to be put in place.
-                var patientIds = ((from p in ctx.DbContext.PatientFacts 
+                var patientIds = ((from p in ctx.DbContext.PatientFact 
                           where p.CardholderId == criteria.CardholderId
                           && p.BirthDate == criteria.DateOfBirth
                           && p.Gender == criteria.PatientGenderCode
@@ -500,7 +501,7 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var patientData = CreateNewEntity();
-                ctx.DbContext.PatientFacts.Add(patientData);
+                ctx.DbContext.PatientFact.Add(patientData);
                 ctx.DbContext.SaveChanges();
                 PopulateByRow(patientData);
             }
@@ -511,7 +512,7 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var patientData = CreateNewEntity();
-                ctx.DbContext.PatientFacts.Add(patientData);
+                ctx.DbContext.PatientFact.Add(patientData);
                 ctx.DbContext.SaveChanges();
                 PopulateByRow(patientData);
             }
@@ -530,7 +531,7 @@ namespace PharmacyAdjudicator.Library.Core
                 {
                     patientData.Retraction = true;
                     patientData.OriginalFactRecordId = this._RecordId;
-                    ctx.DbContext.PatientFacts.Add(patientData);
+                    ctx.DbContext.PatientFact.Add(patientData);
                     ctx.DbContext.SaveChanges();
                 }
             }

@@ -76,7 +76,31 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             this.Add(DataPortal.CreateChild<Predicate>(parent, atom));
         }
 
-        private void Child_Fetch(IEnumerable<DataAccess.AtomGroupItems> atomGroupItems)
+        private AtomGroup _parent;
+
+        //protected override void Child_Create()
+        //{
+        //    base.Child_Create();
+        //}
+
+        protected void Child_Create(AtomGroup parent)
+        {
+            //Every predicate list must be a child of an AtomGroup.
+            //_atomGroupId = atomGroupId;
+            _parent = parent;
+        }
+
+        //private void Child_Update(AtomGroup parent)
+        //{
+        //    _parent = parent;
+        //    foreach (var item in this)
+        //    {
+        //        item.AtomGroupId = parent.AtomGroupId;
+        //    }
+            
+        //}
+
+        private void Child_Fetch(IEnumerable<DataAccess.AtomGroupItem> atomGroupItems)
         {
             var rlce = RaiseListChangedEvents;
             RaiseListChangedEvents = false;

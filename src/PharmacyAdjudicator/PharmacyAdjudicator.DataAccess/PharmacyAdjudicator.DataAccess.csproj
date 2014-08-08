@@ -59,7 +59,7 @@
     <Compile Include="AtomGroup.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="AtomGroupItems.cs">
+    <Compile Include="AtomGroupItem.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Group.cs">

@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Csla;
+using NxBRE.InferenceEngine.Rules;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
@@ -23,8 +25,15 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(HeadProperty, value); }
         }
 
-        public static readonly PropertyInfo<Predicate> BodyProperty = RegisterProperty<Predicate>(c => c.Body);
-        public Predicate Body
+        //public static readonly PropertyInfo<Predicate> BodyProperty = RegisterProperty<Predicate>(c => c.Body);
+        //public Predicate Body
+        //{
+        //    get { return GetProperty(BodyProperty); }
+        //    set { SetProperty(BodyProperty, value); }
+        //}
+
+        public static readonly PropertyInfo<AtomGroup> BodyProperty = RegisterProperty<AtomGroup>(c => c.Body);
+        public AtomGroup Body
         {
             get { return GetProperty(BodyProperty); }
             set { SetProperty(BodyProperty, value); }
@@ -35,6 +44,44 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             get { return GetProperty(ImplicationIdProperty); }
             private set { LoadProperty(ImplicationIdProperty, value); }
+        }
+
+        public NxBRE.InferenceEngine.Rules.Implication ToNxBre()
+        {
+            //return new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator, this.Predicates.ToNxBre().ToArray());
+
+            var head = this.Head.ToNxBre();
+            List<NxBRE.InferenceEngine.Rules.Atom> containAtoms = new List<NxBRE.InferenceEngine.Rules.Atom>();
+            
+            foreach(var contains in Body.ComplexFactsUsed())
+            {
+                if (!contains.Equals("Transaction"))
+                {
+                    containAtoms.Add(new NxBRE.InferenceEngine.Rules.Atom("Contains", new NxBRE.InferenceEngine.Rules.Variable("Transaction"), new NxBRE.InferenceEngine.Rules.Variable(contains)));
+                }
+            }
+            if (containAtoms.Count == 0)
+            {
+                return new NxBRE.InferenceEngine.Rules.Implication(this.Label, ImplicationPriority.Medium, "", "", head, Body.ToNxBre());
+            }
+            else
+            {
+                //object[] members = new object();
+                var bodyMembers = Body.ToNxBre().Members.ToArray();
+                var x = new object[] { bodyMembers.ToArray(), containAtoms.ToArray() };
+
+                List<object> members = Body.ToNxBre().Members.ToList();
+                foreach (var atom in containAtoms)
+                {
+                    members.Add(atom);
+                }
+
+
+                var returnAtomGroup = new NxBRE.InferenceEngine.Rules.AtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And, members.ToArray());
+
+                //var returnAtomGroup = new NxBRE.InferenceEngine.Rules.AtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And, containAtoms.ToArray(), this.Body.ToNxBre());
+                return new NxBRE.InferenceEngine.Rules.Implication(this.Label, ImplicationPriority.Medium, "", "", head, returnAtomGroup);
+            }
         }
 
         #endregion
@@ -104,7 +151,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var implicationData = (from i in ctx.DbContext.Implications
+                var implicationData = (from i in ctx.DbContext.Implication
                                            where i.ImplicationId == criteria
                                            select i).FirstOrDefault();
                 if (implicationData == null)
@@ -121,7 +168,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var implicationData = (from i in ctx.DbContext.Implications
+                var implicationData = (from i in ctx.DbContext.Implication
                                        where i.Label == criteria
                                        select i).FirstOrDefault();
                 if (implicationData == null)
@@ -141,7 +188,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 var implicationData = new DataAccess.Implication();
                 implicationData.AtomGroupId = this.Body.AtomGroupId;
                 implicationData.DeductionAtomId = this.Head.AtomId;
-                ctx.DbContext.Implications.Add(implicationData);
+                implicationData.Label = this.Label;
+                ctx.DbContext.Implication.Add(implicationData);
                 ctx.DbContext.SaveChanges();
                 using (BypassPropertyChecks)
                     this.ImplicationId = implicationData.ImplicationId;
@@ -176,10 +224,10 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var implicationData = (from i in ctx.DbContext.Implications
+                var implicationData = (from i in ctx.DbContext.Implication
                                        where i.ImplicationId == criteria
                                        select i).FirstOrDefault();
-                ctx.DbContext.Implications.Remove(implicationData);
+                ctx.DbContext.Implication.Remove(implicationData);
                 ctx.DbContext.SaveChanges();
             }
         }
@@ -188,7 +236,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             this.ImplicationId = implicationData.ImplicationId;
             this.Head = Atom.GetByAtomId(implicationData.DeductionAtomId.Value);
-            this.Body = Predicate.GetByRecordId(implicationData.AtomGroupId);
+            // this.Body = Predicate.GetByRecordId(implicationData.AtomGroupId);
+            this.Body = AtomGroup.GetById(implicationData.AtomGroupId);//.GetByRecordId(implicationData.AtomGroupId);
         }
 
         #endregion

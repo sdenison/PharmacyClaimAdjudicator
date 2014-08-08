@@ -31,16 +31,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(AtomGroupIdProperty, value); }
         }
 
-        public static readonly PropertyInfo<PredicateList> PredicatesProperty = RegisterProperty<PredicateList>(c => c.Predicates);
+        public static readonly PropertyInfo<PredicateList> PredicatesProperty = RegisterProperty<PredicateList>(c => c.Predicates, RelationshipTypes.Child);
         public PredicateList Predicates
         {
             get 
             {
                 if (!(FieldManager.FieldExists(PredicatesProperty)))
                     LoadProperty(PredicatesProperty, DataPortal.CreateChild<PredicateList>(this.AtomGroupId));
+                    //LoadProperty(PredicatesProperty, DataPortal.FetchChild<PredicateList>(this.AtomGroupId));
                 return GetProperty(PredicatesProperty); 
             }
-            set { SetProperty(PredicatesProperty, value); }
+            private set { SetProperty(PredicatesProperty, value); }
         }
 
         public void AddPredicate(Atom predicate)
@@ -50,6 +51,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public void AddPredicate(AtomGroup predicate)
         {
+            if (this.LogicalOperator == predicate.LogicalOperator)
+                throw new Exception("Child logical operator cannot be the same as parent logical operator.");
             this.Predicates.Add(this, predicate);
         }
 
@@ -140,11 +143,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Data Access
 
-        [RunLocal]
+        //[RunLocal]
         protected override void DataPortal_Create()
         {
             // TODO: load default values
             // omit this override if you have no defaults to set
+            //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            //{
+            //    var atomGroupData = new DataAccess.AtomGroup();
+            //    atomGroupData.Name = "";
+            //    atomGroupData.LogicalOperator = "OR";
+            //    ctx.DbContext.AtomGroups.Add(atomGroupData);
+            //    ctx.DbContext.SaveChanges();
+            //    this.AtomGroupId = atomGroupData.AtomGroupId;
+            //}
+            this.Predicates = DataPortal.Create<PredicateList>(this);
             base.DataPortal_Create();
         }
 
@@ -152,7 +165,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var atomGroupData = (from a in ctx.DbContext.AtomGroups
+                var atomGroupData = (from a in ctx.DbContext.AtomGroup
                                      where a.AtomGroupId == atomGroupId
                                      select a).FirstOrDefault();
 
@@ -161,7 +174,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 using (BypassPropertyChecks)
                 {
                     PopulateByEntity(atomGroupData);
-                    var predicateData = from p in ctx.DbContext.AtomGroupItems
+                    var predicateData = from p in ctx.DbContext.AtomGroupItem
                                         where p.AtomGroupId == atomGroupId
                                         orderby p.Priority
                                         select p;
@@ -178,9 +191,10 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var atomGroupData = CreateEntity();
-                ctx.DbContext.AtomGroups.Add(atomGroupData);
+                ctx.DbContext.AtomGroup.Add(atomGroupData);
                 ctx.DbContext.SaveChanges();
                 this.AtomGroupId = atomGroupData.AtomGroupId;
+                FieldManager.UpdateChildren(this);
             }
         }
 
@@ -188,7 +202,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var atomGroupData = (from a in ctx.DbContext.AtomGroups
+                var atomGroupData = (from a in ctx.DbContext.AtomGroup
                                      where a.AtomGroupId == this.AtomGroupId
                                      select a).FirstOrDefault();
                 atomGroupData.LogicalOperator = this.LogicalOperator.ToString();

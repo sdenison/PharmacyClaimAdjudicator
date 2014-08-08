@@ -85,7 +85,7 @@ namespace PharmacyAdjudicator.Library.Core
                 newPlan.PlanId = planId;
                 newPlan.RecordCreatedDateTime = DateTime.Now;
                 newPlan.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
-                ctx.DbContext.Plans.Add(newPlan);
+                ctx.DbContext.Plan.Add(newPlan);
                 ctx.DbContext.SaveChanges();
                 this.PlanId = planId;
             }
@@ -116,14 +116,14 @@ namespace PharmacyAdjudicator.Library.Core
             {
                 DataAccess.PlanFact planData;
                 //Gets the plan record active on the compare date/time passed in
-                planData = (from p in ctx.DbContext.PlanFacts
+                planData = (from p in ctx.DbContext.PlanFact
                                where
                                p.PlanId == criteria.PlanId
-                               && p.RecordId == (from p2 in ctx.DbContext.PlanFacts
+                               && p.RecordId == (from p2 in ctx.DbContext.PlanFact
                                                  where p2.PlanId == criteria.PlanId
                                                  && p2.Retraction == false
                                                  && p2.RecordCreatedDateTime < criteria.RecordCompareDatetime
-                                                 && !ctx.DbContext.PlanFacts.Any(p3 => p3.PlanId == criteria.PlanId
+                                                 && !ctx.DbContext.PlanFact.Any(p3 => p3.PlanId == criteria.PlanId
                                                      && p3.Retraction == true
                                                      && p3.OriginalFactRecordId == p2.RecordId
                                                      && p3.RecordCreatedDateTime < criteria.RecordCompareDatetime)
@@ -142,13 +142,13 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 DataAccess.PlanFact planData;
-                planData = (from p in ctx.DbContext.PlanFacts
+                planData = (from p in ctx.DbContext.PlanFact
                             where
                             p.PlanId == planId
-                            && p.RecordId == (from p2 in ctx.DbContext.PlanFacts
+                            && p.RecordId == (from p2 in ctx.DbContext.PlanFact
                                               where p2.PlanId == planId
                                               && p2.Retraction == false
-                                              && ctx.DbContext.PlanFacts.Any(p3 => p3.PlanId == planId
+                                              && ctx.DbContext.PlanFact.Any(p3 => p3.PlanId == planId
                                               && p3.Retraction == true
                                               && p3.OriginalFactRecordId == p2.RecordId)
                                               select p2.RecordId).Max()
@@ -166,7 +166,7 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var planData = CreateNewEntity();
-                ctx.DbContext.PlanFacts.Add(planData);
+                ctx.DbContext.PlanFact.Add(planData);
                 ctx.DbContext.SaveChanges();
                 this.RecordId = planData.RecordId;
             }
@@ -177,7 +177,7 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var planData = CreateNewEntity();
-                ctx.DbContext.PlanFacts.Add(planData);
+                ctx.DbContext.PlanFact.Add(planData);
                 ctx.DbContext.SaveChanges();
                 this.RecordId = planData.RecordId;
             }
@@ -197,7 +197,7 @@ namespace PharmacyAdjudicator.Library.Core
                 {
                     planData.Retraction = true;
                     planData.OriginalFactRecordId = this.RecordId;
-                    ctx.DbContext.PlanFacts.Add(planData);
+                    ctx.DbContext.PlanFact.Add(planData);
                     ctx.DbContext.SaveChanges();
                 }
             }

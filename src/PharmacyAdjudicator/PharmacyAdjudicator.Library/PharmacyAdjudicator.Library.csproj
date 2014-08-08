@@ -64,7 +64,6 @@
     <Compile Include="Core\PatientSearchCriteria.cs" />
     <Compile Include="Core\Rules\Atom.cs" />
     <Compile Include="Core\Rules\AtomGroup.cs" />
-    <Compile Include="Core\Rules\AtomList.cs" />
     <Compile Include="Core\ComplexFact.cs" />
     <Compile Include="Core\Enums\EnumConvert.cs" />
     <Compile Include="Core\OtherAmountPaidList.cs" />
@@ -79,6 +78,7 @@
     <Compile Include="Core\PatientHistory.cs" />
     <Compile Include="Core\Plan.cs" />
     <Compile Include="Core\RuleBase.cs" />
+    <Compile Include="Core\Rules\EditableChild1.cs" />
     <Compile Include="Core\Rules\Implication.cs" />
     <Compile Include="Core\Rules\Predicate.cs" />
     <Compile Include="Core\Rules\PredicateList.cs" />
