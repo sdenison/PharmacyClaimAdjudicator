@@ -57,6 +57,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.0-rc1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FirstFloor.ModernUI">
+      <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -92,18 +95,21 @@
     </Compile>
     <Compile Include="EventMessages\DisplayViewModelMessage.cs" />
     <Compile Include="EventMessages\LoginChangedMessage.cs" />
+    <Compile Include="EventMessages\LoginMessage.cs" />
     <Compile Include="EventMessages\NavigateGoBackMessage.cs" />
     <Compile Include="EventMessages\PatientEditMessage.cs" />
     <Compile Include="EventMessages\PatientSearchResultsMessage.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Helpers\INavigation.cs" />
     <Compile Include="Interface\IDialog.cs" />
+    <Compile Include="Interface\IHaveEditStates.cs" />
     <Compile Include="Interface\IHaveUniqueId.cs" />
     <Compile Include="Interface\IHaveWindowsForType.cs" />
     <Compile Include="Interface\INavigationService.cs" />
     <Compile Include="Interface\IOpenViewModels.cs" />
     <Compile Include="Interface\IPatientEditManager.cs" />
     <Compile Include="Interface\IShowEditWindowService.cs" />
+    <Compile Include="LoginCommand.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -112,15 +118,14 @@
       <DependentUpon>PatientEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patient\PatientEditViewModel.cs" />
+    <Compile Include="Patient\PatientEdit\Addresses.xaml.cs">
+      <DependentUpon>Addresses.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patient\PatientEdit\Details.xaml.cs">
+      <DependentUpon>Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patient\PatientEditState.cs" />
     <Compile Include="Patient\PatientEditViewModelClosingMessage.cs" />
-    <Compile Include="Patient\PatientSearchResultsView.xaml.cs">
-      <DependentUpon>PatientSearchResultsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Patient\PatientSearchResultsViewModel.cs" />
-    <Compile Include="Patient\PatientSearchView.xaml.cs">
-      <DependentUpon>PatientSearchView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Patient\PatientSearchViewModel.cs" />
     <Compile Include="Patient\PatientView.xaml.cs">
       <DependentUpon>PatientView.xaml</DependentUpon>
     </Compile>
@@ -141,7 +146,11 @@
     </Compile>
     <Compile Include="Welcome\WelcomeViewModel.cs" />
     <Compile Include="Xaml\PasswordBinder.cs" />
-    <Page Include="Content\appbar.refresh.xaml">
+    <Page Include="Assets\ButtonResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\ModernStateTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,11 +193,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Patient\PatientSearchResultsView.xaml">
+    <Page Include="Patient\PatientEdit\Addresses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Patient\PatientSearchView.xaml">
+    <Page Include="Patient\PatientEdit\Details.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,10 +221,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\Downloads\mui-107668\1.0\FirstFloor.ModernUI\FirstFloor.ModernUI\FirstFloor.ModernUI.csproj">
-      <Project>{9a653a28-fe46-40e8-a14f-48b0e325165d}</Project>
-      <Name>FirstFloor.ModernUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj">
       <Project>{9467e711-a5d6-435a-be7d-cd36dd21c8c0}</Project>
       <Name>PharmacyAdjudicator.DataAccess</Name>

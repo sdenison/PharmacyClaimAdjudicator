@@ -1,7 +1,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/08/2014 15:17:42
+-- Date Created: 08/14/2014 16:11:11
 -- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -46,9 +46,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PlanFactPlanRules]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PlanRule] DROP CONSTRAINT [FK_PlanFactPlanRules];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AtomAtomFact]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AtomFact] DROP CONSTRAINT [FK_AtomAtomFact];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AtomGroupAtomGroupItems]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AtomGroupItem] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems];
 GO
@@ -63,6 +60,18 @@ IF OBJECT_ID(N'[dbo].[FK_AtomGroupImplication]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_AtomImplication]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Implication] DROP CONSTRAINT [FK_AtomImplication];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AddressTypePatientAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientAddress] DROP CONSTRAINT [FK_AddressTypePatientAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AddressPatientAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientAddress] DROP CONSTRAINT [FK_AddressPatientAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PatientPatientAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientAddress] DROP CONSTRAINT [FK_PatientPatientAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PatientAddressPatientAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientAddress] DROP CONSTRAINT [FK_PatientAddressPatientAddress];
 GO
 
 -- --------------------------------------------------
@@ -114,8 +123,14 @@ GO
 IF OBJECT_ID(N'[dbo].[RuleImplication]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RuleImplication];
 GO
-IF OBJECT_ID(N'[dbo].[AtomFact]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AtomFact];
+IF OBJECT_ID(N'[dbo].[Address]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Address];
+GO
+IF OBJECT_ID(N'[dbo].[PatientAddress]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PatientAddress];
+GO
+IF OBJECT_ID(N'[dbo].[AddressType]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AddressType];
 GO
 
 -- --------------------------------------------------
@@ -242,15 +257,22 @@ GO
 
 -- Creating table 'Atom'
 CREATE TABLE [dbo].[Atom] (
-    [AtomId] bigint IDENTITY(1,1) NOT NULL,
+    [AtomId] uniqueidentifier  NOT NULL,
+    [Class] nvarchar(50)  NOT NULL,
+    [Property] nvarchar(50)  NOT NULL,
+    [Value] nvarchar(max)  NOT NULL,
+    [Operation] nvarchar(max)  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
-    [RecordCreatedUser] nvarchar(50)  NOT NULL
+    [RecordCreatedUser] nvarchar(50)  NOT NULL,
+    [RecordDeleteDate] datetime  NULL,
+    [RecordDeleteUser] nvarchar(50)  NOT NULL,
+    [IsDeleted] bit  NOT NULL
 );
 GO
 
 -- Creating table 'AtomGroup'
 CREATE TABLE [dbo].[AtomGroup] (
-    [AtomGroupId] bigint IDENTITY(1,1) NOT NULL,
+    [AtomGroupId] uniqueidentifier  NOT NULL,
     [LogicalOperator] nvarchar(max)  NOT NULL,
     [Name] nvarchar(max)  NOT NULL
 );
@@ -258,10 +280,10 @@ GO
 
 -- Creating table 'AtomGroupItem'
 CREATE TABLE [dbo].[AtomGroupItem] (
-    [RecordId] bigint IDENTITY(1,1) NOT NULL,
-    [AtomGroupId] bigint  NOT NULL,
-    [AtomId] bigint  NULL,
-    [ContainedAtomGroupId] bigint  NULL,
+    [RecordId] uniqueidentifier  NOT NULL,
+    [AtomGroupId] uniqueidentifier  NOT NULL,
+    [AtomId] uniqueidentifier  NULL,
+    [ContainedAtomGroupId] uniqueidentifier  NULL,
     [Priority] int  NOT NULL
 );
 GO
@@ -285,9 +307,9 @@ GO
 
 -- Creating table 'Implication'
 CREATE TABLE [dbo].[Implication] (
-    [ImplicationId] bigint IDENTITY(1,1) NOT NULL,
-    [AtomGroupId] bigint  NOT NULL,
-    [DeductionAtomId] bigint  NULL,
+    [ImplicationId] uniqueidentifier  NOT NULL,
+    [AtomGroupId] uniqueidentifier  NOT NULL,
+    [DeductionAtomId] uniqueidentifier  NOT NULL,
     [Label] nvarchar(max)  NOT NULL
 );
 GO
@@ -296,25 +318,47 @@ GO
 CREATE TABLE [dbo].[RuleImplication] (
     [RecordId] bigint IDENTITY(1,1) NOT NULL,
     [RuleId] bigint  NOT NULL,
-    [ImplicationId] bigint  NOT NULL,
+    [ImplicationId] uniqueidentifier  NOT NULL,
     [Priority] nvarchar(max)  NOT NULL,
     [Rule_RuleId] bigint  NOT NULL,
-    [Implication_ImplicationId] bigint  NOT NULL
+    [Implication_ImplicationId] uniqueidentifier  NOT NULL
 );
 GO
 
--- Creating table 'AtomFact'
-CREATE TABLE [dbo].[AtomFact] (
-    [RecordId] int IDENTITY(1,1) NOT NULL,
-    [AtomId] bigint  NOT NULL,
-    [Class] nvarchar(50)  NOT NULL,
-    [Property] nvarchar(50)  NOT NULL,
-    [Value] nvarchar(max)  NOT NULL,
-    [Operation] nvarchar(max)  NOT NULL,
-    [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] int  NOT NULL,
+-- Creating table 'Address'
+CREATE TABLE [dbo].[Address] (
+    [AddressId] uniqueidentifier  NOT NULL,
+    [Address1] nvarchar(max)  NOT NULL,
+    [Address2] nvarchar(max)  NOT NULL,
+    [Address3] nvarchar(max)  NOT NULL,
+    [City] nvarchar(max)  NOT NULL,
+    [State] nvarchar(max)  NOT NULL,
+    [Zip] nvarchar(max)  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
-    [RecordCreatedUser] nvarchar(max)  NOT NULL
+    [RecordCreatedUser] nvarchar(max)  NOT NULL,
+    [Latitude] decimal(18,0)  NULL,
+    [Longitude] decimal(18,0)  NULL
+);
+GO
+
+-- Creating table 'PatientAddress'
+CREATE TABLE [dbo].[PatientAddress] (
+    [RecordId] uniqueidentifier  NOT NULL,
+    [PatientId] bigint  NOT NULL,
+    [AddressTypeCode] nvarchar(20)  NOT NULL,
+    [AddressId] uniqueidentifier  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(max)  NOT NULL,
+    [Slot] int  NOT NULL
+);
+GO
+
+-- Creating table 'AddressType'
+CREATE TABLE [dbo].[AddressType] (
+    [AddressTypeCode] nvarchar(20)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -412,10 +456,22 @@ ADD CONSTRAINT [PK_RuleImplication]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'AtomFact'
-ALTER TABLE [dbo].[AtomFact]
-ADD CONSTRAINT [PK_AtomFact]
+-- Creating primary key on [AddressId] in table 'Address'
+ALTER TABLE [dbo].[Address]
+ADD CONSTRAINT [PK_Address]
+    PRIMARY KEY CLUSTERED ([AddressId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'PatientAddress'
+ALTER TABLE [dbo].[PatientAddress]
+ADD CONSTRAINT [PK_PatientAddress]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [AddressTypeCode] in table 'AddressType'
+ALTER TABLE [dbo].[AddressType]
+ADD CONSTRAINT [PK_AddressType]
+    PRIMARY KEY CLUSTERED ([AddressTypeCode] ASC);
 GO
 
 -- --------------------------------------------------
@@ -572,21 +628,6 @@ ON [dbo].[PlanRule]
     ([PlanFact_RecordId]);
 GO
 
--- Creating foreign key on [AtomId] in table 'AtomFact'
-ALTER TABLE [dbo].[AtomFact]
-ADD CONSTRAINT [FK_AtomAtomFact]
-    FOREIGN KEY ([AtomId])
-    REFERENCES [dbo].[Atom]
-        ([AtomId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomFact'
-CREATE INDEX [IX_FK_AtomAtomFact]
-ON [dbo].[AtomFact]
-    ([AtomId]);
-GO
-
 -- Creating foreign key on [AtomGroupId] in table 'AtomGroupItem'
 ALTER TABLE [dbo].[AtomGroupItem]
 ADD CONSTRAINT [FK_AtomGroupAtomGroupItems]
@@ -660,6 +701,66 @@ GO
 CREATE INDEX [IX_FK_AtomImplication]
 ON [dbo].[Implication]
     ([DeductionAtomId]);
+GO
+
+-- Creating foreign key on [AddressTypeCode] in table 'PatientAddress'
+ALTER TABLE [dbo].[PatientAddress]
+ADD CONSTRAINT [FK_AddressTypePatientAddress]
+    FOREIGN KEY ([AddressTypeCode])
+    REFERENCES [dbo].[AddressType]
+        ([AddressTypeCode])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AddressTypePatientAddress'
+CREATE INDEX [IX_FK_AddressTypePatientAddress]
+ON [dbo].[PatientAddress]
+    ([AddressTypeCode]);
+GO
+
+-- Creating foreign key on [AddressId] in table 'PatientAddress'
+ALTER TABLE [dbo].[PatientAddress]
+ADD CONSTRAINT [FK_AddressPatientAddress]
+    FOREIGN KEY ([AddressId])
+    REFERENCES [dbo].[Address]
+        ([AddressId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AddressPatientAddress'
+CREATE INDEX [IX_FK_AddressPatientAddress]
+ON [dbo].[PatientAddress]
+    ([AddressId]);
+GO
+
+-- Creating foreign key on [PatientId] in table 'PatientAddress'
+ALTER TABLE [dbo].[PatientAddress]
+ADD CONSTRAINT [FK_PatientPatientAddress]
+    FOREIGN KEY ([PatientId])
+    REFERENCES [dbo].[Patient]
+        ([PatientId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PatientPatientAddress'
+CREATE INDEX [IX_FK_PatientPatientAddress]
+ON [dbo].[PatientAddress]
+    ([PatientId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'PatientAddress'
+ALTER TABLE [dbo].[PatientAddress]
+ADD CONSTRAINT [FK_PatientAddressPatientAddress]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[PatientAddress]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PatientAddressPatientAddress'
+CREATE INDEX [IX_FK_PatientAddressPatientAddress]
+ON [dbo].[PatientAddress]
+    ([OriginalFactRecordId]);
 GO
 
 -- --------------------------------------------------

@@ -54,9 +54,10 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
             {
                 long patientId = 22;
                 var patientVM = await ModernUI.Patient.PatientEditViewModel.BuildViewModelAsync(patientId, _eventAggregator.Object);
-                patientVM.Model.FirstName = "John";
-                Assert.IsTrue(patientVM.CanSave, "Should be able to save after changing first name from Joe to John");
-                await patientVM.SaveAsync();
+                //patientVM.Model.FirstName = "John";
+                //Assert.IsTrue(patientVM.CanSave, "Should be able to save after changing first name from Joe to John");
+                //await patientVM.SaveAsync();
+                //patientVM.Save();
 
                 var patientSecondFetch = Library.Core.Patient.GetByPatientId(22);
                 //Assert that the name from the database is now John.

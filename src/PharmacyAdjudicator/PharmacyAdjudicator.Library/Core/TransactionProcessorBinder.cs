@@ -19,8 +19,6 @@ namespace PharmacyAdjudicator.Library.Core
 
         public override void BeforeProcess()
         {
-
-
             GrindObjectToFacts(BusinessObjects["TRANSACTION"]);
         }
 
@@ -145,21 +143,34 @@ namespace PharmacyAdjudicator.Library.Core
 
         public override object Compute(string operationName, System.Collections.IDictionary arguments)
         {
-            if (operationName == "CalculateIngredientCostPaid")
+            switch (operationName)
             {
-                return CalculateIngredientCostPaid((Core.Transaction)arguments["Transaction"]);
+                case "CalculateIngredientCostPaid":
+                        return CalculateIngredientCostPaid((Core.Transaction)arguments["Transaction"]);
+                //case "StartsWith":
+                //    {
+                //        var x = arguments[0];
+                //        return true;
+                //    }
+                default:
+                    throw new NotImplementedException("Operation '" + operationName + "' is not supported by this binder.");
             }
-            else if (operationName.StartsWith("Transaction."))
-            {
-                var transaction = (Core.Transaction)arguments["Transaction"];
-                //typeof(Core.Transaction).GetProperty(fact.Type)
-                PropertyInfo property = typeof(Core.Transaction).GetProperty(operationName.Replace("Transaction.", ""));
-                return property.GetValue(transaction);
-            }
-            else
-            {
-                throw new NotImplementedException("Operation '" + operationName + "' is not supported by this binder.");
-            }
+            
+            //if (operationName == "CalculateIngredientCostPaid")
+            //{
+            //    return CalculateIngredientCostPaid((Core.Transaction)arguments["Transaction"]);
+            //}
+            //else if (operationName.StartsWith("Transaction."))
+            //{
+            //    var transaction = (Core.Transaction)arguments["Transaction"];
+            //    //typeof(Core.Transaction).GetProperty(fact.Type)
+            //    PropertyInfo property = typeof(Core.Transaction).GetProperty(operationName.Replace("Transaction.", ""));
+            //    return property.GetValue(transaction);
+            //}
+            //else
+            //{
+            //    throw new NotImplementedException("Operation '" + operationName + "' is not supported by this binder.");
+            //}
         } 
     }
 }

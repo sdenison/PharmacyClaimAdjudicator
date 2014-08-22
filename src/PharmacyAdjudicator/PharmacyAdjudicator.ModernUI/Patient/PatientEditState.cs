@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
-    public class PatientEditViewModelClosingMessage
+    public enum PatientEditState
     {
-        public PatientEditViewModel PatientEditCslaViewModel { get; set; }
+        Addresses,
+        Details
     }
 }

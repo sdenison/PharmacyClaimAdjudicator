@@ -70,3 +70,7 @@ set identity_insert dbo.PatientGroup on;
 insert into dbo.patientgroup (recordid, effectivedate, expirationdate, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, patientid, groupid)
 	values (1, '2003-01-31', '9999-12-31', @FALSE, null, sysdatetime(), 'SDENISON', 61, 'GROUP1');
 set identity_insert dbo.PatientGroup off;
+
+insert into AddressType values ("Physical", "Physical Location");
+insert into AddressType values ("Mailing", "Mailing Address");
+insert into AddressType values ("Billing", "Billing Address");

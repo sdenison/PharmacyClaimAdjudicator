@@ -50,10 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Atom.cs">
+    <Compile Include="Address.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="AtomFact.cs">
+    <Compile Include="AddressType.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Atom.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="AtomGroup.cs">
@@ -72,6 +75,9 @@
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Patient.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientAddress.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="PatientFact.cs">

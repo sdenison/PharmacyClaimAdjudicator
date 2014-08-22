@@ -12,24 +12,25 @@ namespace PharmacyAdjudicator.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class AtomFact
+    public partial class Address
     {
-        public AtomFact()
+        public Address()
         {
-            this.Retraction = false;
+            this.PatientAddress = new HashSet<PatientAddress>();
         }
     
-        public int RecordId { get; set; }
-        public long AtomId { get; set; }
-        public string Class { get; set; }
-        public string Property { get; set; }
-        public string Value { get; set; }
-        public string Operation { get; set; }
-        public bool Retraction { get; set; }
-        public int OriginalFactRecordId { get; set; }
+        public System.Guid AddressId { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string Address3 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
+        public Nullable<decimal> Latitude { get; set; }
+        public Nullable<decimal> Longitude { get; set; }
     
-        public virtual Atom Atom { get; set; }
+        public virtual ICollection<PatientAddress> PatientAddress { get; set; }
     }
 }

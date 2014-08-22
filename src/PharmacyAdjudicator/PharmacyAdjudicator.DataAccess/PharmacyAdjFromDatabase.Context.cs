@@ -40,6 +40,8 @@ namespace PharmacyAdjudicator.DataAccess
         public DbSet<PlanRules> PlanRule { get; set; }
         public DbSet<Implication> Implication { get; set; }
         public DbSet<RuleImplication> RuleImplication { get; set; }
-        public DbSet<AtomFact> AtomFact { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<PatientAddress> PatientAddress { get; set; }
+        public DbSet<AddressType> AddressType { get; set; }
     }
 }

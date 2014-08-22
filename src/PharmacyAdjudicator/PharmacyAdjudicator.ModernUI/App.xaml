@@ -12,6 +12,9 @@
                 </ResourceDictionary>
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.xaml" />
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.Light.xaml"/>
+                <ResourceDictionary Source="Assets/ButtonResourceDictionary.xaml"/>
+                <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/Converters.xaml" />
+                <ResourceDictionary Source="Assets/ModernStateTab.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

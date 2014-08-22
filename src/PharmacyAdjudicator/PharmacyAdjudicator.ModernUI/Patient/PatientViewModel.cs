@@ -14,6 +14,8 @@ using System.ComponentModel.Composition;
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
     [Export]
+    //public class PatientViewModel : Conductor<PatientEditViewModel>.Collection.AllActive, IHandle<PatientEditViewModelClosingMessage> //Screen
+    //public class PatientViewModel : Conductor<PatientEditMainViewModel>.Collection.AllActive, IHandle<PatientEditViewModelClosingMessage> //Screen
     public class PatientViewModel : Conductor<PatientEditViewModel>.Collection.AllActive, IHandle<PatientEditViewModelClosingMessage> //Screen
     {
         private IDialog _dialogManager;
@@ -37,7 +39,9 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         public void Handle(PatientEditViewModelClosingMessage closingMessage)
         {
             //this.DeactivateItem(closingMessage.PatientEditViewModel);
-            this.Items.Remove(closingMessage.PatientEditViewModel);
+            //this.Items.Remove(closingMessage.PatientEditViewModel);
+            this.Items.Remove(closingMessage.PatientEditCslaViewModel);
+            //this.Items.Remove(closingMessage)
         }
 
         #region "Patient Search"
@@ -107,24 +111,25 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// <param name="patient"></param>
         /// <returns></returns>
         public async Task ShowPatient(Library.Core.Patient patient)
+        //public void ShowPatient(Library.Core.Patient patient)
         {
             //Tries to find an existing PatientEditViewModel to show.
             //If it fails to find an existing one it will build it and show it.
+            //var existingPatientEditViewModel = this.Items.FirstOrDefault(p => p.Id.ToString() == patient.PatientId.ToString());
             var existingPatientEditViewModel = this.Items.FirstOrDefault(p => p.Id.ToString() == patient.PatientId.ToString());
             if (existingPatientEditViewModel == null)
             {
                 this.IsOpeningPatientWindow = true;
+                //var patientViewModel = await PatientEditViewModel.BuildViewModelAsync(patient.PatientId, _eventAggregator);
+                //var patientViewModel = await PatientEditMainViewModel.BuildViewModelAsync(patient.PatientId, _eventAggregator);
                 var patientViewModel = await PatientEditViewModel.BuildViewModelAsync(patient.PatientId, _eventAggregator);
+                //var patientViewModel = new PatientEditCslaViewModel(patient, _eventAggregator);
                 ActivateItem(patientViewModel);
                 this.IsOpeningPatientWindow = false;
             }
             else
             {
-                //_windowManager.ac
                 existingPatientEditViewModel.Focus();
-                //_windowManager.ShowWindow(existingPatientEditViewModel);
-                //existingPatientEditViewModel.ActivateWith(this);
-                //existingPatientEditViewModel.ac
             }
         }
 
@@ -133,10 +138,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             this.DeactivateItem(item, true);
         }
 
-        //public override void DeactivateItem(PatientEditViewModel item, bool close)
-        //{
-        //    base.DeactivateItem(item, close);
-        //}
+
 
         /// <summary>
         /// Shows a view model that already exists.
@@ -144,15 +146,22 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// <param name="patientVm"></param>
         public void ShowPatientViewModel(PatientEditViewModel patientVm)
         {
-            //_windowManager.ShowWindow(patientVm);
             patientVm.Focus();
         }
 
         public override void ActivateItem(PatientEditViewModel item)
         {
             _windowManager.ShowWindow(item);
-           base.ActivateItem(item);
+            base.ActivateItem(item);
         }
+
+        //public void ActivateItem(PatientEditMainViewModel item)
+        //{
+        //    _windowManager.ShowWindow(item);
+        //   // base.ActivateItem(item);
+        //}
+
+
 
         private bool _isOpeningPatientWindow = false;
         public bool IsOpeningPatientWindow

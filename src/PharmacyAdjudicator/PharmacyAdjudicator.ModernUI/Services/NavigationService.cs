@@ -24,6 +24,7 @@ namespace PharmacyAdjudicator.ModernUI.Services
             = new Dictionary<Type, string>
             {
                 { typeof(Patient.PatientEditViewModel), "/Patient/PatientEditView.xaml" },
+                { typeof(Patient.PatientViewModel), "/Patient/PatientView.xaml" },
                 { typeof(Welcome.WelcomeViewModel), "/Welcome/WelcomeView.xaml" }
                 //{ typeof(Patient.PatientFindAndEditViewModel), "/Patient/PatientFindAndEditView.xaml" }
             };

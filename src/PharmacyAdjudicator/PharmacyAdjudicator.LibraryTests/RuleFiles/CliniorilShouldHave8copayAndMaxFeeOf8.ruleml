@@ -25,6 +25,13 @@
                 <Var>Drug</Var>
                 <Ind>TAB</Ind>
               </Atom>
+              <Atom>
+                <op>
+                  <Rel>Ndc</Rel>
+                </op>
+                <Var>Drug</Var>
+                <Ind uri="nxbre://operator">Matches(9999*)</Ind>
+              </Atom>
             </Or>
             <Atom>
               <Rel>Contains</Rel>

@@ -115,8 +115,11 @@ namespace PharmacyAdjudicator.ModernUI.Services
                 window = new ModernWindow
                 {
                     Style = (System.Windows.Style)App.Current.Resources["EmptyWindow"],
+                    //Style = (System.Windows.Style)App.Current.Resources["BlankWindow"],
                     Content = view,
-                    SizeToContent = SizeToContent.WidthAndHeight
+                    Title = view.GetType().ToString(),
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ContentLoader = new CaliburnContentLoader(),
                 };
 
                 window.SetValue(View.IsGeneratedProperty, true);

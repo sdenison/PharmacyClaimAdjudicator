@@ -5,13 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:app="clr-namespace:PharmacyAdjudicator.ModernUI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Style="{StaticResource ContentRoot}">
+        <Grid.Resources>
+            <Style TargetType="mui:BBCodeBlock">
+                <Setter Property="LinkNavigator">
+                    <Setter.Value>
+                        <mui:DefaultLinkNavigator>
+                            <!--<mui:DefaultLinkNavigator.Commands>
+                                <x:Key="cmd://login"/>
+                                --><!--<app:LoginCommand x:Key="cmd://login"/>-->
+                                <!--<cal:ActionMessage MethodName="Login" x:Key="cmd://login"/>--><!--
+                            </mui:DefaultLinkNavigator.Commands>-->
+                        </mui:DefaultLinkNavigator>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
        <ScrollViewer Grid.Row="0" VerticalAlignment="Top">
             <StackPanel MinWidth="200">
                 <TextBlock Text="Hello." Style="{StaticResource Heading2}" />
                 <mui:BBCodeBlock Grid.Row="0" Margin="0,0,0,5" BBCode="{Binding WelcomeMessage}" />
+                <mui:BBCodeBlock>Login using this [url=cmd://login]link[url]</mui:BBCodeBlock>
             </StackPanel>
         </ScrollViewer>
         <!--<DockPanel Grid.Row="1" VerticalAlignment="Bottom">

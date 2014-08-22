@@ -3,151 +3,148 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.Composition;
-using System.ComponentModel;
-using System.Windows;
-using Caliburn.Micro;
-using CslaContrib.Caliburn.Micro;
-using FirstFloor.ModernUI.Windows.Controls;
-using Csla.Xaml;
 using Csla;
-using System.Threading;
+using Csla.Xaml;
+using Caliburn.Micro;
+
+using PharmacyAdjudicator.Library;
+using FirstFloor.ModernUI.Windows;
+using System.Windows;
+using FirstFloor.ModernUI.Presentation;
+using CslaContrib.Caliburn.Micro;
 using PharmacyAdjudicator.ModernUI.Interface;
-using System.ComponentModel.Composition.Hosting;
-using System.Reflection;
 
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
-    //[Export]
-    public class PatientEditViewModel : ScreenWithModel<Library.Core.Patient>, Interface.IHaveUniqueId
+    /// <summary>
+    /// This ViewModel takes care of saving, refreshing and undoing patient data.
+    /// </summary>
+    public class PatientEditViewModel : ScreenWithModel<Library.Core.Patient>, IHaveEditStates
     {
-        [Import]
+        /// <summary>
+        /// Allows us to publish events.
+        /// </summary>
         private IEventAggregator _eventAggregator;
 
-        public PatientEditViewModel(Library.Core.Patient existingPatient, IEventAggregator eventAggregator)
+        /// <summary>
+        /// Sets the EditState.  Caliburn uses this to switch between multiple Views for this ViewModel
+        /// </summary>
+        private PatientEditState _state;
+        public PatientEditState State 
         {
-            this.Model = existingPatient;
+            get { return _state; }
+            set 
+            {
+                if (_state != value)
+                {
+                    _state = value; 
+                    NotifyOfPropertyChange(() => this.State); 
+                }
+            }
+        }
+
+        /// <summary>
+        /// Used to set edit state of data fields
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get { return !CanEditObject; }
+            private set { }
+        }
+
+        /// <summary>
+        /// This is where we get the Tabs
+        /// </summary>
+        public IEnumerable<PatientEditState> EditStates
+        {
+            get
+            {
+                yield return PatientEditState.Details;
+                yield return PatientEditState.Addresses;
+            }
+        }
+
+        /// <summary>
+        /// Gives all values of the Gender Enum for use in combobox
+        /// </summary>
+        public IEnumerable<Library.Core.Enums.Gender> GenderValues
+        {
+            get { return Enum.GetValues(typeof(Library.Core.Enums.Gender)).Cast<Library.Core.Enums.Gender>(); }
+        }
+
+        /// <summary>
+        /// Unique ID of the view model
+        /// </summary>
+        public object Id
+        {
+            get { return Model.PatientId; }
+        }
+
+        /// <summary>
+        /// Public constructor
+        /// </summary>
+        /// <param name="existingPatient"></param>
+        /// <param name="eventAggregator"></param>
+        private PatientEditViewModel(Library.Core.Patient existingPatient, IEventAggregator eventAggregator)
+        {
             _eventAggregator = eventAggregator;
-            RefreshStatus();
+            this.Model = existingPatient;
+            this.State = PatientEditState.Details;
+            this.DisplayName = "Pateint Display";
         }
 
-        public void OnDeactivate()
-        {
-            base.OnDeactivate(true);
-        }
-
-        //static async method that behave like a constructor       
+        /// <summary>
+        /// Builds the ViewModel asynchronously
+        /// </summary>
+        /// <param name="patientId">Patient ID for the patient</param>
+        /// <param name="eventAggregator">Event aggregator that lets us notify the rest of the system when we're closing</param>
+        /// <returns></returns>
         async public static Task<PatientEditViewModel> BuildViewModelAsync(long patientId, IEventAggregator eventAggregator)
         {
             var patientModel = await Library.Core.Patient.GetByPatientIdAsync(patientId);
             return new PatientEditViewModel(patientModel, eventAggregator);
         }  
 
-        //Supplies values for gender ComboBoxes 
-        public IEnumerable<Library.Core.Enums.Gender> GenderValues
-        {
-            get
-            {
-                return Enum.GetValues(typeof(Library.Core.Enums.Gender)).Cast<Library.Core.Enums.Gender>();
-            }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return !this.CanEditObject; }
-            private set { }
-        }
-
-        new public async Task Refresh()
+        /// <summary>
+        /// Pulls the patient data from the database and re-displays it
+        /// </summary>
+        /// <returns></returns>
+        public async Task RefreshAsync()
         {
             this.IsBusy = true;
-            ChangeStatus("Refreshing...");
-            this.LastChangedUser = "";
-            var currentPatientId = this.Model.PatientId;
-            this.Model = null;
-            this.Model = await Library.Core.Patient.GetByPatientIdAsync(currentPatientId);
-            RefreshStatus();
+            var currentPatientId = Model.PatientId;
+            Model = null;
+            Model = await Library.Core.Patient.GetByPatientIdAsync(currentPatientId);
             this.IsBusy = false;
+            base.Refresh();
         }
 
-        new public async Task SaveAsync()
-        {
-            this.IsBusy = true;
-            ChangeStatus("Saving...");
-            await base.SaveAsync();
-            RefreshStatus();
-            this.IsBusy = false;
-        }
-
-        private void RefreshStatus()
-        {
-            this.Status = "Last updated " + this.Model.LastChangedDateTime.ToString("MM/dd/yyyy hh:mm:ss");
-            this.LastChangedUser = "Changed by " + this.Model.LastChangedUserName;
-        }
-
-        private void ChangeStatus(string status)
-        {
-            this.Status = status;
-            this.LastChangedUser = "";
-        }
-
+        /// <summary>
+        /// Undoes the current changes and returns the patient data to what it was when we originally pulled it.
+        /// </summary>
         public void Undo()
         {
-            this.Model.CancelEdit();
-            this.Model.BeginEdit();
+            Model.CancelEdit();
+            Model.BeginEdit();
         }
 
-        private string _status;
-        public string Status
-        {
-            get { return _status; }
-            set 
-            { 
-                _status = value; 
-                NotifyOfPropertyChange(() => this.Status); 
-            }
-        }
-
-        private string _lastChangedUser;
-        public string LastChangedUser
-        {
-            get { return _lastChangedUser; }
-            set
-            {
-                _lastChangedUser = value;
-                NotifyOfPropertyChange(() => this.LastChangedUser);
-            }
-        }
-
-        private DateTime _lastUpdated;
-        public DateTime LastUpdated
-        {
-            get { return _lastUpdated; }
-            set
-            {
-                _lastUpdated = Model.LastChangedDateTime;
-
-            }
-        }
-
-        //Used to locate any open view models.
-        public object Id
-        {
-            get { return Model.PatientId; }
-        }
-
+        /// <summary>
+        /// Used to let the Conductor know we are closing.
+        /// </summary>
+        /// <param name="close"></param>
         protected override void OnDeactivate(bool close)
         {
-            _eventAggregator.PublishOnCurrentThread(new PatientEditViewModelClosingMessage() { PatientEditViewModel = this });
+            _eventAggregator.PublishOnCurrentThread(new PatientEditViewModelClosingMessage() { PatientEditCslaViewModel  = this });
             base.OnDeactivate(close);
         }
 
+        /// <summary>
+        /// Set's the focus of the window.  Used by the Conductor.
+        /// </summary>
         public void Focus()
         {
             var window = GetView() as Window;
             if (window != null) window.Activate();
         }
-
-
     }
-}    
+}

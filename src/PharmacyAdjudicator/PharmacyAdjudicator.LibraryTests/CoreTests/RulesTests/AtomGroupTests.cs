@@ -59,8 +59,9 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atom.Class = "Transaction";
             atom.Property = "Formulary";
             atom.Value = "False";
-            atom.Save();
+            //atom.Save();
             atomGroup.AddPredicate(atom);
+            atomGroup = atomGroup.Save();
 
             Assert.AreEqual(1, atomGroup.Predicates.Count);
 
@@ -68,10 +69,10 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();
             atomGroup2.Name = "Second Test Atom Group";
             atomGroup2.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
-            atomGroup2.Save();
+            atomGroup2 = atomGroup2.Save();
 
             atomGroup2.AddPredicate(atomGroup);
-            atomGroup2.Save();
+            atomGroup2 = atomGroup2.Save();
 
             Assert.AreEqual(atomGroup2.Predicates[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
             Assert.AreEqual(atomGroup2.Predicates[0].AtomGroup.Name, "First Test Atom Group");
@@ -91,7 +92,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atom.Class = "Transaction";
             atom.Property = "Formulary";
             atom.Value = "False";
-            atom.Save();
+            atom = atom.Save();
             atomGroup.AddPredicate(atom);
 
             Assert.AreEqual(1, atomGroup.Predicates.Count);
@@ -100,10 +101,10 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();
             atomGroup2.Name = "Second Test Atom Group";
             atomGroup2.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
-            atomGroup2.Save();
+            atomGroup2 = atomGroup2.Save();
 
             atomGroup2.AddPredicate(atomGroup);
-            atomGroup2.Save();
+            atomGroup2 = atomGroup2.Save();
 
             Assert.AreEqual(atomGroup2.Predicates[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
             Assert.AreEqual(atomGroup2.Predicates[0].AtomGroup.Name, "First Test Atom Group");
@@ -202,7 +203,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             dosageForm1.Class = "Drug";
             dosageForm1.Property = "DosageForm";
             dosageForm1.Value = "PWDR,RENST-ORAL";
-            dosageForm1 = dosageForm1.Save();
+            //dosageForm1 = dosageForm1.Save();
 
             atomGroup2.AddPredicate(dosageForm1);
 

@@ -39,20 +39,23 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(BodyProperty, value); }
         }
 
-        public static readonly PropertyInfo<long> ImplicationIdProperty = RegisterProperty<long>(c => c.ImplicationId);
-        public long ImplicationId
+        public static readonly PropertyInfo<Guid> ImplicationIdProperty = RegisterProperty<Guid>(c => c.ImplicationId);
+        public Guid ImplicationId
         {
             get { return GetProperty(ImplicationIdProperty); }
             private set { LoadProperty(ImplicationIdProperty, value); }
         }
 
+        /// <summary>
+        /// Converts Implication into NxBRE implication.
+        /// </summary>
+        /// <returns></returns>
         public NxBRE.InferenceEngine.Rules.Implication ToNxBre()
         {
-            //return new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator, this.Predicates.ToNxBre().ToArray());
-
             var head = this.Head.ToNxBre();
             List<NxBRE.InferenceEngine.Rules.Atom> containAtoms = new List<NxBRE.InferenceEngine.Rules.Atom>();
             
+            //We have to assert a Contains fact so unification can happen with objects containsed within the transaction.  eg. Drug, Patient, Doctor, Pharmacy
             foreach(var contains in Body.ComplexFactsUsed())
             {
                 if (!contains.Equals("Transaction"))
@@ -66,20 +69,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
             else
             {
-                //object[] members = new object();
-                var bodyMembers = Body.ToNxBre().Members.ToArray();
-                var x = new object[] { bodyMembers.ToArray(), containAtoms.ToArray() };
-
                 List<object> members = Body.ToNxBre().Members.ToList();
                 foreach (var atom in containAtoms)
                 {
                     members.Add(atom);
                 }
-
-
                 var returnAtomGroup = new NxBRE.InferenceEngine.Rules.AtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And, members.ToArray());
-
-                //var returnAtomGroup = new NxBRE.InferenceEngine.Rules.AtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And, containAtoms.ToArray(), this.Body.ToNxBre());
                 return new NxBRE.InferenceEngine.Rules.Implication(this.Label, ImplicationPriority.Medium, "", "", head, returnAtomGroup);
             }
         }
@@ -111,7 +106,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Create<Implication>();
         }
 
-        public static Implication GetById(long id)
+        public static Implication GetById(Guid id)
         {
             return DataPortal.Fetch<Implication>(id);
         }
@@ -121,7 +116,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Fetch<Implication>(label);
         }
 
-        public static void DeleteById(long id)
+        public static void DeleteById(Guid id)
         {
             DataPortal.Delete<Implication>(id);
         }
@@ -136,18 +131,16 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         [RunLocal]
         protected override void DataPortal_Create()
         {
-            // TODO: load default values
-            // omit this override if you have no defaults to set
-            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-            {
-                var identityAtom = new DataAccess.Implication();
-                ctx.DbContext.SaveChanges();
-                this.ImplicationId = identityAtom.ImplicationId;
-            }
+            //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            //{
+            //    var identityAtom = new DataAccess.Implication();
+            //    ctx.DbContext.SaveChanges();
+            //}
+            this.ImplicationId = Guid.NewGuid();
             base.DataPortal_Create();
         }
 
-        private void DataPortal_Fetch(long criteria)
+        private void DataPortal_Fetch(Guid criteria)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -186,13 +179,15 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var implicationData = new DataAccess.Implication();
+                implicationData.ImplicationId = this.ImplicationId;
                 implicationData.AtomGroupId = this.Body.AtomGroupId;
                 implicationData.DeductionAtomId = this.Head.AtomId;
                 implicationData.Label = this.Label;
+                FieldManager.UpdateChildren(this);
                 ctx.DbContext.Implication.Add(implicationData);
                 ctx.DbContext.SaveChanges();
-                using (BypassPropertyChecks)
-                    this.ImplicationId = implicationData.ImplicationId;
+                //using (BypassPropertyChecks)
+                //    this.ImplicationId = implicationData.ImplicationId;
             }
         }
 
@@ -220,7 +215,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             DataPortal_Delete(this.ImplicationId);
         }
 
-        private void DataPortal_Delete(long criteria)
+        private void DataPortal_Delete(Guid criteria)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -235,9 +230,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private void PopulateByEntity(DataAccess.Implication implicationData)
         {
             this.ImplicationId = implicationData.ImplicationId;
-            this.Head = Atom.GetByAtomId(implicationData.DeductionAtomId.Value);
-            // this.Body = Predicate.GetByRecordId(implicationData.AtomGroupId);
-            this.Body = AtomGroup.GetById(implicationData.AtomGroupId);//.GetByRecordId(implicationData.AtomGroupId);
+            this.Head = Atom.GetByAtomId(implicationData.DeductionAtomId);
+            this.Body = AtomGroup.GetById(implicationData.AtomGroupId);
         }
 
         #endregion

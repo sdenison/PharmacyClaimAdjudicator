@@ -7,14 +7,14 @@
       <Diagram DiagramId="984f98ab5a984b5086018baad0566953" Name="Diagram1">
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Group" Width="1.5" PointX="0.625" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.GroupFact" Width="1.75" PointX="0.625" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="1.5" PointX="5.5" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientFact" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientGroup" Width="1.5" PointX="3.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="1.5" PointX="7.125" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientFact" Width="1.5" PointX="9.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientGroup" Width="1.5" PointX="3.25" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.FKGroupFacts397517" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.Group_PatientGroup_Rel" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.Patient_PatientFacts_Rel" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.VaDrug" Width="2" PointX="9.5" PointY="1" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.VaDrug" Width="2" PointX="16.625" PointY="0.5" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Plan" Width="2.25" PointX="1.625" PointY="7.625" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PlanFact" Width="2" PointX="4.5" PointY="7.625" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PlanPlanFact" />
@@ -30,13 +30,18 @@
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.ImplicationRuleImplication" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.RulePlanRules" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PlanFactPlanRules" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AtomFact" Width="1.5" PointX="13.625" PointY="13.625" />
-        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomAtomFact" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems1" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupImplication" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomImplication" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Address" Width="1.5" PointX="12.25" PointY="6.75" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientAddress" Width="1.75" PointX="9.375" PointY="4.875" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AddressType" Width="1.5" PointX="12.25" PointY="4.625" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AddressTypePatientAddress" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AddressPatientAddress" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientPatientAddress" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientAddressPatientAddress" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

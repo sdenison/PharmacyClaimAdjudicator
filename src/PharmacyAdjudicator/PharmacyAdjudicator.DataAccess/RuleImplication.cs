@@ -16,7 +16,7 @@ namespace PharmacyAdjudicator.DataAccess
     {
         public long RecordId { get; set; }
         public long RuleId { get; set; }
-        public long ImplicationId { get; set; }
+        public System.Guid ImplicationId { get; set; }
         public string Priority { get; set; }
     
         public virtual Rule Rule { get; set; }

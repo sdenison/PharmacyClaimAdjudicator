@@ -91,7 +91,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void Formulary_is_true_using_VaClass_and_DosageForm_with_persistable_rules()
         {
-            var drug = Library.Core.Drug.GetByNdc("52959061700");
+            
             var onTheFlyRules = new Library.Core.RuleBase();
 
             var atom1 = Library.Core.Rules.Atom.NewAtom();
@@ -108,8 +108,6 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
 
             var dosageAtomGroup = Library.Core.Rules.AtomGroup.NewAtomGroup();
             dosageAtomGroup.LogicalOperator = AtomGroup.LogicalOperator.Or;
-            //Needed to move save up here so there is a valid AtomGroupId
-            //dosageAtomGroup = dosageAtomGroup.Save();
             dosageAtomGroup.AddPredicate(atom1);
             dosageAtomGroup.AddPredicate(atom2);
             dosageAtomGroup.Name = "DosageForm is TAB or PWDR,RENST-ORAL";
@@ -122,10 +120,24 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             drugClassAtom.Value = "PENICILLINS,AMINO DERIVATIVES";
             drugClassAtom = drugClassAtom.Save();
 
+            //Testing operations
+            var atom3 = Library.Core.Rules.Atom.NewAtom();
+            atom3.Class = "Drug";
+            atom3.Property = "Ndc";
+            atom3.Value = "9999*";
+            atom3.Operation = "Matches";
+
+            var pennicillinsOrNdcStartsWith = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            pennicillinsOrNdcStartsWith.LogicalOperator = AtomGroup.LogicalOperator.Or;
+            pennicillinsOrNdcStartsWith.AddPredicate(drugClassAtom);
+            pennicillinsOrNdcStartsWith.AddPredicate(atom3);
+            pennicillinsOrNdcStartsWith = pennicillinsOrNdcStartsWith.Save();
+
             var dosageAndClassAtomGroup = Library.Core.Rules.AtomGroup.NewAtomGroup();
             dosageAndClassAtomGroup.LogicalOperator = AtomGroup.LogicalOperator.And;
+            //dosageAndClassAtomGroup.AddPredicate(dosageAtomGroup);
+            dosageAndClassAtomGroup.AddPredicate(pennicillinsOrNdcStartsWith);
             dosageAndClassAtomGroup.AddPredicate(dosageAtomGroup);
-            dosageAndClassAtomGroup.AddPredicate(drugClassAtom);
             dosageAndClassAtomGroup = dosageAndClassAtomGroup.Save();
 
 
@@ -134,8 +146,6 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             head1.Class = "Transaction";
             head1.Property = "Formulary";
             head1.Value = "True";
-            head1 = head1.Save();
-
             dosageClassFormularyImplication.Head = head1;
             dosageClassFormularyImplication.Body = dosageAndClassAtomGroup;
             dosageClassFormularyImplication.Label = "PENICILLINS,AMINO DERIVATIVES with PWDR,RENST-ORAL OR TAB are formulary";
@@ -149,31 +159,91 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             amountOfCopay5Dollars.Value = "5";
             amountOfCopay5Dollars = amountOfCopay5Dollars.Save();
             formularyDrugsAre5Dollars.Head = amountOfCopay5Dollars;
+
             var transFormularyTrue = Library.Core.Rules.AtomGroup.NewAtomGroup();
-            transFormularyTrue.AddPredicate(head1);
+            var head2 = Library.Core.Rules.Atom.GetByAtomId(head1.AtomId);
+            transFormularyTrue.AddPredicate(head2);
             transFormularyTrue = transFormularyTrue.Save();
             formularyDrugsAre5Dollars.Body = transFormularyTrue;
             formularyDrugsAre5Dollars = formularyDrugsAre5Dollars.Save();
 
+            var nonFormularyDrugsAre100Dollars = Library.Core.Rules.Implication.NewImplication();
+            nonFormularyDrugsAre100Dollars.Label = "Non-formulary drugs have 100 dollar copay";
+            var amountOfCopay100Dollars = Library.Core.Rules.Atom.NewAtom();
+            amountOfCopay100Dollars.Class = "Transaction";
+            amountOfCopay100Dollars.Property = "AmountOfCopay";
+            amountOfCopay100Dollars.Value = "100";
+            amountOfCopay100Dollars = amountOfCopay100Dollars.Save();
+            nonFormularyDrugsAre100Dollars.Head = amountOfCopay100Dollars;
 
             onTheFlyRules.Implications.Add(dosageClassFormularyImplication.ToNxBre());
             onTheFlyRules.Implications.Add(formularyDrugsAre5Dollars.ToNxBre());
             var binder = new Library.Core.TransactionProcessorBinder();
             IEImpl ie = new IEImpl(binder);
 
+            //This drug should match based on Dosage Form and VaClass
+            var drug = Library.Core.Drug.GetByNdc("52959061700");
             var transaction = new Library.Core.Transaction(drug);
-
             var transAfterProcessing = Library.Core.TransactionProcessor.Process(transaction, onTheFlyRules);
             Assert.IsTrue(transAfterProcessing.Formulary);
             Assert.AreEqual(transAfterProcessing.AmountOfCopay, (decimal)5.0);
 
-            foreach(var contains in dosageAtomGroup.ComplexFactsUsed())
-            {
-                var x = contains;
-            }
+            //This drug should not match
+            var drug2 = Library.Core.Drug.GetByNdc("00000000000");
+            var transaction2 = new Library.Core.Transaction(drug2);
+            var transAfterProcessing2 = Library.Core.TransactionProcessor.Process(transaction2, onTheFlyRules);
+            Assert.IsFalse(transAfterProcessing2.Formulary);
+            //Assert.IsTrue(transAfterProcessing2.AmountOfCopay > 0);
 
+            //This drug should match based on NDC number and not on VaClass
+            var drug3 = Library.Core.Drug.GetByNdc("99999990001");
+            var transaction3 = new Library.Core.Transaction(drug3);
+            var transAfterProcessing3 = Library.Core.TransactionProcessor.Process(transaction3, onTheFlyRules);
+            Assert.IsTrue(transAfterProcessing3.Formulary);
+
+        }
+
+        [TestMethod]
+        public void AtomGroup_should_save_children_no_matter_how_they_were_created()
+        {
+            var drugClassAtom = Library.Core.Rules.Atom.NewAtom();
+            drugClassAtom.Class = "Drug";
+            drugClassAtom.Property = "VaClass";
+            drugClassAtom.Value = "PENICILLINS,AMINO DERIVATIVES";
+            drugClassAtom = drugClassAtom.Save();
+
+            //Testing operations
             var atom3 = Library.Core.Rules.Atom.NewAtom();
             atom3.Class = "Drug";
+            atom3.Property = "Ndc";
+            atom3.Value = "9999*";
+            atom3.Operation = "Matches";
+
+            var pennicillinsOrNdcStartsWith = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            pennicillinsOrNdcStartsWith.LogicalOperator = AtomGroup.LogicalOperator.Or;
+            pennicillinsOrNdcStartsWith.AddPredicate(drugClassAtom);
+            pennicillinsOrNdcStartsWith.AddPredicate(atom3);
+
+            //Should throw an exception when atom3 has not yet been saved.
+            try
+            {
+                var atom3Clone = Library.Core.Rules.Atom.GetByAtomId(atom3.AtomId);
+            }
+            catch(Exception ex)
+            {
+                if (ex.GetBaseException() is Library.DataNotFoundException)
+                {
+                    Assert.IsTrue(true);
+                }
+                else
+                    throw ex;
+            }
+
+            pennicillinsOrNdcStartsWith = pennicillinsOrNdcStartsWith.Save();
+
+            //atom3 is not in the database.
+            var atom3Clone2 = Library.Core.Rules.Atom.GetByAtomId(atom3.AtomId);
+            Assert.IsTrue(atom3Clone2 != null);
         }
 
         [TestMethod]

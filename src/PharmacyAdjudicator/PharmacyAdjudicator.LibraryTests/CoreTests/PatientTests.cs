@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PharmacyAdjudicator.Library.Core;
+using System.Threading.Tasks;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests
 {
@@ -148,13 +149,34 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void GetPatientAsync()
         {
-            System.Threading.Tasks.Task<Patient> patTask = Patient.GetByPatientIdAsync(100);
+            Task<Patient> patTask = Patient.GetByPatientIdAsync(100);
 
             string x = "this should be happening while getting the patient happens";
             Assert.IsNotNull(x);
 
             Patient pat = patTask.Result;
         }
+
+        [TestMethod]
+        public void SavePatientAsync()
+        {
+            var patient = Patient.GetByPatientId(100);
+            patient.FirstName = "Thisshouldchange";
+            Task<Patient> patTask = patient.SaveAsync();
+            var patient2 = patTask.Result;
+        }
+
+        [TestMethod]
+        public async Task SavePatientAsync2()
+        {
+            var patient = Patient.GetByPatientId(100);
+            patient.FirstName = "Thisshouldchange";
+            var patient2 = await patient.SaveAsync();
+            Assert.IsTrue(patient2.FirstName.Equals("Thisshouldchange"));
+
+        }
+
+
 
 
 

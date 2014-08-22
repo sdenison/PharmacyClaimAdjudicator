@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PharmacyAdjudicator.ModernUI.Patient
+namespace PharmacyAdjudicator.ModernUI.Patient.PatientEdit
 {
     /// <summary>
-    /// Interaction logic for PatientSearchResultsView.xaml
+    /// Interaction logic for Details.xaml
     /// </summary>
-    public partial class PatientSearchResultsView : UserControl
+    public partial class Details : UserControl
     {
-        public PatientSearchResultsView()
+        public Details()
         {
             InitializeComponent();
         }

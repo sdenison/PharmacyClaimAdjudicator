@@ -38,16 +38,18 @@ namespace PharmacyAdjudicator.ModernUI
                     new AssemblyCatalog(typeof(IShellViewModel).Assembly)
                 )
             );
+          
 
             var batch = new CompositionBatch();
             //batch.AddExport<IWindowManager>(() => new WindowManager());
             var windowManager = new Services.ModernWindowManager();
             //batch.AddExport<IWindowManager>(() => new Services.ModernWindowManager());
             batch.AddExport<IWindowManager>(() => windowManager);
-            batch.AddExport<IHaveWindowsForType>(() => windowManager);
+            //batch.AddExport<IHaveWindowsForType>(() => windowManager);
             batch.AddExport<IEventAggregator>(() => new EventAggregator());
             batch.AddExport<Interface.INavigationService>(() => new Services.NavigationService());
             batch.AddExport<Interface.IDialog>(() => new Services.DialogService());
+            batch.AddExport<LoginCommand>(() => new LoginCommand());
             //batch.AddExport<Interface.IOpenViewModels>(() => new Services.OpenViewModels());
             //
             //batch.AddExport<Shell.IShellViewModel>(() => new ShellViewModel());
@@ -69,6 +71,7 @@ namespace PharmacyAdjudicator.ModernUI
             string contract = AttributedModelServices.GetContractName(serviceType);
             return _container.GetExportedValues<object>(contract);
         }
+
 
         protected override void BuildUp(object instance)
         {

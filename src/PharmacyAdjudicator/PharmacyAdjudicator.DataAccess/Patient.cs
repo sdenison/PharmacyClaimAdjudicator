@@ -18,6 +18,7 @@ namespace PharmacyAdjudicator.DataAccess
         {
             this.PatientGroups = new HashSet<PatientGroup>();
             this.PatientFacts = new HashSet<PatientFact>();
+            this.PatientAddress = new HashSet<PatientAddress>();
         }
     
         public long PatientId { get; set; }
@@ -26,5 +27,6 @@ namespace PharmacyAdjudicator.DataAccess
     
         public virtual ICollection<PatientGroup> PatientGroups { get; set; }
         public virtual ICollection<PatientFact> PatientFacts { get; set; }
+        public virtual ICollection<PatientAddress> PatientAddress { get; set; }
     }
 }

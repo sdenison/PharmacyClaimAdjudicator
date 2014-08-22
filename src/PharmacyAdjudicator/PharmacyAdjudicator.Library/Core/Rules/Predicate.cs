@@ -12,8 +12,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
     {
         #region Business Methods
 
-        public static readonly PropertyInfo<long> AtomGroupIdProperty = RegisterProperty<long>(c => c.AtomGroupId);
-        public long AtomGroupId
+        public static readonly PropertyInfo<Guid> AtomGroupIdProperty = RegisterProperty<Guid>(c => c.AtomGroupId);
+        public Guid AtomGroupId
         {
             get { return GetProperty(AtomGroupIdProperty); }
             private set { LoadProperty(AtomGroupIdProperty, value); }
@@ -54,7 +54,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(PriorityProperty, value); }
         }
 
-        private long _RecordId;
+        private Guid _RecordId;
 
         #endregion
 
@@ -83,12 +83,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Create<Predicate>(parent);
         }
 
-        internal static Predicate GetByRecordId(long recordId)
+        internal static Predicate GetByRecordId(Guid recordId)
         {
             return DataPortal.Fetch<Predicate>(recordId);
         }
 
-        internal static void DeleteByRecordId(long recordId)
+        internal static void DeleteByRecordId(Guid recordId)
         {
             DataPortal.Delete<Predicate>(recordId);
         }
@@ -109,6 +109,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         [RunLocal]
         protected void DataPortal_Create(AtomGroup parent)
         {
+            this._RecordId = Guid.NewGuid();
             this.AtomGroupId = parent.AtomGroupId;
             base.DataPortal_Create();
         }
@@ -117,6 +118,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (BypassPropertyChecks)
             {
+                this._RecordId = Guid.NewGuid();
                 this.AtomGroupId = parent.AtomGroupId;
             }
             base.Child_Create();
@@ -124,6 +126,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         private void Child_Create(AtomGroup parent, AtomGroup item)
         {
+            this._RecordId = Guid.NewGuid();
             this.AtomGroupId = parent.AtomGroupId;
             this.AtomGroup = item;
             base.Child_Create();
@@ -131,6 +134,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         private void Child_Create(AtomGroup parent, Atom item)
         {
+            this._RecordId = Guid.NewGuid();
             this.AtomGroupId = parent.AtomGroupId;
             this.Atom = item;
             base.Child_Create();
@@ -178,25 +182,38 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var atomGroupItemData = CreateEntity();
                 atomGroupItemData.AtomGroupId = parent.AtomGroupId;
+                //FieldManager.UpdateChildren(this);
+                //UpdateChildren();
+
+                //TODO: re-enable
+                //Child_Update(parent);
+                FieldManager.UpdateChildren(this);
+
                 ctx.DbContext.AtomGroupItem.Add(atomGroupItemData);
-                ctx.DbContext.SaveChanges();
-                UpdateChildren();
-                _RecordId = atomGroupItemData.RecordId;
+                //TODO: re-enable
+                //ctx.DbContext.SaveChanges();
+
+
+                //UpdateChildren();
             }
         }
 
-        private void Child_Update()
-        {
-            UpdateChildren();
-        }
+        //private void Child_Update()
+        //{
+        //    UpdateChildren();
+        //}
 
         private void Child_Update(AtomGroup parent)
         {
-            var x = "This is rad";
+            if ((this.Atom != null) && (this.Atom.IsSavable))
+                this.Atom = this.Atom.Save();
+            if ((this.AtomGroup != null) && (this.AtomGroup.IsSavable))
+                this.AtomGroup = this.AtomGroup.Save();
+            //var x = "This is rad";
             //Save the children!
         }
 
-        private void DataPortal_Fetch(long recordId)
+        private void DataPortal_Fetch(Guid recordId)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -238,20 +255,20 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         //    }
         //}
 
-        private void UpdateChildren()
-        {
-            if (this.Atom != null)
-                this.Atom.Save();
-            if (this.AtomGroup != null)
-                this.AtomGroup.Save();
-        }
+        //private void UpdateChildren()
+        //{
+        //    if (this.Atom != null)
+        //        this.Atom.Save();
+        //    if (this.AtomGroup != null)
+        //        this.AtomGroup.Save();
+        //}
 
         private void PopulateByEntity(DataAccess.AtomGroupItem atomGroupItemData)
         {
             _RecordId = atomGroupItemData.RecordId;
             if (atomGroupItemData.AtomId.HasValue)
             {
-                if (atomGroupItemData.AtomId.Value > 0)
+                if (atomGroupItemData.AtomId.HasValue)
                 {
                     this.Atom = Core.Rules.Atom.GetByAtomId(atomGroupItemData.AtomId.Value);
                     //this.PredicateType = PredicateTypeEnum.Atom;
@@ -259,7 +276,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
             else if (atomGroupItemData.ContainedAtomGroupId.HasValue)
             {
-                if (atomGroupItemData.ContainedAtomGroupId.Value > 0)
+                if (atomGroupItemData.ContainedAtomGroupId.HasValue)
                 {
                     this.AtomGroup = Core.Rules.AtomGroup.GetById(atomGroupItemData.ContainedAtomGroupId.Value);
                     //this.PredicateType = PredicateTypeEnum.AtomGroup;
@@ -270,17 +287,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private DataAccess.AtomGroupItem CreateEntity()
         {
             var atomGroupItemData = new DataAccess.AtomGroupItem();
+            atomGroupItemData.RecordId = this._RecordId;
             if (this.PredicateType == PredicateTypeEnum.Atom)
             {
                 atomGroupItemData.AtomId = this.Atom.AtomId;
-                //Set it to zero so we're not pointing to any AtomGroup records
-                //atomGroupItemData.ContainedAtomGroupId = 0;
             }
             else
             {
                 atomGroupItemData.ContainedAtomGroupId = this.AtomGroup.AtomGroupId;
-                //Set it to zero so we're not pointing to any Atom records
-                //atomGroupItemData.AtomId = 0;
             }
             atomGroupItemData.Priority = this.Priority;
             atomGroupItemData.AtomGroupId = this.AtomGroupId;

@@ -24,8 +24,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(NameProperty, value); }
         }
 
-        public static readonly PropertyInfo<long> AtomGroupIdProperty = RegisterProperty<long>(c => c.AtomGroupId);
-        public long AtomGroupId
+        public static readonly PropertyInfo<Guid> AtomGroupIdProperty = RegisterProperty<Guid>(c => c.AtomGroupId);
+        public Guid AtomGroupId
         {
             get { return GetProperty(AtomGroupIdProperty); }
             set { SetProperty(AtomGroupIdProperty, value); }
@@ -37,8 +37,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             get 
             {
                 if (!(FieldManager.FieldExists(PredicatesProperty)))
-                    LoadProperty(PredicatesProperty, DataPortal.CreateChild<PredicateList>(this.AtomGroupId));
-                    //LoadProperty(PredicatesProperty, DataPortal.FetchChild<PredicateList>(this.AtomGroupId));
+                    LoadProperty(PredicatesProperty, DataPortal.FetchChild<PredicateList>(this.AtomGroupId));
                 return GetProperty(PredicatesProperty); 
             }
             private set { SetProperty(PredicatesProperty, value); }
@@ -126,12 +125,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Create<AtomGroup>();
         }
 
-        public static AtomGroup GetById(long id)
+        public static AtomGroup GetById(Guid id)
         {
             return DataPortal.Fetch<AtomGroup>(id);
         }
 
-        public static void DeleteById(long id)
+        public static void DeleteById(Guid id)
         {
             DataPortal.Delete<AtomGroup>(id);
         }
@@ -142,6 +141,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         #endregion
 
         #region Data Access
+
+        protected void Child_Update(Implication parent)
+        {
+            //FieldManager.UpdateChildren();
+            base.DataPortal_Update();
+        }
+
+        protected void Child_Update(Predicate parent)
+        {
+            //FieldManager.UpdateChildren();
+            base.DataPortal_Update();
+        }
 
         //[RunLocal]
         protected override void DataPortal_Create()
@@ -157,11 +168,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             //    ctx.DbContext.SaveChanges();
             //    this.AtomGroupId = atomGroupData.AtomGroupId;
             //}
+            this.AtomGroupId = Guid.NewGuid();
             this.Predicates = DataPortal.Create<PredicateList>(this);
             base.DataPortal_Create();
         }
 
-        private void DataPortal_Fetch(long atomGroupId)
+        private void DataPortal_Fetch(Guid atomGroupId)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -192,9 +204,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var atomGroupData = CreateEntity();
                 ctx.DbContext.AtomGroup.Add(atomGroupData);
-                ctx.DbContext.SaveChanges();
-                this.AtomGroupId = atomGroupData.AtomGroupId;
                 FieldManager.UpdateChildren(this);
+                ctx.DbContext.SaveChanges();
+                //this.AtomGroupId = atomGroupData.AtomGroupId;
             }
         }
 
@@ -207,8 +219,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                      select a).FirstOrDefault();
                 atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
                 atomGroupData.Name = this.Name;
-                ctx.DbContext.SaveChanges();
                 FieldManager.UpdateChildren(this);
+                ctx.DbContext.SaveChanges();
                 //this.Predicates.Save();
             }
         }
@@ -218,7 +230,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             //DataPortal_Delete(this.Id);
         }
 
-        private void DataPortal_Delete(long criteria)
+        private void DataPortal_Delete(Guid criteria)
         {
             // TODO: delete values
         }
@@ -233,6 +245,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private DataAccess.AtomGroup CreateEntity()
         {
             var atomGroupData = new DataAccess.AtomGroup();
+            atomGroupData.AtomGroupId = this.AtomGroupId;
             atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
             atomGroupData.Name = this.Name;
 

@@ -12,6 +12,7 @@ namespace PharmacyAdjudicator.ModernUI.Shell
     public class ShellViewModel : //Conductor<IScreen>.Collection.OneActive, 
         IShellViewModel, 
         IHandle<EventMessages.LoginChangedMessage>,
+        IHandle<EventMessages.LoginMessage>,
         IHandle<EventMessages.DisplayViewModelMessage>,
         IHandle<EventMessages.NavigateGoBackMessage>//,
         //IHandle<EventMessages.PatientSearchResultsMessage>
@@ -27,6 +28,12 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         {
             UpdateMenu();
             _titleLinks[1].DisplayName = message.Message;
+        }
+
+        public void Handle(EventMessages.LoginMessage message)
+        {
+            var windowManager = AppBootstrapper.GetInstance<IWindowManager>();
+            //windowManager.ShowDialog();
         }
 
         public string ContentSource { get; set; }
@@ -76,9 +83,6 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         {
             var patientLinkGroup = new LinkGroup { DisplayName = "Patient" };
             patientLinkGroup.Links.Add(new Link { DisplayName = "Patient Manager", Source = new Uri("/Patient/PatientView.xaml", UriKind.Relative) });
-            patientLinkGroup.Links.Add(new Link { DisplayName = "Search", Source = new Uri("/Patient/PatientSearchView.xaml", UriKind.Relative) });
-            patientLinkGroup.Links.Add(new Link { DisplayName = "Edit", Source = new Uri("/Patient/PatientEditView.xaml", UriKind.Relative) });
-            patientLinkGroup.Links.Add(new Link { DisplayName = "Open Patients", Source = new Uri("/Patient/OpenPatientsView.xaml", UriKind.Relative) });
             return patientLinkGroup;
         }
 
@@ -109,7 +113,7 @@ namespace PharmacyAdjudicator.ModernUI.Shell
 
             if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Settings")))
             {
-                var settingsLinkGroup = new LinkGroup { DisplayName = "Settings", GroupName = "settings" };
+                var settingsLinkGroup = new LinkGroup { DisplayName = "Settings", GroupKey = "settings" };
                 var settingsLink = new Link { DisplayName = "Software", Source = new Uri("/Pages/Settings.xaml", UriKind.Relative) };
                 settingsLinkGroup.Links.Add(settingsLink);
 
@@ -118,7 +122,7 @@ namespace PharmacyAdjudicator.ModernUI.Shell
 
             if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Login")))
             {
-                var loginLinkGroup = new LinkGroup { DisplayName = "Login", GroupName = "login" };
+                var loginLinkGroup = new LinkGroup { DisplayName = "Login", GroupKey = "login" };
                 var loginLink = new Link { DisplayName = "Login", Source = new Uri("/Login/LoginView.xaml", UriKind.Relative) };
                 loginLinkGroup.Links.Add(loginLink);
 

@@ -115,6 +115,18 @@ namespace PharmacyAdjudicator.Library.Core
             private set { LoadProperty(PatientIdProperty, value); }
         }
 
+        public static readonly PropertyInfo<PatientAddressList> PatientAddressesProperty = RegisterProperty<PatientAddressList>(c => c.PatientAddresses, RelationshipTypes.Child);
+        public PatientAddressList PatientAddresses
+        {
+            get
+            {
+                if (!(FieldManager.FieldExists(PatientAddressesProperty)))
+                    LoadProperty(PatientAddressesProperty, DataPortal.FetchChild<PatientAddressList>(this.PatientId));
+                return GetProperty(PatientAddressesProperty);
+            }
+            private set { SetProperty(PatientAddressesProperty, value); }
+        }
+
         public static readonly PropertyInfo<DateTime> LastChangedDateTimeProperty = RegisterProperty<DateTime>(c => c.LastChangedDateTime);
         /// <summary>
         /// Last Changed DatetTime holds the last modified timestamp
@@ -502,6 +514,7 @@ namespace PharmacyAdjudicator.Library.Core
             {
                 var patientData = CreateNewEntity();
                 ctx.DbContext.PatientFact.Add(patientData);
+                FieldManager.UpdateChildren();
                 ctx.DbContext.SaveChanges();
                 PopulateByRow(patientData);
             }
@@ -513,6 +526,7 @@ namespace PharmacyAdjudicator.Library.Core
             {
                 var patientData = CreateNewEntity();
                 ctx.DbContext.PatientFact.Add(patientData);
+                FieldManager.UpdateChildren();
                 ctx.DbContext.SaveChanges();
                 PopulateByRow(patientData);
             }

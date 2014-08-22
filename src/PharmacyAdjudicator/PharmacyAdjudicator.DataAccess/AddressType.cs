@@ -12,20 +12,16 @@ namespace PharmacyAdjudicator.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Implication
+    public partial class AddressType
     {
-        public Implication()
+        public AddressType()
         {
-            this.RuleImplications = new HashSet<RuleImplication>();
+            this.PatientAddress = new HashSet<PatientAddress>();
         }
     
-        public System.Guid ImplicationId { get; set; }
-        public System.Guid AtomGroupId { get; set; }
-        public System.Guid DeductionAtomId { get; set; }
-        public string Label { get; set; }
+        public string AddressTypeCode { get; set; }
+        public string Description { get; set; }
     
-        public virtual ICollection<RuleImplication> RuleImplications { get; set; }
-        public virtual AtomGroup AtomGroup { get; set; }
-        public virtual Atom Atom { get; set; }
+        public virtual ICollection<PatientAddress> PatientAddress { get; set; }
     }
 }
