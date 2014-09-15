@@ -12,6 +12,7 @@
              ContentSource="/Welcome/WelcomeView.xaml"
              ContentLoader="{StaticResource CaliburnContentLoader}"
              MenuLinkGroups="{Binding MenuLinkGroups}"
+             LinkNavigator="{Binding LinkNavigator}"
              TitleLinks="{Binding TitleLinks}">
-
+        
 </mui:ModernWindow>

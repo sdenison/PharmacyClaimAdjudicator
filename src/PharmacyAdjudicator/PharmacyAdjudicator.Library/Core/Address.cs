@@ -114,8 +114,6 @@ namespace PharmacyAdjudicator.Library.Core
         protected override void Child_Create()
         {
             this.AddressId = Guid.NewGuid();
-            //BusinessRules.CheckRules();
-            //CheckAllRules();
             base.Child_Create();
         }
 
@@ -125,7 +123,7 @@ namespace PharmacyAdjudicator.Library.Core
                 PopulateByEntity(addressData);
         }
 
-        private void Child_Insert(object parent)
+        private void Child_Insert(PatientAddress parent)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -134,13 +132,13 @@ namespace PharmacyAdjudicator.Library.Core
             }
         }
 
-        private void Child_Update(object parent)
+        private void Child_Update(PatientAddress parent)
         {
             //Address table is insert only so an update is really a table insert.
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var addressData = CreateNewEntity();
                 this.AddressId = Guid.NewGuid();
+                var addressData = CreateNewEntity();
                 ctx.DbContext.Address.Add(addressData);
             }
         }

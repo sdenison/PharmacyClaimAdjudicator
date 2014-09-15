@@ -9,7 +9,7 @@
         <!--<TextBlock>This is the screen where you edit the addresses</TextBlock>-->
         <!--<ListBox ItemsSource="{Binding Model.PatientAddresses}">
         </ListBox>-->
-        <ListView ItemsSource="{Binding Path=Model.PatientAddresses}">
+        <!--<ListView ItemsSource="{Binding Path=Model.PatientAddresses}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="100"
@@ -23,20 +23,20 @@
                                     Header="City"/>
                 </GridView>
             </ListView.View>
-        </ListView>
-        <!--<ItemsControl ItemsSource="{Binding Path=Model.PatientAddresses}">
+        </ListView>-->
+        <ItemsControl ItemsSource="{Binding Path=Model.PatientAddresses}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="10">
                         <TextBlock>Address: </TextBlock>
-                        <TextBlock Text="{Binding Address1}"></TextBlock>
-                        --><!--<TextBox Text="{Binding Path=Address1}"></TextBox>-->
+                        <TextBox Text="{Binding Path=Address.Address1}"></TextBox>
+                        <Button x:Name="RemoveAddress">Remove</Button>
                         <!--<TextBox x:Name="Address2" Text="{Binding}"></TextBox>
                         <TextBox x:Name="City" Text="{Binding}"></TextBox>
-                        <TextBox x:Name="State"></TextBox>--><!--
+                        <TextBox x:Name="State"></TextBox>-->
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>-->
+        </ItemsControl>
     </Grid>
 </UserControl>

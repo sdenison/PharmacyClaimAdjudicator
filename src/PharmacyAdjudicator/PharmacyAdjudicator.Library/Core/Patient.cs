@@ -514,7 +514,7 @@ namespace PharmacyAdjudicator.Library.Core
             {
                 var patientData = CreateNewEntity();
                 ctx.DbContext.PatientFact.Add(patientData);
-                FieldManager.UpdateChildren();
+                FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
                 PopulateByRow(patientData);
             }
@@ -526,7 +526,7 @@ namespace PharmacyAdjudicator.Library.Core
             {
                 var patientData = CreateNewEntity();
                 ctx.DbContext.PatientFact.Add(patientData);
-                FieldManager.UpdateChildren();
+                FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
                 PopulateByRow(patientData);
             }

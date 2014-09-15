@@ -48,7 +48,13 @@ namespace PharmacyAdjudicator.ModernUI.Services
 
         //public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
         //{
-        //    throw new NotImplementedException();
+        //    //throw new NotImplementedException();
+        //    //base.ShowPopup();
+        //}
+
+        //protected override System.Windows.Controls.Primitives.Popup CreatePopup(object rootModel, IDictionary<string, object> settings)
+        //{
+        //    return base.CreatePopup(rootModel, settings);
         //}
 
         public override void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
@@ -115,7 +121,6 @@ namespace PharmacyAdjudicator.ModernUI.Services
                 window = new ModernWindow
                 {
                     Style = (System.Windows.Style)App.Current.Resources["EmptyWindow"],
-                    //Style = (System.Windows.Style)App.Current.Resources["BlankWindow"],
                     Content = view,
                     Title = view.GetType().ToString(),
                     SizeToContent = SizeToContent.WidthAndHeight,

@@ -6,23 +6,38 @@ using Caliburn.Micro;
 using Csla;
 using FirstFloor.ModernUI.Windows.Controls;
 using System.Windows.Input;
+using FirstFloor.ModernUI.Windows.Navigation;
 
 namespace PharmacyAdjudicator.ModernUI.Shell
 {
     public class ShellViewModel : //Conductor<IScreen>.Collection.OneActive, 
         IShellViewModel, 
         IHandle<EventMessages.LoginChangedMessage>,
-        IHandle<EventMessages.LoginMessage>,
+        //IHandle<EventMessages.LoginMessage>,
         IHandle<EventMessages.DisplayViewModelMessage>,
         IHandle<EventMessages.NavigateGoBackMessage>//,
         //IHandle<EventMessages.PatientSearchResultsMessage>
     {
+        private IWindowManager _windowManager;
+        private IEventAggregator _eventAggregator;
         [ImportingConstructor]
-        public ShellViewModel(IEventAggregator events) : this()
+        public ShellViewModel(IEventAggregator events, IWindowManager windowManager) : this()
         {
             events.Subscribe(this);
             IsBusy = true;
+            _windowManager = windowManager;
+            _eventAggregator = events;
+            this.LinkNavigator = new DefaultLinkNavigator();
+            this.ShowLoginCommand = new RelayCommand(o => ShowLogin(o));
+            this.LinkNavigator.Commands.Add(new Uri("cmd://login", UriKind.Absolute), ShowLoginCommand);
         }
+
+        private void ShowLogin(object o)
+        {
+            _windowManager.ShowDialog(new Login.LoginViewModel(_eventAggregator, _windowManager));
+        }
+
+        public RelayCommand ShowLoginCommand { get; private set; }
 
         public void Handle(EventMessages.LoginChangedMessage message)
         {
@@ -30,11 +45,13 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             _titleLinks[1].DisplayName = message.Message;
         }
 
-        public void Handle(EventMessages.LoginMessage message)
-        {
-            var windowManager = AppBootstrapper.GetInstance<IWindowManager>();
-            //windowManager.ShowDialog();
-        }
+        public ILinkNavigator LinkNavigator { get; private set; }
+
+        //public void Handle(EventMessages.LoginMessage message)
+        //{
+        //    var windowManager = AppBootstrapper.GetInstance<IWindowManager>();
+        //    //windowManager.ShowDialog();
+        //}
 
         public string ContentSource { get; set; }
 
@@ -138,7 +155,8 @@ namespace PharmacyAdjudicator.ModernUI.Shell
 
             if ((!TitleLinks.Any(t => t.DisplayName.Equals("Login")) && (!TitleLinks.Any(t => t.DisplayName.StartsWith("Hello")))))
             {
-                var loginTitleLink = new Link { DisplayName = "Login", Source = new Uri("/Login/LoginView.xaml", UriKind.Relative) };
+                //var loginTitleLink = new Link { DisplayName = "Login", Source = new Uri("/Login/LoginView.xaml", UriKind.Relative) };
+                var loginTitleLink = new Link { DisplayName = "Login", Source = new Uri("cmd://login", UriKind.Absolute) };
                 this._titleLinks.Add(loginTitleLink);
             }
         }

@@ -29,11 +29,18 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(SlotProperty, value); }
         }
 
+        //public static readonly PropertyInfo<Address> AddressProperty = RegisterProperty<Address>(c => c.Address, RelationshipTypes.Child);
+        //public Address Address
+        //{
+        //    get { return GetProperty(AddressProperty); }
+        //    set { SetProperty(AddressProperty, value); }
+        //}
+
         public static readonly PropertyInfo<Address> AddressProperty = RegisterProperty<Address>(c => c.Address, RelationshipTypes.Child);
         public Address Address
         {
             get { return GetProperty(AddressProperty); }
-            set { SetProperty(AddressProperty, value); }
+            private set { SetProperty(AddressProperty, value); }
         }
 
         private Guid _recordId;
@@ -98,12 +105,12 @@ namespace PharmacyAdjudicator.Library.Core
             }
         }
 
-        private void Child_Insert(PatientAddressList parent)
+        private void Child_Insert(Patient parent)
         {
             AssertNewFact();
         }
 
-        private void Child_Update(object parent)
+        private void Child_Update(Patient parent)
         {
             RetractFact();
             this._recordId = Guid.NewGuid();
@@ -119,11 +126,11 @@ namespace PharmacyAdjudicator.Library.Core
         {
             using (BypassPropertyChecks)
             {
-                var patientAddressData = CreateEntity();
                 using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
                 {
-                    ctx.DbContext.PatientAddress.Add(patientAddressData);
                     FieldManager.UpdateChildren(this);
+                    var patientAddressData = CreateEntity();
+                    ctx.DbContext.PatientAddress.Add(patientAddressData);
                 }
             }
         }

@@ -16,20 +16,32 @@ namespace PharmacyAdjudicator.ModernUI.Login
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly Interface.IDialog _dialogManager;
+        private readonly IWindowManager _windowManager;
 
         [ImportingConstructor]
-        public LoginViewModel(IEventAggregator eventAggregator, Interface.IDialog dialogManager)
+        public LoginViewModel(IEventAggregator eventAggregator, Interface.IDialog dialogManager, IWindowManager windowManager)
         {
             _eventAggregator = eventAggregator;
             _dialogManager = dialogManager;
+            _windowManager = windowManager;
+            this.DisplayName = "Login Window";
         }
 
-        private string _username;
-        public string Username
+        public LoginViewModel(IEventAggregator eventAggregator, IWindowManager windowManager)
         {
-            get { return _username; }
-            set { _username = value; } 
+            _windowManager = windowManager;
+            _eventAggregator = eventAggregator;
+            this.DisplayName = "Login Window";
         }
+
+        public string Username { get; set; }
+
+        //private string _username;
+        //public string Username
+        //{
+        //    get { return _username; }
+        //    set { _username = value; } 
+        //}
 
         private string _password;
         public string Password
@@ -40,6 +52,9 @@ namespace PharmacyAdjudicator.ModernUI.Login
                 _password = value;
             }
         }
+
+        public string LoginMessage { get; private set; }
+
         public LoginViewModel()
         {
         }
@@ -49,19 +64,20 @@ namespace PharmacyAdjudicator.ModernUI.Login
             await PharmacyAdjudicator.Library.Security.PAPrincipal.LoginAsync(Username, Password);
             if (Csla.ApplicationContext.User.Identity.IsAuthenticated)
             {
-                MessageBoxButton btn = MessageBoxButton.OK;
-                var result = _dialogManager.ShowMessage("Welcome, " + Csla.ApplicationContext.User.Identity.Name + "!", "Login succeded.", btn);
-                //Sets the TitleLink in the main window.
                 _eventAggregator.PublishOnCurrentThread(new EventMessages.LoginChangedMessage("Hello, " + Csla.ApplicationContext.User.Identity.Name));
-                //Navigates to appropriate view model after Login is successful.
-                _eventAggregator.PublishOnCurrentThread(new EventMessages.DisplayViewModelMessage() { Requestor = this, ViewModel = AppBootstrapper.GetInstance<Welcome.WelcomeViewModel>() });
+                TryClose();
             }
             else
             {
-                MessageBoxButton btn = MessageBoxButton.OK; 
-                var result = _dialogManager.ShowMessage("Could not login in.  Bad username/password combination.", "Login failed", btn);
+                this.LoginMessage = "Could not log in.  Bad username/password combination.";
+                this.NotifyOfPropertyChange("LoginMessage");
                 _eventAggregator.PublishOnCurrentThread(new EventMessages.LoginChangedMessage("Login"));
             }
+        }
+
+        public void Cancel()
+        {
+            TryClose();
         }
 
         public void LogoutUser()

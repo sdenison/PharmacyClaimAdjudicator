@@ -17,7 +17,8 @@ namespace PharmacyAdjudicator.ModernUI
 
         public AppBootstrapper()
         {
-            StartRuntime();
+            //StartRuntime();
+            Initialize();
         }
 
         public static T GetInstance<T>()

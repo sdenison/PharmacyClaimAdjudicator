@@ -175,10 +175,5 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             Assert.IsTrue(patient2.FirstName.Equals("Thisshouldchange"));
 
         }
-
-
-
-
-
     }
 }
