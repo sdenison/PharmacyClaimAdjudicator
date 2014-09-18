@@ -10,6 +10,7 @@ using Csla;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Moq;
+using PharmacyAdjudicator.ModernUI.Interface;
 
 namespace PharmacyAdjudicator.ModernUITests.PatientTests
 {
@@ -20,6 +21,7 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
     public class PatientEditViewModelTests
     {
         private Mock<IEventAggregator> _eventAggregator;
+        private Mock<IDialog> _dialog;
 
         public PatientEditViewModelTests()
         {
@@ -53,7 +55,7 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
             try
             {
                 long patientId = 22;
-                var patientVM = await ModernUI.Patient.PatientEditViewModel.BuildViewModelAsync(patientId, _eventAggregator.Object);
+                var patientVM = await ModernUI.Patient.PatientEditViewModel.BuildViewModelAsync(patientId, _eventAggregator.Object, _dialog.Object);
                 //patientVM.Model.FirstName = "John";
                 //Assert.IsTrue(patientVM.CanSave, "Should be able to save after changing first name from Joe to John");
                 //await patientVM.SaveAsync();

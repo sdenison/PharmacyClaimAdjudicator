@@ -77,6 +77,14 @@ namespace PharmacyAdjudicator.Library.Core
             return false;
         }
 
+        public bool ContainsAddressType(Library.Core.Enums.AddressType addressType)
+        {
+            foreach (var address in this)
+                if (address.AddressType == addressType)
+                    return true;
+            return false;
+        }
+
         private void Child_Fetch(long patientId)
         {
             Fetch(patientId);

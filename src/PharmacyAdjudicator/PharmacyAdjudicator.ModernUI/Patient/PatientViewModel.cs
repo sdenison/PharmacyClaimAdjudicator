@@ -122,7 +122,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
                 this.IsOpeningPatientWindow = true;
                 //var patientViewModel = await PatientEditViewModel.BuildViewModelAsync(patient.PatientId, _eventAggregator);
                 //var patientViewModel = await PatientEditMainViewModel.BuildViewModelAsync(patient.PatientId, _eventAggregator);
-                var patientViewModel = await PatientEditViewModel.BuildViewModelAsync(patient.PatientId, _eventAggregator);
+                var patientViewModel = await PatientEditViewModel.BuildViewModelAsync(patient.PatientId, _eventAggregator, _dialogManager);
                 //var patientViewModel = new PatientEditCslaViewModel(patient, _eventAggregator);
                 ActivateItem(patientViewModel);
                 this.IsOpeningPatientWindow = false;

@@ -158,11 +158,36 @@ namespace PharmacyAdjudicator.Library.Core
         protected override void AddBusinessRules()
         {
             base.AddBusinessRules();
-            BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(FirstNameProperty));
-            BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(LastNameProperty));
+            //BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(FirstNameProperty));
+            //BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(LastNameProperty));
+
+
+            BusinessRules.AddRule(new OnlyUniqueAddressTypesAllowedInAddressList(PatientAddressesProperty));
             //BusinessRules.AddRule(new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.WriteProperty, FirstNameProperty, "RuleManager"));
             //BusinessRules.AddRule(new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.WriteProperty, LastNameProperty, "RuleManager"));
         }
+
+        protected override void OnChildChanged(Csla.Core.ChildChangedEventArgs e)
+        {
+            base.OnChildChanged(e);
+            BusinessRules.CheckRules(Patient.PatientAddressesProperty);
+        }
+
+        public LinqObservableCollection<Csla.Rules.BrokenRule> BrokenAddressRules
+        {
+
+            get
+            {
+                var source = this.BrokenRulesCollection;
+                var query = from b in source
+                            where b.Property.Equals("PatientAddresses")
+                            select b;
+                return new LinqObservableCollection<Csla.Rules.BrokenRule>(source, query);
+                //var synced = (from b in this.BrokenRulesCollection where b.Property == "PatientAddresses" select b).ToSyncList(this.BrokenRulesCollection);
+                //return synced;
+            }
+        }
+
 
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static void AddObjectAuthorizationRules()
@@ -442,13 +467,15 @@ namespace PharmacyAdjudicator.Library.Core
                 patientData = (from p in ctx.DbContext.PatientFact
                                where 
                                p.PatientId == criteria.PatientId
-                               && p.RecordId == (from p2 in ctx.DbContext.PatientFact
-                                                    where p2.PatientId == criteria.PatientId
-                                                    && p2.Retraction == false
-                                                    && !ctx.DbContext.PatientFact.Any(p3 => p3.PatientId == criteria.PatientId
-                                                        && p3.Retraction == true
-                                                        && p3.OriginalFactRecordId == p2.RecordId)
-                                                    select p2.RecordId).Max()
+                               && p.Retraction == false
+                               && !ctx.DbContext.PatientFact.Any(p2 => p2.PatientId == criteria.PatientId && p2.Retraction == true && p2.OriginalFactRecordId == p.RecordId)
+                               //&& p.RecordId == (from p2 in ctx.DbContext.PatientFact
+                               //                     where p2.PatientId == criteria.PatientId
+                               //                     && p2.Retraction == false
+                               //                     && !ctx.DbContext.PatientFact.Any(p3 => p3.PatientId == criteria.PatientId
+                               //                         && p3.Retraction == true
+                               //                         && p3.OriginalFactRecordId == p2.RecordId)
+                               //                     select p2.RecordId).Max()
                                select p).FirstOrDefault();
                 if (patientData != null)
                     using (BypassPropertyChecks)
@@ -524,12 +551,49 @@ namespace PharmacyAdjudicator.Library.Core
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var patientData = CreateNewEntity();
-                ctx.DbContext.PatientFact.Add(patientData);
+                //Adds an entry in the database retracting the current data.
+                RetractFact();
+                //Adds an entry in the database asserting the current data.
+                //Need to return this because rowid will be changed when savechanges is called
+                var newPatientData = AssertNewFact();
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
-                PopulateByRow(patientData);
+                PopulateByRow(newPatientData);
             }
+
+            //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            //{
+
+            //    var patientData = CreateNewEntity();
+            //    ctx.DbContext.PatientFact.Add(patientData);
+            //    FieldManager.UpdateChildren(this);
+            //    ctx.DbContext.SaveChanges();
+            //    PopulateByRow(patientData);
+            //}
+        }
+
+        private void RetractFact()
+        {
+            using(BypassPropertyChecks)
+            {
+                var patientData = CreateNewEntity();
+                patientData.Retraction = true;
+                patientData.OriginalFactRecordId = _RecordId;
+                using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+                {
+                    ctx.DbContext.PatientFact.Add(patientData);
+                }
+            }
+        }
+
+        private DataAccess.PatientFact AssertNewFact()
+        {
+            var patientData = CreateNewEntity();
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                ctx.DbContext.PatientFact.Add(patientData);
+            }
+            return patientData;
         }
 
         /// <summary>

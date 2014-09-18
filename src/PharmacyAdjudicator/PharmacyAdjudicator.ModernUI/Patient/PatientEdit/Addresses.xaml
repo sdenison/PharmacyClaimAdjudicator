@@ -3,40 +3,81 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <!--<TextBlock>This is the screen where you edit the addresses</TextBlock>-->
-        <!--<ListBox ItemsSource="{Binding Model.PatientAddresses}">
-        </ListBox>-->
-        <!--<ListView ItemsSource="{Binding Path=Model.PatientAddresses}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="100"
-                                    DisplayMemberBinding="{Binding Address.Address1}"
-                                    Header="Address1"/>
-                    <GridViewColumn Width="100"
-                                    DisplayMemberBinding="{Binding Address.Address2}"
-                                    Header="Address2"/>
-                    <GridViewColumn Width="100"
-                                    DisplayMemberBinding="{Binding Address.City}"
-                                    Header="City"/>
-                </GridView>
-            </ListView.View>
-        </ListView>-->
-        <ItemsControl ItemsSource="{Binding Path=Model.PatientAddresses}">
-            <ItemsControl.ItemTemplate>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+     
+        <!-- Add and remove buttons at the top -->
+        <StackPanel Orientation="Horizontal">
+            <mui:ModernButton x:Name="AddAddress" ToolTip="Add address" ToolTipService.ShowOnDisabled="true" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_add}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />
+            <mui:ModernButton x:Name="RemoveAddress" ToolTip="Remove address" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_delete}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" >
+                <mui:ModernButton.Style>
+                    <Style TargetType="{x:Type mui:ModernButton}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedItem, ElementName=PatientAddresses}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </mui:ModernButton.Style>
+            </mui:ModernButton>
+        </StackPanel>
+       
+        <!-- List of addresses for the patient -->
+        <ListBox Grid.Row="1" x:Name="PatientAddresses" SelectionMode="Single">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="10">
-                        <TextBlock>Address: </TextBlock>
-                        <TextBox Text="{Binding Path=Address.Address1}"></TextBox>
-                        <Button x:Name="RemoveAddress">Remove</Button>
-                        <!--<TextBox x:Name="Address2" Text="{Binding}"></TextBox>
-                        <TextBox x:Name="City" Text="{Binding}"></TextBox>
-                        <TextBox x:Name="State"></TextBox>-->
+                    <StackPanel Orientation="Vertical" Margin="0, 10, 0, 0">
+                        <StackPanel.Resources>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Orientation" Value="Horizontal" />
+                                <Setter Property="Margin" Value="0,0,0,4" />
+                            </Style>
+                            <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                <Setter Property="Width" Value="120" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                <Setter Property="Padding" Value="0,3" />
+                            </Style>
+                            <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                                <Setter Property="Padding" Value="0,3" />
+                            </Style>
+                        </StackPanel.Resources>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Address Type" Target="{Binding ElementName=AddressType}" />
+                            <ComboBox ItemsSource="{Binding Path=AddressTypeValues}" SelectedItem="{Binding Path=AddressType, Mode=TwoWay}" IsReadOnly="{Binding Path=IsReadOnly}"/>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <Label Content="Address1" Target="{Binding ElementName=Address.Address1}" />
+                            <TextBox x:Name="Address1" Width="150" Text="{Binding Path=Address.Address1, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <Label Content="Address2" Target="{Binding ElementName=Address.Address2}" />
+                            <TextBox x:Name="Address2" Width="150" Text="{Binding Path=Address.Address2, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <Label Content="City" Target="{Binding ElementName=Address.City}"/>
+                            <TextBox Text="{Binding Path=Address.City}" MinWidth="100"></TextBox>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <Label Content="State" Target="{Binding ElementName=Address.State}"/>
+                            <TextBox Text="{Binding Path=Address.State}" MinWidth="100"></TextBox>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <Label Content="Zip" Target="{Binding ElementName=Address.Zip}"/>
+                            <TextBox Text="{Binding Path=Address.Zip}" MinWidth="100"></TextBox>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

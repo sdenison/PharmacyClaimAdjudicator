@@ -13,6 +13,8 @@ using System.Windows;
 using FirstFloor.ModernUI.Presentation;
 using CslaContrib.Caliburn.Micro;
 using PharmacyAdjudicator.ModernUI.Interface;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
@@ -25,6 +27,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// Allows us to publish events.
         /// </summary>
         private IEventAggregator _eventAggregator;
+        private IDialog _dialog;
 
         /// <summary>
         /// Sets the EditState.  Caliburn uses this to switch between multiple Views for this ViewModel
@@ -72,6 +75,11 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             get { return Enum.GetValues(typeof(Library.Core.Enums.Gender)).Cast<Library.Core.Enums.Gender>(); }
         }
 
+        //public IEnumerable<Library.Core.Enums.AddressType> AddressTypes
+        //{
+        //    get { return Enum.GetValues(typeof(Library.Core.Enums.AddressType)).Cast<Library.Core.Enums.AddressType>(); }
+        //}
+
         /// <summary>
         /// Unique ID of the view model
         /// </summary>
@@ -82,15 +90,23 @@ namespace PharmacyAdjudicator.ModernUI.Patient
 
         /// <summary>
         /// Public constructor
-        /// </summary>
+        /// </summary> 
         /// <param name="existingPatient"></param>
-        /// <param name="eventAggregator"></param>
-        private PatientEditViewModel(Library.Core.Patient existingPatient, IEventAggregator eventAggregator)
+        /// <param name="eventAggregator"></param> 
+        private PatientEditViewModel(Library.Core.Patient existingPatient, IEventAggregator eventAggregator, IDialog dialog)
         {
             _eventAggregator = eventAggregator;
+            _dialog = dialog;
             this.Model = existingPatient;
             this.State = PatientEditState.Details;
-            this.DisplayName = "Pateint Display";
+            this.DisplayName = "Pateint Display: " + Model.FirstName + " " + Model.LastName;
+            ConventionManager.Singularize = original =>
+            {
+                if (original.EndsWith("Addresses"))
+                    return original.Replace("Addresses", "Address");
+                return original.TrimEnd('s');
+            };
+            //this.SelectedAddress = existingPatient.PatientAddresses[0];
         }
 
         /// <summary>
@@ -99,10 +115,10 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// <param name="patientId">Patient ID for the patient</param>
         /// <param name="eventAggregator">Event aggregator that lets us notify the rest of the system when we're closing</param>
         /// <returns></returns>
-        async public static Task<PatientEditViewModel> BuildViewModelAsync(long patientId, IEventAggregator eventAggregator)
+        async public static Task<PatientEditViewModel> BuildViewModelAsync(long patientId, IEventAggregator eventAggregator, IDialog dialog)
         {
             var patientModel = await Library.Core.Patient.GetByPatientIdAsync(patientId);
-            return new PatientEditViewModel(patientModel, eventAggregator);
+            return new PatientEditViewModel(patientModel, eventAggregator, dialog);
         }  
 
         /// <summary>
@@ -119,6 +135,12 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             base.Refresh();
         }
 
+        protected override void OnSaved()
+        {
+            base.OnSaved();
+            NotifyOfPropertyChange(() => this.PatientAddresses);
+        }
+
         /// <summary>
         /// Undoes the current changes and returns the patient data to what it was when we originally pulled it.
         /// </summary>
@@ -126,6 +148,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         {
             Model.CancelEdit();
             Model.BeginEdit();
+            NotifyOfPropertyChange(() => this.PatientAddresses);
         }
 
         /// <summary>
@@ -145,6 +168,55 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         {
             var window = GetView() as Window;
             if (window != null) window.Activate();
+        }
+
+        //public void RemoveAddress(Library.Core.PatientAddress addressToRemove)
+        //{
+        //    Model.PatientAddresses.Remove(addressToRemove);
+        //}
+
+        public void RemoveAddress()
+        {
+            Model.PatientAddresses.Remove(SelectedPatientAddress);
+        }
+
+        public Library.Core.PatientAddress SelectedPatientAddress { get; set; }
+
+        public Library.Core.PatientAddressList PatientAddresses
+        {
+            get
+            {
+                return Model.PatientAddresses;
+            }
+            private set { }
+        }
+
+        /// <summary>
+        /// Before adding the address to the list we check what other address types already exist in the list.
+        /// </summary>
+        public void AddAddress()
+        {
+            var addressTypes = Enum.GetValues(typeof(Library.Core.Enums.AddressType)).Cast<Library.Core.Enums.AddressType>();
+            var addressToAdd = Library.Core.PatientAddress.NewAddress(Model.PatientId);
+            var allAddressTypesAreInList = true;
+            foreach (var addressType in addressTypes)
+            {
+                if (!Model.PatientAddresses.ContainsAddressType(addressType))
+                {
+                    addressToAdd.AddressType = addressType;
+                    allAddressTypesAreInList = false;
+                    break;
+                }
+            }
+            if (allAddressTypesAreInList)
+            {
+                _dialog.ShowMessage("All address types have already been added.", "Could not add address", MessageBoxButton.OK);
+            }
+            else
+            {
+                Model.PatientAddresses.Add(addressToAdd);
+                this.SelectedPatientAddress = addressToAdd;
+            }
         }
     }
 }

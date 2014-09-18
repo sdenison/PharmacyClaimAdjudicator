@@ -30,7 +30,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         public void PatientHistoryShouldContainMultiplePateints()
         {
             PatientHistory patientRecords = PatientHistory.GetByPatientId(100);
-            Assert.AreEqual(patientRecords.Count, 5);
+            Assert.IsTrue(patientRecords.Count > 5);
         }
     }
 }

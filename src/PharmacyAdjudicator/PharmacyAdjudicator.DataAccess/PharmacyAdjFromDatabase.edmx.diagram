@@ -7,7 +7,7 @@
       <Diagram DiagramId="984f98ab5a984b5086018baad0566953" Name="Diagram1">
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Group" Width="1.5" PointX="0.625" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.GroupFact" Width="1.75" PointX="0.625" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="1.5" PointX="7.125" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="1.5" PointX="6.375" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientFact" Width="1.5" PointX="9.75" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientGroup" Width="1.5" PointX="3.25" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.FKGroupFacts397517" ManuallyRouted="false" />
@@ -35,9 +35,9 @@
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems1" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupImplication" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomImplication" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Address" Width="1.5" PointX="12.25" PointY="6.75" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientAddress" Width="1.75" PointX="9.375" PointY="4.875" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AddressType" Width="1.5" PointX="12.25" PointY="4.625" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Address" Width="1.5" PointX="8.75" PointY="6.5" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientAddress" Width="1.75" PointX="6.25" PointY="3.625" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AddressType" Width="1.5" PointX="8.625" PointY="4.625" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AddressTypePatientAddress" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AddressPatientAddress" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientPatientAddress" />

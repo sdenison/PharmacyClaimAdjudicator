@@ -63,6 +63,7 @@
     <Compile Include="Core\AddressList.cs" />
     <Compile Include="Core\Enums\AddressType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\OnlyUniqueAddressTypesAllowedInAddressList.cs" />
     <Compile Include="Core\PatientAddress.cs" />
     <Compile Include="Core\PatientAddressList.cs" />
     <Compile Include="Core\PatientSearchCriteria.cs" />

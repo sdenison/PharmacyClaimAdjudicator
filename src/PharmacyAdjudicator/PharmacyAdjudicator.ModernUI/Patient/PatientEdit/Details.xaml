@@ -61,7 +61,7 @@
                     </StackPanel>
                     <StackPanel>
                         <Label Content="Relationship Code" Target="{Binding ElementName=RelationshipCode}" />
-                        <TextBox x:Name="RelationshipCode" Width="50" Text="{Binding Path=Model.PatientRelationshipCode, Mode=OneWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding IsReadOnly}"/>
+                        <TextBox x:Name="RelationshipCode" Width="50" Text="{Binding Path=Model.PatientRelationshipCode, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding IsReadOnly}"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

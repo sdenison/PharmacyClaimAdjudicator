@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid>
             <Grid.RowDefinitions>
@@ -27,7 +28,15 @@
                                              cal:View.Context="{Binding State, Mode=TwoWay}" 
                                              cal:View.Model="{Binding}"/>
         </Grid>
-        <StackPanel Grid.Row="1">
+        <!-- Display any broken rules -->
+        <ListBox Grid.Row="1" ItemsSource="{Binding Path=Model.BrokenRulesCollection}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Description}" Foreground="Red"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Row="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <mui:ModernProgressRing IsActive="{Binding Path=IsBusy}" Width="23" Height="23" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
                 <mui:ModernButton x:Name="RefreshAsync" ToolTip="Refresh" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_refresh}" FontSize="20" />

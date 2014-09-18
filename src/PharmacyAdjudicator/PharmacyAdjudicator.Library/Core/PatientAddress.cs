@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Csla;
 
 namespace PharmacyAdjudicator.Library.Core
@@ -20,6 +22,14 @@ namespace PharmacyAdjudicator.Library.Core
         {
             get { return GetProperty(AddressTypeProperty); }
             set { SetProperty(AddressTypeProperty, value); }
+        }
+
+        public IEnumerable<Enums.AddressType> AddressTypeValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(Enums.AddressType)).Cast<Enums.AddressType>();
+            }
         }
 
         public static readonly PropertyInfo<int> SlotProperty = RegisterProperty<int>(c => c.Slot);

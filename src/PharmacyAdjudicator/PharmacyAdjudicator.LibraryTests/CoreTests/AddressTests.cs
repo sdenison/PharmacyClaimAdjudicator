@@ -220,5 +220,56 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             Assert.IsTrue(patient.PatientAddresses.Count == 1);
             Assert.IsTrue(patient2.PatientAddresses[0].Address.Address1.Equals("421 Torrey St."));
         }
+
+        [TestMethod]
+        public void Only_uniqe_address_types_are_allowed_in_address_list()
+        {
+            const long PATIENT_ID = 20;
+            //Create addresses
+            var patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            Assert.IsNotNull(patient);
+            var addressList = patient.PatientAddresses;
+            //var addressList = Library.Core.PatientAddressList.NewPatientAddressList(100);
+            var patientPhysicalAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            patientPhysicalAddress.Address.Address1 = "326 Scenic Meadow";
+            patientPhysicalAddress.Address.City = "New Braunfels";
+            patientPhysicalAddress.Address.State = "TX";
+            patientPhysicalAddress.Address.Zip = "78130";
+            patientPhysicalAddress.AddressType = Library.Core.Enums.AddressType.Physical;
+
+            var patientBusinessAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            patientBusinessAddress.Address.Address1 = "421 Torrey St.";
+            patientBusinessAddress.Address.City = "New Braunfels";
+            patientBusinessAddress.Address.State = "TX";
+            patientBusinessAddress.Address.Zip = "78130";
+            patientBusinessAddress.AddressType = Library.Core.Enums.AddressType.Billing;
+
+            var patientMailingAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            patientMailingAddress.Address.Address1 = "421 Torrey St.";
+            patientMailingAddress.Address.City = "New Braunfels";
+            patientMailingAddress.Address.State = "TX";
+            patientMailingAddress.Address.Zip = "78130";
+            patientMailingAddress.AddressType = Library.Core.Enums.AddressType.Mailing;
+
+            addressList.Add(patientPhysicalAddress);
+            addressList.Add(patientBusinessAddress);
+            addressList.Add(patientMailingAddress);
+            patient = patient.Save();
+
+            var addressListFromDb = Library.Core.PatientAddressList.GetByPatientId(PATIENT_ID);
+            Assert.IsTrue(addressListFromDb.Count == 3);
+
+            //Pull addresses from database
+            patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            //Changing the address type to mailing should violate the rule we have set up.
+            Assert.IsTrue(patient.PatientAddresses[0].AddressType == Library.Core.Enums.AddressType.Physical);
+            patient.PatientAddresses[0].AddressType = Library.Core.Enums.AddressType.Mailing;
+            patient.FirstName = "";
+            var brokenRules = patient.BrokenRulesCollection;
+            var brokenAddressRules = patient.BrokenAddressRules;
+            Assert.IsTrue(brokenRules.Count > brokenAddressRules.Count);
+
+            Assert.IsFalse(patient.IsSavable);
+        }
     }
 }
