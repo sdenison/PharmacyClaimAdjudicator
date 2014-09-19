@@ -261,6 +261,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
 
             //Pull addresses from database
             patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+
             //Changing the address type to mailing should violate the rule we have set up.
             Assert.IsTrue(patient.PatientAddresses[0].AddressType == Library.Core.Enums.AddressType.Physical);
             patient.PatientAddresses[0].AddressType = Library.Core.Enums.AddressType.Mailing;

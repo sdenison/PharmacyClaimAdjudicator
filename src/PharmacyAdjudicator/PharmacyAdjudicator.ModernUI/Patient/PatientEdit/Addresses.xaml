@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-     
+        
         <!-- Add and remove buttons at the top -->
         <StackPanel Orientation="Horizontal">
             <mui:ModernButton x:Name="AddAddress" ToolTip="Add address" ToolTipService.ShowOnDisabled="true" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_add}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />
@@ -28,10 +28,14 @@
                     </Style>
                 </mui:ModernButton.Style>
             </mui:ModernButton>
+            
+            <!-- IsReadOnly and CanEditObject are used as a workaround to get the parent values into the ListView -->
+            <CheckBox x:Name="IsReadOnly" Visibility="Hidden"></CheckBox>
+            <CheckBox x:Name="CanEditObject" Visibility="Hidden"></CheckBox>
         </StackPanel>
        
         <!-- List of addresses for the patient -->
-        <ListBox Grid.Row="1" x:Name="PatientAddresses" SelectionMode="Single">
+        <ListBox Grid.Row="1" x:Name="Model_PatientAddresses" SelectionMode="Single" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" Margin="0, 10, 0, 0">
@@ -52,28 +56,28 @@
                             </Style>
                         </StackPanel.Resources>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Address Type" Target="{Binding ElementName=AddressType}" />
-                            <ComboBox ItemsSource="{Binding Path=AddressTypeValues}" SelectedItem="{Binding Path=AddressType, Mode=TwoWay}" IsReadOnly="{Binding Path=IsReadOnly}"/>
+                            <Label Content="Address Type" />
+                            <ComboBox ItemsSource="{Binding Path=AddressTypeValues}" SelectedItem="{Binding Path=AddressType, Mode=TwoWay}" IsEnabled="{Binding ElementName=CanEditObject, Path=DataContext.CanEditObject}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Horizontal">
-                            <Label Content="Address1" Target="{Binding ElementName=Address.Address1}" />
-                            <TextBox x:Name="Address1" Width="150" Text="{Binding Path=Address.Address1, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
+                            <Label Content="Address1" />
+                            <TextBox x:Name="Address1" Width="150" Text="{Binding Path=Address.Address1, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding ElementName=IsReadOnly, Path=DataContext.IsReadOnly}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Horizontal">
-                            <Label Content="Address2" Target="{Binding ElementName=Address.Address2}" />
-                            <TextBox x:Name="Address2" Width="150" Text="{Binding Path=Address.Address2, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
+                            <Label Content="Address2" />
+                            <TextBox x:Name="Address2" Width="150" Text="{Binding Path=Address.Address2, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding ElementName=IsReadOnly, Path=DataContext.IsReadOnly}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Horizontal">
-                            <Label Content="City" Target="{Binding ElementName=Address.City}"/>
-                            <TextBox Text="{Binding Path=Address.City}" MinWidth="100"></TextBox>
+                            <Label Content="City" />
+                            <TextBox Text="{Binding Path=Address.City}" MinWidth="100" IsReadOnly="{Binding ElementName=IsReadOnly, Path=DataContext.IsReadOnly}"></TextBox>
                         </StackPanel>
                         <StackPanel  Orientation="Horizontal">
-                            <Label Content="State" Target="{Binding ElementName=Address.State}"/>
-                            <TextBox Text="{Binding Path=Address.State}" MinWidth="100"></TextBox>
+                            <Label Content="State" />
+                            <TextBox Text="{Binding Path=Address.State}" MinWidth="100" IsReadOnly="{Binding ElementName=IsReadOnly, Path=DataContext.IsReadOnly}"></TextBox>
                         </StackPanel>
                         <StackPanel  Orientation="Horizontal">
-                            <Label Content="Zip" Target="{Binding ElementName=Address.Zip}"/>
-                            <TextBox Text="{Binding Path=Address.Zip}" MinWidth="100"></TextBox>
+                            <Label Content="Zip" />
+                            <TextBox Text="{Binding Path=Address.Zip}" MinWidth="100" IsReadOnly="{Binding ElementName=IsReadOnly, Path=DataContext.IsReadOnly}"></TextBox>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

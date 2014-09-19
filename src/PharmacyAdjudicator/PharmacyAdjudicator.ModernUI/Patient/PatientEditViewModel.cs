@@ -133,7 +133,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         protected override void OnSaved()
         {
             base.OnSaved();
-            NotifyOfPropertyChange(() => this.PatientAddresses);
+            //NotifyOfPropertyChange(() => this.PatientAddresses);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         {
             Model.CancelEdit();
             Model.BeginEdit();
-            NotifyOfPropertyChange(() => this.PatientAddresses);
+            //NotifyOfPropertyChange(() => this.PatientAddresses);
         }
 
         /// <summary>
@@ -177,14 +177,14 @@ namespace PharmacyAdjudicator.ModernUI.Patient
 
         public Library.Core.PatientAddress SelectedPatientAddress { get; set; }
 
-        public Library.Core.PatientAddressList PatientAddresses
-        {
-            get
-            {
-                return Model.PatientAddresses;
-            }
-            private set { }
-        }
+        //public Library.Core.PatientAddressList PatientAddresses
+        //{
+        //    get
+        //    {
+        //        return Model.PatientAddresses;
+        //    }
+        //    private set { }
+        //}
 
         /// <summary>
         /// Before adding the address to the list we check what other address types already exist in the list.

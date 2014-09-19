@@ -206,7 +206,6 @@
                                         <Button Height="30" Margin="5" Content ="Close Window" cal:Message.Attach="DeactivateItem($dataContext)"/>
                                     </StackPanel>
                                 </DockPanel>
-                           
                                 <StackPanel Orientation="Horizontal" Grid.Row="1">
                                     <Label Content="dob "></Label>
                                     <TextBlock Text="{Binding Model.DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" FontWeight="Bold"/>
