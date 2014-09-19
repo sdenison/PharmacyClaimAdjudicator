@@ -1,7 +1,7 @@
 using System;
 using Csla;
 
-namespace PharmacyAdjudicator.Library
+namespace PharmacyAdjudicator.Library.Core.Patient
 {
     [Serializable]
     public class PatientExistsCommand : CommandBase<PatientExistsCommand>

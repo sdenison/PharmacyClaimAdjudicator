@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Csla;
 using System.Linq;
 
-namespace PharmacyAdjudicator.Library.Core
+namespace PharmacyAdjudicator.Library.Core.Patient
 {
     [Serializable]
     public class PatientHistory :
-      ReadOnlyListBase<PatientHistory, Patient>
+      ReadOnlyListBase<PatientHistory, PatientEdit>
     {
         #region Authorization Rules
 
@@ -46,7 +46,7 @@ namespace PharmacyAdjudicator.Library.Core
                 if (patientFacts == null)
                     throw new DataNotFoundException("PatientId = patientId");
                 foreach (var data in patientFacts)
-                    Add(DataPortal.FetchChild<Patient>(data));
+                    Add(DataPortal.FetchChild<PatientEdit>(data));
             }
             IsReadOnly = true;
             RaiseListChangedEvents = true;

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PharmacyAdjudicator.Library.Core;
 using System.Threading.Tasks;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests
 {
@@ -32,24 +33,24 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void GetPatientRecord()
         {
-            var patient = Library.Core.Patient.GetByRecordId(1000);
+            var patient = PatientEdit.GetByRecordId(1000);
             Assert.AreEqual(patient.FirstName, "GARY");
         }
 
         [TestMethod]
         public void GetPatientRecordByPatientId()
         {
-            var patient = Library.Core.Patient.GetByPatientId(100);
+            var patient = PatientEdit.GetByPatientId(100);
             Assert.AreEqual(patient.DateOfBirth.Value, new DateTime(1999, 07, 05));
         }
 
         [TestMethod]
         public void UpdatePatientNameWorks()
         {
-            var patient = Library.Core.Patient.GetByPatientId(100);
+            var patient = PatientEdit.GetByPatientId(100);
             patient.FirstName = "Johnny";
             patient.Save();
-            var patient2 = Library.Core.Patient.GetByPatientId(100);
+            var patient2 = PatientEdit.GetByPatientId(100);
             Assert.AreEqual(patient2.FirstName, "Johnny"); 
         }
 
@@ -58,7 +59,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         {
             try
             {
-                var patient = Library.Core.Patient.GetByPatientId(22);
+                var patient = PatientEdit.GetByPatientId(22);
                 Assert.AreEqual(patient.FirstName, "Joe");
                 patient.FirstName = "John";
                 patient = patient.Save();
@@ -76,13 +77,13 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void RetractFactWhenOnlyOneFactExists()
         {
-            var patient = Library.Core.Patient.GetByPatientId(22);
+            var patient = PatientEdit.GetByPatientId(22);
             Assert.AreEqual(patient.FirstName, "Joe");
             patient.Delete();
             patient.Save();
             try
             {
-                patient = Library.Core.Patient.GetByPatientId(22);
+                patient = PatientEdit.GetByPatientId(22);
             }
             catch (Csla.DataPortalException ex)
             {
@@ -100,8 +101,8 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void TestFindPatient()
         {
-            Library.Core.Patient patient = null;
-            patient = Library.Core.Patient.GetByPatientId(22);
+            PatientEdit patient = null;
+            patient = PatientEdit.GetByPatientId(22);
 
             Assert.IsNotNull(patient, "Patient object should not be null.");
         }
@@ -109,7 +110,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void FindPatientAsOfDate()
         {
-            Library.Core.Patient patient = Library.Core.Patient.GetByPatientIdCompareDate(100, new DateTime(2013, 05, 01));
+            PatientEdit patient = PatientEdit.GetByPatientIdCompareDate(100, new DateTime(2013, 05, 01));
             //Patient should have original cardholder ID of 123456789
             Assert.AreEqual(patient.CardholderId, "123456789");
         }
@@ -117,7 +118,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void AddAPatient()
         {
-            Library.Core.Patient newPatient = Library.Core.Patient.NewPatient();
+            PatientEdit newPatient = PatientEdit.NewPatient();
             newPatient.FirstName = "Tony";
             newPatient.LastName = "Parker";
             newPatient.CardholderId = "456123789";
@@ -132,7 +133,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
 
             try
             {
-                Library.Core.Patient testGetPatient = Library.Core.Patient.GetByPatientId(newPatientId);
+                PatientEdit testGetPatient = PatientEdit.GetByPatientId(newPatientId);
                 Assert.AreEqual(testGetPatient.FirstName, "Tony");
             }
             catch (Exception ex)
@@ -149,27 +150,27 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void GetPatientAsync()
         {
-            Task<Patient> patTask = Patient.GetByPatientIdAsync(100);
+            Task<PatientEdit> patTask = PatientEdit.GetByPatientIdAsync(100);
 
             string x = "this should be happening while getting the patient happens";
             Assert.IsNotNull(x);
 
-            Patient pat = patTask.Result;
+            PatientEdit pat = patTask.Result;
         }
 
         [TestMethod]
         public void SavePatientAsync()
         {
-            var patient = Patient.GetByPatientId(100);
+            var patient = PatientEdit.GetByPatientId(100);
             patient.FirstName = "Thisshouldchange";
-            Task<Patient> patTask = patient.SaveAsync();
+            Task<PatientEdit> patTask = patient.SaveAsync();
             var patient2 = patTask.Result;
         }
 
         [TestMethod]
         public async Task SavePatientAsync2()
         {
-            var patient = Patient.GetByPatientId(100);
+            var patient = PatientEdit.GetByPatientId(100);
             patient.FirstName = "Thisshouldchange";
             var patient2 = await patient.SaveAsync();
             Assert.IsTrue(patient2.FirstName.Equals("Thisshouldchange"));

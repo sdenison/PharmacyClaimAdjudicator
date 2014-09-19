@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Csla;
 
-namespace PharmacyAdjudicator.Library.Core
+namespace PharmacyAdjudicator.Library.Core.Patient
 {
     [Serializable]
     public class PatientAddressList : BusinessListBase<PatientAddressList, PatientAddress>

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PharmacyAdjudicator.Library.Core;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PharmacyAdjudicator.Library.Core;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.LibraryTests.CoreTests
 {
@@ -41,7 +42,7 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
         public void ThirdPatientNameUpdatedToValue()
         {
             PatientList patients = PatientList.GetAll();
-            Patient patient = patients[2];
+            PatientEdit patient = patients[2];
 
             Assert.IsTrue(patient.FirstName.Equals("Richard"), "First name not equal to Joe");
 
@@ -55,7 +56,7 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
         public void InsertNewItem()
         {
             PatientList patients = PatientList.GetAll();
-            Patient patient = Patient.NewPatient();
+            PatientEdit patient = PatientEdit.NewPatient();
             foreach (var brokenRule in patient.BrokenRulesCollection)
             {
                 var description = brokenRule.ToString();
@@ -78,7 +79,7 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
         public void ThirdPatientNameUpdatedToSameName()
         {
             PatientList patients = PatientList.GetAll();
-            Patient patient = patients[2];
+            PatientEdit patient = patients[2];
 
             Assert.IsTrue(patient.FirstName.Equals("Richard"), "First name not equal to Joe");
 
@@ -94,7 +95,7 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
         public void Individual_patient_from_list_cannot_use_its_own_save_method()
         {
             PatientList patients = PatientList.GetAll();
-            Patient patient = patients[2];
+            PatientEdit patient = patients[2];
 
             Assert.IsTrue(patient.FirstName.Equals("Richard"), "First name not equal to Joe");
 
@@ -108,9 +109,9 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
         [TestMethod]
         public void Can_use_search_criteria_to_return_PatientList()
         {
-            var criteria = new Library.Core.PatientSearchCriteria();
+            var criteria = new PatientSearchCriteria();
             criteria.PatientLastName = "Smith";
-            var matchingPatients = Library.Core.PatientList.GetBySearchObject(criteria);
+            var matchingPatients = PatientList.GetBySearchObject(criteria);
 
             Assert.IsNotNull(matchingPatients);
             Assert.IsTrue(matchingPatients.Count > 0, "Expecting more than one result while searching for last name Smith");
@@ -119,9 +120,9 @@ namespace PharmacyAdjudicator.LibraryTests.CoreTests
         [TestMethod]
         public void Can_search_for_patients_by_groupid()
         {
-            var criteria = new Library.Core.PatientSearchCriteria();
+            var criteria = new PatientSearchCriteria();
             criteria.GroupId = "Group1";
-            var matchingPatients = Library.Core.PatientList.GetBySearchObject(criteria);
+            var matchingPatients = PatientList.GetBySearchObject(criteria);
 
             Assert.IsNotNull(matchingPatients);
             Assert.IsTrue(matchingPatients.Count > 0, "Expecting at least one result for Group1");

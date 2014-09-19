@@ -1,5 +1,6 @@
 ﻿using Csla.Core;
 using Csla.Rules;
+using PharmacyAdjudicator.Library.Core.Patient;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,7 +30,7 @@ namespace PharmacyAdjudicator.Library.Core
 
 
             // TODO: Add actual rule code here. 
-            var patient = (Patient)context.Target;
+            var patient = (PatientEdit)context.Target;
             var query = patient.PatientAddresses.GroupBy(p => p.AddressType)
                         .Where(g => g.Count() > 1)
                         .Select(y => y.Key)

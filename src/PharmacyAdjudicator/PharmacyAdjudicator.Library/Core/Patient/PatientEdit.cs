@@ -4,10 +4,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace PharmacyAdjudicator.Library.Core
+namespace PharmacyAdjudicator.Library.Core.Patient
 {
     [Serializable]
-    public class Patient : BusinessBase<Patient>
+    public class PatientEdit : BusinessBase<PatientEdit>
     {
         #region Business Methods
 
@@ -175,7 +175,7 @@ namespace PharmacyAdjudicator.Library.Core
         protected override void OnChildChanged(Csla.Core.ChildChangedEventArgs e)
         {
             base.OnChildChanged(e);
-            BusinessRules.CheckRules(Patient.PatientAddressesProperty);
+            BusinessRules.CheckRules(PatientEdit.PatientAddressesProperty);
         }
 
         public LinqObservableCollection<Csla.Rules.BrokenRule> BrokenAddressRules
@@ -198,10 +198,10 @@ namespace PharmacyAdjudicator.Library.Core
         public static void AddObjectAuthorizationRules()
         {
             //Requires that the user be in the RuleManager role to create, edit or delete an Patient object
-            Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.GetObject, "RuleManager", "Manager", "Admin", "User"));
-            Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.CreateObject, "RuleManager", "Manager", "Admin"));
-            Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.EditObject, "RuleManager", "Manager", "Admin"));
-            Csla.Rules.BusinessRules.AddRule(typeof(Patient), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.DeleteObject, "RuleManager", "Manager", "Admin"));
+            Csla.Rules.BusinessRules.AddRule(typeof(PatientEdit), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.GetObject, "RuleManager", "Manager", "Admin", "User"));
+            Csla.Rules.BusinessRules.AddRule(typeof(PatientEdit), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.CreateObject, "RuleManager", "Manager", "Admin"));
+            Csla.Rules.BusinessRules.AddRule(typeof(PatientEdit), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.EditObject, "RuleManager", "Manager", "Admin"));
+            Csla.Rules.BusinessRules.AddRule(typeof(PatientEdit), new Csla.Rules.CommonRules.IsInRole(Csla.Rules.AuthorizationActions.DeleteObject, "RuleManager", "Manager", "Admin"));
         }
 
         #endregion
@@ -223,43 +223,43 @@ namespace PharmacyAdjudicator.Library.Core
         //}
 
 #if !WINDOWS_PHONE
-        public async static System.Threading.Tasks.Task<Patient> GetByPatientIdAsync(long patientId)
+        public async static System.Threading.Tasks.Task<PatientEdit> GetByPatientIdAsync(long patientId)
         {
             //await System.Threading.Tasks.Task.Delay(10000);
-            return await DataPortal.FetchAsync<Patient>(new CriteriaByPatientIdEF { PatientId = patientId });
+            return await DataPortal.FetchAsync<PatientEdit>(new CriteriaByPatientIdEF { PatientId = patientId });
         }
 #endif
 
 #if !SILVERLIGHT && !NETFX_CORE
-        public static Patient NewPatient()
+        public static PatientEdit NewPatient()
         {
-            return DataPortal.Create<Patient>();
+            return DataPortal.Create<PatientEdit>();
         }
 
-        public static Patient GetPatient(long patientId)
+        public static PatientEdit GetPatient(long patientId)
         {
-            return DataPortal.Fetch<Patient>(new CriteriaByPatientIdEF { PatientId = patientId });
+            return DataPortal.Fetch<PatientEdit>(new CriteriaByPatientIdEF { PatientId = patientId });
         }
 
-        public static Patient GetByRecordId(long recordId)
+        public static PatientEdit GetByRecordId(long recordId)
         {
-            return DataPortal.Fetch<Patient>(new CriteriaByRecordIdEF { RecordId = recordId });
+            return DataPortal.Fetch<PatientEdit>(new CriteriaByRecordIdEF { RecordId = recordId });
         }
 
-        public static Patient GetByPatientId(long patientId)
+        public static PatientEdit GetByPatientId(long patientId)
         {
-            return DataPortal.Fetch<Patient>(new CriteriaByPatientIdEF { PatientId = patientId });
+            return DataPortal.Fetch<PatientEdit>(new CriteriaByPatientIdEF { PatientId = patientId });
         }
 
-        public static Patient GetByPatientIdCompareDate(long patientId, DateTime compareDateTime)
+        public static PatientEdit GetByPatientIdCompareDate(long patientId, DateTime compareDateTime)
         {
-            return DataPortal.Fetch<Patient>(new CriteriaByPatientIdCompareDatetime { PatientId = patientId, RecordCompareDatetime = compareDateTime });
+            return DataPortal.Fetch<PatientEdit>(new CriteriaByPatientIdCompareDatetime { PatientId = patientId, RecordCompareDatetime = compareDateTime });
         }
 
-        public static Patient GetByTransmissionCriteria(string processorControlNumber, string cardholderId, string groupId, DateTime dateOfBirth, string patientLastName,
+        public static PatientEdit GetByTransmissionCriteria(string processorControlNumber, string cardholderId, string groupId, DateTime dateOfBirth, string patientLastName,
                 string patientGenderCode, string personCode, string relationshipCode)
         {
-            return DataPortal.Fetch<Patient>(new CriteriaByTransmission 
+            return DataPortal.Fetch<PatientEdit>(new CriteriaByTransmission 
             {
                 ProcessorControlNumber = processorControlNumber,
                 CardholderId = cardholderId,
@@ -279,10 +279,10 @@ namespace PharmacyAdjudicator.Library.Core
             return cmd.PatientExists;
         }
 
-        private Patient()
+        private PatientEdit()
         { /* Require use of factory methods */ }
 
-        internal Patient(DataAccess.PatientFact patientData)
+        internal PatientEdit(DataAccess.PatientFact patientData)
         {
             using (BypassPropertyChecks)
                 PopulateByRow(patientData);

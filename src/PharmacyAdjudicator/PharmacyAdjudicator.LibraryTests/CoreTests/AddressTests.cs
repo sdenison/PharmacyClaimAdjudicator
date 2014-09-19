@@ -5,6 +5,7 @@
 //using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Csla;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests
 {
@@ -57,18 +58,18 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void Address_can_be_created_for_patient_100()
         {
-            var patient = Library.Core.Patient.GetByPatientId(100);
+            var patient = PatientEdit.GetByPatientId(100);
             Assert.IsNotNull(patient);
 
-            var addressList = Library.Core.PatientAddressList.NewPatientAddressList(100);
-            var patientPhysicalAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var addressList = PatientAddressList.NewPatientAddressList(100);
+            var patientPhysicalAddress = PatientAddress.NewAddress(patient.PatientId);
             patientPhysicalAddress.Address.Address1 = "326 Scenic Meadow";
             patientPhysicalAddress.Address.City = "New Braunfels";
             patientPhysicalAddress.Address.State = "TX";
             patientPhysicalAddress.Address.Zip = "78130";
             patientPhysicalAddress.AddressType = Library.Core.Enums.AddressType.Physical;
 
-            var patientBusinessAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientBusinessAddress = PatientAddress.NewAddress(patient.PatientId);
             patientBusinessAddress.Address.Address1 = "421 Torrey St.";
             patientBusinessAddress.Address.City = "New Braunfels";
             patientBusinessAddress.Address.State = "TX";
@@ -79,7 +80,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             addressList.Add(patientBusinessAddress);
             addressList = addressList.Save();
 
-            var addressListFromDb = Library.Core.PatientAddressList.GetByPatientId(100);
+            var addressListFromDb = PatientAddressList.GetByPatientId(100);
             Assert.IsTrue(addressListFromDb.Count == 2);
 
             var firstAddress = addressListFromDb[0];
@@ -88,7 +89,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
 
             Assert.IsTrue(addressListFromDb.Count == 1);
 
-            var addressListAfterRemoval = Library.Core.PatientAddressList.GetByPatientId(100);
+            var addressListAfterRemoval = PatientAddressList.GetByPatientId(100);
             //We should only have one address since we deleted one earlier.
             Assert.IsTrue(addressListAfterRemoval.Count == 1);
             Assert.IsTrue(addressListAfterRemoval[0].AddressType == Library.Core.Enums.AddressType.Billing);
@@ -111,18 +112,18 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         {
             const long PATIENT_ID = 22;
 
-            var patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            var patient = Library.Core.Patient.PatientEdit.GetByPatientId(PATIENT_ID);
             Assert.IsNotNull(patient);
 
             var addressList = patient.PatientAddresses;
-            var patientPhysicalAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientPhysicalAddress = PatientAddress.NewAddress(patient.PatientId);
             patientPhysicalAddress.Address.Address1 = "326 Scenic Meadow";
             patientPhysicalAddress.Address.City = "New Braunfels";
             patientPhysicalAddress.Address.State = "TX";
             patientPhysicalAddress.Address.Zip = "78130";
             patientPhysicalAddress.AddressType = Library.Core.Enums.AddressType.Physical;
 
-            var patientBusinessAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientBusinessAddress = PatientAddress.NewAddress(patient.PatientId);
             patientBusinessAddress.Address.Address1 = "421 Torrey St.";
             patientBusinessAddress.Address.City = "New Braunfels";
             patientBusinessAddress.Address.State = "TX";
@@ -133,7 +134,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             addressList.Add(patientBusinessAddress);
             patient = patient.Save();
 
-            var addressListFromDb = Library.Core.PatientAddressList.GetByPatientId(PATIENT_ID);
+            var addressListFromDb = PatientAddressList.GetByPatientId(PATIENT_ID);
             Assert.IsTrue(addressListFromDb.Count == 2);
         }
 
@@ -142,18 +143,18 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         {
             const long PATIENT_ID = 62; 
             //Create addresses 
-            var patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            var patient = PatientEdit.GetByPatientId(PATIENT_ID);
             Assert.IsNotNull(patient);
 
             var addressList = patient.PatientAddresses;
-            var patientPhysicalAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientPhysicalAddress = PatientAddress.NewAddress(patient.PatientId);
             patientPhysicalAddress.Address.Address1 = "326 Scenic Meadow";
             patientPhysicalAddress.Address.City = "New Braunfels";
             patientPhysicalAddress.Address.State = "TX";
             patientPhysicalAddress.Address.Zip = "78130";
             patientPhysicalAddress.AddressType = Library.Core.Enums.AddressType.Physical;
 
-            var patientBusinessAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientBusinessAddress = PatientAddress.NewAddress(patient.PatientId);
             patientBusinessAddress.Address.Address1 = "421 Torrey St.";
             patientBusinessAddress.Address.City = "New Braunfels";
             patientBusinessAddress.Address.State = "TX";
@@ -164,17 +165,17 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             addressList.Add(patientBusinessAddress);
             patient = patient.Save();
 
-            var addressListFromDb = Library.Core.PatientAddressList.GetByPatientId(PATIENT_ID);
+            var addressListFromDb = PatientAddressList.GetByPatientId(PATIENT_ID);
             Assert.IsTrue(addressListFromDb.Count == 2);
 
             //Pull addresses from database
-            patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            patient = PatientEdit.GetByPatientId(PATIENT_ID);
             Assert.IsTrue(patient.PatientAddresses[0].Address.Address1.Equals("326 Scenic Meadow"));
             patient.PatientAddresses[0].Address.Address1 = "123 Main St.";
             patient = patient.Save();
 
             //Re-pull patient from database
-            var patient2 = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            var patient2 = PatientEdit.GetByPatientId(PATIENT_ID);
             Assert.IsTrue(patient2.PatientAddresses[0].Address.Address1.Equals("123 Main St."));
         }
 
@@ -183,18 +184,18 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         {
             const long PATIENT_ID = 61;
             //Create addresses
-            var patient = Library.Core.Patient.GetByPatientId(PATIENT_ID); 
+            var patient = PatientEdit.GetByPatientId(PATIENT_ID); 
             Assert.IsNotNull(patient); 
             var addressList = patient.PatientAddresses;
             //var addressList = Library.Core.PatientAddressList.NewPatientAddressList(100);
-            var patientPhysicalAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientPhysicalAddress = PatientAddress.NewAddress(patient.PatientId);
             patientPhysicalAddress.Address.Address1 = "326 Scenic Meadow";
             patientPhysicalAddress.Address.City = "New Braunfels";
             patientPhysicalAddress.Address.State = "TX";
             patientPhysicalAddress.Address.Zip = "78130";
             patientPhysicalAddress.AddressType = Library.Core.Enums.AddressType.Physical;
 
-            var patientBusinessAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientBusinessAddress = PatientAddress.NewAddress(patient.PatientId);
             patientBusinessAddress.Address.Address1 = "421 Torrey St.";
             patientBusinessAddress.Address.City = "New Braunfels";
             patientBusinessAddress.Address.State = "TX";
@@ -205,17 +206,17 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             addressList.Add(patientBusinessAddress);
             patient = patient.Save();
 
-            var addressListFromDb = Library.Core.PatientAddressList.GetByPatientId(PATIENT_ID);
+            var addressListFromDb = PatientAddressList.GetByPatientId(PATIENT_ID);
             Assert.IsTrue(addressListFromDb.Count == 2);
 
             //Pull addresses from database
-            patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            patient = PatientEdit.GetByPatientId(PATIENT_ID);
             Assert.IsTrue(patient.PatientAddresses[0].Address.Address1.Equals("326 Scenic Meadow"));
             patient.PatientAddresses.RemoveAt(0);
             patient = patient.Save();
 
             //Re-pull patient from database
-            var patient2 = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            var patient2 = PatientEdit.GetByPatientId(PATIENT_ID);
             //Should have only one address now.
             Assert.IsTrue(patient.PatientAddresses.Count == 1);
             Assert.IsTrue(patient2.PatientAddresses[0].Address.Address1.Equals("421 Torrey St."));
@@ -226,25 +227,25 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         {
             const long PATIENT_ID = 20;
             //Create addresses
-            var patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            var patient = PatientEdit.GetByPatientId(PATIENT_ID);
             Assert.IsNotNull(patient);
             var addressList = patient.PatientAddresses;
             //var addressList = Library.Core.PatientAddressList.NewPatientAddressList(100);
-            var patientPhysicalAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientPhysicalAddress = PatientAddress.NewAddress(patient.PatientId);
             patientPhysicalAddress.Address.Address1 = "326 Scenic Meadow";
             patientPhysicalAddress.Address.City = "New Braunfels";
             patientPhysicalAddress.Address.State = "TX";
             patientPhysicalAddress.Address.Zip = "78130";
             patientPhysicalAddress.AddressType = Library.Core.Enums.AddressType.Physical;
 
-            var patientBusinessAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientBusinessAddress = PatientAddress.NewAddress(patient.PatientId);
             patientBusinessAddress.Address.Address1 = "421 Torrey St.";
             patientBusinessAddress.Address.City = "New Braunfels";
             patientBusinessAddress.Address.State = "TX";
             patientBusinessAddress.Address.Zip = "78130";
             patientBusinessAddress.AddressType = Library.Core.Enums.AddressType.Billing;
 
-            var patientMailingAddress = Library.Core.PatientAddress.NewAddress(patient.PatientId);
+            var patientMailingAddress = PatientAddress.NewAddress(patient.PatientId);
             patientMailingAddress.Address.Address1 = "421 Torrey St.";
             patientMailingAddress.Address.City = "New Braunfels";
             patientMailingAddress.Address.State = "TX";
@@ -256,11 +257,11 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             addressList.Add(patientMailingAddress);
             patient = patient.Save();
 
-            var addressListFromDb = Library.Core.PatientAddressList.GetByPatientId(PATIENT_ID);
+            var addressListFromDb = PatientAddressList.GetByPatientId(PATIENT_ID);
             Assert.IsTrue(addressListFromDb.Count == 3);
 
             //Pull addresses from database
-            patient = Library.Core.Patient.GetByPatientId(PATIENT_ID);
+            patient = PatientEdit.GetByPatientId(PATIENT_ID);
 
             //Changing the address type to mailing should violate the rule we have set up.
             Assert.IsTrue(patient.PatientAddresses[0].AddressType == Library.Core.Enums.AddressType.Physical);

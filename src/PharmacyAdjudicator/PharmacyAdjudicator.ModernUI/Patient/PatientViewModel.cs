@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using PharmacyAdjudicator.ModernUI.Interface;
 using System.Windows;
 using System.ComponentModel.Composition;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
@@ -47,8 +48,8 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             set { _patientSearchCriteria = value; }
         }
 
-        private Library.Core.PatientList _searchResults;
-        public Library.Core.PatientList SearchResults
+        private PatientList _searchResults;
+        public PatientList SearchResults
         {
             get { return _searchResults; }
             set 
@@ -82,7 +83,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             else
             {
                 this.IsFindingPatients = true;
-                var patientSearchResutls = await Library.Core.PatientList.GetBySearchObjectAsync(this.PatientSearchCriteria);
+                var patientSearchResutls = await PatientList.GetBySearchObjectAsync(this.PatientSearchCriteria);
                 this.IsFindingPatients = false;
                 if (patientSearchResutls.Count == 0)
                 {
@@ -105,7 +106,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// </summary>
         /// <param name="patient"></param>
         /// <returns></returns>
-        public async Task ShowPatient(Library.Core.Patient patient)
+        public async Task ShowPatient(Library.Core.Patient.PatientEdit patient)
         //public void ShowPatient(Library.Core.Patient patient)
         {
             //Tries to find an existing PatientEditViewModel to show.

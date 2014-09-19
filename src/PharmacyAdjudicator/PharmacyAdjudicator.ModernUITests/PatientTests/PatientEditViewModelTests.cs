@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Moq;
 using PharmacyAdjudicator.ModernUI.Interface;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.ModernUITests.PatientTests
 {
@@ -56,12 +57,7 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
             {
                 long patientId = 22;
                 var patientVM = await ModernUI.Patient.PatientEditViewModel.BuildViewModelAsync(patientId, _eventAggregator.Object, _dialog.Object);
-                //patientVM.Model.FirstName = "John";
-                //Assert.IsTrue(patientVM.CanSave, "Should be able to save after changing first name from Joe to John");
-                //await patientVM.SaveAsync();
-                //patientVM.Save();
-
-                var patientSecondFetch = Library.Core.Patient.GetByPatientId(22);
+                var patientSecondFetch = PatientEdit.GetByPatientId(22);
                 //Assert that the name from the database is now John.
                 Assert.AreEqual(patientSecondFetch.FirstName, "John");
             }
@@ -73,14 +69,5 @@ namespace PharmacyAdjudicator.ModernUITests.PatientTests
                 }
             }
         }
-
-        //[TestMethod]
-        //public async Task IsBusy_should_be_active_while_patient_data_is_refreshed()
-        //{
-        //    //var patient = Library.Core.Patient.GetByPatientId(22);
-        //    var patientVm = new ModernUI.Patient.PatientEditViewModel(22);
-        //    await patientVm.Refresh();
-        //    Assert.IsTrue(patientVm.Model != null);
-        //}
     }
 }

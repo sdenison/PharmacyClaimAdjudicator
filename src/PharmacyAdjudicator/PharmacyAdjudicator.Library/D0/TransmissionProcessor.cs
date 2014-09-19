@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using NxBRE.InferenceEngine;
 using NxBRE.InferenceEngine.IO;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.Library.D0
 {
@@ -39,10 +40,10 @@ namespace PharmacyAdjudicator.Library.D0
             response.TransactionHeader = new Response.TransactionHeaderSegment(submittedTransmission.TransactionHeader);
             response.TransactionHeader.HeaderResponseStatus = "A"; //Accepted
             //lookup the person
-            Core.Patient patient;
+            PatientEdit patient;
             try
             {
-                patient = Core.Patient.GetByTransmissionCriteria(submittedTransmission.TransactionHeader.ProcessorControlNumber,
+                patient = PatientEdit.GetByTransmissionCriteria(submittedTransmission.TransactionHeader.ProcessorControlNumber,
                     submittedTransmission.Insurance.CardholderId,
                     submittedTransmission.Insurance.GroupId,
                     submittedTransmission.Patient.DateOfBirth,

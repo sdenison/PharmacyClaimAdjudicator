@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Csla;
 
-namespace PharmacyAdjudicator.Library.Core
+namespace PharmacyAdjudicator.Library.Core.Patient
 {
     [Serializable]
     public class PatientSearchCriteria : CriteriaBase<PatientSearchCriteria>

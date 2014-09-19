@@ -7,6 +7,7 @@ using Csla;
 using FirstFloor.ModernUI.Windows.Controls;
 using System.Windows.Input;
 using FirstFloor.ModernUI.Windows.Navigation;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.ModernUI.Shell
 {
@@ -111,12 +112,12 @@ namespace PharmacyAdjudicator.ModernUI.Shell
                 var welcomeLink = new Link { DisplayName = "Welcome", Source = new Uri("/Welcome/WelcomeView.xaml", UriKind.Relative) };
                 welcomeLinkGroup.Links.Add(welcomeLink);
                 this.MenuLinkGroups.Add(welcomeLinkGroup);
-                if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(Library.Core.Patient)))
+                if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(PatientEdit)))
                     this.MenuLinkGroups.Add(PatientLinkGroup());
             }
             else
             {
-                if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(Library.Core.Patient)))
+                if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(PatientEdit)))
                 {
                     if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
                         this.MenuLinkGroups.Add(PatientLinkGroup());

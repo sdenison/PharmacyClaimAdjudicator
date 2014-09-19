@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 
-namespace PharmacyAdjudicator.Library.Core
+namespace PharmacyAdjudicator.Library.Core.Patient
 {
     [Serializable]
-    public class PatientList : BusinessListBase<PatientList, Patient>
+    public class PatientList : BusinessListBase<PatientList, PatientEdit>
     {
         #region Authorization Rules
 
@@ -88,7 +88,7 @@ namespace PharmacyAdjudicator.Library.Core
                 RaiseListChangedEvents = false;
                 foreach (var item in data)
                 {
-                    this.Add(DataPortal.FetchChild<Patient>(item));
+                    this.Add(DataPortal.FetchChild<PatientEdit>(item));
                 }
                 RaiseListChangedEvents = true;
             }
@@ -111,7 +111,7 @@ namespace PharmacyAdjudicator.Library.Core
                 RaiseListChangedEvents = false;
                 foreach (var item in data)
                 {
-                    this.Add(DataPortal.FetchChild<Patient>(item));
+                    this.Add(DataPortal.FetchChild<PatientEdit>(item));
                 }
                 RaiseListChangedEvents = true;
             }
@@ -166,7 +166,7 @@ namespace PharmacyAdjudicator.Library.Core
 
                 foreach (var p in results)
                 {
-                    Add(DataPortal.FetchChild<Patient>(p));
+                    Add(DataPortal.FetchChild<PatientEdit>(p));
                     //Add(new Patient(p));
                 }
 
@@ -239,7 +239,7 @@ namespace PharmacyAdjudicator.Library.Core
 
                 foreach (var p in data)
                 {
-                    Add(DataPortal.FetchChild<Patient>(p));
+                    Add(DataPortal.FetchChild<PatientEdit>(p));
                     //Add(DataPortal.Fetch<Patient>(p));
                     //Add(new Patient(p));
                 }

@@ -15,13 +15,14 @@ using CslaContrib.Caliburn.Micro;
 using PharmacyAdjudicator.ModernUI.Interface;
 using System.ComponentModel;
 using System.Windows.Data;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
     /// <summary>
     /// This ViewModel takes care of saving, refreshing and undoing patient data.
     /// </summary>
-    public class PatientEditViewModel : ScreenWithModel<Library.Core.Patient>, IHaveEditStates
+    public class PatientEditViewModel : ScreenWithModel<Library.Core.Patient.PatientEdit>, IHaveEditStates
     {
         /// <summary>
         /// Allows us to publish events.
@@ -89,7 +90,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// </summary> 
         /// <param name="existingPatient"></param>
         /// <param name="eventAggregator"></param> 
-        private PatientEditViewModel(Library.Core.Patient existingPatient, IEventAggregator eventAggregator, IDialog dialog)
+        private PatientEditViewModel(Library.Core.Patient.PatientEdit existingPatient, IEventAggregator eventAggregator, IDialog dialog)
         {
             _eventAggregator = eventAggregator;
             _dialog = dialog;
@@ -112,7 +113,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// <returns></returns>
         async public static Task<PatientEditViewModel> BuildViewModelAsync(long patientId, IEventAggregator eventAggregator, IDialog dialog)
         {
-            var patientModel = await Library.Core.Patient.GetByPatientIdAsync(patientId);
+            var patientModel = await Library.Core.Patient.PatientEdit.GetByPatientIdAsync(patientId);
             return new PatientEditViewModel(patientModel, eventAggregator, dialog);
         }  
 
@@ -125,7 +126,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             this.IsBusy = true;
             var currentPatientId = Model.PatientId;
             Model = null;
-            Model = await Library.Core.Patient.GetByPatientIdAsync(currentPatientId);
+            Model = await Library.Core.Patient.PatientEdit.GetByPatientIdAsync(currentPatientId);
             this.IsBusy = false;
             base.Refresh();
         }
@@ -175,7 +176,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             Model.PatientAddresses.Remove(SelectedPatientAddress);
         }
 
-        public Library.Core.PatientAddress SelectedPatientAddress { get; set; }
+        public PatientAddress SelectedPatientAddress { get; set; }
 
         //public Library.Core.PatientAddressList PatientAddresses
         //{
@@ -192,7 +193,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         public void AddAddress()
         {
             var addressTypes = Enum.GetValues(typeof(Library.Core.Enums.AddressType)).Cast<Library.Core.Enums.AddressType>();
-            var addressToAdd = Library.Core.PatientAddress.NewAddress(Model.PatientId);
+            var addressToAdd = PatientAddress.NewAddress(Model.PatientId);
             var allAddressTypesAreInList = true;
             foreach (var addressType in addressTypes)
             {

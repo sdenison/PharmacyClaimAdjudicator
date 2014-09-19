@@ -1,6 +1,7 @@
 using System;
 using Csla;
 using System.ComponentModel.DataAnnotations;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.Library.Core
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using Csla;
+using PharmacyAdjudicator.Library.Core.Patient;
 
 namespace PharmacyAdjudicator.Library.Core
 {
@@ -240,7 +241,7 @@ namespace PharmacyAdjudicator.Library.Core
             MarkOld();
         }
 
-        public Transaction(Drug drug, Patient patient, D0.Submitted.ClaimBilling claim)
+        public Transaction(Drug drug, PatientEdit patient, D0.Submitted.ClaimBilling claim)
         {
             this.Id = Guid.NewGuid().ToString();
             this.AuthorizationNumber = Transaction.AssignNewAuthorizationNumber();

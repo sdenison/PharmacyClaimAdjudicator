@@ -115,21 +115,9 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Login\LoginViewModel.cs" />
-    <Compile Include="Patient\PatientEditView.xaml.cs">
-      <DependentUpon>PatientEditView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Patient\PatientEditViewModel.cs" />
-    <Compile Include="Patient\PatientEdit\Addresses.xaml.cs">
-      <DependentUpon>Addresses.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Patient\PatientEdit\Details.xaml.cs">
-      <DependentUpon>Details.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Patient\PatientEditState.cs" />
     <Compile Include="Patient\PatientEditViewModelClosingMessage.cs" />
-    <Compile Include="Patient\PatientView.xaml.cs">
-      <DependentUpon>PatientView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Patient\PatientViewModel.cs" />
     <Compile Include="Services\CaliburnContentLoader.cs" />
     <Compile Include="Services\DialogService.cs" />

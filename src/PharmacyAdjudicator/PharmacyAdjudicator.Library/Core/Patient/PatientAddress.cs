@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Csla;
 
-namespace PharmacyAdjudicator.Library.Core
+namespace PharmacyAdjudicator.Library.Core.Patient
 {
     [Serializable]
     public class PatientAddress : BusinessBase<PatientAddress>
@@ -115,12 +115,12 @@ namespace PharmacyAdjudicator.Library.Core
             }
         }
 
-        private void Child_Insert(Patient parent)
+        private void Child_Insert(PatientEdit parent)
         {
             AssertNewFact();
         }
 
-        private void Child_Update(Patient parent)
+        private void Child_Update(PatientEdit parent)
         {
             RetractFact();
             this._recordId = Guid.NewGuid();
