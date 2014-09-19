@@ -46,6 +46,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             }
         }
 
+
         /// <summary>
         /// Used to set edit state of data fields
         /// </summary>
@@ -75,11 +76,6 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             get { return Enum.GetValues(typeof(Library.Core.Enums.Gender)).Cast<Library.Core.Enums.Gender>(); }
         }
 
-        //public IEnumerable<Library.Core.Enums.AddressType> AddressTypes
-        //{
-        //    get { return Enum.GetValues(typeof(Library.Core.Enums.AddressType)).Cast<Library.Core.Enums.AddressType>(); }
-        //}
-
         /// <summary>
         /// Unique ID of the view model
         /// </summary>
@@ -99,14 +95,13 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             _dialog = dialog;
             this.Model = existingPatient;
             this.State = PatientEditState.Details;
-            this.DisplayName = "Pateint Display: " + Model.FirstName + " " + Model.LastName;
+            this.DisplayName = "Pateint Display: " + Model.FullName;
             ConventionManager.Singularize = original =>
             {
                 if (original.EndsWith("Addresses"))
                     return original.Replace("Addresses", "Address");
                 return original.TrimEnd('s');
             };
-            //this.SelectedAddress = existingPatient.PatientAddresses[0];
         }
 
         /// <summary>

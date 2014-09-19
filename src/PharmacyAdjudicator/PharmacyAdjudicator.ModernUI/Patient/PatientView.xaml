@@ -109,49 +109,57 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="SEARCH RESULTS" Style="{StaticResource Heading2}" />
-                    <DataGrid Grid.Row="1" Name="PatientSearchDataGrid" ItemsSource="{Binding Path=SearchResults}" Visibility="{Binding Path=CanShowSearchResults, Converter={StaticResource BooleanToVisibilityConverter}}" AutoGenerateColumns="False">
-                        <DataGrid.RowStyle>
-                            <Style TargetType="DataGridRow">
-                                <Setter Property="cal:Message.Attach" Value="[MouseDoubleClick] = [Action ShowPatient($dataContext)]"/>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Path=SearchResults}" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="cal:Message.Attach"
+                                        Value="[Event MouseDoubleClick] = [Action  ShowPatient($dataContext)]"/>
                             </Style>
-                        </DataGrid.RowStyle>
-                        <DataGrid.Columns>
-                            <mui:DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" IsReadOnly="True"/>
-                            <mui:DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" IsReadOnly="True"/>
-                            <mui:DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" IsReadOnly="True"/>
-                            <mui:DataGridTextColumn Header="Cardholder ID" Binding="{Binding CardholderId}" IsReadOnly="True"/>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content ="Edit Patient" 
-                                        cal:Message.Attach="ShowPatient($dataContext)"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="20,0,10,10">
+                                    <Grid.Resources>
+                                        <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                            <Setter Property="Width" Value="120" />
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding FullName, Converter={StaticResource CaseConverter}}" Style="{StaticResource Heading1}" Margin="0,0,0,8"/>
+                                    <DockPanel Grid.Column="1">
+                                        <Button HorizontalAlignment="Right" Height="30" Margin="5" Content ="Show Patient" cal:Message.Attach="ShowPatient($dataContext)"/>
+                                    </DockPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                        <Label Content="dob "></Label>
+                                        <TextBlock Text="{Binding DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" FontWeight="Bold"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                        <Label Content="cardholder ID "></Label>
+                                        <TextBlock Text="{Binding CardholderId}" FontWeight="Bold"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="3">
+                                        <Label Content="person code "></Label>
+                                        <TextBlock Text="{Binding PersonCode}" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                     <StackPanel Grid.Row="2" Orientation="Horizontal" Visibility="{Binding Path=IsOpeningPatientWindow, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <TextBlock>Opening patient...</TextBlock>
                         <mui:ModernProgressRing IsActive="{Binding Path=IsOpeningPatientWindow}" Width="20" Height="20" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}"></mui:ModernProgressRing>
                     </StackPanel>
                 </Grid>
-                <!--
-            <DataGrid Name="PatientSearchDataGrid" ItemsSource="{Binding Path=Results}" SelectedItem="{Binding Path=SelectedPatient, Mode=TwoWay}" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <mui:DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" IsReadOnly="True"/>
-                    <mui:DataGridTextColumn Header="Cardholder ID" Binding="{Binding CardholderId}" IsReadOnly="True"/>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content ="Edit Patient" 
-                                        cal:Message.Attach="ShowPatient($dataContext)"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>-->
             </Border>
         </Grid>
         <GridSplitter Grid.Column="1"/>
@@ -162,7 +170,60 @@
                     <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="OPEN PATIENT WINDOWS" Style="{StaticResource Heading2}" />
-                <DataGrid Grid.Row="1" Name="PatientSearchDataGrid2" ItemsSource="{Binding Path=Items}" AutoGenerateColumns="False">
+                <!--<ListBox Grid.Row="1">
+                    
+                </ListBox>-->
+                <ListBox Grid.Row="1" ItemsSource="{Binding Path=Items}" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="cal:Message.Attach"
+                                        Value="[Event MouseDoubleClick] = [Action  ShowPatientViewModel($dataContext)]"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="20,0,10,10">
+                                <Grid.Resources>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Setter Property="Width" Value="120" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Model.FullName, Converter={StaticResource CaseConverter}}" Style="{StaticResource Heading1}" Margin="0,0,0,8"/>
+                                <DockPanel Grid.Column="1">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Height="30" Margin="5" Content ="Show Patient" cal:Message.Attach="ShowPatientViewModel($dataContext)"/>
+                                        <Button Height="30" Margin="5" Content ="Close Window" cal:Message.Attach="DeactivateItem($dataContext)"/>
+                                    </StackPanel>
+                                </DockPanel>
+                           
+                                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                    <Label Content="dob "></Label>
+                                    <TextBlock Text="{Binding Model.DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" FontWeight="Bold"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                    <Label Content="cardholder ID "></Label>
+                                    <TextBlock Text="{Binding Model.CardholderId}" FontWeight="Bold"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="3">
+                                    <Label Content="person code "></Label>
+                                    <TextBlock Text="{Binding Model.PersonCode}" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <!--<DataGrid Grid.Row="1" Name="PatientSearchDataGrid2" ItemsSource="{Binding Path=Items}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <mui:DataGridTextColumn Header="First Name" Binding="{Binding Path=Model.FirstName}" IsReadOnly="True"/>
                         <mui:DataGridTextColumn Header="Last Name" Binding="{Binding Path=Model.LastName}" IsReadOnly="True"/>
@@ -185,12 +246,8 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                </DataGrid>
+                </DataGrid>-->
             </Grid>
         </Border>
     </Grid>
-
-    
-    
-    
 </UserControl>

@@ -93,6 +93,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\CaseConverter.cs" />
     <Compile Include="EventMessages\DisplayViewModelMessage.cs" />
     <Compile Include="EventMessages\LoginChangedMessage.cs" />
     <Compile Include="EventMessages\LoginMessage.cs" />

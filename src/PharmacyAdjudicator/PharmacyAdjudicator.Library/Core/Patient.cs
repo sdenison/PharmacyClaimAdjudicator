@@ -87,6 +87,11 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(FirstNameProperty, value); }
         }
 
+        [Display(Name= "Full Name")]
+        public string FullName
+        {
+            get { return FirstName + " " + LastName; }
+        }
 
         public static readonly PropertyInfo<Enums.Gender> GenderProperty = RegisterProperty<Enums.Gender>(p => p.Gender);
         /// <summary>

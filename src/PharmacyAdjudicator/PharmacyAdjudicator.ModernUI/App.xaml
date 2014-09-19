@@ -2,12 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PharmacyAdjudicator.ModernUI"
+             xmlns:converters="clr-namespace:PharmacyAdjudicator.ModernUI.Converters"
              xmlns:svcs="clr-namespace:PharmacyAdjudicator.ModernUI.Services">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <local:AppBootstrapper x:Key="bootstrapper" />
+                    <converters:CaseConverter x:Key="CaseConverter"/>
                     <svcs:CaliburnContentLoader x:Key="CaliburnContentLoader" />
                 </ResourceDictionary>
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.xaml" />
