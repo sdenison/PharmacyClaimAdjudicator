@@ -47,7 +47,6 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             }
         }
 
-
         /// <summary>
         /// Used to set edit state of data fields
         /// </summary>
@@ -131,12 +130,6 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             base.Refresh();
         }
 
-        protected override void OnSaved()
-        {
-            base.OnSaved();
-            //NotifyOfPropertyChange(() => this.PatientAddresses);
-        }
-
         /// <summary>
         /// Undoes the current changes and returns the patient data to what it was when we originally pulled it.
         /// </summary>
@@ -166,26 +159,15 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             if (window != null) window.Activate();
         }
 
-        //public void RemoveAddress(Library.Core.PatientAddress addressToRemove)
-        //{
-        //    Model.PatientAddresses.Remove(addressToRemove);
-        //}
-
         public void RemoveAddress()
         {
             Model.PatientAddresses.Remove(SelectedPatientAddress);
         }
 
+        /// <summary>
+        /// Bound to the ListBox.SelectedItem property
+        /// </summary>
         public PatientAddress SelectedPatientAddress { get; set; }
-
-        //public Library.Core.PatientAddressList PatientAddresses
-        //{
-        //    get
-        //    {
-        //        return Model.PatientAddresses;
-        //    }
-        //    private set { }
-        //}
 
         /// <summary>
         /// Before adding the address to the list we check what other address types already exist in the list.

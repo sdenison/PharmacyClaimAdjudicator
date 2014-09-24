@@ -70,12 +70,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CoreTests\AddressTests.cs" />
+    <Compile Include="CoreTests\ClientTests\ClientEditTests.cs" />
+    <Compile Include="CoreTests\PatientTests\AddressTests.cs" />
     <Compile Include="CoreTests\RulesTests\AtomGroupTests.cs" />
     <Compile Include="CoreTests\RulesTests\AtomTests.cs" />
     <Compile Include="CoreTests\GroupTest.cs" />
-    <Compile Include="CoreTests\PatientHistoryTests.cs" />
-    <Compile Include="CoreTests\PatientTests.cs" />
+    <Compile Include="CoreTests\PatientTests\PatientHistoryTests.cs" />
+    <Compile Include="CoreTests\PatientTests\PatientTests.cs" />
     <Compile Include="CoreTests\PlanTests.cs" />
     <Compile Include="CoreTests\TransactionProcessorTests.cs" />
     <Compile Include="D0Tests\NcpdpHelper.cs" />
@@ -92,7 +93,7 @@
     <Compile Include="CoreTests\DrugListTest.cs" />
     <Compile Include="CoreTests\DrugTest.cs" />
     <Compile Include="Files\Va\Drug\NationalDrugFileTest.cs" />
-    <Compile Include="CoreTests\PatientListTest.cs" />
+    <Compile Include="CoreTests\PatientTests\PatientListTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityTests\PAIdentityTests.cs" />
     <Compile Include="SecurityTests\PAPrincipalTests.cs" />

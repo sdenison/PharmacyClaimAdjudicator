@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Csla;
 using PharmacyAdjudicator.Library.Core.Patient;
 
-namespace PharmacyAdjudicator.TestLibrary.CoreTests
+namespace PharmacyAdjudicator.TestLibrary.CoreTests.PatientTests
 {
     [TestClass]
     public class AddressTests

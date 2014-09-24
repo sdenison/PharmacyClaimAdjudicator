@@ -21,7 +21,7 @@
                     <Style TargetType="{x:Type mui:ModernButton}">
                         <Setter Property="IsEnabled" Value="True"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedItem, ElementName=PatientAddresses}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding SelectedItem, ElementName=Model_PatientAddresses}" Value="{x:Null}">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -35,7 +35,7 @@
         </StackPanel>
        
         <!-- List of addresses for the patient -->
-        <ListBox Grid.Row="1" x:Name="Model_PatientAddresses" SelectionMode="Single" HorizontalContentAlignment="Stretch">
+        <ListBox Grid.Row="1" x:Name="Model_PatientAddresses" SelectedItem="{Binding SelectedPatientAddress, Mode=TwoWay}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" Margin="0, 10, 0, 0">

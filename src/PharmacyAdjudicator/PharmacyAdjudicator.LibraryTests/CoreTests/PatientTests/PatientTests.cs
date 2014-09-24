@@ -4,10 +4,10 @@ using PharmacyAdjudicator.Library.Core;
 using System.Threading.Tasks;
 using PharmacyAdjudicator.Library.Core.Patient;
 
-namespace PharmacyAdjudicator.TestLibrary.CoreTests
+namespace PharmacyAdjudicator.TestLibrary.CoreTests.PatientTests
 {
     [TestClass]
-    public class PatientTests
+    public class PatientEditTests
     {
         [TestInitialize()]
         public void Setup()
@@ -33,7 +33,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void GetPatientRecord()
         {
-            var patient = PatientEdit.GetByRecordId(1000);
+            var patient = PatientEdit.GetByRecordId(new Guid("8B90061C-A11E-4114-863D-4C57991E30BF"));
             Assert.AreEqual(patient.FirstName, "GARY");
         }
 

@@ -82,7 +82,7 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 DataAccess.Plan newPlan = new DataAccess.Plan();
-                newPlan.PlanId = planId;
+                //newPlan.PlanId = planId;
                 newPlan.RecordCreatedDateTime = DateTime.Now;
                 newPlan.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
                 ctx.DbContext.Plan.Add(newPlan);
@@ -112,53 +112,53 @@ namespace PharmacyAdjudicator.Library.Core
 
         private void DataPortal_Fetch(CriteriaByPlanIdCompareDatetime criteria)
         {
-            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-            {
-                DataAccess.PlanFact planData;
-                //Gets the plan record active on the compare date/time passed in
-                planData = (from p in ctx.DbContext.PlanFact
-                               where
-                               p.PlanId == criteria.PlanId
-                               && p.RecordId == (from p2 in ctx.DbContext.PlanFact
-                                                 where p2.PlanId == criteria.PlanId
-                                                 && p2.Retraction == false
-                                                 && p2.RecordCreatedDateTime < criteria.RecordCompareDatetime
-                                                 && !ctx.DbContext.PlanFact.Any(p3 => p3.PlanId == criteria.PlanId
-                                                     && p3.Retraction == true
-                                                     && p3.OriginalFactRecordId == p2.RecordId
-                                                     && p3.RecordCreatedDateTime < criteria.RecordCompareDatetime)
-                                                 select p2.RecordId).Max()
-                               select p).FirstOrDefault();
-                if (planData != null)
-                    using (BypassPropertyChecks)
-                        PopulateByRow(planData);
-                else
-                    throw new DataNotFoundException("PlanId = " + criteria.PlanId);
-            }
+            //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            //{
+            //    DataAccess.PlanFact planData;
+            //    //Gets the plan record active on the compare date/time passed in
+            //    planData = (from p in ctx.DbContext.PlanFact
+            //                   where
+            //                   p.PlanId == criteria.PlanId
+            //                   && p.RecordId == (from p2 in ctx.DbContext.PlanFact
+            //                                     where p2.PlanId == criteria.PlanId
+            //                                     && p2.Retraction == false
+            //                                     && p2.RecordCreatedDateTime < criteria.RecordCompareDatetime
+            //                                     && !ctx.DbContext.PlanFact.Any(p3 => p3.PlanId == criteria.PlanId
+            //                                         && p3.Retraction == true
+            //                                         && p3.OriginalFactRecordId == p2.RecordId
+            //                                         && p3.RecordCreatedDateTime < criteria.RecordCompareDatetime)
+            //                                     select p2.RecordId).Max()
+            //                   select p).FirstOrDefault();
+            //    if (planData != null)
+            //        using (BypassPropertyChecks)
+            //            PopulateByRow(planData);
+            //    else
+            //        throw new DataNotFoundException("PlanId = " + criteria.PlanId);
+            //}
         }
 
         private void DataPortal_Fetch(string planId)
         {
-            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-            {
-                DataAccess.PlanFact planData;
-                planData = (from p in ctx.DbContext.PlanFact
-                            where
-                            p.PlanId == planId
-                            && p.RecordId == (from p2 in ctx.DbContext.PlanFact
-                                              where p2.PlanId == planId
-                                              && p2.Retraction == false
-                                              && ctx.DbContext.PlanFact.Any(p3 => p3.PlanId == planId
-                                              && p3.Retraction == true
-                                              && p3.OriginalFactRecordId == p2.RecordId)
-                                              select p2.RecordId).Max()
-                            select p).FirstOrDefault();
-                if (planData != null)
-                    using (BypassPropertyChecks)
-                        PopulateByRow(planData);
-                else
-                    throw new DataNotFoundException("PlanId = " + planId);
-            }
+            //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            //{
+            //    DataAccess.PlanFact planData;
+            //    planData = (from p in ctx.DbContext.PlanFact
+            //                where
+            //                p.PlanId == planId
+            //                && p.RecordId == (from p2 in ctx.DbContext.PlanFact
+            //                                  where p2.PlanId == planId
+            //                                  && p2.Retraction == false
+            //                                  && ctx.DbContext.PlanFact.Any(p3 => p3.PlanId == planId
+            //                                  && p3.Retraction == true
+            //                                  && p3.OriginalFactRecordId == p2.RecordId)
+            //                                  select p2.RecordId).Max()
+            //                select p).FirstOrDefault();
+            //    if (planData != null)
+            //        using (BypassPropertyChecks)
+            //            PopulateByRow(planData);
+            //    else
+            //        throw new DataNotFoundException("PlanId = " + planId);
+            //}
         }
 
         protected override void DataPortal_Insert()
@@ -166,9 +166,9 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var planData = CreateNewEntity();
-                ctx.DbContext.PlanFact.Add(planData);
+                ctx.DbContext.PlanDetail.Add(planData);
                 ctx.DbContext.SaveChanges();
-                this.RecordId = planData.RecordId;
+                //this.RecordId = planData.RecordId;
             }
         }
 
@@ -177,9 +177,9 @@ namespace PharmacyAdjudicator.Library.Core
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var planData = CreateNewEntity();
-                ctx.DbContext.PlanFact.Add(planData);
+                ctx.DbContext.PlanDetail.Add(planData);
                 ctx.DbContext.SaveChanges();
-                this.RecordId = planData.RecordId;
+                //this.RecordId = planData.RecordId;
             }
         }
 
@@ -197,22 +197,22 @@ namespace PharmacyAdjudicator.Library.Core
                 {
                     planData.Retraction = true;
                     planData.OriginalFactRecordId = this.RecordId;
-                    ctx.DbContext.PlanFact.Add(planData);
+                    ctx.DbContext.PlanDetail.Add(planData);
                     ctx.DbContext.SaveChanges();
                 }
             }
         }
 
-        private void PopulateByRow(DataAccess.PlanFact planData)
+        private void PopulateByRow(DataAccess.PlanDetail planData)
         {
-            this.PlanId = planData.PlanId;
-            this.RecordId = planData.RecordId;
+            //this.PlanId = planData.PlanId;
+            //this.RecordId = planData.RecordId;
         }
 
-        private DataAccess.PlanFact CreateNewEntity()
+        private DataAccess.PlanDetail CreateNewEntity()
         {
-            var planData = new DataAccess.PlanFact();
-            planData.PlanId = this.PlanId;
+            var planData = new DataAccess.PlanDetail();
+            //planData.PlanId = this.PlanId;
             planData.Retraction = false;
             planData.RecordCreatedDateTime = DateTime.Now;
             planData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;

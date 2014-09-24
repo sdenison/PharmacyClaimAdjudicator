@@ -39,13 +39,6 @@ namespace PharmacyAdjudicator.Library.Core.Patient
             set { SetProperty(SlotProperty, value); }
         }
 
-        //public static readonly PropertyInfo<Address> AddressProperty = RegisterProperty<Address>(c => c.Address, RelationshipTypes.Child);
-        //public Address Address
-        //{
-        //    get { return GetProperty(AddressProperty); }
-        //    set { SetProperty(AddressProperty, value); }
-        //}
-
         public static readonly PropertyInfo<Address> AddressProperty = RegisterProperty<Address>(c => c.Address, RelationshipTypes.Child);
         public Address Address
         {

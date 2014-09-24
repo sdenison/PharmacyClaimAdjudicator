@@ -1,9 +1,8 @@
+
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
--- --------------------------------------------------
--- Date Created: 08/14/2014 16:11:11
+-- Date Created: 09/24/2014 14:41:03
 -- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -19,7 +18,7 @@ GO
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[FK_FKGroupFacts397517]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GroupFact] DROP CONSTRAINT [FK_FKGroupFacts397517];
+    ALTER TABLE [dbo].[GroupDetail] DROP CONSTRAINT [FK_FKGroupFacts397517];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Group_PatientGroup_Rel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PatientGroup] DROP CONSTRAINT [FK_Group_PatientGroup_Rel];
@@ -28,13 +27,10 @@ IF OBJECT_ID(N'[dbo].[FK_Patient_PateintFacts_Rel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PatientGroup] DROP CONSTRAINT [FK_Patient_PateintFacts_Rel];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Patient_PatientFacts_Rel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PatientFact] DROP CONSTRAINT [FK_Patient_PatientFacts_Rel];
+    ALTER TABLE [dbo].[PatientDetail] DROP CONSTRAINT [FK_Patient_PatientFacts_Rel];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PlanPlanFact]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PlanFact] DROP CONSTRAINT [FK_PlanPlanFact];
-GO
-IF OBJECT_ID(N'[dbo].[FK_PlanGroupFact]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GroupFact] DROP CONSTRAINT [FK_PlanGroupFact];
+    ALTER TABLE [dbo].[PlanDetail] DROP CONSTRAINT [FK_PlanPlanFact];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RuleRuleImplication]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RuleImplication] DROP CONSTRAINT [FK_RuleRuleImplication];
@@ -75,6 +71,39 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PatientAddressPatientAddress]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PatientAddress] DROP CONSTRAINT [FK_PatientAddressPatientAddress];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ClientClientDetails]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ClientDetail] DROP CONSTRAINT [FK_ClientClientDetails];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ClientClientGroup]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ClientGroup] DROP CONSTRAINT [FK_ClientClientGroup];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GroupClientGroup]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ClientGroup] DROP CONSTRAINT [FK_GroupClientGroup];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GroupGroupPlan]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GroupPlan] DROP CONSTRAINT [FK_GroupGroupPlan];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PlanGroupPlan]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GroupPlan] DROP CONSTRAINT [FK_PlanGroupPlan];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GroupDetailGroupDetail]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GroupDetail] DROP CONSTRAINT [FK_GroupDetailGroupDetail];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GroupPlanGroupPlan]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GroupPlan] DROP CONSTRAINT [FK_GroupPlanGroupPlan];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ClientGroupClientGroup]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ClientGroup] DROP CONSTRAINT [FK_ClientGroupClientGroup];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ClientDetailClientDetail]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ClientDetail] DROP CONSTRAINT [FK_ClientDetailClientDetail];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PatientDetailPatientDetail]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientDetail] DROP CONSTRAINT [FK_PatientDetailPatientDetail];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PatientGroupPatientGroup]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PatientGroup] DROP CONSTRAINT [FK_PatientGroupPatientGroup];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -83,14 +112,14 @@ GO
 IF OBJECT_ID(N'[dbo].[Group]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Group];
 GO
-IF OBJECT_ID(N'[dbo].[GroupFact]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[GroupFact];
+IF OBJECT_ID(N'[dbo].[GroupDetail]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GroupDetail];
 GO
 IF OBJECT_ID(N'[dbo].[Patient]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Patient];
 GO
-IF OBJECT_ID(N'[dbo].[PatientFact]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PatientFact];
+IF OBJECT_ID(N'[dbo].[PatientDetail]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PatientDetail];
 GO
 IF OBJECT_ID(N'[dbo].[PatientGroup]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PatientGroup];
@@ -101,8 +130,8 @@ GO
 IF OBJECT_ID(N'[dbo].[Plan]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Plan];
 GO
-IF OBJECT_ID(N'[dbo].[PlanFact]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PlanFact];
+IF OBJECT_ID(N'[dbo].[PlanDetail]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PlanDetail];
 GO
 IF OBJECT_ID(N'[dbo].[Atom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Atom];
@@ -134,6 +163,18 @@ GO
 IF OBJECT_ID(N'[dbo].[AddressType]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AddressType];
 GO
+IF OBJECT_ID(N'[dbo].[Client]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Client];
+GO
+IF OBJECT_ID(N'[dbo].[ClientDetail]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ClientDetail];
+GO
+IF OBJECT_ID(N'[dbo].[ClientGroup]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ClientGroup];
+GO
+IF OBJECT_ID(N'[dbo].[GroupPlan]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GroupPlan];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -141,25 +182,22 @@ GO
 
 -- Creating table 'Group'
 CREATE TABLE [dbo].[Group] (
-    [GroupId] nvarchar(20)  NOT NULL,
+    [GroupInternalId] uniqueidentifier  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
 GO
 
--- Creating table 'GroupFact'
-CREATE TABLE [dbo].[GroupFact] (
-    [RecordId] bigint IDENTITY(1,1) NOT NULL,
+-- Creating table 'GroupDetail'
+CREATE TABLE [dbo].[GroupDetail] (
+    [RecordId] uniqueidentifier  NOT NULL,
     [Name] nvarchar(100)  NOT NULL,
+    [GroupId] nvarchar(max)  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] bigint  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
-    [GroupId] nvarchar(20)  NOT NULL,
-    [PlanId] nvarchar(20)  NOT NULL,
-    [EffectiveDate] datetime  NOT NULL,
-    [ExpirationDate] datetime  NOT NULL,
-    [Plan_PlanId] nvarchar(20)  NOT NULL
+    [GroupInternalId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -171,9 +209,9 @@ CREATE TABLE [dbo].[Patient] (
 );
 GO
 
--- Creating table 'PatientFact'
-CREATE TABLE [dbo].[PatientFact] (
-    [RecordId] bigint IDENTITY(1,1) NOT NULL,
+-- Creating table 'PatientDetail'
+CREATE TABLE [dbo].[PatientDetail] (
+    [RecordId] uniqueidentifier  NOT NULL,
     [FirstName] nvarchar(50)  NOT NULL,
     [MiddleName] nvarchar(50)  NOT NULL,
     [LastName] nvarchar(50)  NOT NULL,
@@ -183,7 +221,7 @@ CREATE TABLE [dbo].[PatientFact] (
     [PatientRelationshipCode] nvarchar(2)  NOT NULL,
     [Gender] char(1)  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] bigint  NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
     [PatientId] bigint  NOT NULL
@@ -192,15 +230,15 @@ GO
 
 -- Creating table 'PatientGroup'
 CREATE TABLE [dbo].[PatientGroup] (
-    [RecordId] bigint IDENTITY(1,1) NOT NULL,
+    [RecordId] uniqueidentifier  NOT NULL,
     [EffectiveDate] datetime  NOT NULL,
     [ExpirationDate] datetime  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] bigint  NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
     [PatientId] bigint  NOT NULL,
-    [GroupId] nvarchar(20)  NOT NULL
+    [GroupInternalId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -239,17 +277,17 @@ GO
 
 -- Creating table 'Plan'
 CREATE TABLE [dbo].[Plan] (
-    [PlanId] nvarchar(20)  NOT NULL,
-    [Name] nvarchar(max)  NOT NULL,
+    [PlanId] uniqueidentifier  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(max)  NOT NULL
 );
 GO
 
--- Creating table 'PlanFact'
-CREATE TABLE [dbo].[PlanFact] (
-    [RecordId] bigint IDENTITY(1,1) NOT NULL,
-    [PlanId] nvarchar(20)  NOT NULL,
+-- Creating table 'PlanDetail'
+CREATE TABLE [dbo].[PlanDetail] (
+    [RecordId] uniqueidentifier  NOT NULL,
+    [PlanId] uniqueidentifier  NOT NULL,
+    [Name] nvarchar(255)  NOT NULL,
     [Retraction] bit  NOT NULL,
     [OriginalFactRecordId] bigint  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
@@ -303,7 +341,7 @@ CREATE TABLE [dbo].[PlanRule] (
     [PlanRecordId] bigint  NOT NULL,
     [RuleId] bigint  NOT NULL,
     [Rule_RuleId] bigint  NOT NULL,
-    [PlanFact_RecordId] bigint  NOT NULL
+    [PlanFact_RecordId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -364,19 +402,67 @@ CREATE TABLE [dbo].[AddressType] (
 );
 GO
 
+-- Creating table 'Client'
+CREATE TABLE [dbo].[Client] (
+    [ClientInternalId] uniqueidentifier  NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
+);
+GO
+
+-- Creating table 'ClientDetail'
+CREATE TABLE [dbo].[ClientDetail] (
+    [RecordId] uniqueidentifier  NOT NULL,
+    [ClientId] nvarchar(20)  NOT NULL,
+    [Name] nvarchar(100)  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(max)  NOT NULL,
+    [ClientInternalId] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'ClientGroup'
+CREATE TABLE [dbo].[ClientGroup] (
+    [RecordId] uniqueidentifier  NOT NULL,
+    [ClientInternalId] uniqueidentifier  NOT NULL,
+    [GroupInternalId] uniqueidentifier  NOT NULL,
+    [EffectiveDate] datetime  NOT NULL,
+    [ExpirationDate] datetime  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
+);
+GO
+
+-- Creating table 'GroupPlan'
+CREATE TABLE [dbo].[GroupPlan] (
+    [RecordId] uniqueidentifier  NOT NULL,
+    [GroupInternalId] uniqueidentifier  NOT NULL,
+    [PlanId] uniqueidentifier  NOT NULL,
+    [EffectiveDate] datetime  NOT NULL,
+    [ExpirationDate] datetime  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
+    [RecordCreateDateTime] datetime  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [GroupId] in table 'Group'
+-- Creating primary key on [GroupInternalId] in table 'Group'
 ALTER TABLE [dbo].[Group]
 ADD CONSTRAINT [PK_Group]
-    PRIMARY KEY CLUSTERED ([GroupId] ASC);
+    PRIMARY KEY CLUSTERED ([GroupInternalId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'GroupFact'
-ALTER TABLE [dbo].[GroupFact]
-ADD CONSTRAINT [PK_GroupFact]
+-- Creating primary key on [RecordId] in table 'GroupDetail'
+ALTER TABLE [dbo].[GroupDetail]
+ADD CONSTRAINT [PK_GroupDetail]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
@@ -386,9 +472,9 @@ ADD CONSTRAINT [PK_Patient]
     PRIMARY KEY CLUSTERED ([PatientId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'PatientFact'
-ALTER TABLE [dbo].[PatientFact]
-ADD CONSTRAINT [PK_PatientFact]
+-- Creating primary key on [RecordId] in table 'PatientDetail'
+ALTER TABLE [dbo].[PatientDetail]
+ADD CONSTRAINT [PK_PatientDetail]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
@@ -410,9 +496,9 @@ ADD CONSTRAINT [PK_Plan]
     PRIMARY KEY CLUSTERED ([PlanId] ASC);
 GO
 
--- Creating primary key on [RecordId] in table 'PlanFact'
-ALTER TABLE [dbo].[PlanFact]
-ADD CONSTRAINT [PK_PlanFact]
+-- Creating primary key on [RecordId] in table 'PlanDetail'
+ALTER TABLE [dbo].[PlanDetail]
+ADD CONSTRAINT [PK_PlanDetail]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
@@ -476,38 +562,62 @@ ADD CONSTRAINT [PK_AddressType]
     PRIMARY KEY CLUSTERED ([AddressTypeCode] ASC);
 GO
 
+-- Creating primary key on [ClientInternalId] in table 'Client'
+ALTER TABLE [dbo].[Client]
+ADD CONSTRAINT [PK_Client]
+    PRIMARY KEY CLUSTERED ([ClientInternalId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'ClientDetail'
+ALTER TABLE [dbo].[ClientDetail]
+ADD CONSTRAINT [PK_ClientDetail]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'ClientGroup'
+ALTER TABLE [dbo].[ClientGroup]
+ADD CONSTRAINT [PK_ClientGroup]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'GroupPlan'
+ALTER TABLE [dbo].[GroupPlan]
+ADD CONSTRAINT [PK_GroupPlan]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [GroupId] in table 'GroupFact'
-ALTER TABLE [dbo].[GroupFact]
+-- Creating foreign key on [GroupInternalId] in table 'GroupDetail'
+ALTER TABLE [dbo].[GroupDetail]
 ADD CONSTRAINT [FK_FKGroupFacts397517]
-    FOREIGN KEY ([GroupId])
+    FOREIGN KEY ([GroupInternalId])
     REFERENCES [dbo].[Group]
-        ([GroupId])
+        ([GroupInternalId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_FKGroupFacts397517'
 CREATE INDEX [IX_FK_FKGroupFacts397517]
-ON [dbo].[GroupFact]
-    ([GroupId]);
+ON [dbo].[GroupDetail]
+    ([GroupInternalId]);
 GO
 
--- Creating foreign key on [GroupId] in table 'PatientGroup'
+-- Creating foreign key on [GroupInternalId] in table 'PatientGroup'
 ALTER TABLE [dbo].[PatientGroup]
 ADD CONSTRAINT [FK_Group_PatientGroup_Rel]
-    FOREIGN KEY ([GroupId])
+    FOREIGN KEY ([GroupInternalId])
     REFERENCES [dbo].[Group]
-        ([GroupId])
+        ([GroupInternalId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Group_PatientGroup_Rel'
 CREATE INDEX [IX_FK_Group_PatientGroup_Rel]
 ON [dbo].[PatientGroup]
-    ([GroupId]);
+    ([GroupInternalId]);
 GO
 
 -- Creating foreign key on [PatientId] in table 'PatientGroup'
@@ -525,8 +635,8 @@ ON [dbo].[PatientGroup]
     ([PatientId]);
 GO
 
--- Creating foreign key on [PatientId] in table 'PatientFact'
-ALTER TABLE [dbo].[PatientFact]
+-- Creating foreign key on [PatientId] in table 'PatientDetail'
+ALTER TABLE [dbo].[PatientDetail]
 ADD CONSTRAINT [FK_Patient_PatientFacts_Rel]
     FOREIGN KEY ([PatientId])
     REFERENCES [dbo].[Patient]
@@ -536,12 +646,12 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Patient_PatientFacts_Rel'
 CREATE INDEX [IX_FK_Patient_PatientFacts_Rel]
-ON [dbo].[PatientFact]
+ON [dbo].[PatientDetail]
     ([PatientId]);
 GO
 
--- Creating foreign key on [PlanId] in table 'PlanFact'
-ALTER TABLE [dbo].[PlanFact]
+-- Creating foreign key on [PlanId] in table 'PlanDetail'
+ALTER TABLE [dbo].[PlanDetail]
 ADD CONSTRAINT [FK_PlanPlanFact]
     FOREIGN KEY ([PlanId])
     REFERENCES [dbo].[Plan]
@@ -551,23 +661,8 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanPlanFact'
 CREATE INDEX [IX_FK_PlanPlanFact]
-ON [dbo].[PlanFact]
+ON [dbo].[PlanDetail]
     ([PlanId]);
-GO
-
--- Creating foreign key on [Plan_PlanId] in table 'GroupFact'
-ALTER TABLE [dbo].[GroupFact]
-ADD CONSTRAINT [FK_PlanGroupFact]
-    FOREIGN KEY ([Plan_PlanId])
-    REFERENCES [dbo].[Plan]
-        ([PlanId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_PlanGroupFact'
-CREATE INDEX [IX_FK_PlanGroupFact]
-ON [dbo].[GroupFact]
-    ([Plan_PlanId]);
 GO
 
 -- Creating foreign key on [Rule_RuleId] in table 'RuleImplication'
@@ -619,7 +714,7 @@ GO
 ALTER TABLE [dbo].[PlanRule]
 ADD CONSTRAINT [FK_PlanFactPlanRules]
     FOREIGN KEY ([PlanFact_RecordId])
-    REFERENCES [dbo].[PlanFact]
+    REFERENCES [dbo].[PlanDetail]
         ([RecordId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
@@ -762,6 +857,171 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_PatientAddressPatientAddress'
 CREATE INDEX [IX_FK_PatientAddressPatientAddress]
 ON [dbo].[PatientAddress]
+    ([OriginalFactRecordId]);
+GO
+
+-- Creating foreign key on [ClientInternalId] in table 'ClientDetail'
+ALTER TABLE [dbo].[ClientDetail]
+ADD CONSTRAINT [FK_ClientClientDetails]
+    FOREIGN KEY ([ClientInternalId])
+    REFERENCES [dbo].[Client]
+        ([ClientInternalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ClientClientDetails'
+CREATE INDEX [IX_FK_ClientClientDetails]
+ON [dbo].[ClientDetail]
+    ([ClientInternalId]);
+GO
+
+-- Creating foreign key on [ClientInternalId] in table 'ClientGroup'
+ALTER TABLE [dbo].[ClientGroup]
+ADD CONSTRAINT [FK_ClientClientGroup]
+    FOREIGN KEY ([ClientInternalId])
+    REFERENCES [dbo].[Client]
+        ([ClientInternalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ClientClientGroup'
+CREATE INDEX [IX_FK_ClientClientGroup]
+ON [dbo].[ClientGroup]
+    ([ClientInternalId]);
+GO
+
+-- Creating foreign key on [GroupInternalId] in table 'ClientGroup'
+ALTER TABLE [dbo].[ClientGroup]
+ADD CONSTRAINT [FK_GroupClientGroup]
+    FOREIGN KEY ([GroupInternalId])
+    REFERENCES [dbo].[Group]
+        ([GroupInternalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GroupClientGroup'
+CREATE INDEX [IX_FK_GroupClientGroup]
+ON [dbo].[ClientGroup]
+    ([GroupInternalId]);
+GO
+
+-- Creating foreign key on [GroupInternalId] in table 'GroupPlan'
+ALTER TABLE [dbo].[GroupPlan]
+ADD CONSTRAINT [FK_GroupGroupPlan]
+    FOREIGN KEY ([GroupInternalId])
+    REFERENCES [dbo].[Group]
+        ([GroupInternalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GroupGroupPlan'
+CREATE INDEX [IX_FK_GroupGroupPlan]
+ON [dbo].[GroupPlan]
+    ([GroupInternalId]);
+GO
+
+-- Creating foreign key on [PlanId] in table 'GroupPlan'
+ALTER TABLE [dbo].[GroupPlan]
+ADD CONSTRAINT [FK_PlanGroupPlan]
+    FOREIGN KEY ([PlanId])
+    REFERENCES [dbo].[Plan]
+        ([PlanId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PlanGroupPlan'
+CREATE INDEX [IX_FK_PlanGroupPlan]
+ON [dbo].[GroupPlan]
+    ([PlanId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'GroupDetail'
+ALTER TABLE [dbo].[GroupDetail]
+ADD CONSTRAINT [FK_GroupDetailGroupDetail]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[GroupDetail]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GroupDetailGroupDetail'
+CREATE INDEX [IX_FK_GroupDetailGroupDetail]
+ON [dbo].[GroupDetail]
+    ([OriginalFactRecordId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'GroupPlan'
+ALTER TABLE [dbo].[GroupPlan]
+ADD CONSTRAINT [FK_GroupPlanGroupPlan]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[GroupPlan]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GroupPlanGroupPlan'
+CREATE INDEX [IX_FK_GroupPlanGroupPlan]
+ON [dbo].[GroupPlan]
+    ([OriginalFactRecordId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'ClientGroup'
+ALTER TABLE [dbo].[ClientGroup]
+ADD CONSTRAINT [FK_ClientGroupClientGroup]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[ClientGroup]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ClientGroupClientGroup'
+CREATE INDEX [IX_FK_ClientGroupClientGroup]
+ON [dbo].[ClientGroup]
+    ([OriginalFactRecordId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'ClientDetail'
+ALTER TABLE [dbo].[ClientDetail]
+ADD CONSTRAINT [FK_ClientDetailClientDetail]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[ClientDetail]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ClientDetailClientDetail'
+CREATE INDEX [IX_FK_ClientDetailClientDetail]
+ON [dbo].[ClientDetail]
+    ([OriginalFactRecordId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'PatientDetail'
+ALTER TABLE [dbo].[PatientDetail]
+ADD CONSTRAINT [FK_PatientDetailPatientDetail]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[PatientDetail]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PatientDetailPatientDetail'
+CREATE INDEX [IX_FK_PatientDetailPatientDetail]
+ON [dbo].[PatientDetail]
+    ([OriginalFactRecordId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'PatientGroup'
+ALTER TABLE [dbo].[PatientGroup]
+ADD CONSTRAINT [FK_PatientGroupPatientGroup]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[PatientGroup]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PatientGroupPatientGroup'
+CREATE INDEX [IX_FK_PatientGroupPatientGroup]
+ON [dbo].[PatientGroup]
     ([OriginalFactRecordId]);
 GO
 

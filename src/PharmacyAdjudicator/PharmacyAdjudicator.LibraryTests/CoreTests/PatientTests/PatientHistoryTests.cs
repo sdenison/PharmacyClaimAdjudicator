@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PharmacyAdjudicator.Library.Core;
 using PharmacyAdjudicator.Library.Core.Patient;
 
-namespace PharmacyAdjudicator.TestLibrary.CoreTests
+namespace PharmacyAdjudicator.TestLibrary.CoreTests.PatientTests
 {
     [TestClass]
     public class PatientHistoryTests

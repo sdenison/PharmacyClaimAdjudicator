@@ -65,10 +65,22 @@
     <Compile Include="AtomGroupItem.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Client.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClientDetail.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClientGroup.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Group.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="GroupFact.cs">
+    <Compile Include="GroupDetail.cs">
+      <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupPlan.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Implication.cs">
@@ -80,7 +92,7 @@
     <Compile Include="PatientAddress.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="PatientFact.cs">
+    <Compile Include="PatientDetail.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="PatientGroup.cs">
@@ -104,10 +116,10 @@
     <Compile Include="Plan.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="PlanFact.cs">
+    <Compile Include="PlanDetail.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="PlanRules.cs">
+    <Compile Include="PlanRule.cs">
       <DependentUpon>PharmacyAdjFromDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

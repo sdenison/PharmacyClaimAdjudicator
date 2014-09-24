@@ -111,7 +111,7 @@
                     <TextBlock Grid.Row="0" Text="SEARCH RESULTS" Style="{StaticResource Heading2}" />
                     <ListBox Grid.Row="1" ItemsSource="{Binding Path=SearchResults}" HorizontalContentAlignment="Stretch">
                         <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}">
+                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                 <Setter Property="cal:Message.Attach"
                                         Value="[Event MouseDoubleClick] = [Action  ShowPatient($dataContext)]"/>
                             </Style>

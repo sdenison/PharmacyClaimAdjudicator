@@ -61,8 +61,11 @@
   <ItemGroup>
     <Compile Include="Core\Address.cs" />
     <Compile Include="Core\AddressList.cs" />
+    <Compile Include="Core\Client\ClientEdit.cs" />
+    <Compile Include="Core\Client\ClientExistsCommand.cs" />
     <Compile Include="Core\Enums\AddressType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Group\GroupEdit.cs" />
     <Compile Include="Core\OnlyUniqueAddressTypesAllowedInAddressList.cs" />
     <Compile Include="Core\Patient\PatientAddress.cs" />
     <Compile Include="Core\Patient\PatientAddressList.cs" />
@@ -110,7 +113,9 @@
     <Compile Include="Core\Pharmacy.cs" />
     <Compile Include="Core\Transaction.cs" />
     <Compile Include="Core\TransactionList.cs" />
+    <Compile Include="DataAlreadyExistsException.cs" />
     <Compile Include="DataNotFoundException.cs" />
+    <Compile Include="DataNotUniqueException.cs" />
     <Compile Include="DbContextManager.cs" />
     <Compile Include="IncomingTransmissionException.cs" />
     <Compile Include="InvalidResponseException.cs" />

@@ -16,16 +16,15 @@ namespace PharmacyAdjudicator.DataAccess
     {
         public Plan()
         {
-            this.PlanFacts = new HashSet<PlanFact>();
-            this.GroupFacts = new HashSet<GroupFact>();
+            this.PlanFacts = new HashSet<PlanDetail>();
+            this.GroupPlan = new HashSet<GroupPlan>();
         }
     
-        public string PlanId { get; set; }
-        public string Name { get; set; }
+        public System.Guid PlanId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     
-        public virtual ICollection<PlanFact> PlanFacts { get; set; }
-        public virtual ICollection<GroupFact> GroupFacts { get; set; }
+        public virtual ICollection<PlanDetail> PlanFacts { get; set; }
+        public virtual ICollection<GroupPlan> GroupPlan { get; set; }
     }
 }

@@ -12,21 +12,24 @@ namespace PharmacyAdjudicator.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Patient
+    public partial class ClientDetail
     {
-        public Patient()
+        public ClientDetail()
         {
-            this.PatientGroups = new HashSet<PatientGroup>();
-            this.PatientFacts = new HashSet<PatientDetail>();
-            this.PatientAddress = new HashSet<PatientAddress>();
+            this.ClientDetail1 = new HashSet<ClientDetail>();
         }
     
-        public long PatientId { get; set; }
+        public System.Guid RecordId { get; set; }
+        public string ClientId { get; set; }
+        public string Name { get; set; }
+        public bool Retraction { get; set; }
+        public Nullable<System.Guid> OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
+        public System.Guid ClientInternalId { get; set; }
     
-        public virtual ICollection<PatientGroup> PatientGroups { get; set; }
-        public virtual ICollection<PatientDetail> PatientFacts { get; set; }
-        public virtual ICollection<PatientAddress> PatientAddress { get; set; }
+        public virtual Client Client { get; set; }
+        public virtual ICollection<ClientDetail> ClientDetail1 { get; set; }
+        public virtual ClientDetail ClientDetail2 { get; set; }
     }
 }

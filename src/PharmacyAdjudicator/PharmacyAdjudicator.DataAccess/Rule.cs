@@ -17,7 +17,7 @@ namespace PharmacyAdjudicator.DataAccess
         public Rule()
         {
             this.RuleImplications = new HashSet<RuleImplication>();
-            this.PlanRules = new HashSet<PlanRules>();
+            this.PlanRules = new HashSet<PlanRule>();
         }
     
         public long RuleId { get; set; }
@@ -25,6 +25,6 @@ namespace PharmacyAdjudicator.DataAccess
         public string DefaultValue { get; set; }
     
         public virtual ICollection<RuleImplication> RuleImplications { get; set; }
-        public virtual ICollection<PlanRules> PlanRules { get; set; }
+        public virtual ICollection<PlanRule> PlanRules { get; set; }
     }
 }

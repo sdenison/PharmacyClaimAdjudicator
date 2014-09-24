@@ -6,24 +6,22 @@
     <edmx:Diagrams>
       <Diagram DiagramId="984f98ab5a984b5086018baad0566953" Name="Diagram1">
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Group" Width="1.5" PointX="0.625" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.GroupFact" Width="1.75" PointX="0.625" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="1.5" PointX="6.375" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientFact" Width="1.5" PointX="11.125" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientGroup" Width="1.5" PointX="3.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.GroupDetail" Width="1.75" PointX="0.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="2" PointX="6.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientDetail" Width="2.25" PointX="10.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientGroup" Width="1.5" PointX="3.625" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.FKGroupFacts397517" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.Group_PatientGroup_Rel" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.Patient_PateintFacts_Rel" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.Patient_PatientFacts_Rel" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.VaDrug" Width="2" PointX="16.625" PointY="0.5" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Plan" Width="2.25" PointX="0.875" PointY="7.625" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PlanFact" Width="2" PointX="4.5" PointY="7.625" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Plan" Width="2.25" PointX="0.5" PointY="8.125" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PlanDetail" Width="2" PointX="4" PointY="8.5" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PlanPlanFact" />
-        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PlanGroupFact" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Atom" Width="1.5" PointX="10.25" PointY="14.125" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AtomGroup" Width="1.5" PointX="6.25" PointY="10.625" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AtomGroupItem" Width="2.875" PointX="9.75" PointY="10.375" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AtomGroupItem" Width="2.875" PointX="8.875" PointY="10.625" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Rule" Width="2" PointX="1.375" PointY="15.625" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PlanRules" Width="1.875" PointX="0.875" PointY="11" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PlanRule" Width="1.875" PointX="0.75" PointY="12.625" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Implication" Width="2.25" PointX="6" PointY="13.375" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.RuleImplication" Width="2.375" PointX="5.375" PointY="16.375" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.RuleRuleImplication" />
@@ -35,13 +33,31 @@
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems1" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupImplication" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomImplication" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Address" Width="1.5" PointX="8.75" PointY="6.5" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientAddress" Width="1.75" PointX="8.5" PointY="2.125" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AddressType" Width="1.5" PointX="11.125" PointY="4.625" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Address" Width="1.5" PointX="16" PointY="8.75" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientAddress" Width="1.75" PointX="10.125" PointY="5.375" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AddressType" Width="1.5" PointX="14.25" PointY="4.625" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AddressTypePatientAddress" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AddressPatientAddress" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientPatientAddress" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientAddressPatientAddress" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Client" Width="2.125" PointX="7.125" PointY="3.5" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.ClientDetail" Width="1.75" PointX="7" PointY="6.375" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.ClientClientDetails" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.ClientGroup" Width="1.75" PointX="4.875" PointY="4.25" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.ClientClientGroup" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.GroupClientGroup" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.GroupPlan" Width="1.75" PointX="2.75" PointY="4.625" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.GroupGroupPlan" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PlanGroupPlan" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.GroupDetailGroupDetail" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.GroupPlanGroupPlan" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.ClientGroupClientGroup" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.ClientDetailClientDetail" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientDetailPatientDetail" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientGroupPatientGroup" />
+      </Diagram>
+      <Diagram DiagramId="899a7adf2cc1475fb3e30bef35df66d7" Name="Diagram2" >
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.VaDrug" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

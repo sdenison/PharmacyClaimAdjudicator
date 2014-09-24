@@ -26,22 +26,26 @@ namespace PharmacyAdjudicator.DataAccess
         }
     
         public DbSet<Group> Group { get; set; }
-        public DbSet<GroupFact> GroupFact { get; set; }
+        public DbSet<GroupDetail> GroupDetail { get; set; }
         public DbSet<Patient> Patient { get; set; }
-        public DbSet<PatientFact> PatientFact { get; set; }
+        public DbSet<PatientDetail> PatientDetail { get; set; }
         public DbSet<PatientGroup> PatientGroup { get; set; }
         public DbSet<VaDrug> VaDrug { get; set; }
         public DbSet<Plan> Plan { get; set; }
-        public DbSet<PlanFact> PlanFact { get; set; }
+        public DbSet<PlanDetail> PlanDetail { get; set; }
         public DbSet<Atom> Atom { get; set; }
         public DbSet<AtomGroup> AtomGroup { get; set; }
         public DbSet<AtomGroupItem> AtomGroupItem { get; set; }
         public DbSet<Rule> Rule { get; set; }
-        public DbSet<PlanRules> PlanRule { get; set; }
+        public DbSet<PlanRule> PlanRule { get; set; }
         public DbSet<Implication> Implication { get; set; }
         public DbSet<RuleImplication> RuleImplication { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<PatientAddress> PatientAddress { get; set; }
         public DbSet<AddressType> AddressType { get; set; }
+        public DbSet<Client> Client { get; set; }
+        public DbSet<ClientDetail> ClientDetail { get; set; }
+        public DbSet<ClientGroup> ClientGroup { get; set; }
+        public DbSet<GroupPlan> GroupPlan { get; set; }
     }
 }

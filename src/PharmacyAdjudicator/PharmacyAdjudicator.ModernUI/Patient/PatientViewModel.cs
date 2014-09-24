@@ -125,12 +125,14 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             }
         }
 
+        /// <summary>
+        /// Closes the view model
+        /// </summary>
+        /// <param name="item"></param>
         public void DeactivateItem(PatientEditViewModel item)
         {
             this.DeactivateItem(item, true);
         }
-
-
 
         /// <summary>
         /// Shows a view model that already exists.
