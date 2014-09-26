@@ -65,16 +65,33 @@ insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardho
 insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
 	values ('366B47B2-A58C-42CA-863F-BDD677762D57', 'Josephina', '', 'Smith', '987654321', '1962-06-15', '04', '3', '2', @FALSE, sysdatetime(), 'SDENISON', null, 62);
 
---set identity_insert dbo.PatientDetail off;
-
 insert into dbo.[group] (groupinternalid, recordcreateddatetime, recordcreateduser)
 	values('E24B42FA-4A53-4949-B695-957E690451FD', sysdatetime(), 'SDENISON');
 
---set identity_insert dbo.PatientGroup on;
 insert into dbo.patientgroup (recordid, effectivedate, expirationdate, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, patientid, groupinternalid)
 	values ('4ACBFE41-CC8E-4F15-B027-98516EFAC728', '2003-01-31', '9999-12-31', @FALSE, null, sysdatetime(), 'SDENISON', 61, 'E24B42FA-4A53-4949-B695-957E690451FD');
---set identity_insert dbo.PatientGroup off;
 
+insert into dbo.groupdetail (recordid, Name, GroupId, Retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, groupinternalid)
+	values ('D02F06FE-30FA-4062-ADB4-CF6BE5633784', 'Very excellent group', 'GROUP1', @FALSE, null, sysdatetime(), 'SDENISON', 'E24B42FA-4A53-4949-B695-957E690451FD');
+
+--Add client ACME with multiple versions of detail record
+insert into client (clientinternalid, recordcreateddatetime, recordcreateduser)
+	values ('EE60CD12-8063-4FBC-9165-0C6F7D81B6EB', '2014-09-24 14:59:04.090', 'Test');
+
+insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
+	values ('EE91E12B-F74D-439B-B85C-3E98DFC4B69E', 'ACME',	'ACME Corporation',	0, NULL, '2014-09-24 14:59:06.033', 'Test', 'EE60CD12-8063-4FBC-9165-0C6F7D81B6EB');
+insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
+	values ('36439C62-8EAD-4F0B-BA21-9429371392DC', 'ACME', 'New ACME Corporation Name', 1, 'EE91E12B-F74D-439B-B85C-3E98DFC4B69E', '2014-09-24 14:59:09.470', 'Test', 'EE60CD12-8063-4FBC-9165-0C6F7D81B6EB');
+insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
+	values ('FA73CA67-1BA8-4277-9B81-28D8C0467641', 'ACME', 'New ACME Corporation Name', 0, NULL, '2014-09-24 14:59:09.470', 'Test', 'EE60CD12-8063-4FBC-9165-0C6F7D81B6EB');
+
+--Add client OB with just one detail record
+insert into client (clientinternalid, recordcreateddatetime, recordcreateduser)
+	values ('874199AF-8839-4984-B4A0-C4DB53D5442A', '2014-09-24 16:59:04.090', 'Test');
+insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
+	values ('0F0F9FB0-067D-4B5C-B807-1173C1DBA959', 'OB', 'Oyster Bar', 0, NULL, '2014-09-24 16:59:09.470', 'Test', '874199AF-8839-4984-B4A0-C4DB53D5442A'); 
+
+--Add address types
 insert into AddressType values ("Physical", "Physical Location");
 insert into AddressType values ("Mailing", "Mailing Address");
 insert into AddressType values ("Billing", "Billing Address");

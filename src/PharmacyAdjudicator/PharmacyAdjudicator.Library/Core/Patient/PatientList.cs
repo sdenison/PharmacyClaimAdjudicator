@@ -153,16 +153,6 @@ namespace PharmacyAdjudicator.Library.Core.Patient
                 AddToWhere(where, "p.retraction = 0");
                 AddToWhere(where, "not exists (select 1 from patientdetail pd2 where pd2.retraction = 1 and pd2.originalfactrecordid = p.recordid)");
                 
-                
-                
-                //p.recordid = (select max(p2.recordid) from patientfact p2 " +
-                //    "where p2.patientid = p.patientid " +
-                //    "and p2.retraction = 0 " +
-                //    "and not exists (select 1 from patientfact p3 " +
-                //        "where p3.patientid = p2.patientid " +
-                //        "and p3.retraction = 1 " +
-                //        "and p3.OriginalFactRecordId = p2.recordid))");
-
                 var results = (ctx.DbContext.Database.SqlQuery<DataAccess.PatientDetail>(select.ToString() + where.ToString(), parameters.ToArray()));
 
                 var rlce = this.RaiseListChangedEvents;

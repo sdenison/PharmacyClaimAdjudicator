@@ -84,12 +84,26 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             get { return Model.PatientId; }
         }
 
+        public void Save()
+        {
+            //Guards the save if there is another patient with the same first name, last name, dob and cardholder combination.
+            if (Model.IsNew)
+            {
+                if (Library.Core.Patient.PatientEdit.Exists(Model.FirstName, Model.LastName, Model.DateOfBirth.Value, Model.CardholderId))
+                {
+                    _dialog.ShowMessage("Another patient already exists with the same name, date of birth and cardholder ID.", "Could not add patient", MessageBoxButton.OK);
+                    return;
+                }
+            }
+            BeginSave();
+        }
+
         /// <summary>
         /// Public constructor
         /// </summary> 
         /// <param name="existingPatient"></param>
         /// <param name="eventAggregator"></param> 
-        private PatientEditViewModel(Library.Core.Patient.PatientEdit existingPatient, IEventAggregator eventAggregator, IDialog dialog)
+        internal PatientEditViewModel(Library.Core.Patient.PatientEdit existingPatient, IEventAggregator eventAggregator, IDialog dialog)
         {
             _eventAggregator = eventAggregator;
             _dialog = dialog;
@@ -114,7 +128,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         {
             var patientModel = await Library.Core.Patient.PatientEdit.GetByPatientIdAsync(patientId);
             return new PatientEditViewModel(patientModel, eventAggregator, dialog);
-        }  
+        }
 
         /// <summary>
         /// Pulls the patient data from the database and re-displays it
@@ -122,6 +136,8 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// <returns></returns>
         public async Task RefreshAsync()
         {
+            if (Model.IsNew)
+                return;
             this.IsBusy = true;
             var currentPatientId = Model.PatientId;
             Model = null;
@@ -135,6 +151,8 @@ namespace PharmacyAdjudicator.ModernUI.Patient
         /// </summary>
         public void Undo()
         {
+            if (Model.IsNew)
+                return;
             Model.CancelEdit();
             Model.BeginEdit();
             //NotifyOfPropertyChange(() => this.PatientAddresses);

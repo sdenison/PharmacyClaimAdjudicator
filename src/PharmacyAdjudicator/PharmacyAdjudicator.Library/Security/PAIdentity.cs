@@ -44,7 +44,7 @@ namespace PharmacyAdjudicator.Library.Security
                 //Faking logins until AspNet.Identity is finished or good identity management system is found.
                 if (username.Equals("sam") || username.Equals("manager") || username.Equals("admin"))
                 {
-                    if (password.Equals("password"))
+                    if (password.Equals("p"))
                     {
                         base.Name = username;
                         base.IsAuthenticated = true;

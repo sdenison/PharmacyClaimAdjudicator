@@ -63,9 +63,16 @@
     <Compile Include="Core\AddressList.cs" />
     <Compile Include="Core\Client\ClientEdit.cs" />
     <Compile Include="Core\Client\ClientExistsCommand.cs" />
+    <Compile Include="Core\Client\ClientInfo.cs" />
+    <Compile Include="Core\Client\ClientInfoList.cs" />
     <Compile Include="Core\Enums\AddressType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Group\ClientAssignment.cs" />
+    <Compile Include="Core\Group\ClientAssignmentList.cs" />
+    <Compile Include="Core\Group\ClientAssignmentsCannotOverlap.cs" />
+    <Compile Include="Core\Group\ExpirationCannotBeLessThanEffectiveDateRule.cs" />
     <Compile Include="Core\Group\GroupEdit.cs" />
+    <Compile Include="Core\Group\GroupExistsCommand.cs" />
     <Compile Include="Core\OnlyUniqueAddressTypesAllowedInAddressList.cs" />
     <Compile Include="Core\Patient\PatientAddress.cs" />
     <Compile Include="Core\Patient\PatientAddressList.cs" />

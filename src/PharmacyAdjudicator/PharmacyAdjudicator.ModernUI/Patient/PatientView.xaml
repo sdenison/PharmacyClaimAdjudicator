@@ -6,7 +6,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="900">
+             d:DesignHeight="900" d:DesignWidth="900">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -33,6 +33,7 @@
                 <ScrollViewer Grid.Row="0" Grid.Column="0">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*"/>
@@ -75,28 +76,29 @@
                             </Style>
                         </Grid.Resources>
 
-                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2"  Text="SEARCH CRITERIA" Style="{StaticResource Heading2}" />
-                        <DockPanel Grid.Row="1" Grid.Column="0">
+                        <Button Margin="5, 0, 0, 0" x:Name="AddPatient" Content="Add Patient" HorizontalAlignment="Left"></Button>
+                        <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  Text="SEARCH CRITERIA" Style="{StaticResource Heading2}" />
+                        <DockPanel Grid.Row="2" Grid.Column="0">
                             <Label Content="First Name" Target="{Binding ElementName=FirstName}" />
                             <TextBox x:Name="PatientFirstName" Text="{Binding Path=PatientSearchCriteria.PatientFirstName, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
                         </DockPanel>
-                        <DockPanel Grid.Row="2" Grid.Column="0">
+                        <DockPanel Grid.Row="3" Grid.Column="0">
                             <Label Content="Last Name" Target="{Binding ElementName=LastName}" />
                             <TextBox x:Name="PatientLastName" Text="{Binding Path=PatientSearchCriteria.PatientLastName, Mode=TwoWay, ValidatesOnDataErrors=True}" Margin="0,0,0,7" MaxHeight="23"/>
                         </DockPanel>
-                        <DockPanel Grid.Row="1" Grid.Column="1">
+                        <DockPanel Grid.Row="2" Grid.Column="1">
                             <Label Content="Cardholder ID" Target="{Binding ElementName=CardholderId}" />
                             <TextBox x:Name="CardholderId" Text="{Binding Path=PatientSearchCriteria.CardholderId, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
                         </DockPanel>
-                        <DockPanel Grid.Column="1" Grid.Row="2">
+                        <DockPanel Grid.Column="1" Grid.Row="3">
                             <Label Content="Group ID" Target="{Binding ElementName=GroupId}" />
                             <TextBox x:Name="GroupId" Text="{Binding Path=PatientSearchCriteria.GroupId, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
                         </DockPanel>
-                        <StackPanel Grid.Row="3" Grid.Column="0" Visibility="{Binding Path=IsFindingPatients, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Grid.Row="4" Grid.Column="0" Visibility="{Binding Path=IsFindingPatients, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock>Searching...</TextBlock>
                             <mui:ModernProgressRing IsActive="{Binding Path=IsFindingPatients}" Width="20" Height="20" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
                         </StackPanel>
-                        <Button Grid.Column="1" Grid.Row="3" x:Name="FindPatients" Content="Search" HorizontalAlignment="Right" Margin="0,1,10,2.333"/>
+                        <Button Grid.Column="1" Grid.Row="4" x:Name="FindPatients" Content="Search" HorizontalAlignment="Right" Margin="0,1,10,2.333"/>
                     </Grid>
                 </ScrollViewer>
             </Border>

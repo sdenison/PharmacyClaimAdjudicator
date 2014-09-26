@@ -149,6 +149,16 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             base.ActivateItem(item);
         }
 
+        public async Task AddPatient()
+        {
+            this.IsOpeningPatientWindow = true;
+            var patient = await Library.Core.Patient.PatientEdit.NewPatientAsync();
+            var patientViewModel = new PatientEditViewModel(patient, _eventAggregator, _dialogManager);
+            ActivateItem(patientViewModel);
+            this.IsOpeningPatientWindow = false;
+        }
+
+
         private bool _isOpeningPatientWindow = false;
         public bool IsOpeningPatientWindow
         {

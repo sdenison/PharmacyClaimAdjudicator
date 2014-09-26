@@ -71,6 +71,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CoreTests\ClientTests\ClientEditTests.cs" />
+    <Compile Include="CoreTests\ClientTests\ClientInfoListTests.cs" />
+    <Compile Include="CoreTests\GroupTests\GroupEditTests.cs" />
     <Compile Include="CoreTests\PatientTests\AddressTests.cs" />
     <Compile Include="CoreTests\RulesTests\AtomGroupTests.cs" />
     <Compile Include="CoreTests\RulesTests\AtomTests.cs" />

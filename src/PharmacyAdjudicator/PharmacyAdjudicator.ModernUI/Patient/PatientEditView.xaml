@@ -39,7 +39,7 @@
         <StackPanel Grid.Row="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <mui:ModernProgressRing IsActive="{Binding Path=IsBusy}" Width="23" Height="23" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
-                <mui:ModernButton x:Name="RefreshAsync" ToolTip="Refresh" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_refresh}" FontSize="20" />
+                <mui:ModernButton x:Name="RefreshAsync" ToolTip="Refresh" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_refresh}" FontSize="20" IsEnabled="{Binding Path=Model.IsNew, Converter={StaticResource booleanInverter}}"/>
                 <mui:ModernButton x:Name="Save" ToolTip="Save" ToolTipService.ShowOnDisabled="True"  HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_save}" IsEnabled="{Binding Path=Model.IsSavable}" FontSize="20" />
                 <mui:ModernButton x:Name="Undo" ToolTip="Undo Changes" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_undo}" IsEnabled="{Binding Path=Model.IsDirty}" FontSize="20" />
             </StackPanel>

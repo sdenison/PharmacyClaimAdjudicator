@@ -16,11 +16,6 @@ namespace PharmacyAdjudicator.Library.Core.Client
             return cmd.Result;
         }
 
-        //private ClientExistsCommand(string clientId)
-        //{
-        //    this.ClientId = clientId;
-        //}
-
         private ClientExistsCommand()
         { /* require use of factory methods */ }
 

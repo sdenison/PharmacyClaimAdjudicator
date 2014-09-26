@@ -10,6 +10,7 @@
                 <ResourceDictionary>
                     <local:AppBootstrapper x:Key="bootstrapper" />
                     <converters:CaseConverter x:Key="CaseConverter"/>
+                    <converters:BooleanInterter x:Key="booleanInverter"/>
                     <svcs:CaliburnContentLoader x:Key="CaliburnContentLoader" />
                 </ResourceDictionary>
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.xaml" />

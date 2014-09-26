@@ -151,7 +151,7 @@ namespace PharmacyAdjudicator.Library.Core.Client
                     throw new DataNotFoundException("ClientId = " + criteria.ClientId);
                 if (patientData.Count > 1)
                     throw new DataNotUniqueException("ClientId = " + criteria.ClientId);
-                PopuldateByRow(patientData[0]);
+                PopulateByRow(patientData[0]);
             }
         }
 
@@ -225,7 +225,7 @@ namespace PharmacyAdjudicator.Library.Core.Client
             return clientData;
         }
 
-        private void PopuldateByRow(DataAccess.ClientDetail clientData)
+        private void PopulateByRow(DataAccess.ClientDetail clientData)
         {
             using (BypassPropertyChecks)
             {

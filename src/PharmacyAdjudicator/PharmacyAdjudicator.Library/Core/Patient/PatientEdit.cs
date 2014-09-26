@@ -3,6 +3,7 @@ using Csla;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PharmacyAdjudicator.Library.Core.Patient
 {
@@ -209,7 +210,13 @@ namespace PharmacyAdjudicator.Library.Core.Patient
         #region Factory Methods
 
 #if !WINDOWS_PHONE
-        public async static System.Threading.Tasks.Task<PatientEdit> GetByPatientIdAsync(long patientId)
+
+        public async static Task<PatientEdit> NewPatientAsync()
+        {
+            return await DataPortal.CreateAsync<PatientEdit>();
+        }
+
+        public async static Task<PatientEdit> GetByPatientIdAsync(long patientId)
         {
             return await DataPortal.FetchAsync<PatientEdit>(new CriteriaByPatientIdEF { PatientId = patientId });
         }
@@ -257,11 +264,9 @@ namespace PharmacyAdjudicator.Library.Core.Patient
             });
         }
 
-        public static bool Exists(long patientId)
+        public static bool Exists(string firstName, string lastName, DateTime birthDate, string cardholderId)
         {
-            var cmd = new PatientExistsCommand(patientId);
-            cmd = DataPortal.Execute<PatientExistsCommand>(cmd);
-            return cmd.PatientExists;
+            return PatientExistsCommand.Execute(firstName, lastName, birthDate, cardholderId);
         }
 
         private PatientEdit()
@@ -415,7 +420,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
                                p.PatientId == criteria.PatientId
                                && p.Retraction == false
                                && p.RecordCreatedDateTime < criteria.RecordCompareDatetime
-                               && !ctx.DbContext.PatientDetail.Any(p2 => p2.PatientId == criteria.PatientId && p2.Retraction == true && p2.OriginalFactRecordId == p.RecordId && p2.RecordCreatedDateTime < criteria.RecordCompareDatetime)
+                               && !ctx.DbContext.PatientDetail.Any(p2 => p2.Retraction == true && p2.OriginalFactRecordId == p.RecordId && p2.RecordCreatedDateTime < criteria.RecordCompareDatetime)
                                select p).FirstOrDefault();
                 if (patientData != null)
                     using (BypassPropertyChecks)
@@ -530,14 +535,17 @@ namespace PharmacyAdjudicator.Library.Core.Patient
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                //Adds an entry in the database retracting the current data.
-                RetractFact();
-                //Adds an entry in the database asserting the current data.
-                //Need to return this because rowid will be changed when savechanges is called
-                var newPatientData = AssertNewFact();
+                if (this.IsSelfDirty)
+                {
+                    //Adds an entry in the database retracting the current data.
+                    RetractFact();
+                    //Adds an entry in the database asserting the current data.
+                    //Need to return this because rowid will be changed when savechanges is called
+                    var newPatientData = AssertNewFact();
+                    PopulateByRow(newPatientData);
+                }
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
-                PopulateByRow(newPatientData);
             }
         }
 
