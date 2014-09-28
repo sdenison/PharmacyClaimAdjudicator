@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="PharmacyAdjudicator.ModernUI.Group.GroupEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <Grid Style="{StaticResource ContentRoot}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!-- Shows the tab at the top of the screen -->
+                <ListBox ItemsSource="{Binding EditStates}" SelectedItem="{Binding State}" Style="{StaticResource ModernStateTab}"/>
+                <!-- Displays the child views -->
+                <mui:TransitioningContentControl Grid.Row="1" 
+                                             cal:View.Context="{Binding State, Mode=TwoWay}" 
+                                             cal:View.Model="{Binding}"/>
+            </Grid>
+        </Grid>
+
+        <StackPanel Grid.Row="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <mui:ModernProgressRing IsActive="{Binding Path=IsBusy}" Width="23" Height="23" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
+                <mui:ModernButton x:Name="RefreshAsync" ToolTip="Refresh" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_refresh}" FontSize="20" IsEnabled="{Binding Path=Model.IsNew, Converter={StaticResource booleanInverter}}"/>
+                <mui:ModernButton x:Name="Save" ToolTip="Save" ToolTipService.ShowOnDisabled="True"  HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_save}" IsEnabled="{Binding Path=Model.IsSavable}" FontSize="20" />
+                <mui:ModernButton x:Name="Undo" ToolTip="Undo Changes" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Left" EllipseDiameter="25" IconData="{StaticResource appbar_undo}" IsEnabled="{Binding Path=Model.IsDirty}" FontSize="20" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

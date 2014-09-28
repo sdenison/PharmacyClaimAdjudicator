@@ -102,6 +102,21 @@
     <Compile Include="EventMessages\PatientEditMessage.cs" />
     <Compile Include="EventMessages\PatientSearchResultsMessage.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Group\GroupEditView.xaml.cs">
+      <DependentUpon>GroupEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Group\GroupEditViewModel.cs" />
+    <Compile Include="Group\GroupEditViewModelClosingMessage.cs" />
+    <Compile Include="Group\GroupEdit\ClientAssignments.xaml.cs">
+      <DependentUpon>ClientAssignments.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Group\GroupEdit\Details.xaml.cs">
+      <DependentUpon>Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Group\GroupWorkspaceView.xaml.cs">
+      <DependentUpon>GroupWorkspaceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Group\GroupWorkspaceViewModel.cs" />
     <Compile Include="Helpers\INavigation.cs" />
     <Compile Include="Interface\IDialog.cs" />
     <Compile Include="Interface\IHaveEditStates.cs" />
@@ -117,7 +132,6 @@
     </Compile>
     <Compile Include="Login\LoginViewModel.cs" />
     <Compile Include="Patient\PatientEditViewModel.cs" />
-    <Compile Include="Patient\PatientEditState.cs" />
     <Compile Include="Patient\PatientEditViewModelClosingMessage.cs" />
     <Compile Include="Patient\PatientViewModel.cs" />
     <Compile Include="Services\CaliburnContentLoader.cs" />
@@ -141,6 +155,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Assets\ModernStateTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Group\GroupEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Group\GroupEdit\ClientAssignments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Group\GroupEdit\Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Group\GroupWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,9 +253,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Group\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

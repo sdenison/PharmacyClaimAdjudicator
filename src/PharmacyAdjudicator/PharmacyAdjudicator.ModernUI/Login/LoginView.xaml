@@ -7,7 +7,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:myx="clr-namespace:PharmacyAdjudicator.ModernUI.Xaml"
              mc:Ignorable="d" d:DesignWidth="300"
-             x:Name="LoginViewInstance" Height="199">
+             x:Name="LoginViewInstance" Height="200" Width="322">
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
@@ -42,10 +42,9 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Foreground="Red" x:Name="LoginMessage" Margin="50,10"></TextBlock>
-                        <StackPanel>
-                            <Button x:Name="LoginUser" IsDefault="True" Content="Login" Margin="100,0,0,0" HorizontalAlignment="Left">
-                            </Button>
-                            <Button x:Name="Cancel" Content="Cancel" Margin="5,0,0,0" HorizontalAlignment="Left" />
+                        <StackPanel VerticalAlignment="Center">
+                            <Button x:Name="LoginUser" IsDefault="True" Content="Login" Margin="100,0,0,0" HorizontalAlignment="Center"/>
+                            <Button x:Name="Cancel" Content="Cancel" Margin="5,0,0,0" HorizontalAlignment="Center" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

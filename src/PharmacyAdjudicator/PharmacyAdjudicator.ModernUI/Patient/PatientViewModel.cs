@@ -15,19 +15,17 @@ using PharmacyAdjudicator.Library.Core.Patient;
 namespace PharmacyAdjudicator.ModernUI.Patient
 {
     [Export]
-    public class PatientViewModel : Conductor<PatientEditViewModel>.Collection.AllActive, IHandle<PatientEditViewModelClosingMessage> //Screen
+    public class PatientViewModel : Conductor<PatientEditViewModel>.Collection.AllActive, IHandle<PatientEditViewModelClosingMessage>
     {
         private IDialog _dialogManager;
         private readonly IWindowManager _windowManager;
-        private readonly IHaveWindowsForType _windowContainer;
         private IEventAggregator _eventAggregator;
 
         [ImportingConstructor]
-        public PatientViewModel(IDialog dialogManager, IWindowManager windowManager, IHaveWindowsForType windowContainer, IEventAggregator eventAggregator)
+        public PatientViewModel(IDialog dialogManager, IWindowManager windowManager, IEventAggregator eventAggregator)
         {
             _dialogManager = dialogManager;
             _windowManager = windowManager;
-            _windowContainer = windowContainer;
             _eventAggregator = eventAggregator;
             _eventAggregator.Subscribe(this);
         }

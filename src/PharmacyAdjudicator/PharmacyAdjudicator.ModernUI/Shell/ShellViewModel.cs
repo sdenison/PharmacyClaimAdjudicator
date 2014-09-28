@@ -8,6 +8,7 @@ using FirstFloor.ModernUI.Windows.Controls;
 using System.Windows.Input;
 using FirstFloor.ModernUI.Windows.Navigation;
 using PharmacyAdjudicator.Library.Core.Patient;
+using PharmacyAdjudicator.Library.Core.Group;
 
 namespace PharmacyAdjudicator.ModernUI.Shell
 {
@@ -97,10 +98,45 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             UpdateMenu();
         }
 
+        private void UpdatePatientMenu()
+        {
+            if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(PatientEdit)))
+            {
+                if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
+                    this.MenuLinkGroups.Add(PatientLinkGroup());
+            }
+            else
+            {
+                if (MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
+                    this.MenuLinkGroups.Remove(MenuLinkGroups.FirstOrDefault(l => l.DisplayName.Equals("Patient")));
+            }
+        }
+
         private LinkGroup PatientLinkGroup()
         {
             var patientLinkGroup = new LinkGroup { DisplayName = "Patient" };
             patientLinkGroup.Links.Add(new Link { DisplayName = "Patient Manager", Source = new Uri("/Patient/PatientView.xaml", UriKind.Relative) });
+            return patientLinkGroup;
+        }
+
+        private void UpdateGroupMenu()
+        {
+            if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(GroupEdit)))
+            {
+                if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Group")))
+                    this.MenuLinkGroups.Add(GroupLinkGroup());
+            }
+            else
+            {
+                if (MenuLinkGroups.Any(l => l.DisplayName.Equals("Group")))
+                    this.MenuLinkGroups.Remove(MenuLinkGroups.FirstOrDefault(l => l.DisplayName.Equals("Group")));
+            }
+        }
+
+        private LinkGroup GroupLinkGroup()
+        {
+            var patientLinkGroup = new LinkGroup { DisplayName = "Group" };
+            patientLinkGroup.Links.Add(new Link { DisplayName = "Group Manager", Source = new Uri("/Group/GroupWorkspaceView.xaml", UriKind.Relative) });
             return patientLinkGroup;
         }
 
@@ -117,16 +153,28 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             }
             else
             {
-                if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(PatientEdit)))
-                {
-                    if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
-                        this.MenuLinkGroups.Add(PatientLinkGroup());
-                }
-                else
-                {
-                    if (MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
-                        this.MenuLinkGroups.Remove(MenuLinkGroups.FirstOrDefault(l => l.DisplayName.Equals("Patient")));
-                }
+                UpdatePatientMenu();
+                UpdateGroupMenu();
+                //if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(PatientEdit)))
+                //{
+                //    if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
+                //        this.MenuLinkGroups.Add(PatientLinkGroup());
+                //}
+                //else
+                //{
+                //    if (MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
+                //        this.MenuLinkGroups.Remove(MenuLinkGroups.FirstOrDefault(l => l.DisplayName.Equals("Patient")));
+                //}
+                //if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(GroupEdit)))
+                //{
+                //    if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Group")))
+                //        this.MenuLinkGroups.Add(GroupLinkGroup());
+                //}
+                //else
+                //{
+                //    if (MenuLinkGroups.Any(l => l.DisplayName.Equals("Group")))
+                //        this.MenuLinkGroups.Remove(MenuLinkGroups.FirstOrDefault(l => l.DisplayName.Equals("Group")));
+                //}
             }
 
             if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Settings")))
@@ -156,7 +204,6 @@ namespace PharmacyAdjudicator.ModernUI.Shell
 
             if ((!TitleLinks.Any(t => t.DisplayName.Equals("Login")) && (!TitleLinks.Any(t => t.DisplayName.StartsWith("Hello")))))
             {
-                //var loginTitleLink = new Link { DisplayName = "Login", Source = new Uri("/Login/LoginView.xaml", UriKind.Relative) };
                 var loginTitleLink = new Link { DisplayName = "Login", Source = new Uri("cmd://login", UriKind.Absolute) };
                 this._titleLinks.Add(loginTitleLink);
             }

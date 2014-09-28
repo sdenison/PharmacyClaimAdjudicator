@@ -22,7 +22,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
     /// <summary>
     /// This ViewModel takes care of saving, refreshing and undoing patient data.
     /// </summary>
-    public class PatientEditViewModel : ScreenWithModel<Library.Core.Patient.PatientEdit>, IHaveEditStates
+    public class PatientEditViewModel : ScreenWithModel<Library.Core.Patient.PatientEdit>
     {
         /// <summary>
         /// Allows us to publish events.
@@ -214,5 +214,11 @@ namespace PharmacyAdjudicator.ModernUI.Patient
                 this.SelectedPatientAddress = addressToAdd;
             }
         }
+    }
+
+    public enum PatientEditState
+    {
+        Addresses,
+        Details
     }
 }

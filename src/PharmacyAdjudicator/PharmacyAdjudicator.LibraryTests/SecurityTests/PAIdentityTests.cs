@@ -18,7 +18,7 @@ namespace PharmacyAdjudicator.TestLibrary.SecurityTests
         [TestMethod]
         public void Login_will_return_Identity_with_valid_username_and_password()
         {
-            PAIdentity identity = PAIdentity.GetPAIdentityAsync("sam", "password").Result;
+            PAIdentity identity = PAIdentity.GetPAIdentityAsync("sam", "p").Result;
             Assert.AreEqual(identity.Name, "sam");
             Assert.IsTrue(identity.IsAuthenticated);
         }

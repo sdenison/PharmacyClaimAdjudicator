@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Csla;
 
 namespace PharmacyAdjudicator.Library.Core.Client
@@ -18,6 +19,11 @@ namespace PharmacyAdjudicator.Library.Core.Client
         #endregion
 
         #region Factory Methods
+
+        public static async Task<ClientInfoList> GetAllClientsAsync()
+        {
+            return await DataPortal.FetchAsync<ClientInfoList>();
+        }
 
         public static ClientInfoList GetAllClients()
         {

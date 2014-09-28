@@ -9,9 +9,9 @@
              d:DesignHeight="900" d:DesignWidth="900">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="62*"/>
             <ColumnDefinition Width="3"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="38*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.Resources>
@@ -21,23 +21,27 @@
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
             </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Height" Value="25"></Setter>
+                <Setter Property="MinWidth" Value="75"></Setter>
+            </Style>
         </Grid.Resources>
 
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="9*"/>
+                <RowDefinition Height="38*"/>
                 <RowDefinition Height="3"/>
-                <RowDefinition Height="20*"/>
+                <RowDefinition Height="62*"/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Grid.Column="0">
                 <ScrollViewer Grid.Row="0" Grid.Column="0">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="2*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -72,11 +76,12 @@
                                 <Setter Property="Padding" Value="0,3" />
                             </Style>
                             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="Height" Value="30"></Setter>
+                                <Setter Property="Height" Value="25"></Setter>
+                                <Setter Property="Width" Value="75"></Setter>
                             </Style>
                         </Grid.Resources>
 
-                        <Button Margin="5, 0, 0, 0" x:Name="AddPatient" Content="Add Patient" HorizontalAlignment="Left"></Button>
+                        <Button Margin="5, 0, 0, 0" x:Name="AddPatient" Width="100" Content="Add Patient" HorizontalAlignment="Left"></Button>
                         <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  Text="SEARCH CRITERIA" Style="{StaticResource Heading2}" />
                         <DockPanel Grid.Row="2" Grid.Column="0">
                             <Label Content="First Name" Target="{Binding ElementName=FirstName}" />
@@ -138,9 +143,10 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding FullName, Converter={StaticResource CaseConverter}}" Style="{StaticResource Heading1}" Margin="0,0,0,8"/>
-                                    <DockPanel Grid.Column="1">
-                                        <Button HorizontalAlignment="Right" Height="30" Margin="5" Content ="Show Patient" cal:Message.Attach="ShowPatient($dataContext)"/>
-                                    </DockPanel>
+                                    <Button Grid.Column="1" Margin="5" Content ="Show Patient" cal:Message.Attach="ShowPatient($dataContext)"/>
+                                    <!--<DockPanel Grid.Column="1">
+                                        <Button HorizontalAlignment="Right" Margin="5" Content ="Show Patient" cal:Message.Attach="ShowPatient($dataContext)"/>
+                                    </DockPanel>-->
                                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                                         <Label Content="dob "></Label>
                                         <TextBlock Text="{Binding DateOfBirth, StringFormat=\{0:MM/dd/yyyy\}}" FontWeight="Bold"/>
@@ -187,7 +193,7 @@
                             <Grid Margin="20,0,10,10">
                                 <Grid.Resources>
                                     <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-                                        <Setter Property="Width" Value="120" />
+                                        <Setter Property="Width" Value="100" />
                                         <Setter Property="VerticalAlignment" Value="Center" />
                                     </Style>
                                 </Grid.Resources>
@@ -201,11 +207,11 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Model.FullName, Converter={StaticResource CaseConverter}}" Style="{StaticResource Heading1}" Margin="0,0,0,8"/>
+                                <TextBlock Text="{Binding Model.FullName, Converter={StaticResource CaseConverter}}" Style="{StaticResource Heading2}" Margin="0,0,0,8"/>
                                 <DockPanel Grid.Column="1">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button Height="30" Margin="5" Content ="Show Patient" cal:Message.Attach="ShowPatientViewModel($dataContext)"/>
-                                        <Button Height="30" Margin="5" Content ="Close Window" cal:Message.Attach="DeactivateItem($dataContext)"/>
+                                    <StackPanel Orientation="Vertical"> <!--HorizontalAlignment="Right">-->
+                                        <Button Height="25" Margin="0,5,0,0" Content ="Show Patient" cal:Message.Attach="ShowPatientViewModel($dataContext)"/>
+                                        <Button Height="25" Margin="0,5,0,0" Content ="Close Window" cal:Message.Attach="DeactivateItem($dataContext)"/>
                                     </StackPanel>
                                 </DockPanel>
                                 <StackPanel Orientation="Horizontal" Grid.Row="1">

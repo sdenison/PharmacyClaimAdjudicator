@@ -20,7 +20,7 @@ namespace PharmacyAdjudicator.TestLibrary.SecurityTests
         [TestMethod]
         public void Login_can_succeed()
         {
-            PharmacyAdjudicator.Library.Security.PAPrincipal.Login("sam", "password");
+            PharmacyAdjudicator.Library.Security.PAPrincipal.Login("sam", "p");
             var loggedInUser = Csla.ApplicationContext.User;
             Assert.AreEqual(loggedInUser.Identity.Name, "sam");
             Assert.IsTrue(loggedInUser.Identity.IsAuthenticated);

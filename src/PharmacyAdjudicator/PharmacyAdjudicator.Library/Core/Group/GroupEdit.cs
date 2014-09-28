@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Csla;
 
 namespace PharmacyAdjudicator.Library.Core.Group
@@ -106,15 +107,35 @@ namespace PharmacyAdjudicator.Library.Core.Group
 
         #region Factory Methods
 
+        public static GroupEdit GetByClientIdGroupId(string clientId, string groupId)
+        {
+            return DataPortal.Fetch<GroupEdit>(new CriteriaByClientIdGroupId() { ClientId = clientId, GroupId = groupId }); 
+        } 
+
+        public static async Task<GroupEdit> GetByClientIdGroupIdAsync(string clientId, string groupId)
+        {
+            return await DataPortal.FetchAsync<GroupEdit>(new CriteriaByClientIdGroupId() { ClientId = clientId, GroupId = groupId });
+        }
+
         public static GroupEdit NewGroup(string clientId, string groupId)
         {
             return DataPortal.Create<GroupEdit>(new CriteriaByClientIdGroupId() { ClientId = clientId, GroupId = groupId });
         }
 
-        public static GroupEdit GetByClientIdGroupId(string clientId, string groupId)
+        //public static GroupEdit NewGroup()
+        //{
+        //    return DataPortal.Create<GroupEdit>();
+        //}
+
+        public static async Task<GroupEdit> NewGroupAsync(string clientId, string groupId)
         {
-            return DataPortal.Fetch<GroupEdit>(new CriteriaByClientIdGroupId() { ClientId = clientId, GroupId = groupId });
+            return await DataPortal.CreateAsync<GroupEdit>(new CriteriaByClientIdGroupId() { ClientId = clientId, GroupId = groupId });
         }
+
+        //public static async Task<GroupEdit> NewGroupAsync()
+        //{
+        //    return await DataPortal.CreateAsync<GroupEdit>();
+        //}
 
         //public static void DeleteBy(int id)
         //{
@@ -158,6 +179,16 @@ namespace PharmacyAdjudicator.Library.Core.Group
             this.GroupInternalId = Guid.NewGuid();
             base.DataPortal_Create();
         }
+
+        //[RunLocal]
+        //protected void DataPortal_Create(CriteriaByClientIdGroupId criteria)
+        //{
+        //    //Make sure the client exists
+        //    this.ClientId = criteria.ClientId;
+        //    this.GroupId = criteria.GroupId;
+        //    this.GroupInternalId = Guid.NewGuid();
+        //    base.DataPortal_Create();
+        //}
 
         private void DataPortal_Fetch(CriteriaByClientIdGroupId criteria)
         {
@@ -217,9 +248,12 @@ namespace PharmacyAdjudicator.Library.Core.Group
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                RetractFact();
-                this.RecordId = Guid.NewGuid();
-                AssertNewFact();
+                if (this.IsSelfDirty)
+                {
+                    RetractFact();
+                    this.RecordId = Guid.NewGuid();
+                    AssertNewFact();
+                }
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
             }
