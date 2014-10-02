@@ -147,6 +147,14 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             base.ActivateItem(item);
         }
 
+        public bool CanAddPatient
+        {
+            get
+            {
+                return (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.CreateObject, typeof(Library.Core.Patient.PatientEdit)));
+            }
+        }
+
         public async Task AddPatient()
         {
             this.IsOpeningPatientWindow = true;

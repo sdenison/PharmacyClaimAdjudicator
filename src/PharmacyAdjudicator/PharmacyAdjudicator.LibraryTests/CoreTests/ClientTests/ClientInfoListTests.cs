@@ -29,8 +29,12 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.ClientTests
         [TestMethod]
         public void Client_list_should_exist()
         {
+            var stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch.Start();
             var clients = ClientInfoList.GetAllClients();
+            stopWatch.Stop();
             Assert.IsTrue(clients.Count > 0);
+            var x = stopWatch.ElapsedMilliseconds;
         }
     }
 }

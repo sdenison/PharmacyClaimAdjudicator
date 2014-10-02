@@ -14,6 +14,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
             if (currentLastItem.ExpirationDate.Equals(new DateTime(9999, 12, 31)))
                 throw new Exception("Cannot add ClientAssignment to Group when current expiration date is set to default.");
             var newEffectiveDate = currentLastItem.ExpirationDate.AddDays(1);
+            //var defaultClientId = currentLastItem.Client.ClientId;
             var defaultClientId = currentLastItem.ClientId;
             var newAssignment = ClientAssignment.NewAssignment(defaultClientId, newEffectiveDate, new DateTime(9999, 12, 31));
             Add(newAssignment);

@@ -12,7 +12,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
         #region Business Methods
 
         public static readonly PropertyInfo<string> NameProperty = RegisterProperty<string>(c => c.Name);
-        [Required]
+        //[Required]
         public string Name
         {
             get { return GetProperty(NameProperty); }
@@ -20,11 +20,11 @@ namespace PharmacyAdjudicator.Library.Core.Group
         }
 
         public static readonly PropertyInfo<string> GroupIdProperty = RegisterProperty<string>(c => c.GroupId);
-        [Required]
+        //[Required]
         public string GroupId
         {
             get { return GetProperty(GroupIdProperty); }
-            private set { SetProperty(GroupIdProperty, value); }
+            set { SetProperty(GroupIdProperty, value); }
         }
 
 
@@ -81,11 +81,15 @@ namespace PharmacyAdjudicator.Library.Core.Group
         protected override void AddBusinessRules()
         {
             // TODO: add validation rules
-            base.AddBusinessRules();
+            //base.AddBusinessRules();
 
             //BusinessRules.AddRule(new Rule(IdProperty));
             //BusinessRules.AddRule(new OnlyUniqueAddressTypesAllowedInAddressList(PatientAddressesProperty));
+            BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(NameProperty, "Name is required."));
+            BusinessRules.AddRule(new Csla.Rules.CommonRules.MinLength(NameProperty, 5, "Must be at least five characters long."));
+            BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(GroupIdProperty, "Group ID is requried."));
             BusinessRules.AddRule(new ClientAssignmentsCannotOverlap(ClientAssignmentsProperty));
+            base.AddBusinessRules();
         }
 
         private static void AddObjectAuthorizationRules()
@@ -177,6 +181,18 @@ namespace PharmacyAdjudicator.Library.Core.Group
             this.ClientId = criteria.ClientId;
             this.GroupId = criteria.GroupId;
             this.GroupInternalId = Guid.NewGuid();
+
+
+
+
+            //Assigns a client to the Group with default effective and expiration dates
+            var clientAssignments = this.ClientAssignments;
+            clientAssignments.Add(ClientAssignment.NewAssignment(this.ClientId, DateTime.Now, new DateTime(9999, 12, 31)));
+
+
+
+
+
             base.DataPortal_Create();
         }
 
@@ -235,9 +251,9 @@ namespace PharmacyAdjudicator.Library.Core.Group
                 //Creates record in GroupDetail
                 AssertNewFact();
 
-                //Assigns a client to the Group with default effective and expiration dates
-                var clientAssignments = this.ClientAssignments;
-                clientAssignments.Add(ClientAssignment.NewAssignment(this.ClientId, DateTime.Now, new DateTime(9999, 12, 31)));
+                ////Assigns a client to the Group with default effective and expiration dates
+                //var clientAssignments = this.ClientAssignments;
+                //clientAssignments.Add(ClientAssignment.NewAssignment(this.ClientId, DateTime.Now, new DateTime(9999, 12, 31)));
 
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();

@@ -41,7 +41,10 @@
                         <!-- ="{Binding LastName, Mode=TwoWay, ValidatesOnDataErrors=True}"/> -->
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Foreground="Red" x:Name="LoginMessage" Margin="50,10"></TextBlock>
+                        <StackPanel Orientation="Horizontal"> 
+                            <TextBlock Foreground="Red" x:Name="LoginMessage" Margin="50,10"></TextBlock>
+                            <mui:ModernProgressRing HorizontalAlignment="Center" IsActive="{Binding Path=IsBusy}" Width="20" Height="20" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
+                        </StackPanel>
                         <StackPanel VerticalAlignment="Center">
                             <Button x:Name="LoginUser" IsDefault="True" Content="Login" Margin="100,0,0,0" HorizontalAlignment="Center"/>
                             <Button x:Name="Cancel" Content="Cancel" Margin="5,0,0,0" HorizontalAlignment="Center" />

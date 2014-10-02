@@ -68,7 +68,7 @@
                 <StackPanel>
                     <Label Content="Client"/>
                     <!--<ComboBox x:Name="Clients" SelectedItem="{Binding SelectedClient}"></ComboBox>-->
-                    <ComboBox x:Name="Clients" Text="-- Select Client --" IsEditable="True" DisplayMemberPath="Name"></ComboBox>
+                    <ComboBox x:Name="Clients" SelectedItem="{Binding SelectedClientId}" Text="-- Select Client --" IsEditable="True"></ComboBox>
                 </StackPanel>
                 <StackPanel Grid.Row="1">
                     <Button x:Name="AddGroup" Content="Add Group"></Button>

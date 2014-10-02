@@ -81,7 +81,7 @@
                             </Style>
                         </Grid.Resources>
 
-                        <Button Margin="5, 0, 0, 0" x:Name="AddPatient" Width="100" Content="Add Patient" HorizontalAlignment="Left"></Button>
+                        <Button Margin="5, 0, 0, 0" x:Name="AddPatient" Width="100" Content="Add Patient" HorizontalAlignment="Left" Visibility="{Binding CanAddPatient, Converter={StaticResource BooleanToVisibilityConverter}}"></Button>
                         <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  Text="SEARCH CRITERIA" Style="{StaticResource Heading2}" />
                         <DockPanel Grid.Row="2" Grid.Column="0">
                             <Label Content="First Name" Target="{Binding ElementName=FirstName}" />

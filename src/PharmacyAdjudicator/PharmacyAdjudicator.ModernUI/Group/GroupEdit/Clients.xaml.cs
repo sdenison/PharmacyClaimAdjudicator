@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PharmacyAdjudicator.ModernUI.Group.GroupEdit
 {
     /// <summary>
-    /// Interaction logic for ClientAssignments.xaml
+    /// Interaction logic for Clients.xaml
     /// </summary>
-    public partial class ClientAssignments : UserControl
+    public partial class Clients : UserControl
     {
-        public ClientAssignments()
+        public Clients()
         {
             InitializeComponent();
         }

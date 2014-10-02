@@ -28,6 +28,14 @@
             </Grid>
         </Grid>
 
+        <!-- Display any broken rules -->
+        <ListBox Grid.Row="1" ItemsSource="{Binding Path=Model.BrokenRulesCollection}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Description}" Foreground="Red"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <StackPanel Grid.Row="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <mui:ModernProgressRing IsActive="{Binding Path=IsBusy}" Width="23" Height="23" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />

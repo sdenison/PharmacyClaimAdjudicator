@@ -107,8 +107,8 @@
     </Compile>
     <Compile Include="Group\GroupEditViewModel.cs" />
     <Compile Include="Group\GroupEditViewModelClosingMessage.cs" />
-    <Compile Include="Group\GroupEdit\ClientAssignments.xaml.cs">
-      <DependentUpon>ClientAssignments.xaml</DependentUpon>
+    <Compile Include="Group\GroupEdit\Clients.xaml.cs">
+      <DependentUpon>Clients.xaml</DependentUpon>
     </Compile>
     <Compile Include="Group\GroupEdit\Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
@@ -162,9 +162,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Group\GroupEdit\ClientAssignments.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Group\GroupEdit\Clients.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Group\GroupEdit\Details.xaml">
       <SubType>Designer</SubType>

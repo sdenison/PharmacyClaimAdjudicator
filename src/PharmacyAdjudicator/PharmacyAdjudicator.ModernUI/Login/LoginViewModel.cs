@@ -61,9 +61,14 @@ namespace PharmacyAdjudicator.ModernUI.Login
         
         public async void LoginUser()
         {
+            this.LoginMessage = "";
+            this.IsBusy = true;
             await PharmacyAdjudicator.Library.Security.PAPrincipal.LoginAsync(Username, Password);
             if (Csla.ApplicationContext.User.Identity.IsAuthenticated)
             {
+                //Do something to initialize database connections.
+                var client = await Library.Core.Client.ClientInfoList.GetAllClientsAsync();
+                this.IsBusy = false;
                 _eventAggregator.PublishOnCurrentThread(new EventMessages.LoginChangedMessage("Hello, " + Csla.ApplicationContext.User.Identity.Name));
                 TryClose();
             }
@@ -72,6 +77,7 @@ namespace PharmacyAdjudicator.ModernUI.Login
                 this.LoginMessage = "Could not log in.  Bad username/password combination.";
                 this.NotifyOfPropertyChange("LoginMessage");
                 _eventAggregator.PublishOnCurrentThread(new EventMessages.LoginChangedMessage("Login"));
+                this.IsBusy = false;
             }
         }
 
@@ -84,6 +90,13 @@ namespace PharmacyAdjudicator.ModernUI.Login
         {
             PharmacyAdjudicator.Library.Security.PAPrincipal.Logout();
             _eventAggregator.PublishOnCurrentThread(new EventMessages.LoginChangedMessage("Login"));
+        }
+
+        private bool _isBusy = false;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { _isBusy = value; NotifyOfPropertyChange(() => IsBusy); }
         }
     }
 }

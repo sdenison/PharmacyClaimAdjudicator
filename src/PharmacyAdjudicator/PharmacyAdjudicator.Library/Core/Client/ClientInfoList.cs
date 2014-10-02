@@ -9,6 +9,8 @@ namespace PharmacyAdjudicator.Library.Core.Client
     [Serializable]
     public class ClientInfoList : ReadOnlyListBase<ClientInfoList, ClientInfo>
     {
+        private static ClientInfoList _allClientsCache = null;
+
         #region Authorization Rules
 
         private static void AddObjectAuthorizationRules()
@@ -22,12 +24,21 @@ namespace PharmacyAdjudicator.Library.Core.Client
 
         public static async Task<ClientInfoList> GetAllClientsAsync()
         {
-            return await DataPortal.FetchAsync<ClientInfoList>();
+            if (_allClientsCache != null)
+                return _allClientsCache;
+            _allClientsCache = await DataPortal.FetchAsync<ClientInfoList>();
+            return _allClientsCache;
+            //return await DataPortal.FetchAsync<ClientInfoList>();
         }
 
         public static ClientInfoList GetAllClients()
         {
-            return DataPortal.Fetch<ClientInfoList>();
+            if (_allClientsCache != null)
+                return _allClientsCache;
+            _allClientsCache = DataPortal.Fetch<ClientInfoList>();
+            return _allClientsCache;
+
+            //return DataPortal.Fetch<ClientInfoList>();
         }
 
         private ClientInfoList()
@@ -45,6 +56,7 @@ namespace PharmacyAdjudicator.Library.Core.Client
             {
                 var clientDataList = (from c in ctx.DbContext.ClientDetail
                                   where c.Retraction == false
+                                  //&& c.ClientDetail1 != null
                                   && !ctx.DbContext.ClientDetail.Any(c2 => c2.Retraction == true && c2.OriginalFactRecordId == c.RecordId)
                                   orderby c.ClientId
                                   select c);

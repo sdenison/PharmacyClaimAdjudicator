@@ -35,7 +35,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
                         //hasOverlap = true when the effective date is smaller but the expiration date is more than the next effective date
                         if (clientAssignmentToCheck.EffectiveDate <= clientAssignment.EffectiveDate)
                         {
-                            if (clientAssignmentToCheck.ExpirationDate > clientAssignment.EffectiveDate)
+                            if (clientAssignmentToCheck.ExpirationDate >= clientAssignment.EffectiveDate)
                             {
                                 hasOverlap = true;
                                 break;
@@ -44,7 +44,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
                         //hasOverlap = true when the effective date is greater but the expiration date is less than the next expiration date
                         if (clientAssignmentToCheck.EffectiveDate > clientAssignment.EffectiveDate)
                         {
-                            if (clientAssignmentToCheck.ExpirationDate < clientAssignment.ExpirationDate)
+                            if (clientAssignmentToCheck.ExpirationDate <= clientAssignment.ExpirationDate)
                             {
                                 hasOverlap = true;
                                 break;
