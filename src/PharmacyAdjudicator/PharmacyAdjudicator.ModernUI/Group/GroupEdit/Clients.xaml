@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Add and remove buttons at the top -->
@@ -69,6 +70,13 @@
                             <DatePicker x:Name="ExpirationDate" Width="150" SelectedDate="{Binding Path=ExpirationDate}" IsEnabled="{Binding ElementName=Parent, Path=DataContext.CanEditObject}"></DatePicker>
                         </StackPanel>
                     </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Grid.Row="2" ItemsSource="{Binding Path=BrokenClientAssignmentRules}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Description}" Foreground="Red"></TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

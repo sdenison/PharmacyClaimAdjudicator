@@ -29,7 +29,8 @@
         </Grid>
 
         <!-- Display any broken rules -->
-        <ListBox Grid.Row="1" ItemsSource="{Binding Path=Model.BrokenRulesCollection}">
+        <!--<ListBox Grid.Row="1" ItemsSource="{Binding Path=Model.BrokenRulesCollection}">-->
+        <ListBox Grid.Row="1" ItemsSource="{Binding Path=BrokenClientAssignmentRules}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=Description}" Foreground="Red"></TextBlock>

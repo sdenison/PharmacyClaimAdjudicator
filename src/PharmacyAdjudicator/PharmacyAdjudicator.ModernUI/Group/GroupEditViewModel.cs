@@ -9,6 +9,7 @@ using Caliburn.Micro;
 using System.Windows;
 using PharmacyAdjudicator.Library.Core.Group;
 using System.ComponentModel;
+using System.Collections.Specialized;
 
 namespace PharmacyAdjudicator.ModernUI.Group
 {
@@ -83,11 +84,12 @@ namespace PharmacyAdjudicator.ModernUI.Group
             BeginSave();
         }
 
-        //protected override void OnSaved()
-        //{
-        //    this.SelectedClientAssignment 
-        //    base.OnSaved();
-        //}
+        protected override void OnSaved()
+        {
+            //this.SelectedClientAssignment 
+            this.Model.BrokenRulesCollection.CollectionChanged += ExtractClientAssignmentRules;
+            base.OnSaved();
+        }
 
 
 
@@ -100,6 +102,23 @@ namespace PharmacyAdjudicator.ModernUI.Group
             this.State = GroupEditState.Details;
             this.DisplayName = "Group Display: " + Model.GroupId;
             this.SelectedClientAssignment = existingGroup.ClientAssignments[0];
+
+            existingGroup.BrokenRulesCollection.CollectionChanged += ExtractClientAssignmentRules;
+        }
+
+        private void ExtractClientAssignmentRules(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(() => BrokenClientAssignmentRules);
+        }
+
+        public IEnumerable<Csla.Rules.BrokenRule> BrokenClientAssignmentRules
+        {
+            get
+            { 
+                var clientAssignmentBrokenRules = this.Model.BrokenRulesCollection.Where(br => br.Property == "ClientAssignments");
+                return clientAssignmentBrokenRules.ToList();
+            }
+
         }
 
         async public static Task<GroupEditViewModel> BuildViewModelAsync(string clientId, string groupId, IEventAggregator eventAggregator, IDialog dialog)
