@@ -1403,7 +1403,7 @@
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
           <Property Name="OriginalFactRecordId" Type="Guid" Nullable="true" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
-          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="29" />
           <NavigationProperty Name="Client" Relationship="PharmacyClaimAdjudicatorModel.ClientClientGroup" FromRole="ClientGroup" ToRole="Client" />
           <NavigationProperty Name="Group" Relationship="PharmacyClaimAdjudicatorModel.GroupClientGroup" FromRole="ClientGroup" ToRole="Group" />
           <NavigationProperty Name="ClientGroup1" Relationship="PharmacyClaimAdjudicatorModel.ClientGroupClientGroup" FromRole="ClientGroup" ToRole="ClientGroup1" />
