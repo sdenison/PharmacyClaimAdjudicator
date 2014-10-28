@@ -169,7 +169,25 @@ namespace PharmacyAdjudicator.Library.Core.Patient
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                IQueryable<DataAccess.PatientDetail> patientData = (from  p in ctx.DbContext.PatientDetail
+                IQueryable<DataAccess.PatientDetail> patientData;
+
+                //if we're searching by group ID then link appropriate group tables
+                if (string.IsNullOrWhiteSpace(criteria.GroupId))
+                    patientData = (from  p in ctx.DbContext.PatientDetail
+                                                             join pg in ctx.DbContext.PatientGroup on p.PatientId equals pg.PatientId
+                                                             join gd in ctx.DbContext.GroupDetail on pg.GroupInternalId equals gd.GroupInternalId
+                                                             where p.Retraction == false
+                                                             && !ctx.DbContext.PatientDetail.Any(p2 => p2.Retraction == true && p2.OriginalFactRecordId == p.RecordId)
+                                                             && pg.Retraction == false
+                                                             && !ctx.DbContext.PatientGroup.Any(pg2 => pg2.Retraction == true && pg2.OriginalFactRecordId == pg.RecordId)
+                                                             && pg.EffectiveDate <= DateTime.Now && pg.ExpirationDate >= DateTime.Now
+                                                             && gd.Retraction == false
+                                                             && !ctx.DbContext.GroupDetail.Any(gd2 => gd2.Retraction == true && gd2.OriginalFactRecordId == gd.RecordId)
+                                                             && gd.GroupId.StartsWith(criteria.GroupId)
+                                                             orderby p.LastName, p.FirstName, p.BirthDate
+                                                             select p);
+                else
+                    patientData = (from p in ctx.DbContext.PatientDetail
                                                              where p.Retraction == false
                                                              && !ctx.DbContext.PatientDetail.Any(p2 => p2.Retraction == true && p2.OriginalFactRecordId == p.RecordId)
                                                              orderby p.LastName, p.FirstName, p.BirthDate
@@ -184,12 +202,6 @@ namespace PharmacyAdjudicator.Library.Core.Patient
 
                 if (!String.IsNullOrWhiteSpace(criteria.CardholderId))
                     patientData = patientData.Where(x => x.CardholderId.StartsWith(criteria.CardholderId.Trim()));
-
-                if (!String.IsNullOrWhiteSpace(criteria.GroupId))
-                {
-                    IQueryable<DataAccess.PatientGroup> groupQuery = (from pg in ctx.DbContext.PatientGroup
-                                                                 select pg);
-                }
 
                 var rlce = this.RaiseListChangedEvents;
                 this.RaiseListChangedEvents = false;

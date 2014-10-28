@@ -73,6 +73,7 @@
     <Compile Include="Core\Group\ExpirationCannotBeLessThanEffectiveDateRule.cs" />
     <Compile Include="Core\Group\GroupEdit.cs" />
     <Compile Include="Core\Group\GroupExistsCommand.cs" />
+    <Compile Include="Core\Group\GroupList.cs" />
     <Compile Include="Core\Group\GroupSearchCriteria.cs" />
     <Compile Include="Core\OnlyUniqueAddressTypesAllowedInAddressList.cs" />
     <Compile Include="Core\Patient\PatientAddress.cs" />
