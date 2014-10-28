@@ -10,6 +10,18 @@ namespace PharmacyAdjudicator.Library.Core.Group
     [Serializable]
     public class GroupSearchCriteria : CriteriaBase<GroupSearchCriteria>
     {
-        
+        public static readonly PropertyInfo<string> NameProperty = RegisterProperty<string>(c => c.Name);
+        public string Name
+        {
+            get { return ReadProperty(NameProperty); }
+            set { LoadProperty(NameProperty, value); }
+        }
+
+        public static readonly PropertyInfo<string> GroupIdProperty = RegisterProperty<string>(c => c.GroupId);
+        public string GroupId
+        {
+            get { return ReadProperty(GroupIdProperty); }
+            set { LoadProperty(GroupIdProperty, value); }
+        }
     }
 }

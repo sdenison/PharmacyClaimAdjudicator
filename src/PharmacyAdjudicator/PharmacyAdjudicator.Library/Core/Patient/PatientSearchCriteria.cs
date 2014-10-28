@@ -25,6 +25,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
             set { LoadProperty(PatientFirstNameProperty, value); }
         }
 
+
         public static readonly PropertyInfo<string> CardholderIdProperty = RegisterProperty<string>(c => c.CardholderId);
         public string CardholderId
         {

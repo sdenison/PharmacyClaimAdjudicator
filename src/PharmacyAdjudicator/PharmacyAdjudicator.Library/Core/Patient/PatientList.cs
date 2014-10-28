@@ -111,7 +111,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
             }
         }
 
-        private void DataPortal_Fetch(PatientSearchCriteria criteria)
+        private void DataPortal_FetchSQL(PatientSearchCriteria criteria)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -159,91 +159,43 @@ namespace PharmacyAdjudicator.Library.Core.Patient
                 this.RaiseListChangedEvents = false;
 
                 foreach (var p in results)
-                {
                     Add(DataPortal.FetchChild<PatientEdit>(p));
-                    //Add(new Patient(p));
-                }
 
                 this.RaiseListChangedEvents = rlce;
             }
         }
 
-        private void DataPortal_Fetch2(PatientSearchCriteria criteria)
+        private void DataPortal_Fetch(PatientSearchCriteria criteria)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-
-                //Entity Framework is great, but sometimes SQL is better.
-                //string select = @"select p.* from patientfacts";
-                //StringBuilder where = new StringBuilder();
-                //List<object> parameters = new List<object>();
-
-                //if (!String.IsNullOrWhiteSpace(criteria.PatientFirstName))
-                //{
-                //    AddToWhere(where, "firstname like @firstname");
-                //    parameters.Add(new SqlParameter("@firstname", criteria.PatientFirstName));
-                //}
-
-                //if (!String.IsNullOrWhiteSpace(criteria.PatientLastName))
-                //{
-                //    AddToWhere(where, "lastname like @lastname");
-                //    parameters.Add(new SqlParameter("@lastname", criteria.PatientLastName));
-                //}
-
-
-                IQueryable<DataAccess.PatientDetail> query = (from  p in ctx.DbContext.PatientDetail
-                                                           select p);
+                IQueryable<DataAccess.PatientDetail> patientData = (from  p in ctx.DbContext.PatientDetail
+                                                             where p.Retraction == false
+                                                             && !ctx.DbContext.PatientDetail.Any(p2 => p2.Retraction == true && p2.OriginalFactRecordId == p.RecordId)
+                                                             orderby p.LastName, p.FirstName, p.BirthDate
+                                                             select p);
 
                 //Add criteria to the where
                 if (!String.IsNullOrWhiteSpace(criteria.PatientFirstName))
-                    query = query.Where(x => x.FirstName.StartsWith(criteria.PatientFirstName.Trim()));
+                    patientData = patientData.Where(x => x.FirstName.StartsWith(criteria.PatientFirstName.Trim()));
 
                 if (!String.IsNullOrWhiteSpace(criteria.PatientLastName))
-                    query = query.Where(x => x.LastName.StartsWith(criteria.PatientLastName.Trim()));
+                    patientData = patientData.Where(x => x.LastName.StartsWith(criteria.PatientLastName.Trim()));
 
                 if (!String.IsNullOrWhiteSpace(criteria.CardholderId))
-                    query = query.Where(x => x.CardholderId.StartsWith(criteria.CardholderId.Trim()));
+                    patientData = patientData.Where(x => x.CardholderId.StartsWith(criteria.CardholderId.Trim()));
 
                 if (!String.IsNullOrWhiteSpace(criteria.GroupId))
                 {
                     IQueryable<DataAccess.PatientGroup> groupQuery = (from pg in ctx.DbContext.PatientGroup
                                                                  select pg);
-                    //groupQuery = groupQuery.Where(g => g.GroupId.)
-                    //query = query.Where(x => x.)
-                    
                 }
-
-                var patientData = query.Select(q => q.PatientId).Distinct();//.ToList(); //from p in ctx.DbContext.PatientFacts)
-
-                var data = (from p in ctx.DbContext.PatientDetail
-                            where p.RecordId == (from p2 in ctx.DbContext.PatientDetail
-                                                 where p2.PatientId == p.PatientId
-                                                 && p2.Retraction == false
-                                                 && !ctx.DbContext.PatientDetail.Any(p3 => p3.PatientId == p2.PatientId
-                                                                          && p3.Retraction == true
-                                                                          && p3.OriginalFactRecordId == p2.RecordId)
-                                                 select p2.RecordId).Max()
-                            && patientData.Contains(p.PatientId)
-                            orderby p.PatientId
-                            select p);
-
 
                 var rlce = this.RaiseListChangedEvents;
                 this.RaiseListChangedEvents = false;
 
-                foreach (var p in data)
-                {
+                foreach (var p in patientData)
                     Add(DataPortal.FetchChild<PatientEdit>(p));
-                    //Add(DataPortal.Fetch<Patient>(p));
-                    //Add(new Patient(p));
-                }
-
-
-                //foreach (var p in patientData)
-                //{
-                //    Add(DataPortal.FetchChild<Patient>(p));
-                //}
-
 
                 this.RaiseListChangedEvents = rlce;
             }
@@ -264,22 +216,6 @@ namespace PharmacyAdjudicator.Library.Core.Patient
             this.RaiseListChangedEvents = false;
             Child_Update(null);
             this.RaiseListChangedEvents = rlce;
-
-            //var oldRLCE = this.RaiseListChangedEvents;
-            //this.RaiseListChangedEvents = false;
-            //try
-            //{
-            //    foreach (var child in DeletedList)
-            //        DataPortal.UpdateChild(child, null);
-            //    DeletedList.Clear();
-
-            //    foreach (var child in this)
-            //        if (child.IsDirty) DataPortal.UpdateChild(child, null);
-            //}
-            //finally
-            //{
-            //    this.RaiseListChangedEvents = oldRLCE;
-            //}
         }
 
         #endregion
