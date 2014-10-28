@@ -34,7 +34,7 @@
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupImplication" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomImplication" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Address" Width="1.5" PointX="13.875" PointY="8.125" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientAddress" Width="1.75" PointX="10.125" PointY="5.375" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PatientAddress" Width="1.75" PointX="11.75" PointY="5.5" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AddressType" Width="1.5" PointX="14.25" PointY="4.625" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AddressTypePatientAddress" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AddressPatientAddress" />

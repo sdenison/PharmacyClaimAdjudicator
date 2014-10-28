@@ -124,9 +124,9 @@ GO
 IF OBJECT_ID(N'[dbo].[PatientGroup]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PatientGroup];
 GO
---IF OBJECT_ID(N'[dbo].[VaDrug]', 'U') IS NOT NULL
---    DROP TABLE [dbo].[VaDrug];
---GO
+IF OBJECT_ID(N'[dbo].[VaDrug]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VaDrug];
+GO
 IF OBJECT_ID(N'[dbo].[Plan]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Plan];
 GO
@@ -243,37 +243,37 @@ CREATE TABLE [dbo].[PatientGroup] (
 GO
 
 -- Creating table 'VaDrug'
---CREATE TABLE [dbo].[VaDrug] (
---    [Ndc_1] nvarchar(5)  NOT NULL,
---    [Ndc_2] nvarchar(4)  NOT NULL,
---    [Ndc_3] nvarchar(2)  NOT NULL,
---    [NdfNdc] nvarchar(11)  NOT NULL,
---    [Upn] nvarchar(max)  NULL,
---    [IDateNdc] datetime  NULL,
---    [Trade] nvarchar(max)  NOT NULL,
---    [VaProduct] nvarchar(max)  NOT NULL,
---    [IDateVap] datetime  NULL,
---    [ProductNu] nvarchar(max)  NULL,
---    [FeeDer] nvarchar(max)  NOT NULL,
---    [Generic] nvarchar(max)  NOT NULL,
---    [PkgSz] decimal(18,0)  NOT NULL,
---    [PkgType] nvarchar(max)  NOT NULL,
---    [VaClass] nvarchar(max)  NOT NULL,
---    [Manufac] nvarchar(max)  NOT NULL,
---    [StandardMedRoute] nvarchar(max)  NULL,
---    [Strength] nvarchar(max)  NULL,
---    [Units] nvarchar(max)  NULL,
---    [DoseForm] nvarchar(max)  NOT NULL,
---    [NfName] nvarchar(max)  NOT NULL,
---    [Csfs] nvarchar(max)  NOT NULL,
---    [RxOtc] nvarchar(max)  NOT NULL,
---    [NfIndicat] nvarchar(max)  NOT NULL,
---    [VaPrn] nvarchar(max)  NULL,
---    [DispUnt] nvarchar(max)  NULL,
---    [Id] nvarchar(max)  NULL,
---    [Mark] nvarchar(max)  NOT NULL
---);
---GO
+CREATE TABLE [dbo].[VaDrug] (
+    [Ndc_1] nvarchar(5)  NOT NULL,
+    [Ndc_2] nvarchar(4)  NOT NULL,
+    [Ndc_3] nvarchar(2)  NOT NULL,
+    [NdfNdc] nvarchar(11)  NOT NULL,
+    [Upn] nvarchar(max)  NULL,
+    [IDateNdc] datetime  NULL,
+    [Trade] nvarchar(max)  NOT NULL,
+    [VaProduct] nvarchar(max)  NOT NULL,
+    [IDateVap] datetime  NULL,
+    [ProductNu] nvarchar(max)  NULL,
+    [FeeDer] nvarchar(max)  NOT NULL,
+    [Generic] nvarchar(max)  NOT NULL,
+    [PkgSz] decimal(18,0)  NOT NULL,
+    [PkgType] nvarchar(max)  NOT NULL,
+    [VaClass] nvarchar(max)  NOT NULL,
+    [Manufac] nvarchar(max)  NOT NULL,
+    [StandardMedRoute] nvarchar(max)  NULL,
+    [Strength] nvarchar(max)  NULL,
+    [Units] nvarchar(max)  NULL,
+    [DoseForm] nvarchar(max)  NOT NULL,
+    [NfName] nvarchar(max)  NOT NULL,
+    [Csfs] nvarchar(max)  NOT NULL,
+    [RxOtc] nvarchar(max)  NOT NULL,
+    [NfIndicat] nvarchar(max)  NOT NULL,
+    [VaPrn] nvarchar(max)  NULL,
+    [DispUnt] nvarchar(max)  NULL,
+    [Id] nvarchar(max)  NULL,
+    [Mark] nvarchar(max)  NOT NULL
+);
+GO
 
 -- Creating table 'Plan'
 CREATE TABLE [dbo].[Plan] (
@@ -485,10 +485,10 @@ ADD CONSTRAINT [PK_PatientGroup]
 GO
 
 -- Creating primary key on [NdfNdc] in table 'VaDrug'
---ALTER TABLE [dbo].[VaDrug]
---ADD CONSTRAINT [PK_VaDrug]
---    PRIMARY KEY CLUSTERED ([NdfNdc] ASC);
---GO
+ALTER TABLE [dbo].[VaDrug]
+ADD CONSTRAINT [PK_VaDrug]
+    PRIMARY KEY CLUSTERED ([NdfNdc] ASC);
+GO
 
 -- Creating primary key on [PlanId] in table 'Plan'
 ALTER TABLE [dbo].[Plan]

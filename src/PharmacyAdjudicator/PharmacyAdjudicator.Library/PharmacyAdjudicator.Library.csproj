@@ -30,9 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Csla, Version=4.5.501.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+    <Reference Include="Csla, Version=4.5.601.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CSLA-Core.4.5.501\lib\net45\Csla.dll</HintPath>
+      <HintPath>..\packages\CSLA-Core.4.5.601\lib\net45\Csla.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -73,6 +73,7 @@
     <Compile Include="Core\Group\ExpirationCannotBeLessThanEffectiveDateRule.cs" />
     <Compile Include="Core\Group\GroupEdit.cs" />
     <Compile Include="Core\Group\GroupExistsCommand.cs" />
+    <Compile Include="Core\Group\GroupSearchCriteria.cs" />
     <Compile Include="Core\OnlyUniqueAddressTypesAllowedInAddressList.cs" />
     <Compile Include="Core\Patient\PatientAddress.cs" />
     <Compile Include="Core\Patient\PatientAddressList.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Utils\Overpunch.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Csla-Templates Read Me.txt" />
     <Content Include="E3\Readme.txt" />
   </ItemGroup>
   <ItemGroup>

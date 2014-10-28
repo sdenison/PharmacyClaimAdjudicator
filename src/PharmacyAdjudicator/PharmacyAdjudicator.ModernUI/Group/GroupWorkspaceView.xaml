@@ -23,23 +23,27 @@
                 <RowDefinition Height="3"/>
                 <RowDefinition Height="62*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0" RenderTransformOrigin="0.494,0.49">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.Resources>
                     <Style TargetType="StackPanel">
                         <Setter Property="Orientation" Value="Horizontal" />
                         <Setter Property="Margin" Value="0,0,0,4" />
                     </Style>
                     <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="Height" Value="25"/>
                     </Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                        <!--<Setter Property="MinWidth" Value="150" />-->
+                        <Setter Property="MinWidth" Value="150" />
                         <Setter Property="MinHeight" Value="23"/>
                         <Setter Property="MaxWidth" Value="150"/>
                         <Setter Property="MaxHeight" Value="23"/>
@@ -65,16 +69,19 @@
                         <Setter Property="MinWidth" Value="75"></Setter>
                     </Style>
                 </Grid.Resources>
-                <StackPanel>
+                <StackPanel Grid.ColumnSpan="2" Margin="0,0,0,0">
                     <Label Content="Client"/>
                     <!--<ComboBox x:Name="Clients" SelectedItem="{Binding SelectedClient}"></ComboBox>-->
                     <ComboBox x:Name="Clients" SelectedItem="{Binding SelectedClientId}" Text="-- Select Client --" IsEditable="True"></ComboBox>
+                    <Button Margin="5, 0, 0, 0" x:Name="AddGroup" Width="100" Content="Add Group" HorizontalAlignment="Left" Visibility="{Binding CanAddGroup, Converter={StaticResource BooleanToVisibilityConverter}}"></Button>
                 </StackPanel>
-                <StackPanel Grid.Row="1">
-                    <Button x:Name="AddGroup" Content="Add Group"></Button>
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <Label Content="Group Name"/>
+                    <!--<TextBox x:Name="Model_Name" Text="{Binding Path=PatientSearchCriteria.PatientLastName, Mode=TwoWay, ValidatesOnDataErrors=True}" Margin="0,0,0,7" MaxHeight="23"/>-->
+                    <TextBox x:Name="Model_Name" Margin="0,0,0,7" MaxHeight="23"/>
                 </StackPanel>
                 
-                <!--<Button Margin="5,0,0,0" x:Name="AddGroup" Width="100" Content="Add Group" HorizontalAlignment="Left"></Button>-->
+                <Button Grid.Column="1" Grid.Row="4" x:Name="FindGroups" Content="Search" HorizontalAlignment="Right" Margin="0,1,10,2.333"/>
             </Grid>
             <GridSplitter Grid.Row="1"/>
         </Grid>

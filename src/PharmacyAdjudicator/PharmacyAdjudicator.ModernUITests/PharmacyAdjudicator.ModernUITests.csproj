@@ -42,8 +42,9 @@
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="Csla">
-      <HintPath>..\packages\CSLA-Core.4.5.501\lib\net45\Csla.dll</HintPath>
+    <Reference Include="Csla, Version=4.5.601.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CSLA-Core.4.5.601\lib\net45\Csla.dll</HintPath>
     </Reference>
     <Reference Include="CslaContrib.Caliburn.Micro, Version=4.5.50.0, Culture=neutral, PublicKeyToken=eafe756dec3874e6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -106,6 +107,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Csla-Templates Read Me.txt" />
     <Content Include="Scripts\Create_database_with_test_data.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

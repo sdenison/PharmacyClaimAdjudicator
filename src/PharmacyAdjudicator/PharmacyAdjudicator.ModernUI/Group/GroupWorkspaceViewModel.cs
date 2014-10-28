@@ -55,7 +55,6 @@ namespace PharmacyAdjudicator.ModernUI.Group
         }
 
         public async Task AddGroup()
-        //public void AddGroup()
         {
             if (string.IsNullOrEmpty(this.SelectedClientId)) // == null)
             {
@@ -64,7 +63,6 @@ namespace PharmacyAdjudicator.ModernUI.Group
             }
             IsBusy = true;
             BusyMessage = "Adding group...";
-            //var group = await Library.Core.Group.GroupEdit.NewGroupAsync(this.SelectedClient.ClientId, "");
             var group = await Library.Core.Group.GroupEdit.NewGroupAsync(this.SelectedClientId, "");
             var groupViewModel = new GroupEditViewModel(group, _eventAggregator, _dialogManager);
             ActivateItem(groupViewModel);
@@ -77,21 +75,6 @@ namespace PharmacyAdjudicator.ModernUI.Group
             base.ActivateItem(item);
         }
 
-        //private Library.Core.Client.ClientInfoList _clients;
-        //public Library.Core.Client.ClientInfoList Clients
-        //{
-        //    get
-        //    {
-        //        return _clients;
-        //    }
-        //    set
-        //    {
-        //        _clients = value;
-        //        NotifyOfPropertyChange(() => Clients);
-        //    }
-        //}
-
-        //public Library.Core.Client.ClientInfo SelectedClient { get; set; }
         private List<string> _clients = null;
         public IEnumerable<string> Clients
         {
