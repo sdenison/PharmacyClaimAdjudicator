@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Csla;
 
 namespace PharmacyAdjudicator.Library.Core.Group
@@ -20,9 +21,14 @@ namespace PharmacyAdjudicator.Library.Core.Group
 
         #region Factory Methods
 
-        public static GroupList GetReadOnlyList(string filter)
+        public async static Task<GroupList> GetByCriteriaAsync(GroupSearchCriteria criteria)
         {
-            return DataPortal.Fetch<GroupList>(filter);
+            return await DataPortal.FetchAsync<GroupList>(criteria);
+        }
+
+        public static GroupList GetByCriteria(GroupSearchCriteria criteria)
+        {
+            return DataPortal.Fetch<GroupList>(criteria);
         }
 
         private GroupList()
@@ -38,21 +44,29 @@ namespace PharmacyAdjudicator.Library.Core.Group
             IsReadOnly = false;
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                IQueryable<DataAccess.GroupDetail> groupData = (from g in ctx.DbContext.GroupDetail
-                                                                where g.Retraction == false
-                                                                && !ctx.DbContext.GroupDetail.Any(g2 => g2.Retraction == true && g2.OriginalFactRecordId == g.RecordId)
-                                                                orderby g.GroupId, g.Name
-                                                                select g);
+                IQueryable<DataAccess.GroupDetail> groupData = (from gd in ctx.DbContext.GroupDetail
+                                                                join g in ctx.DbContext.Group on gd.GroupInternalId equals g.GroupInternalId
+                                                                join cg in ctx.DbContext.ClientGroup on g.GroupInternalId equals cg.GroupInternalId
+                                                                join c in ctx.DbContext.Client on cg.ClientInternalId equals c.ClientInternalId
+                                                                join cd in ctx.DbContext.ClientDetail on c.ClientInternalId equals cd.ClientInternalId
+                                                                where gd.Retraction == false
+                                                                && !ctx.DbContext.GroupDetail.Any(gd2 => gd2.Retraction == true && gd2.OriginalFactRecordId == gd.RecordId)
+                                                                && cg.Retraction == false
+                                                                && !ctx.DbContext.ClientGroup.Any(cg2 => cg2.Retraction == true && cg2.OriginalFactRecordId == cg.RecordId)
+                                                                && cd.Retraction == false
+                                                                && !ctx.DbContext.ClientDetail.Any(cd2 => cd2.Retraction == true && cd2.OriginalFactRecordId == cd.RecordId)
+                                                                && cd.ClientId == criteria.ClientId
+                                                                orderby gd.GroupId, gd.Name
+                                                                select gd);
                 if (!string.IsNullOrWhiteSpace(criteria.Name))
                     groupData = groupData.Where(g => g.Name.StartsWith(criteria.Name.Trim()));
                 if (!string.IsNullOrWhiteSpace(criteria.GroupId))
                     groupData = groupData.Where(g => g.GroupId.StartsWith(criteria.GroupId.Trim()));
             
                 foreach (var g in groupData)
-                    Add(DataPortal.FetchChild<GroupEdit>(g));
+                    Add(DataPortal.FetchChild<GroupEdit>(g, criteria.ClientId));
 
             }
-            //object objectData = null;
             IsReadOnly = true;
             RaiseListChangedEvents = true;
         }

@@ -23,5 +23,12 @@ namespace PharmacyAdjudicator.Library.Core.Group
             get { return ReadProperty(GroupIdProperty); }
             set { LoadProperty(GroupIdProperty, value); }
         }
+
+        public static readonly PropertyInfo<string> ClientIdProperty = RegisterProperty<string>(c => c.ClientId);
+        public string ClientId
+        {
+            get { return ReadProperty(ClientIdProperty); }
+            set { LoadProperty(ClientIdProperty, value); }
+        }
     }
 }

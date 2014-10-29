@@ -302,6 +302,13 @@ namespace PharmacyAdjudicator.Library.Core.Group
             return groupData;
         }
 
+        private void Child_Fetch(DataAccess.GroupDetail groupData, string clientId)
+        {
+            using (BypassPropertyChecks)
+                PopulateByRow(groupData, clientId);
+                //PopulateByRow(patientData);
+        }
+
         private DataAccess.GroupDetail CreateNewEntity()
         {
             var groupDetail = new DataAccess.GroupDetail();

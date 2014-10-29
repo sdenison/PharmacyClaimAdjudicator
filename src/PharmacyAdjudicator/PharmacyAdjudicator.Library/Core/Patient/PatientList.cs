@@ -111,7 +111,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
             }
         }
 
-        private void DataPortal_FetchSQL(PatientSearchCriteria criteria)
+        private void DataPortal_Fetch(PatientSearchCriteria criteria)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -165,20 +165,21 @@ namespace PharmacyAdjudicator.Library.Core.Patient
             }
         }
 
-        private void DataPortal_Fetch(PatientSearchCriteria criteria)
+        private void DataPortal_FetchEF(PatientSearchCriteria criteria)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 IQueryable<DataAccess.PatientDetail> patientData;
 
                 //if we're searching by group ID then link appropriate group tables
-                if (string.IsNullOrWhiteSpace(criteria.GroupId))
+                if (!string.IsNullOrWhiteSpace(criteria.GroupId))
                     patientData = (from  p in ctx.DbContext.PatientDetail
                                                              join pg in ctx.DbContext.PatientGroup on p.PatientId equals pg.PatientId
                                                              join gd in ctx.DbContext.GroupDetail on pg.GroupInternalId equals gd.GroupInternalId
                                                              where p.Retraction == false
-                                                             && !ctx.DbContext.PatientDetail.Any(p2 => p2.Retraction == true && p2.OriginalFactRecordId == p.RecordId)
                                                              && pg.Retraction == false
+                                                             //&& p.Patient.PatientGroups.Any(pg2 => pg2.Retraction == true && pg2.OriginalFactRecordId == pg.RecordId)
+                                                             && !ctx.DbContext.PatientDetail.Any(p2 => p2.Retraction == true && p2.OriginalFactRecordId == p.RecordId)
                                                              && !ctx.DbContext.PatientGroup.Any(pg2 => pg2.Retraction == true && pg2.OriginalFactRecordId == pg.RecordId)
                                                              && pg.EffectiveDate <= DateTime.Now && pg.ExpirationDate >= DateTime.Now
                                                              && gd.Retraction == false

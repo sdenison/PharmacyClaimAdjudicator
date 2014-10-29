@@ -60,7 +60,7 @@ insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardho
 	values ('578957C0-0E28-4FC3-B184-7F10EDAB575C', 'Joseph', '', 'Smith', '987654321', '1932-09-15', '01', '1', '1', @FALSE, sysdatetime(), 'SDENISON', null, 61);
 --User 60  (Son)
 insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('95ECC071-F983-469A-B2D5-F8B63A7F599F', 'Joseph', '', 'Smith', '987654321', '1962-06-15', '03', '3', '1', @FALSE, sysdatetime(), 'SDENISON', null, 61);
+	values ('95ECC071-F983-469A-B2D5-F8B63A7F599F', 'Joseph', '', 'Smith', '987654321', '1962-06-15', '03', '3', '1', @FALSE, sysdatetime(), 'SDENISON', null, 60);
 --User 62 (twin sister)
 insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
 	values ('366B47B2-A58C-42CA-863F-BDD677762D57', 'Josephina', '', 'Smith', '987654321', '1962-06-15', '04', '3', '2', @FALSE, sysdatetime(), 'SDENISON', null, 62);
@@ -90,6 +90,10 @@ insert into client (clientinternalid, recordcreateddatetime, recordcreateduser)
 	values ('874199AF-8839-4984-B4A0-C4DB53D5442A', '2014-09-24 16:59:04.090', 'Test');
 insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
 	values ('0F0F9FB0-067D-4B5C-B807-1173C1DBA959', 'OB', 'Oyster Bar', 0, NULL, '2014-09-24 16:59:09.470', 'Test', '874199AF-8839-4984-B4A0-C4DB53D5442A'); 
+
+--Tie GROUP1 to ACME
+insert into clientgroup (recordid, clientinternalid, groupinternalid, effectivedate, expirationdate, retraction, recordcreateddatetime, recordcreateduser)
+    values ('32A9594C-74A1-463A-A995-4913C31551E6', 'EE60CD12-8063-4FBC-9165-0C6F7D81B6EB', 'E24B42FA-4A53-4949-B695-957E690451FD', '2000-01-01', '9999-12-31', 0,'2014-09-24 14:59:09.470', 'Test') 
 
 --Add address types
 insert into AddressType values ("Physical", "Physical Location");
