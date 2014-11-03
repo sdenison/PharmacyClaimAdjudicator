@@ -176,5 +176,36 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.GroupTests
             //All broken rules should be 1
             Assert.IsTrue(errors.Count == 1);
         }
+
+        [TestMethod]
+        public void Group_can_be_reassigned_to_new_client()
+        {
+            var newGroup = GroupEdit.NewGroup("ACME", "ACMEGROUP1");
+            newGroup.Name = "This is the first group for ACME";
+            newGroup = newGroup.Save();
+            Assert.IsTrue(newGroup.GroupId.Equals("ACMEGROUP1"));
+
+            var savedGroup = GroupEdit.GetByClientIdGroupId("ACME", "ACMEGROUP1");
+
+            //Make sure default client assignment exists.
+            Assert.IsTrue(savedGroup.ClientAssignments.Count == 1);
+            Assert.IsTrue(savedGroup.ClientAssignments[0].ExpirationDate.Equals(new DateTime(9999, 12, 31)));
+
+            savedGroup.ClientAssignments[0].ExpirationDate = new DateTime(2020, 1, 1);
+            savedGroup.ClientAssignments.AddNewAssignment();
+            //Creates a effective date gap of one year and a day
+            var newAssignment = savedGroup.ClientAssignments[savedGroup.ClientAssignments.Count - 1];
+            newAssignment.EffectiveDate = newAssignment.EffectiveDate.AddYears(1);
+            newAssignment.ClientId = "OB";
+            savedGroup = savedGroup.Save();
+
+            var savedGroup2 = GroupEdit.GetByClientIdGroupId("ACME", "ACMEGROUP1");
+            //Make sure there are now 2 assignments
+            Assert.IsTrue(savedGroup2.ClientAssignments.Count == 2);
+            Assert.IsTrue(savedGroup2.ClientAssignments[0].ExpirationDate.Equals(new DateTime(2020, 1, 1)));
+
+            //The second effective date should be a year and a day after the previous expiration date
+            Assert.IsTrue(savedGroup2.ClientAssignments[0].ExpirationDate.AddDays(1).AddYears(1).Equals(savedGroup2.ClientAssignments[1].EffectiveDate));
+        }
     }
 }

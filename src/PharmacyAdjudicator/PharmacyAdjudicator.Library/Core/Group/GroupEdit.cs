@@ -45,7 +45,8 @@ namespace PharmacyAdjudicator.Library.Core.Group
             get
             {
                 if (!FieldManager.FieldExists(ClientAssignmentsProperty))
-                    LoadProperty(ClientAssignmentsProperty, DataPortal.FetchChild<ClientAssignmentList>(this.ClientId, this.GroupId));
+                    LoadProperty(ClientAssignmentsProperty, DataPortal.FetchChild<ClientAssignmentList>(this.GroupInternalId));
+                    //LoadProperty(ClientAssignmentsProperty, DataPortal.FetchChild<ClientAssignmentList>(this.ClientId, this.GroupId));
                 return GetProperty(ClientAssignmentsProperty);
             }
             private set
@@ -181,18 +182,9 @@ namespace PharmacyAdjudicator.Library.Core.Group
             this.ClientId = criteria.ClientId;
             this.GroupId = criteria.GroupId;
             this.GroupInternalId = Guid.NewGuid();
-
-
-
-
             //Assigns a client to the Group with default effective and expiration dates
             var clientAssignments = this.ClientAssignments;
             clientAssignments.Add(ClientAssignment.NewAssignment(this.ClientId, DateTime.Now, new DateTime(9999, 12, 31)));
-
-
-
-
-
             base.DataPortal_Create();
         }
 
@@ -313,9 +305,9 @@ namespace PharmacyAdjudicator.Library.Core.Group
         {
             var groupDetail = new DataAccess.GroupDetail();
             groupDetail.RecordId = Guid.NewGuid();
-            groupDetail.GroupId = this.GroupId;
+            groupDetail.GroupId = this.GroupId.ToUpper();
             groupDetail.GroupInternalId = this.GroupInternalId;
-            groupDetail.Name = this.Name;
+            groupDetail.Name = this.Name.ToUpper();
             groupDetail.Retraction = false;
             groupDetail.RecordCreatedDateTime = DateTime.Now;
             groupDetail.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;

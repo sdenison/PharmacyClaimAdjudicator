@@ -22,7 +22,7 @@
                     <Style TargetType="{x:Type mui:ModernButton}">
                         <Setter Property="IsEnabled" Value="True"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedItem, ElementName=Model_SelectedClientAssignment}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding SelectedItem, ElementName=Model_ClientAssignments}" Value="{x:Null}">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                         </Style.Triggers>

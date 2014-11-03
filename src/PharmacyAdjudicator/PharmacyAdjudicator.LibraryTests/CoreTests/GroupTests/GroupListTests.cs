@@ -37,5 +37,15 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.GroupTests
             var groups = GroupList.GetByCriteria(criteria);
             Assert.IsTrue(groups.Count > 0);
         }
+
+        [TestMethod]
+        public void Group_list_should_not_return_values_with_invalid_group_id()
+        {
+            var criteria = new GroupSearchCriteria();
+            criteria.GroupId = "adsfjkl;"; //should not exist
+            criteria.ClientId = "ACME";
+            var groups = GroupList.GetByCriteria(criteria);
+            Assert.IsTrue(groups.Count == 0);
+        }
     }
 }

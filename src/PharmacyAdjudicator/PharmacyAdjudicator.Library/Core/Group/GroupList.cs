@@ -59,9 +59,9 @@ namespace PharmacyAdjudicator.Library.Core.Group
                                                                 orderby gd.GroupId, gd.Name
                                                                 select gd);
                 if (!string.IsNullOrWhiteSpace(criteria.Name))
-                    groupData = groupData.Where(g => g.Name.StartsWith(criteria.Name.Trim()));
+                    groupData = groupData.Where(g => g.Name.StartsWith(criteria.Name.ToUpper()));
                 if (!string.IsNullOrWhiteSpace(criteria.GroupId))
-                    groupData = groupData.Where(g => g.GroupId.StartsWith(criteria.GroupId.Trim()));
+                    groupData = groupData.Where(g => g.GroupId.StartsWith(criteria.GroupId.ToUpper()));
             
                 foreach (var g in groupData)
                     Add(DataPortal.FetchChild<GroupEdit>(g, criteria.ClientId));

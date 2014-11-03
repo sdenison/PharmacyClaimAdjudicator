@@ -31,6 +31,12 @@ namespace PharmacyAdjudicator.Library.Core.Group
             return DataPortal.FetchChild<ClientAssignmentList>(clientId, groupId);
         }
 
+        internal static ClientAssignmentList GetByGroupInternalId(Guid groupInternalId)
+        {
+            return DataPortal.FetchChild<ClientAssignmentList>(groupInternalId);
+        }
+
+
         private ClientAssignmentList()
         { }
 
@@ -74,6 +80,38 @@ namespace PharmacyAdjudicator.Library.Core.Group
             RaiseListChangedEvents = true;
         }
 
+        private void Child_Fetch(Guid groupInternalId)
+        {
+            RaiseListChangedEvents = false;
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var clientGroups = (from gd in ctx.DbContext.GroupDetail
+                                 join g in ctx.DbContext.Group on gd.GroupInternalId equals g.GroupInternalId
+                                 join cg in ctx.DbContext.ClientGroup on g.GroupInternalId equals cg.GroupInternalId
+                                 join c in ctx.DbContext.Client on cg.ClientInternalId equals c.ClientInternalId
+                                 join cd in ctx.DbContext.ClientDetail on c.ClientInternalId equals cd.ClientInternalId
+                                 where gd.GroupInternalId == groupInternalId
+                                 && gd.Retraction == false
+                                 && !ctx.DbContext.GroupDetail.Any(gd2 => gd2.Retraction == true && gd2.OriginalFactRecordId == gd.RecordId)
+                                 && cg.Retraction == false
+                                 && !ctx.DbContext.ClientGroup.Any(cg2 => cg2.Retraction == true && cg2.OriginalFactRecordId == cg.RecordId)
+                                 && cd.Retraction == false
+                                 && !ctx.DbContext.ClientDetail.Any(cd2 => cd2.Retraction == true && cd2.OriginalFactRecordId == cd.RecordId)
+                                 orderby cg.EffectiveDate 
+                                 select new ClientAssignmentDto 
+                                 {
+                                     RecordId = cg.RecordId,
+                                     ClientInternalId = cg.ClientInternalId,
+                                     ClientId = cd.ClientId,
+                                     GroupInternalId = cg.GroupInternalId,
+                                     EffectiveDate = cg.EffectiveDate,
+                                     ExpirationDate = cg.ExpirationDate
+                                 });
+                foreach (var clientGroup in clientGroups)
+                    Add(DataPortal.FetchChild<ClientAssignment>(clientGroup));
+            }
+            RaiseListChangedEvents = true;
+        }
         #endregion
     }
 }

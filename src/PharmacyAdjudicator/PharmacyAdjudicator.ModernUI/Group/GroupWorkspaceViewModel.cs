@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using PharmacyAdjudicator.Library.Core.Group;
+using System.Windows;
+
 namespace PharmacyAdjudicator.ModernUI.Group
 {
     [Export]
@@ -49,6 +52,66 @@ namespace PharmacyAdjudicator.ModernUI.Group
             //worker.RunWorkerAsync();
         }
 
+        #region "Group Search"
+        private static GroupSearchCriteria _groupSearchCriteria = new GroupSearchCriteria();
+        public GroupSearchCriteria GroupSearchCriteria
+        {
+            get { return _groupSearchCriteria; }
+            set { _groupSearchCriteria = value; }
+        }
+
+        private GroupList _searchResults;
+        public GroupList SearchResults
+        {
+            get { return _searchResults; }
+            set
+            {
+                _searchResults = value;
+                NotifyOfPropertyChange(() => SearchResults);
+                NotifyOfPropertyChange(() => CanShowSearchResults);
+            }
+        }
+
+        public Boolean CanShowSearchResults
+        {
+            get
+            {
+                if (_searchResults == null)
+                    return false;
+                else
+                    return _searchResults.Count > 0;
+            }
+            private set { }
+        }
+
+        //public async void FindGroups()
+        public void FindGroups()
+        {
+            if (string.IsNullOrEmpty(SelectedClientId))
+            {
+                _dialogManager.ShowMessage("Please select a Client from the dropdown list.", "Search Criteria Missing", MessageBoxButton.OK);
+                return;
+            }
+            _groupSearchCriteria.ClientId = SelectedClientId;
+            this.IsSearching = true;
+            //var groupSearchResults = await GroupList.GetByCriteriaAsync(this.GroupSearchCriteria);
+            var groupSearchResults = GroupList.GetByCriteria(this.GroupSearchCriteria);
+            this.IsSearching = false;
+            if (groupSearchResults.Count == 0)
+            {
+                _dialogManager.ShowMessage("No groups found for search criteria.", "No Records Found", MessageBoxButton.OK);
+            }
+            this.SearchResults = groupSearchResults;
+        }
+
+        private bool _isSearching = false;
+        public bool IsSearching
+        {
+            get { return _isSearching; }
+            set { _isSearching = value; NotifyOfPropertyChange(() => IsSearching); }
+        }
+        #endregion
+
         public void Handle(GroupEditViewModelClosingMessage closingMessage)
         {
             this.Items.Remove(closingMessage.GroupEditViewModel);
@@ -66,13 +129,40 @@ namespace PharmacyAdjudicator.ModernUI.Group
             var group = await Library.Core.Group.GroupEdit.NewGroupAsync(this.SelectedClientId, "");
             var groupViewModel = new GroupEditViewModel(group, _eventAggregator, _dialogManager);
             ActivateItem(groupViewModel);
-            this.IsBusy = false;
+            IsBusy = false;
+            BusyMessage = "";
+        }
+
+        public async Task ShowGroup(Library.Core.Group.GroupEdit group)
+        {
+            var existingGroupEditViewModel = this.Items.FirstOrDefault(g => g.Id.ToString() == group.GroupId.ToString());
+            if (existingGroupEditViewModel == null)
+            {
+                this.IsBusy = true;
+                var groupViewModel = await GroupEditViewModel.BuildViewModelAsync(group.ClientId, group.GroupId, _eventAggregator, _dialogManager);
+                ActivateItem(groupViewModel);
+                this.IsBusy = false;
+            }
+            else
+            {
+                existingGroupEditViewModel.Focus();
+            }
+        }
+
+        public void ShowGroupViewModel(GroupEditViewModel groupVm)
+        {
+            groupVm.Focus();
         }
 
         public override void ActivateItem(GroupEditViewModel item)
         {
             _windowManager.ShowWindow(item);
             base.ActivateItem(item);
+        }
+
+        public void DeactivateItem(GroupEditViewModel item)
+        {
+            this.DeactivateItem(item, true);
         }
 
         private List<string> _clients = null;
@@ -89,9 +179,8 @@ namespace PharmacyAdjudicator.ModernUI.Group
                 return _clients;
             }
         }
+
         public string SelectedClientId { get; set; }
-
-
 
         private bool _isBusy;
         public bool IsBusy 

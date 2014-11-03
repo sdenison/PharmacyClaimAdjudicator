@@ -75,8 +75,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
             if ((string.IsNullOrWhiteSpace(_patientSearchCriteria.PatientFirstName)) && (string.IsNullOrWhiteSpace(_patientSearchCriteria.PatientLastName))
                 && (string.IsNullOrWhiteSpace(_patientSearchCriteria.GroupId)) && (string.IsNullOrWhiteSpace(_patientSearchCriteria.CardholderId)))
             {
-                MessageBoxButton btn = MessageBoxButton.OK;
-                _dialogManager.ShowMessage("Please enter search criteria", "Search Criteria Missing", btn);
+                _dialogManager.ShowMessage("Please enter search criteria", "Search Criteria Missing", MessageBoxButton.OK);
             }
             else
             {
@@ -85,8 +84,7 @@ namespace PharmacyAdjudicator.ModernUI.Patient
                 this.IsFindingPatients = false;
                 if (patientSearchResutls.Count == 0)
                 {
-                    MessageBoxButton btn = MessageBoxButton.OK;
-                    _dialogManager.ShowMessage("No patients found for search criteria.", "No Records Found", btn);
+                    _dialogManager.ShowMessage("No patients found for search criteria.", "No Records Found", MessageBoxButton.OK);
                 }
                 this.SearchResults = patientSearchResutls;
             }
