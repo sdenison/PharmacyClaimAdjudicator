@@ -18,13 +18,15 @@ namespace PharmacyAdjudicator.DataAccess
         {
             this.PlanFacts = new HashSet<PlanDetail>();
             this.GroupPlan = new HashSet<GroupPlan>();
+            this.PlanRule = new HashSet<PlanRule>();
         }
     
-        public System.Guid PlanId { get; set; }
+        public System.Guid PlanInternalId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     
         public virtual ICollection<PlanDetail> PlanFacts { get; set; }
         public virtual ICollection<GroupPlan> GroupPlan { get; set; }
+        public virtual ICollection<PlanRule> PlanRule { get; set; }
     }
 }

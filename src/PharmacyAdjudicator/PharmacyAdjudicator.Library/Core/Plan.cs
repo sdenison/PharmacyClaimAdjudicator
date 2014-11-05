@@ -2,11 +2,12 @@ using System;
 using Csla;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using NxBRE.InferenceEngine.IO;
 
 namespace PharmacyAdjudicator.Library.Core
 {
     [Serializable]
-    public class Plan : BusinessBase<Plan>
+    public class Plan : BusinessBase<Plan>//, IRuleBaseAdapter
     {
         #region Business Methods
 

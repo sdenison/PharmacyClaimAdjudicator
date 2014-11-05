@@ -21,7 +21,7 @@ namespace PharmacyAdjudicator.DataAccess
     
         public System.Guid RecordId { get; set; }
         public System.Guid GroupInternalId { get; set; }
-        public System.Guid PlanId { get; set; }
+        public System.Guid PlanInternalId { get; set; }
         public System.DateTime EffectiveDate { get; set; }
         public System.DateTime ExpirationDate { get; set; }
         public bool Retraction { get; set; }

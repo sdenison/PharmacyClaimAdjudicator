@@ -20,7 +20,7 @@ namespace PharmacyAdjudicator.DataAccess
             this.PlanRules = new HashSet<PlanRule>();
         }
     
-        public long RuleId { get; set; }
+        public System.Guid RuleId { get; set; }
         public string RuleType { get; set; }
         public string DefaultValue { get; set; }
     

@@ -95,12 +95,13 @@
     <Compile Include="Core\Patient\PatientHistory.cs" />
     <Compile Include="Core\Plan.cs" />
     <Compile Include="Core\RuleBase.cs" />
-    <Compile Include="Core\Rules\EditableChild1.cs" />
     <Compile Include="Core\Rules\Implication.cs" />
+    <Compile Include="Core\Rules\ImplicationList.cs" />
+    <Compile Include="Core\Rules\ImplicationsAssignedToRuleMustMatchTypes.cs" />
     <Compile Include="Core\Rules\Predicate.cs" />
     <Compile Include="Core\Rules\PredicateList.cs" />
-    <Compile Include="Core\Rules\SwitchableObject1.cs" />
-    <Compile Include="Core\SwitchableObject1.cs" />
+    <Compile Include="Core\Rules\Rule.cs" />
+    <Compile Include="Core\Rules\RuleTypes.cs" />
     <Compile Include="Core\TransactionProcessor.cs" />
     <Compile Include="Core\TransactionProcessorBinder.cs" />
     <Compile Include="D0\Response\ClaimBilling.cs" />
@@ -167,6 +168,7 @@
     <Content Include="E3\Readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\Transaction\" />
     <Folder Include="D0\CodeLists\" />
     <Folder Include="E3\Response\" />
     <Folder Include="E3\Submitted\" />

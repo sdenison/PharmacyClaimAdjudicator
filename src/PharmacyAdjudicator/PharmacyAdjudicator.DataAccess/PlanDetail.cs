@@ -14,19 +14,13 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class PlanDetail
     {
-        public PlanDetail()
-        {
-            this.PlanRules = new HashSet<PlanRule>();
-        }
-    
         public System.Guid RecordId { get; set; }
-        public System.Guid PlanId { get; set; }
+        public string PlanId { get; set; }
         public string Name { get; set; }
         public bool Retraction { get; set; }
         public long OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
-    
-        public virtual ICollection<PlanRule> PlanRules { get; set; }
+        public System.Guid PlanInternalId { get; set; }
     }
 }

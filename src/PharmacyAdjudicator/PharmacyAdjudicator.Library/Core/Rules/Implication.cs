@@ -25,13 +25,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(HeadProperty, value); }
         }
 
-        //public static readonly PropertyInfo<Predicate> BodyProperty = RegisterProperty<Predicate>(c => c.Body);
-        //public Predicate Body
-        //{
-        //    get { return GetProperty(BodyProperty); }
-        //    set { SetProperty(BodyProperty, value); }
-        //}
-
         public static readonly PropertyInfo<AtomGroup> BodyProperty = RegisterProperty<AtomGroup>(c => c.Body);
         public AtomGroup Body
         {
@@ -55,7 +48,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             var head = this.Head.ToNxBre();
             List<NxBRE.InferenceEngine.Rules.Atom> containAtoms = new List<NxBRE.InferenceEngine.Rules.Atom>();
             
-            //We have to assert a Contains fact so unification can happen with objects containsed within the transaction.  eg. Drug, Patient, Doctor, Pharmacy
+            //We have to assert a Contains fact so unification can happen with objects contained within the transaction.  eg. Drug, Patient, Doctor, Pharmacy
             foreach(var contains in Body.ComplexFactsUsed())
             {
                 if (!contains.Equals("Transaction"))
@@ -186,8 +179,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.Implication.Add(implicationData);
                 ctx.DbContext.SaveChanges();
-                //using (BypassPropertyChecks)
-                //    this.ImplicationId = implicationData.ImplicationId;
             }
         }
 
@@ -198,9 +189,13 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 //var implicationData = (from i in ctx.DbContext.Implications
                 //                       where i.Label == criteria
                 //                       select i).FirstOrDefault();
-                this.Head.Save();
-                this.Body.Save();
-                //;this.FieldManager.UpdateChildren();
+
+                //
+                //this.Head.Save();
+                //this.Body.Save();
+
+
+                this.FieldManager.UpdateChildren();
                 //if (implicationData == null)
                 //    throw new DataNotFoundException("ImplicationId = " + criteria);
                 //using (BypassPropertyChecks)

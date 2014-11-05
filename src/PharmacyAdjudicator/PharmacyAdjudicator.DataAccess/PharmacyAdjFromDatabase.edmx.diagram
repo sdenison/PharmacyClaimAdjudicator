@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="984f98ab5a984b5086018baad0566953" Name="Diagram1">
+      <Diagram DiagramId="984f98ab5a984b5086018baad0566953" Name="Diagram1" ZoomLevel="83">
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Group" Width="1.5" PointX="0.625" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.GroupDetail" Width="1.75" PointX="0.5" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="2" PointX="6.375" PointY="0.5" IsExpanded="true" />
@@ -21,13 +21,12 @@
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AtomGroup" Width="1.5" PointX="6.25" PointY="10.625" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AtomGroupItem" Width="2.875" PointX="8.875" PointY="10.625" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Rule" Width="2" PointX="1.375" PointY="15.625" />
-        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PlanRule" Width="1.875" PointX="0.75" PointY="12.625" />
+        <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.PlanRule" Width="1.875" PointX="0.625" PointY="12" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Implication" Width="2.25" PointX="6" PointY="13.375" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.RuleImplication" Width="2.375" PointX="5.375" PointY="16.375" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.RuleRuleImplication" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.ImplicationRuleImplication" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.RulePlanRules" />
-        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PlanFactPlanRules" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems1" />
@@ -55,6 +54,7 @@
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.ClientDetailClientDetail" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientDetailPatientDetail" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PatientGroupPatientGroup" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.PlanPlanRule" />
       </Diagram>
       <Diagram DiagramId="899a7adf2cc1475fb3e30bef35df66d7" Name="Diagram2" >
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.VaDrug" Width="1.5" PointX="0.75" PointY="0.75" />

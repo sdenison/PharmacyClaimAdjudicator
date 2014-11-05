@@ -114,7 +114,9 @@
     <Content Include="Scripts\Create_test_data.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\PharmacyAdjFromDatabase.edmx.sql" />
+    <Content Include="Scripts\PharmacyAdjFromDatabase.edmx.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

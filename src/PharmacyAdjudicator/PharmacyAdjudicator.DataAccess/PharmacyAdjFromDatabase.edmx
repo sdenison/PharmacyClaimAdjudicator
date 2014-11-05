@@ -60,10 +60,6 @@
       <End Role="Rule" EntitySet="Rule" />
       <End Role="PlanRules" EntitySet="PlanRule" />
     </AssociationSet>
-    <AssociationSet Name="PlanFactPlanRules" Association="PharmacyClaimAdjudicatorModel.Store.PlanFactPlanRules">
-      <End Role="PlanFact" EntitySet="PlanDetail" />
-      <End Role="PlanRules" EntitySet="PlanRule" />
-    </AssociationSet>
     <AssociationSet Name="AtomGroupAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.Store.AtomGroupAtomGroupItems">
       <End Role="AtomGroup" EntitySet="AtomGroup" />
       <End Role="AtomGroupItems" EntitySet="AtomGroupItem" />
@@ -143,6 +139,10 @@
     <AssociationSet Name="PatientGroupPatientGroup" Association="PharmacyClaimAdjudicatorModel.Store.PatientGroupPatientGroup">
       <End Role="PatientGroup" EntitySet="PatientGroup" />
       <End Role="PatientGroup1" EntitySet="PatientGroup" />
+    </AssociationSet>
+    <AssociationSet Name="PlanPlanRule" Association="PharmacyClaimAdjudicatorModel.Store.PlanPlanRule">
+      <End Role="Plan" EntitySet="Plan" />
+      <End Role="PlanRule" EntitySet="PlanRule" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Group">
@@ -242,9 +242,9 @@
   </EntityType>
   <EntityType Name="Plan">
     <Key>
-      <PropertyRef Name="PlanId" />
+      <PropertyRef Name="PlanInternalId" />
     </Key>
-    <Property Name="PlanId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PlanInternalId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -253,12 +253,13 @@
       <PropertyRef Name="RecordId" />
     </Key>
     <Property Name="RecordId" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PlanId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PlanId" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
     <Property Name="OriginalFactRecordId" Type="bigint" Nullable="false" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="PlanInternalId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Atom">
     <Key>
@@ -297,18 +298,22 @@
     <Key>
       <PropertyRef Name="RuleId" />
     </Key>
-    <Property Name="RuleId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RuleId" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RuleType" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DefaultValue" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="PlanRule">
     <Key>
-      <PropertyRef Name="PlanRecordId" />
+      <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="PlanRecordId" Type="bigint" Nullable="false" />
-    <Property Name="RuleId" Type="bigint" Nullable="false" />
-    <Property Name="Rule_RuleId" Type="bigint" Nullable="false" />
-    <Property Name="PlanFact_RecordId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RecordId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RuleId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PlanInternalId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Retraction" Type="bit" Nullable="false" />
+    <Property Name="OriginalFactRecordId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
+    <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="Rule_RuleId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Implication">
     <Key>
@@ -324,10 +329,10 @@
       <PropertyRef Name="RecordId" />
     </Key>
     <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RuleId" Type="bigint" Nullable="false" />
+    <Property Name="RuleId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ImplicationId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Priority" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Rule_RuleId" Type="bigint" Nullable="false" />
+    <Property Name="Rule_RuleId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Implication_ImplicationId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Address">
@@ -400,7 +405,7 @@
     <Property Name="Retraction" Type="bit" Nullable="false" />
     <Property Name="OriginalFactRecordId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
-    <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="29" />
   </EntityType>
   <EntityType Name="GroupPlan">
     <Key>
@@ -408,7 +413,7 @@
     </Key>
     <Property Name="RecordId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="GroupInternalId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="PlanId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PlanInternalId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="EffectiveDate" Type="datetime" Nullable="false" />
     <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
@@ -468,10 +473,10 @@
     <End Role="PlanFact" Type="PharmacyClaimAdjudicatorModel.Store.PlanDetail" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Plan">
-        <PropertyRef Name="PlanId" />
+        <PropertyRef Name="PlanInternalId" />
       </Principal>
       <Dependent Role="PlanFact">
-        <PropertyRef Name="PlanId" />
+        <PropertyRef Name="PlanInternalId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -508,18 +513,6 @@
       </Principal>
       <Dependent Role="PlanRules">
         <PropertyRef Name="Rule_RuleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PlanFactPlanRules">
-    <End Role="PlanFact" Type="PharmacyClaimAdjudicatorModel.Store.PlanDetail" Multiplicity="1" />
-    <End Role="PlanRules" Type="PharmacyClaimAdjudicatorModel.Store.PlanRule" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PlanFact">
-        <PropertyRef Name="RecordId" />
-      </Principal>
-      <Dependent Role="PlanRules">
-        <PropertyRef Name="PlanFact_RecordId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -684,10 +677,10 @@
     <End Role="GroupPlan" Type="PharmacyClaimAdjudicatorModel.Store.GroupPlan" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Plan">
-        <PropertyRef Name="PlanId" />
+        <PropertyRef Name="PlanInternalId" />
       </Principal>
       <Dependent Role="GroupPlan">
-        <PropertyRef Name="PlanId" />
+        <PropertyRef Name="PlanInternalId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -763,6 +756,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="PlanPlanRule">
+    <End Role="Plan" Type="PharmacyClaimAdjudicatorModel.Store.Plan" Multiplicity="1" />
+    <End Role="PlanRule" Type="PharmacyClaimAdjudicatorModel.Store.PlanRule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Plan">
+        <PropertyRef Name="PlanInternalId" />
+      </Principal>
+      <Dependent Role="PlanRule">
+        <PropertyRef Name="PlanInternalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -813,10 +818,6 @@
           </AssociationSet>
           <AssociationSet Name="RulePlanRules" Association="PharmacyClaimAdjudicatorModel.RulePlanRules">
             <End Role="Rule" EntitySet="Rule" />
-            <End Role="PlanRules" EntitySet="PlanRule" />
-          </AssociationSet>
-          <AssociationSet Name="PlanFactPlanRules" Association="PharmacyClaimAdjudicatorModel.PlanFactPlanRules">
-            <End Role="PlanFact" EntitySet="PlanDetail" />
             <End Role="PlanRules" EntitySet="PlanRule" />
           </AssociationSet>
           <AssociationSet Name="AtomGroupAtomGroupItems" Association="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems">
@@ -905,6 +906,10 @@
           <AssociationSet Name="PatientGroupPatientGroup" Association="PharmacyClaimAdjudicatorModel.PatientGroupPatientGroup">
             <End Role="PatientGroup" EntitySet="PatientGroup" />
             <End Role="PatientGroup1" EntitySet="PatientGroup" />
+          </AssociationSet>
+          <AssociationSet Name="PlanPlanRule" Association="PharmacyClaimAdjudicatorModel.PlanPlanRule">
+            <End Role="Plan" EntitySet="Plan" />
+            <End Role="PlanRule" EntitySet="PlanRule" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Group">
@@ -1069,36 +1074,37 @@
         </EntityType>
         <EntityType Name="Plan">
           <Key>
-            <PropertyRef Name="PlanId" />
+            <PropertyRef Name="PlanInternalId" />
           </Key>
-          <Property Name="PlanId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="PlanInternalId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" />
           <NavigationProperty Name="PlanFacts" Relationship="PharmacyClaimAdjudicatorModel.PlanPlanFact" FromRole="Plan" ToRole="PlanFact" />
           <NavigationProperty Name="GroupPlan" Relationship="PharmacyClaimAdjudicatorModel.PlanGroupPlan" FromRole="Plan" ToRole="GroupPlan" />
+          <NavigationProperty Name="PlanRule" Relationship="PharmacyClaimAdjudicatorModel.PlanPlanRule" FromRole="Plan" ToRole="PlanRule" />
         </EntityType>
         <EntityType Name="PlanDetail">
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
           <Property Name="RecordId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PlanId" Type="Guid" Nullable="false" />
+          <Property Name="PlanId" Type="String" Nullable="false" MaxLength="30" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
           <Property Name="OriginalFactRecordId" Type="Int64" Nullable="false" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
-          <NavigationProperty Name="PlanRules" Relationship="PharmacyClaimAdjudicatorModel.PlanFactPlanRules" FromRole="PlanFact" ToRole="PlanRules" />
+          <Property Name="PlanInternalId" Type="Guid" Nullable="false" />
         </EntityType>
         <Association Name="PlanPlanFact">
           <End Type="PharmacyClaimAdjudicatorModel.Plan" Role="Plan" Multiplicity="1" />
           <End Type="PharmacyClaimAdjudicatorModel.PlanDetail" Role="PlanFact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Plan">
-              <PropertyRef Name="PlanId" />
+              <PropertyRef Name="PlanInternalId" />
             </Principal>
             <Dependent Role="PlanFact">
-              <PropertyRef Name="PlanId" />
+              <PropertyRef Name="PlanInternalId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1147,7 +1153,7 @@
           <Key>
             <PropertyRef Name="RuleId" />
           </Key>
-          <Property Name="RuleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RuleId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RuleType" Type="String" Nullable="false" />
           <Property Name="DefaultValue" Type="String" Nullable="false" />
           <NavigationProperty Name="RuleImplications" Relationship="PharmacyClaimAdjudicatorModel.RuleRuleImplication" FromRole="Rule" ToRole="RuleImplication" />
@@ -1155,12 +1161,17 @@
         </EntityType>
         <EntityType Name="PlanRule">
           <Key>
-            <PropertyRef Name="PlanRecordId" />
+            <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="PlanRecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="RuleId" Type="Int64" Nullable="false" />
+          <Property Name="RecordId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="RuleId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Rule" Relationship="PharmacyClaimAdjudicatorModel.RulePlanRules" FromRole="PlanRules" ToRole="Rule" />
-          <NavigationProperty Name="PlanFact" Relationship="PharmacyClaimAdjudicatorModel.PlanFactPlanRules" FromRole="PlanRules" ToRole="PlanFact" />
+          <NavigationProperty Name="Plan" Relationship="PharmacyClaimAdjudicatorModel.PlanPlanRule" FromRole="PlanRule" ToRole="Plan" />
+          <Property Name="PlanInternalId" Type="Guid" Nullable="false" />
+          <Property Name="Retraction" Type="Boolean" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="String" Nullable="false" />
+          <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
         </EntityType>
         <EntityType Name="Implication">
           <Key>
@@ -1179,7 +1190,7 @@
             <PropertyRef Name="RecordId" />
           </Key>
           <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RuleId" Type="Int64" Nullable="false" />
+          <Property Name="RuleId" Type="Guid" Nullable="false" />
           <Property Name="ImplicationId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Rule" Relationship="PharmacyClaimAdjudicatorModel.RuleRuleImplication" FromRole="RuleImplication" ToRole="Rule" />
           <NavigationProperty Name="Implication" Relationship="PharmacyClaimAdjudicatorModel.ImplicationRuleImplication" FromRole="RuleImplication" ToRole="Implication" />
@@ -1195,10 +1206,6 @@
         </Association>
         <Association Name="RulePlanRules">
           <End Type="PharmacyClaimAdjudicatorModel.Rule" Role="Rule" Multiplicity="1" />
-          <End Type="PharmacyClaimAdjudicatorModel.PlanRule" Role="PlanRules" Multiplicity="*" />
-        </Association>
-        <Association Name="PlanFactPlanRules">
-          <End Type="PharmacyClaimAdjudicatorModel.PlanDetail" Role="PlanFact" Multiplicity="1" />
           <End Type="PharmacyClaimAdjudicatorModel.PlanRule" Role="PlanRules" Multiplicity="*" />
         </Association>
         <Association Name="AtomGroupAtomGroupItems">
@@ -1439,7 +1446,7 @@
           </Key>
           <Property Name="RecordId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="GroupInternalId" Type="Guid" Nullable="false" />
-          <Property Name="PlanId" Type="Guid" Nullable="false" />
+          <Property Name="PlanInternalId" Type="Guid" Nullable="false" />
           <Property Name="EffectiveDate" Type="DateTime" Nullable="false" />
           <Property Name="ExpirationDate" Type="DateTime" Nullable="false" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
@@ -1467,10 +1474,10 @@
           <End Type="PharmacyClaimAdjudicatorModel.GroupPlan" Role="GroupPlan" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Plan">
-              <PropertyRef Name="PlanId" />
+              <PropertyRef Name="PlanInternalId" />
             </Principal>
             <Dependent Role="GroupPlan">
-              <PropertyRef Name="PlanId" />
+              <PropertyRef Name="PlanInternalId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1543,6 +1550,18 @@
             </Principal>
             <Dependent Role="PatientGroup1">
               <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PlanPlanRule">
+          <End Type="PharmacyClaimAdjudicatorModel.Plan" Role="Plan" Multiplicity="1" />
+          <End Type="PharmacyClaimAdjudicatorModel.PlanRule" Role="PlanRule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plan">
+              <PropertyRef Name="PlanInternalId" />
+            </Principal>
+            <Dependent Role="PlanRule">
+              <PropertyRef Name="PlanInternalId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1656,7 +1675,7 @@
     <EntitySetMapping Name="Plan">
       <EntityTypeMapping TypeName="IsTypeOf(PharmacyClaimAdjudicatorModel.Plan)">
         <MappingFragment StoreEntitySet="Plan">
-          <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+          <ScalarProperty Name="PlanInternalId" ColumnName="PlanInternalId" />
           <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
           <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
         </MappingFragment>
@@ -1672,6 +1691,7 @@
           <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
           <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
           <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
+          <ScalarProperty Name="PlanInternalId" ColumnName="PlanInternalId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1723,8 +1743,13 @@
     <EntitySetMapping Name="PlanRule">
       <EntityTypeMapping TypeName="IsTypeOf(PharmacyClaimAdjudicatorModel.PlanRule)">
         <MappingFragment StoreEntitySet="PlanRule">
-          <ScalarProperty Name="PlanRecordId" ColumnName="PlanRecordId" />
+          <ScalarProperty Name="RecordId" ColumnName="RecordId" />
           <ScalarProperty Name="RuleId" ColumnName="RuleId" />
+          <ScalarProperty Name="PlanInternalId" ColumnName="PlanInternalId" />
+          <ScalarProperty Name="Retraction" ColumnName="Retraction" />
+          <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
+          <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
+          <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1831,7 +1856,7 @@
         <MappingFragment StoreEntitySet="GroupPlan">
           <ScalarProperty Name="RecordId" ColumnName="RecordId" />
           <ScalarProperty Name="GroupInternalId" ColumnName="GroupInternalId" />
-          <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+          <ScalarProperty Name="PlanInternalId" ColumnName="PlanInternalId" />
           <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
           <ScalarProperty Name="ExpirationDate" ColumnName="ExpirationDate" />
           <ScalarProperty Name="Retraction" ColumnName="Retraction" />
@@ -1861,15 +1886,7 @@
         <ScalarProperty Name="RuleId" ColumnName="Rule_RuleId" />
       </EndProperty>
       <EndProperty Name="PlanRules">
-        <ScalarProperty Name="PlanRecordId" ColumnName="PlanRecordId" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="PlanFactPlanRules" TypeName="PharmacyClaimAdjudicatorModel.PlanFactPlanRules" StoreEntitySet="PlanRule">
-      <EndProperty Name="PlanFact">
-        <ScalarProperty Name="RecordId" ColumnName="PlanFact_RecordId" />
-      </EndProperty>
-      <EndProperty Name="PlanRules">
-        <ScalarProperty Name="PlanRecordId" ColumnName="PlanRecordId" />
+        <ScalarProperty Name="RecordId" ColumnName="RecordId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

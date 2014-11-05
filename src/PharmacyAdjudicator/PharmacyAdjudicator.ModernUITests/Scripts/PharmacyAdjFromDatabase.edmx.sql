@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/24/2014 14:41:03
--- Generated from EDMX file: C:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
+-- Date Created: 11/04/2014 17:59:56
+-- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -277,7 +277,7 @@ GO
 
 -- Creating table 'Plan'
 CREATE TABLE [dbo].[Plan] (
-    [PlanId] uniqueidentifier  NOT NULL,
+    [PlanInternalId] uniqueidentifier  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(max)  NOT NULL
 );
@@ -286,12 +286,13 @@ GO
 -- Creating table 'PlanDetail'
 CREATE TABLE [dbo].[PlanDetail] (
     [RecordId] uniqueidentifier  NOT NULL,
-    [PlanId] uniqueidentifier  NOT NULL,
+    [PlanId] nvarchar(30)  NOT NULL,
     [Name] nvarchar(255)  NOT NULL,
     [Retraction] bit  NOT NULL,
     [OriginalFactRecordId] bigint  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
-    [RecordCreatedUser] nvarchar(30)  NOT NULL
+    [RecordCreatedUser] nvarchar(30)  NOT NULL,
+    [PlanInternalId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -330,7 +331,7 @@ GO
 
 -- Creating table 'Rule'
 CREATE TABLE [dbo].[Rule] (
-    [RuleId] bigint IDENTITY(1,1) NOT NULL,
+    [RuleId] uniqueidentifier  NOT NULL,
     [RuleType] nvarchar(max)  NOT NULL,
     [DefaultValue] nvarchar(max)  NOT NULL
 );
@@ -338,10 +339,14 @@ GO
 
 -- Creating table 'PlanRule'
 CREATE TABLE [dbo].[PlanRule] (
-    [PlanRecordId] bigint  NOT NULL,
-    [RuleId] bigint  NOT NULL,
-    [Rule_RuleId] bigint  NOT NULL,
-    [PlanFact_RecordId] uniqueidentifier  NOT NULL
+    [RecordId] uniqueidentifier  NOT NULL,
+    [RuleId] uniqueidentifier  NOT NULL,
+    [PlanInternalId] uniqueidentifier  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] nvarchar(max)  NOT NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL,
+    [Rule_RuleId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -357,10 +362,10 @@ GO
 -- Creating table 'RuleImplication'
 CREATE TABLE [dbo].[RuleImplication] (
     [RecordId] bigint IDENTITY(1,1) NOT NULL,
-    [RuleId] bigint  NOT NULL,
+    [RuleId] uniqueidentifier  NOT NULL,
     [ImplicationId] uniqueidentifier  NOT NULL,
     [Priority] nvarchar(max)  NOT NULL,
-    [Rule_RuleId] bigint  NOT NULL,
+    [Rule_RuleId] uniqueidentifier  NOT NULL,
     [Implication_ImplicationId] uniqueidentifier  NOT NULL
 );
 GO
@@ -433,7 +438,7 @@ CREATE TABLE [dbo].[ClientGroup] (
     [Retraction] bit  NOT NULL,
     [OriginalFactRecordId] uniqueidentifier  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
-    [RecordCreatedUser] nvarchar(30)  NOT NULL
+    [RecordCreatedUser] nvarchar(29)  NOT NULL
 );
 GO
 
@@ -441,7 +446,7 @@ GO
 CREATE TABLE [dbo].[GroupPlan] (
     [RecordId] uniqueidentifier  NOT NULL,
     [GroupInternalId] uniqueidentifier  NOT NULL,
-    [PlanId] uniqueidentifier  NOT NULL,
+    [PlanInternalId] uniqueidentifier  NOT NULL,
     [EffectiveDate] datetime  NOT NULL,
     [ExpirationDate] datetime  NOT NULL,
     [Retraction] bit  NOT NULL,
@@ -490,10 +495,10 @@ GO
 --    PRIMARY KEY CLUSTERED ([NdfNdc] ASC);
 --GO
 
--- Creating primary key on [PlanId] in table 'Plan'
+-- Creating primary key on [PlanInternalId] in table 'Plan'
 ALTER TABLE [dbo].[Plan]
 ADD CONSTRAINT [PK_Plan]
-    PRIMARY KEY CLUSTERED ([PlanId] ASC);
+    PRIMARY KEY CLUSTERED ([PlanInternalId] ASC);
 GO
 
 -- Creating primary key on [RecordId] in table 'PlanDetail'
@@ -526,10 +531,10 @@ ADD CONSTRAINT [PK_Rule]
     PRIMARY KEY CLUSTERED ([RuleId] ASC);
 GO
 
--- Creating primary key on [PlanRecordId] in table 'PlanRule'
+-- Creating primary key on [RecordId] in table 'PlanRule'
 ALTER TABLE [dbo].[PlanRule]
 ADD CONSTRAINT [PK_PlanRule]
-    PRIMARY KEY CLUSTERED ([PlanRecordId] ASC);
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
 -- Creating primary key on [ImplicationId] in table 'Implication'
@@ -650,19 +655,19 @@ ON [dbo].[PatientDetail]
     ([PatientId]);
 GO
 
--- Creating foreign key on [PlanId] in table 'PlanDetail'
+-- Creating foreign key on [PlanInternalId] in table 'PlanDetail'
 ALTER TABLE [dbo].[PlanDetail]
 ADD CONSTRAINT [FK_PlanPlanFact]
-    FOREIGN KEY ([PlanId])
+    FOREIGN KEY ([PlanInternalId])
     REFERENCES [dbo].[Plan]
-        ([PlanId])
+        ([PlanInternalId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanPlanFact'
 CREATE INDEX [IX_FK_PlanPlanFact]
 ON [dbo].[PlanDetail]
-    ([PlanId]);
+    ([PlanInternalId]);
 GO
 
 -- Creating foreign key on [Rule_RuleId] in table 'RuleImplication'
@@ -708,21 +713,6 @@ GO
 CREATE INDEX [IX_FK_RulePlanRules]
 ON [dbo].[PlanRule]
     ([Rule_RuleId]);
-GO
-
--- Creating foreign key on [PlanFact_RecordId] in table 'PlanRule'
-ALTER TABLE [dbo].[PlanRule]
-ADD CONSTRAINT [FK_PlanFactPlanRules]
-    FOREIGN KEY ([PlanFact_RecordId])
-    REFERENCES [dbo].[PlanDetail]
-        ([RecordId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_PlanFactPlanRules'
-CREATE INDEX [IX_FK_PlanFactPlanRules]
-ON [dbo].[PlanRule]
-    ([PlanFact_RecordId]);
 GO
 
 -- Creating foreign key on [AtomGroupId] in table 'AtomGroupItem'
@@ -920,19 +910,19 @@ ON [dbo].[GroupPlan]
     ([GroupInternalId]);
 GO
 
--- Creating foreign key on [PlanId] in table 'GroupPlan'
+-- Creating foreign key on [PlanInternalId] in table 'GroupPlan'
 ALTER TABLE [dbo].[GroupPlan]
 ADD CONSTRAINT [FK_PlanGroupPlan]
-    FOREIGN KEY ([PlanId])
+    FOREIGN KEY ([PlanInternalId])
     REFERENCES [dbo].[Plan]
-        ([PlanId])
+        ([PlanInternalId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlanGroupPlan'
 CREATE INDEX [IX_FK_PlanGroupPlan]
 ON [dbo].[GroupPlan]
-    ([PlanId]);
+    ([PlanInternalId]);
 GO
 
 -- Creating foreign key on [OriginalFactRecordId] in table 'GroupDetail'
@@ -1023,6 +1013,21 @@ GO
 CREATE INDEX [IX_FK_PatientGroupPatientGroup]
 ON [dbo].[PatientGroup]
     ([OriginalFactRecordId]);
+GO
+
+-- Creating foreign key on [PlanInternalId] in table 'PlanRule'
+ALTER TABLE [dbo].[PlanRule]
+ADD CONSTRAINT [FK_PlanPlanRule]
+    FOREIGN KEY ([PlanInternalId])
+    REFERENCES [dbo].[Plan]
+        ([PlanInternalId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PlanPlanRule'
+CREATE INDEX [IX_FK_PlanPlanRule]
+ON [dbo].[PlanRule]
+    ([PlanInternalId]);
 GO
 
 -- --------------------------------------------------

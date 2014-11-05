@@ -91,7 +91,6 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void Formulary_is_true_using_VaClass_and_DosageForm_with_persistable_rules()
         {
-            
             var onTheFlyRules = new Library.Core.RuleBase();
 
             var atom1 = Library.Core.Rules.Atom.NewAtom();
@@ -193,6 +192,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             var transaction2 = new Library.Core.Transaction(drug2);
             var transAfterProcessing2 = Library.Core.TransactionProcessor.Process(transaction2, onTheFlyRules);
             Assert.IsFalse(transAfterProcessing2.Formulary);
+            //Need to add defaults.  AmountOfCopay shouldn't be 0 just because formulary is false
             //Assert.IsTrue(transAfterProcessing2.AmountOfCopay > 0);
 
             //This drug should match based on NDC number and not on VaClass

@@ -14,10 +14,15 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class PlanRule
     {
-        public long PlanRecordId { get; set; }
-        public long RuleId { get; set; }
+        public System.Guid RecordId { get; set; }
+        public System.Guid RuleId { get; set; }
+        public System.Guid PlanInternalId { get; set; }
+        public bool Retraction { get; set; }
+        public string OriginalFactRecordId { get; set; }
+        public System.DateTime RecordCreatedDateTime { get; set; }
+        public string RecordCreatedUser { get; set; }
     
         public virtual Rule Rule { get; set; }
-        public virtual PlanDetail PlanFact { get; set; }
+        public virtual Plan Plan { get; set; }
     }
 }

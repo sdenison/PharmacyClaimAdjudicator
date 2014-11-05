@@ -221,7 +221,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 atomGroupData.Name = this.Name;
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
-                //this.Predicates.Save();
             }
         }
 
