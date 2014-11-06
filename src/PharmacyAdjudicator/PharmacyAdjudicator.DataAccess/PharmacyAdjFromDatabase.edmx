@@ -298,7 +298,7 @@
     <Key>
       <PropertyRef Name="RuleId" />
     </Key>
-    <Property Name="RuleId" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RuleId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="RuleType" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DefaultValue" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -328,7 +328,7 @@
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecordId" Type="bigint" Nullable="false" />
     <Property Name="RuleId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ImplicationId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Priority" Type="nvarchar(max)" Nullable="false" />
@@ -1153,7 +1153,7 @@
           <Key>
             <PropertyRef Name="RuleId" />
           </Key>
-          <Property Name="RuleId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RuleId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="RuleType" Type="String" Nullable="false" />
           <Property Name="DefaultValue" Type="String" Nullable="false" />
           <NavigationProperty Name="RuleImplications" Relationship="PharmacyClaimAdjudicatorModel.RuleRuleImplication" FromRole="Rule" ToRole="RuleImplication" />
@@ -1189,7 +1189,7 @@
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="RuleId" Type="Guid" Nullable="false" />
           <Property Name="ImplicationId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Rule" Relationship="PharmacyClaimAdjudicatorModel.RuleRuleImplication" FromRole="RuleImplication" ToRole="Rule" />

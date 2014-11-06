@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/04/2014 17:59:56
+-- Date Created: 11/05/2014 15:24:04
 -- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -40,9 +40,6 @@ IF OBJECT_ID(N'[dbo].[FK_ImplicationRuleImplication]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_RulePlanRules]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PlanRule] DROP CONSTRAINT [FK_RulePlanRules];
-GO
-IF OBJECT_ID(N'[dbo].[FK_PlanFactPlanRules]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PlanRule] DROP CONSTRAINT [FK_PlanFactPlanRules];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AtomGroupAtomGroupItems]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AtomGroupItem] DROP CONSTRAINT [FK_AtomGroupAtomGroupItems];
@@ -103,6 +100,9 @@ IF OBJECT_ID(N'[dbo].[FK_PatientDetailPatientDetail]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_PatientGroupPatientGroup]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PatientGroup] DROP CONSTRAINT [FK_PatientGroupPatientGroup];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PlanPlanRule]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PlanRule] DROP CONSTRAINT [FK_PlanPlanRule];
 GO
 
 -- --------------------------------------------------
@@ -242,7 +242,7 @@ CREATE TABLE [dbo].[PatientGroup] (
 );
 GO
 
--- Creating table 'VaDrug'
+---- Creating table 'VaDrug'
 --CREATE TABLE [dbo].[VaDrug] (
 --    [Ndc_1] nvarchar(5)  NOT NULL,
 --    [Ndc_2] nvarchar(4)  NOT NULL,
@@ -361,7 +361,7 @@ GO
 
 -- Creating table 'RuleImplication'
 CREATE TABLE [dbo].[RuleImplication] (
-    [RecordId] bigint IDENTITY(1,1) NOT NULL,
+    [RecordId] bigint  NOT NULL,
     [RuleId] uniqueidentifier  NOT NULL,
     [ImplicationId] uniqueidentifier  NOT NULL,
     [Priority] nvarchar(max)  NOT NULL,

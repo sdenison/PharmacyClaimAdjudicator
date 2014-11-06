@@ -107,7 +107,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             // TODO: add validation rules
             base.AddBusinessRules();
 
-
+            BusinessRules.AddRule(new ImplicationsAssignedToRuleMustMatchTypes(ImplicationsProperty));
             //BusinessRules.AddRule(new Rule(IdProperty));
         }
 
@@ -126,9 +126,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Create<Rule>();
         }
 
-        public static Rule GetByRuleId(int id)
+        public static Rule GetByRuleId(Guid ruleId)
         {
-            return DataPortal.Fetch<Rule>(id);
+            return DataPortal.Fetch<Rule>(ruleId);
         }
 
         public static void DeleteRule(Guid ruleId)

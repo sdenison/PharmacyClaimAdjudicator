@@ -56,5 +56,47 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             rule.DefaultValue = (5.5).ToString();  //sets default copay to $5.50
         }
 
+        [TestMethod]
+        public void Can_save_rule()
+        {
+            var rule = Library.Core.Rules.Rule.NewRule();
+            rule.RuleType = "AmountOfCopay";
+            rule.DefaultValue = (5.5).ToString();
+            rule = rule.Save();
+            var ruleFromDb = Library.Core.Rules.Rule.GetByRuleId(rule.RuleId);
+            Assert.IsNotNull(ruleFromDb);
+        }
+
+        [TestMethod]
+        public void Can_add_rule_with_implication()
+        {
+            var rule = Library.Core.Rules.Rule.NewRule();
+            rule.RuleType = "AmountOfCopay";
+            rule.DefaultValue = (5.5).ToString();
+
+            var implication = Library.Core.Rules.Implication.NewImplication();
+            implication.Head = Library.Core.Rules.Atom.NewAtom();
+            implication.Head.Class = "Transaction";
+            implication.Head.Property = "AmountOfCopay";
+            implication.Head.Value = "20";
+
+            implication.Body = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            implication.Body.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
+            var atom1 = Library.Core.Rules.Atom.NewAtom();
+            atom1.Class = "Transaction";
+            atom1.Property = "Formulary";
+            atom1.Value = "True";
+            implication.Body.AddPredicate(atom1);
+
+            rule.Implications.Add(implication);
+
+            var transFormularyTrue = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            
+
+            rule = rule.Save();
+            var ruleFromDb = Library.Core.Rules.Rule.GetByRuleId(rule.RuleId);
+            Assert.IsNotNull(ruleFromDb);
+        }
+
     }
 }
