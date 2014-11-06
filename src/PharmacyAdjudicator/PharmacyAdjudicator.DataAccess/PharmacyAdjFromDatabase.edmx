@@ -256,7 +256,7 @@
     <Property Name="PlanId" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
-    <Property Name="OriginalFactRecordId" Type="bigint" Nullable="false" />
+    <Property Name="OriginalFactRecordId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="PlanInternalId" Type="uniqueidentifier" Nullable="false" />
@@ -310,7 +310,7 @@
     <Property Name="RuleId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="PlanInternalId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
-    <Property Name="OriginalFactRecordId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OriginalFactRecordId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="Rule_RuleId" Type="uniqueidentifier" Nullable="false" />
@@ -1089,7 +1089,7 @@
           <Property Name="PlanId" Type="String" Nullable="false" MaxLength="30" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
-          <Property Name="OriginalFactRecordId" Type="Int64" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Guid" Nullable="true" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
           <Property Name="PlanInternalId" Type="Guid" Nullable="false" />
@@ -1167,7 +1167,7 @@
           <NavigationProperty Name="Plan" Relationship="PharmacyClaimAdjudicatorModel.PlanPlanRule" FromRole="PlanRule" ToRole="Plan" />
           <Property Name="PlanInternalId" Type="Guid" Nullable="false" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />
-          <Property Name="OriginalFactRecordId" Type="String" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Guid" Nullable="true" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
           <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
         </EntityType>

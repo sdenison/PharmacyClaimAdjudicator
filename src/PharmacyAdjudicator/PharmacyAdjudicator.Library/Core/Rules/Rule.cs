@@ -199,6 +199,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
+        private void Child_Fetch(DataAccess.Rule ruleData)
+        {
+            PopulateByEntity(ruleData);
+        }
+
         protected override void DataPortal_Insert()
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())

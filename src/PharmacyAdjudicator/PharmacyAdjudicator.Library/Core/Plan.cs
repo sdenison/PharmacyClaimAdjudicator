@@ -27,8 +27,16 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(NameProperty, value); }
         }
 
-        public static readonly PropertyInfo<long> RecordIdProperty = RegisterProperty<long>(c => c.RecordId);
-        public long RecordId
+        public static readonly PropertyInfo<Guid> PlanInternalIdProperty = RegisterProperty<Guid>(c => c.PlanInternalId);
+        [Display(Name="Plan Internal ID")]
+        public Guid PlanInternalId
+        {
+            get { return GetProperty(PlanInternalIdProperty); }
+            private set { SetProperty(PlanInternalIdProperty, value); }
+        }
+
+        public static readonly PropertyInfo<Guid> RecordIdProperty = RegisterProperty<Guid>(c => c.RecordId);
+        public Guid RecordId
         {
             get { return GetProperty(RecordIdProperty); }
             private set { LoadProperty(RecordIdProperty, value); }
@@ -78,19 +86,20 @@ namespace PharmacyAdjudicator.Library.Core
 
         #region Data Access
 
-        protected void DataPortal_Create(string planId)
+        protected override void DataPortal_Create()
         {
+            this.RecordId = Guid.NewGuid();
+            this.PlanInternalId = Guid.NewGuid();
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 DataAccess.Plan newPlan = new DataAccess.Plan();
-                //newPlan.PlanId = planId;
                 newPlan.RecordCreatedDateTime = DateTime.Now;
                 newPlan.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
+                newPlan.PlanInternalId = this.PlanInternalId;
                 ctx.DbContext.Plan.Add(newPlan);
                 ctx.DbContext.SaveChanges();
-                this.PlanId = planId;
             }
-            base.DataPortal_Create();
+            base.Child_Create();
         }
 
         [Serializable]
@@ -206,14 +215,15 @@ namespace PharmacyAdjudicator.Library.Core
 
         private void PopulateByRow(DataAccess.PlanDetail planData)
         {
-            //this.PlanId = planData.PlanId;
-            //this.RecordId = planData.RecordId;
+            this.PlanInternalId = planData.PlanInternalId;
+            this.PlanId = planData.PlanId;
+            this.Name = planData.Name;
         }
 
         private DataAccess.PlanDetail CreateNewEntity()
         {
             var planData = new DataAccess.PlanDetail();
-            //planData.PlanId = this.PlanId;
+            //planData.PlanInternalId = this.PlanInternalId;
             planData.Retraction = false;
             planData.RecordCreatedDateTime = DateTime.Now;
             planData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;

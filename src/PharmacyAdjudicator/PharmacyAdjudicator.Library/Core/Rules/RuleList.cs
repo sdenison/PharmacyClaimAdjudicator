@@ -16,11 +16,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.CreateChild<RuleList>();
         }
 
-        //internal static RuleList GetEditableChildList(DataAccess.Rule rules)
-        //{
-        //    return DataPortal.FetchChild<RuleList>(childData);
-        //}
-
         private RuleList()
         { }
 
@@ -33,11 +28,58 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             RaiseListChangedEvents = false;
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var ruleListData = from rl in ctx.DbContext.PlanRule
+                var ruleListData = from pr in ctx.DbContext.PlanRule
+                                   join r in ctx.DbContext.Rule on pr.RuleId equals r.RuleId
+                                   where pr.Retraction == false
+                                   && !ctx.DbContext.PlanRule.Any(pr2 => pr2.Retraction == true && pr2.OriginalFactRecordId == pr.OriginalFactRecordId)
+                                   && pr.PlanInternalId == parent.PlanInternalId
+                                   orderby r.RuleType
+                                   select r;
+                foreach (var ruleData in ruleListData)
+                    DataPortal.FetchChild<Rule>(ruleData);
             }
-            //foreach (var child in (IList<object>)childData)
-            //    this.Add(EditableChild.GetEditableChild(child));
             RaiseListChangedEvents = true;
+        }
+
+        protected void Child_Update(Plan parent)
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                foreach (var deletedRule in DeletedList)
+                {
+                    var planRuleData = (from pr in ctx.DbContext.PlanRule
+                                       where pr.RuleId == deletedRule.RuleId
+                                       && pr.PlanInternalId == parent.PlanInternalId
+                                       && pr.Retraction == false
+                                       && !ctx.DbContext.PlanRule.Any(pr2 => pr2.Retraction == true && pr2.OriginalFactRecordId == pr.RecordId)
+                                       select pr).FirstOrDefault();
+                    planRuleData.Retraction = true;
+                    planRuleData.OriginalFactRecordId = planRuleData.RecordId;
+                    planRuleData.RecordId = Guid.NewGuid();
+                    ctx.DbContext.PlanRule.Add(planRuleData);
+                }
+                foreach (var newRule in this)
+                {
+                    if (newRule.IsNew)
+                    {
+                        var planRuleData = CreateEntity(parent, newRule);
+                        ctx.DbContext.PlanRule.Add(planRuleData);
+                    }
+                }
+                base.Child_Update();
+            }
+        }
+
+        private DataAccess.PlanRule CreateEntity(Plan plan, Rule rule)
+        {
+            var entity = new DataAccess.PlanRule();
+            entity.RecordId = Guid.NewGuid();
+            entity.RuleId = rule.RuleId;
+            entity.PlanInternalId = plan.PlanInternalId;
+            entity.Retraction = false;
+            entity.RecordCreatedDateTime = DateTime.Now;
+            entity.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
+            return entity;
         }
 
         #endregion

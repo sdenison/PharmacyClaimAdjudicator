@@ -18,7 +18,7 @@ namespace PharmacyAdjudicator.DataAccess
         public System.Guid RuleId { get; set; }
         public System.Guid PlanInternalId { get; set; }
         public bool Retraction { get; set; }
-        public string OriginalFactRecordId { get; set; }
+        public Nullable<System.Guid> OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     
