@@ -80,15 +80,24 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 if (!FieldManager.FieldExists(ImplicationsProperty))
                 {
-                    Implications = ImplicationList.GetByRuleId(this.RuleId);
+                    LoadProperty(ImplicationsProperty, DataPortal.FetchChild<ImplicationList>(this.RuleId));
+                    //Implications = ImplicationList.GetByRuleId(this.RuleId);
                 }
                 return GetProperty(ImplicationsProperty);
             }
             private set
             {
-                LoadProperty(ImplicationsProperty, value);
+                //LoadProperty(ImplicationsProperty, value);
+                SetProperty(ImplicationsProperty, value);
                 OnPropertyChanged(ImplicationsProperty);
             }
+        }
+
+        public void AddImplication(Implication implication)
+        {
+            Implications.Add(implication);
+            OnPropertyChanged(ImplicationsProperty);
+            this.CheckPropertyRules(ImplicationsProperty);
         }
 
         public static readonly PropertyInfo<Guid> RuleIdProperty = RegisterProperty<Guid>(c => c.RuleId);
@@ -105,9 +114,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         protected override void AddBusinessRules()
         {
             // TODO: add validation rules
-            base.AddBusinessRules();
 
             BusinessRules.AddRule(new ImplicationsAssignedToRuleMustMatchTypes(ImplicationsProperty));
+            base.AddBusinessRules();
             //BusinessRules.AddRule(new Rule(IdProperty));
         }
 
@@ -123,16 +132,19 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public static Rule NewRule()
         {
-            return DataPortal.Create<Rule>();
+            //return DataPortal.Create<Rule>();
+            return DataPortal.CreateChild<Rule>();
         }
 
         public static Rule GetByRuleId(Guid ruleId)
         {
-            return DataPortal.Fetch<Rule>(ruleId);
+            //return DataPortal.Fetch<Rule>(ruleId);
+            return DataPortal.FetchChild<Rule>(ruleId);
         }
 
         public static void DeleteRule(Guid ruleId)
         {
+            //DataPortal.Delete<Rule>(ruleId);
             DataPortal.Delete<Rule>(ruleId);
         }
 
@@ -143,16 +155,37 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Data Access
 
+        //[RunLocal]
+        //protected override void DataPortal_Create()
+        //{
+        //    // TODO: load default values
+        //    // omit this override if you have no defaults to set
+        //    this.RuleId = Guid.NewGuid();
+        //    base.DataPortal_Create();
+        //}
+
         [RunLocal]
-        protected override void DataPortal_Create()
+        protected override void Child_Create()
         {
-            // TODO: load default values
-            // omit this override if you have no defaults to set
             this.RuleId = Guid.NewGuid();
-            base.DataPortal_Create();
+            base.Child_Create();
         }
 
-        private void DataPortal_Fetch(Guid criteria)
+        //private void DataPortal_Fetch(Guid criteria)
+        //{
+        //    using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+        //    {
+        //        var ruleData = ctx.DbContext.Rule.FirstOrDefault(r => r.RuleId == criteria);
+        //        if (ruleData == null)
+        //            throw new DataNotFoundException("RuleId = " + ruleData);
+        //        using (BypassPropertyChecks)
+        //        {
+        //            PopulateByEntity(ruleData);
+        //        }
+        //    }
+        //}
+
+        private void Child_Fetch(Guid criteria)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -183,7 +216,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var ruleData = CreateNewEntity();
                 ctx.DbContext.Rule.Add(ruleData);
-                FieldManager.UpdateChildren();
+                FieldManager.UpdateChildren(this);
             }
         }
 

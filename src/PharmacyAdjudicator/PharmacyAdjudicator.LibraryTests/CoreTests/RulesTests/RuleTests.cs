@@ -2,6 +2,8 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PharmacyAdjudicator.Library;
+using Csla.Core;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
 {
@@ -62,7 +64,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             var rule = Library.Core.Rules.Rule.NewRule();
             rule.RuleType = "AmountOfCopay";
             rule.DefaultValue = (5.5).ToString();
-            rule = rule.Save();
+            SaveChild(rule);
             var ruleFromDb = Library.Core.Rules.Rule.GetByRuleId(rule.RuleId);
             Assert.IsNotNull(ruleFromDb);
         }
@@ -78,7 +80,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             implication.Head = Library.Core.Rules.Atom.NewAtom();
             implication.Head.Class = "Transaction";
             implication.Head.Property = "AmountOfCopay";
-            implication.Head.Value = "20";
+            implication.Head.Value = (20).ToString();
 
             implication.Body = Library.Core.Rules.AtomGroup.NewAtomGroup();
             implication.Body.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
@@ -87,16 +89,52 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atom1.Property = "Formulary";
             atom1.Value = "True";
             implication.Body.AddPredicate(atom1);
-
             rule.Implications.Add(implication);
-
             var transFormularyTrue = Library.Core.Rules.AtomGroup.NewAtomGroup();
-            
-
-            rule = rule.Save();
+            SaveChild(rule);
             var ruleFromDb = Library.Core.Rules.Rule.GetByRuleId(rule.RuleId);
             Assert.IsNotNull(ruleFromDb);
+            Assert.IsTrue(ruleFromDb.Implications.Count == 1);
         }
 
+        [TestMethod]
+        public void Can_not_add_rule_with_implication_that_has_different_property_type_than_rule()
+        {
+            var rule = Library.Core.Rules.Rule.NewRule();
+            rule.RuleType = "AmountOfCopay";
+            rule.DefaultValue = (5.5).ToString();
+
+            var implication = Library.Core.Rules.Implication.NewImplication();
+            implication.Head = Library.Core.Rules.Atom.NewAtom();
+            implication.Head.Class = "Transaction";
+            implication.Head.Property = "DispensingFeePaid";
+            implication.Head.Value = (20).ToString();
+
+            implication.Body = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            implication.Body.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
+            var atom1 = Library.Core.Rules.Atom.NewAtom();
+            atom1.Class = "Transaction";
+            atom1.Property = "Formulary";
+            atom1.Value = "True";
+            implication.Body.AddPredicate(atom1);
+            //rule.Implications.Add(implication);
+            rule.AddImplication(implication);
+            var brokenRules = rule.GetBrokenRules();
+            Assert.IsTrue(rule.BrokenRulesCollection.Count == 1); //The implication.Head.Property should be the same as rule.RuleType
+            SaveChild(rule);
+            //var ruleFromDb = Library.Core.Rules.Rule.GetByRuleId(rule.RuleId);
+            //Assert.IsNotNull(ruleFromDb);
+            //Assert.IsTrue(ruleFromDb.Implications.Count == 1);
+        }
+
+        private void SaveChild(Library.Core.Rules.Rule child)
+        {
+            //add using statement to mimic what happens in root
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                Csla.DataPortal.UpdateChild(child);
+                ctx.DbContext.SaveChanges();
+            }
+        }
     }
 }

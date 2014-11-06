@@ -210,6 +210,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
+        protected void Child_Insert()
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var atomGroupData = CreateEntity();
+                ctx.DbContext.AtomGroup.Add(atomGroupData);
+                FieldManager.UpdateChildren(this);
+                //ctx.DbContext.SaveChanges();
+                //this.AtomGroupId = atomGroupData.AtomGroupId;
+            }
+        }
+
         protected override void DataPortal_Update()
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
@@ -221,6 +233,20 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 atomGroupData.Name = this.Name;
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
+            }
+        }
+
+        protected void Child_Update()
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var atomGroupData = (from a in ctx.DbContext.AtomGroup
+                                     where a.AtomGroupId == this.AtomGroupId
+                                     select a).FirstOrDefault();
+                atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
+                atomGroupData.Name = this.Name;
+                FieldManager.UpdateChildren(this);
+                //ctx.DbContext.SaveChanges();
             }
         }
 

@@ -328,12 +328,10 @@
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="bigint" Nullable="false" />
+    <Property Name="RecordId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="RuleId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ImplicationId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Priority" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Rule_RuleId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Implication_ImplicationId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Address">
     <Key>
@@ -488,7 +486,7 @@
         <PropertyRef Name="RuleId" />
       </Principal>
       <Dependent Role="RuleImplication">
-        <PropertyRef Name="Rule_RuleId" />
+        <PropertyRef Name="RuleId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -500,7 +498,7 @@
         <PropertyRef Name="ImplicationId" />
       </Principal>
       <Dependent Role="RuleImplication">
-        <PropertyRef Name="Implication_ImplicationId" />
+        <PropertyRef Name="ImplicationId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1189,7 +1187,7 @@
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="RecordId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="RuleId" Type="Guid" Nullable="false" />
           <Property Name="ImplicationId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Rule" Relationship="PharmacyClaimAdjudicatorModel.RuleRuleImplication" FromRole="RuleImplication" ToRole="Rule" />
@@ -1199,10 +1197,26 @@
         <Association Name="RuleRuleImplication">
           <End Type="PharmacyClaimAdjudicatorModel.Rule" Role="Rule" Multiplicity="1" />
           <End Type="PharmacyClaimAdjudicatorModel.RuleImplication" Role="RuleImplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rule">
+              <PropertyRef Name="RuleId" />
+            </Principal>
+            <Dependent Role="RuleImplication">
+              <PropertyRef Name="RuleId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="ImplicationRuleImplication">
           <End Type="PharmacyClaimAdjudicatorModel.Implication" Role="Implication" Multiplicity="1" />
           <End Type="PharmacyClaimAdjudicatorModel.RuleImplication" Role="RuleImplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Implication">
+              <PropertyRef Name="ImplicationId" />
+            </Principal>
+            <Dependent Role="RuleImplication">
+              <PropertyRef Name="ImplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="RulePlanRules">
           <End Type="PharmacyClaimAdjudicatorModel.Rule" Role="Rule" Multiplicity="1" />
@@ -1865,22 +1879,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="RuleRuleImplication" TypeName="PharmacyClaimAdjudicatorModel.RuleRuleImplication" StoreEntitySet="RuleImplication">
-      <EndProperty Name="Rule">
-        <ScalarProperty Name="RuleId" ColumnName="Rule_RuleId" />
-      </EndProperty>
-      <EndProperty Name="RuleImplication">
-        <ScalarProperty Name="RecordId" ColumnName="RecordId" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ImplicationRuleImplication" TypeName="PharmacyClaimAdjudicatorModel.ImplicationRuleImplication" StoreEntitySet="RuleImplication">
-      <EndProperty Name="Implication">
-        <ScalarProperty Name="ImplicationId" ColumnName="Implication_ImplicationId" />
-      </EndProperty>
-      <EndProperty Name="RuleImplication">
-        <ScalarProperty Name="RecordId" ColumnName="RecordId" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="RulePlanRules" TypeName="PharmacyClaimAdjudicatorModel.RulePlanRules" StoreEntitySet="PlanRule">
       <EndProperty Name="Rule">
         <ScalarProperty Name="RuleId" ColumnName="Rule_RuleId" />

@@ -128,6 +128,10 @@
       <Project>{c5a2507e-550e-4eec-b3c2-a278ecb27e30}</Project>
       <Name>NxBRE</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj">
+      <Project>{9467e711-a5d6-435a-be7d-cd36dd21c8c0}</Project>
+      <Name>PharmacyAdjudicator.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PharmacyAdjudicator.Library\PharmacyAdjudicator.Library.csproj">
       <Project>{c350b73e-0d48-4dd0-b320-e68261e3418f}</Project>
       <Name>PharmacyAdjudicator.Library</Name>

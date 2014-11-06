@@ -96,17 +96,20 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public static Implication NewImplication()
         {
-            return DataPortal.Create<Implication>();
+            //return DataPortal.Create<Implication>();
+            return DataPortal.CreateChild<Implication>();
         }
 
         public static Implication GetById(Guid id)
         {
-            return DataPortal.Fetch<Implication>(id);
+            //return DataPortal.Fetch<Implication>(id);
+            return DataPortal.FetchChild<Implication>(id);
         }
 
         public static Implication GetByLabel(string label)
         {
-            return DataPortal.Fetch<Implication>(label);
+            //return DataPortal.Fetch<Implication>(label);
+            return DataPortal.FetchChild<Implication>(label);
         }
 
         public static void DeleteById(Guid id)
@@ -121,14 +124,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Data Access
 
+        //[RunLocal]
+        //protected override void DataPortal_Create()
+        //{
+        //    //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+        //    //{
+        //    //    var identityAtom = new DataAccess.Implication();
+        //    //    ctx.DbContext.SaveChanges();
+        //    //}
+        //    this.ImplicationId = Guid.NewGuid();
+        //    base.DataPortal_Create();
+        //}
+
         [RunLocal]
-        protected override void DataPortal_Create()
+        protected override void Child_Create()
         {
-            //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-            //{
-            //    var identityAtom = new DataAccess.Implication();
-            //    ctx.DbContext.SaveChanges();
-            //}
             this.ImplicationId = Guid.NewGuid();
             base.DataPortal_Create();
         }
@@ -149,13 +159,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-
-        private void DataPortal_Fetch(string criteria)
+        private void Child_Fetch(Guid criteria)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var implicationData = (from i in ctx.DbContext.Implication
-                                       where i.Label == criteria
+                                       where i.ImplicationId == criteria
                                        select i).FirstOrDefault();
                 if (implicationData == null)
                     throw new DataNotFoundException("ImplicationId = " + criteria);
@@ -166,7 +175,43 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
+        private void Child_Fetch(DataAccess.Implication implicationData)
+        {
+            PopulateByEntity(implicationData);
+        }
+
+        private void DataPortal_Fetch(string label)
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var implicationData = (from i in ctx.DbContext.Implication
+                                       where i.Label == label
+                                       select i).FirstOrDefault();
+                if (implicationData == null)
+                    throw new DataNotFoundException("ImplicationId = " + label);
+                using (BypassPropertyChecks)
+                {
+                    PopulateByEntity(implicationData);
+                }
+            }
+        }
+
+        private void Child_Fetch(string label)
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var implicationData = (from i in ctx.DbContext.Implication
+                                       where i.Label == label
+                                       select i).FirstOrDefault();
+                if (implicationData == null)
+                    throw new DataNotFoundException("ImplicationId = " + label);
+                using (BypassPropertyChecks)
+                {
+                    PopulateByEntity(implicationData);
+                }
+            }
+        }
+
         protected override void DataPortal_Insert()
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
@@ -179,6 +224,20 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.Implication.Add(implicationData);
                 ctx.DbContext.SaveChanges();
+            }
+        }
+
+        protected void Child_Insert()
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var implicationData = new DataAccess.Implication();
+                implicationData.ImplicationId = this.ImplicationId;
+                implicationData.AtomGroupId = this.Body.AtomGroupId;
+                implicationData.DeductionAtomId = this.Head.AtomId;
+                implicationData.Label = this.Label;
+                FieldManager.UpdateChildren(this);
+                ctx.DbContext.Implication.Add(implicationData);
             }
         }
 
@@ -196,12 +255,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
 
                 this.FieldManager.UpdateChildren();
+                ctx.DbContext.SaveChanges();
                 //if (implicationData == null)
                 //    throw new DataNotFoundException("ImplicationId = " + criteria);
                 //using (BypassPropertyChecks)
                 //{
                 //    PopulateByEntity(implicationData);
                 //}
+            }
+        }
+
+        protected void Child_Update()
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                this.FieldManager.UpdateChildren();
             }
         }
 
@@ -219,6 +287,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                        select i).FirstOrDefault();
                 ctx.DbContext.Implication.Remove(implicationData);
                 ctx.DbContext.SaveChanges();
+            }
+        }
+
+        private void Child_Delete(Guid criteria)
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var implicationData = (from i in ctx.DbContext.Implication
+                                       where i.ImplicationId == criteria
+                                       select i).FirstOrDefault();
+                ctx.DbContext.Implication.Remove(implicationData);
             }
         }
 

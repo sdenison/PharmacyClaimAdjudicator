@@ -14,7 +14,7 @@ namespace PharmacyAdjudicator.DataAccess
     
     public partial class RuleImplication
     {
-        public long RecordId { get; set; }
+        public System.Guid RecordId { get; set; }
         public System.Guid RuleId { get; set; }
         public System.Guid ImplicationId { get; set; }
         public string Priority { get; set; }

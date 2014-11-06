@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/05/2014 15:24:04
+-- Date Created: 11/06/2014 15:09:03
 -- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -242,7 +242,7 @@ CREATE TABLE [dbo].[PatientGroup] (
 );
 GO
 
----- Creating table 'VaDrug'
+-- Creating table 'VaDrug'
 --CREATE TABLE [dbo].[VaDrug] (
 --    [Ndc_1] nvarchar(5)  NOT NULL,
 --    [Ndc_2] nvarchar(4)  NOT NULL,
@@ -361,12 +361,10 @@ GO
 
 -- Creating table 'RuleImplication'
 CREATE TABLE [dbo].[RuleImplication] (
-    [RecordId] bigint  NOT NULL,
+    [RecordId] uniqueidentifier  NOT NULL,
     [RuleId] uniqueidentifier  NOT NULL,
     [ImplicationId] uniqueidentifier  NOT NULL,
-    [Priority] nvarchar(max)  NOT NULL,
-    [Rule_RuleId] uniqueidentifier  NOT NULL,
-    [Implication_ImplicationId] uniqueidentifier  NOT NULL
+    [Priority] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -670,10 +668,10 @@ ON [dbo].[PlanDetail]
     ([PlanInternalId]);
 GO
 
--- Creating foreign key on [Rule_RuleId] in table 'RuleImplication'
+-- Creating foreign key on [RuleId] in table 'RuleImplication'
 ALTER TABLE [dbo].[RuleImplication]
 ADD CONSTRAINT [FK_RuleRuleImplication]
-    FOREIGN KEY ([Rule_RuleId])
+    FOREIGN KEY ([RuleId])
     REFERENCES [dbo].[Rule]
         ([RuleId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -682,13 +680,13 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_RuleRuleImplication'
 CREATE INDEX [IX_FK_RuleRuleImplication]
 ON [dbo].[RuleImplication]
-    ([Rule_RuleId]);
+    ([RuleId]);
 GO
 
--- Creating foreign key on [Implication_ImplicationId] in table 'RuleImplication'
+-- Creating foreign key on [ImplicationId] in table 'RuleImplication'
 ALTER TABLE [dbo].[RuleImplication]
 ADD CONSTRAINT [FK_ImplicationRuleImplication]
-    FOREIGN KEY ([Implication_ImplicationId])
+    FOREIGN KEY ([ImplicationId])
     REFERENCES [dbo].[Implication]
         ([ImplicationId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -697,7 +695,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_ImplicationRuleImplication'
 CREATE INDEX [IX_FK_ImplicationRuleImplication]
 ON [dbo].[RuleImplication]
-    ([Implication_ImplicationId]);
+    ([ImplicationId]);
 GO
 
 -- Creating foreign key on [Rule_RuleId] in table 'PlanRule'

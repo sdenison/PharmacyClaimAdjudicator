@@ -101,6 +101,7 @@
     <Compile Include="Core\Rules\Predicate.cs" />
     <Compile Include="Core\Rules\PredicateList.cs" />
     <Compile Include="Core\Rules\Rule.cs" />
+    <Compile Include="Core\Rules\RuleList.cs" />
     <Compile Include="Core\Rules\RuleTypes.cs" />
     <Compile Include="Core\TransactionProcessor.cs" />
     <Compile Include="Core\TransactionProcessorBinder.cs" />
