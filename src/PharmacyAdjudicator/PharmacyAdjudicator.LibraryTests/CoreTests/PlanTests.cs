@@ -45,7 +45,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             Plan testPlan = Plan.NewPlan("NEW-PLAN-ID-1");
             testPlan.Name = "This is a test plan";
             Assert.IsTrue(testPlan.AssignedRules.Count > 0);
-            //testPlan = testPlan.Save();
+            testPlan = testPlan.Save();
         }
 
         //[TestMethod]

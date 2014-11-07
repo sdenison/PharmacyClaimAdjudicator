@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/06/2014 15:09:03
+-- Date Created: 11/07/2014 14:53:34
 -- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -289,7 +289,7 @@ CREATE TABLE [dbo].[PlanDetail] (
     [PlanId] nvarchar(30)  NOT NULL,
     [Name] nvarchar(255)  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] bigint  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
     [RecordCreatedUser] nvarchar(30)  NOT NULL,
     [PlanInternalId] uniqueidentifier  NOT NULL
@@ -343,10 +343,9 @@ CREATE TABLE [dbo].[PlanRule] (
     [RuleId] uniqueidentifier  NOT NULL,
     [PlanInternalId] uniqueidentifier  NOT NULL,
     [Retraction] bit  NOT NULL,
-    [OriginalFactRecordId] nvarchar(max)  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
-    [RecordCreatedUser] nvarchar(30)  NOT NULL,
-    [Rule_RuleId] uniqueidentifier  NOT NULL
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
 GO
 
@@ -698,10 +697,10 @@ ON [dbo].[RuleImplication]
     ([ImplicationId]);
 GO
 
--- Creating foreign key on [Rule_RuleId] in table 'PlanRule'
+-- Creating foreign key on [RuleId] in table 'PlanRule'
 ALTER TABLE [dbo].[PlanRule]
 ADD CONSTRAINT [FK_RulePlanRules]
-    FOREIGN KEY ([Rule_RuleId])
+    FOREIGN KEY ([RuleId])
     REFERENCES [dbo].[Rule]
         ([RuleId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -710,7 +709,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_RulePlanRules'
 CREATE INDEX [IX_FK_RulePlanRules]
 ON [dbo].[PlanRule]
-    ([Rule_RuleId]);
+    ([RuleId]);
 GO
 
 -- Creating foreign key on [AtomGroupId] in table 'AtomGroupItem'
@@ -1030,4 +1029,4 @@ GO
 
 -- --------------------------------------------------
 -- Script has ended
--- --------------------------------------------------
+-- ---------------------------------------------------

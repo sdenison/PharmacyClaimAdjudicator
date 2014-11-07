@@ -47,7 +47,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 return Enums.ResponseStatus.Captured.ToString();
             if (pi.PropertyType.Equals(typeof(Enums.BasisOfReimbursement)))
                 return Enums.BasisOfReimbursement.NotSpecified.ToString();
-            if (pi.PropertyType.Equals(typeof()))
+            if (pi.PropertyType.Equals(typeof(Enums.TaxExemptIndicator)))
+                return Enums.TaxExemptIndicator.NotSpecified.ToString();
             throw new ArgumentException("Unknown ruleType = " + ruleType);
         }
 
@@ -91,6 +92,15 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     //already throws argument exception 
                     Enums.BasisOfReimbursement bor = (Enums.BasisOfReimbursement)Enum.Parse(typeof(Enums.BasisOfReimbursement), value);
                     if (Enum.IsDefined(typeof(Enums.BasisOfReimbursement), bor))
+                        SetProperty(DefaultValueProperty, value);
+                    else
+                        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                }
+                else if (pi.PropertyType.Equals(typeof(Enums.TaxExemptIndicator)))
+                {
+                    //already throws argument exception 
+                    Enums.TaxExemptIndicator tei = (Enums.TaxExemptIndicator)Enum.Parse(typeof(Enums.TaxExemptIndicator), value);
+                    if (Enum.IsDefined(typeof(Enums.TaxExemptIndicator), tei))
                         SetProperty(DefaultValueProperty, value);
                     else
                         throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");

@@ -47,11 +47,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 foreach (var deletedRule in DeletedList)
                 {
                     var planRuleData = (from pr in ctx.DbContext.PlanRule
-                                       where pr.RuleId == deletedRule.RuleId
-                                       && pr.PlanInternalId == parent.PlanInternalId
-                                       && pr.Retraction == false
-                                       && !ctx.DbContext.PlanRule.Any(pr2 => pr2.Retraction == true && pr2.OriginalFactRecordId == pr.RecordId)
-                                       select pr).FirstOrDefault();
+                                        where pr.RuleId == deletedRule.RuleId
+                                        && pr.PlanInternalId == parent.PlanInternalId
+                                        && pr.Retraction == false
+                                        && !ctx.DbContext.PlanRule.Any(pr2 => pr2.Retraction == true && pr2.OriginalFactRecordId == pr.RecordId)
+                                        select pr).FirstOrDefault();
                     planRuleData.Retraction = true;
                     planRuleData.OriginalFactRecordId = planRuleData.RecordId;
                     planRuleData.RecordId = Guid.NewGuid();
@@ -64,6 +64,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                         var planRuleData = CreateEntity(parent, newRule);
                         ctx.DbContext.PlanRule.Add(planRuleData);
                     }
+                    //DataPortal.UpdateChild(newRule);
                 }
                 base.Child_Update();
             }

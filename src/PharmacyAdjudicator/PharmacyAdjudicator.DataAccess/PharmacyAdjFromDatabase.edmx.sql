@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/06/2014 17:25:24
+-- Date Created: 11/07/2014 14:53:34
 -- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -124,9 +124,9 @@ GO
 IF OBJECT_ID(N'[dbo].[PatientGroup]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PatientGroup];
 GO
-IF OBJECT_ID(N'[dbo].[VaDrug]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[VaDrug];
-GO
+--IF OBJECT_ID(N'[dbo].[VaDrug]', 'U') IS NOT NULL
+--    DROP TABLE [dbo].[VaDrug];
+--GO
 IF OBJECT_ID(N'[dbo].[Plan]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Plan];
 GO
@@ -243,37 +243,37 @@ CREATE TABLE [dbo].[PatientGroup] (
 GO
 
 -- Creating table 'VaDrug'
-CREATE TABLE [dbo].[VaDrug] (
-    [Ndc_1] nvarchar(5)  NOT NULL,
-    [Ndc_2] nvarchar(4)  NOT NULL,
-    [Ndc_3] nvarchar(2)  NOT NULL,
-    [NdfNdc] nvarchar(11)  NOT NULL,
-    [Upn] nvarchar(max)  NULL,
-    [IDateNdc] datetime  NULL,
-    [Trade] nvarchar(max)  NOT NULL,
-    [VaProduct] nvarchar(max)  NOT NULL,
-    [IDateVap] datetime  NULL,
-    [ProductNu] nvarchar(max)  NULL,
-    [FeeDer] nvarchar(max)  NOT NULL,
-    [Generic] nvarchar(max)  NOT NULL,
-    [PkgSz] decimal(18,0)  NOT NULL,
-    [PkgType] nvarchar(max)  NOT NULL,
-    [VaClass] nvarchar(max)  NOT NULL,
-    [Manufac] nvarchar(max)  NOT NULL,
-    [StandardMedRoute] nvarchar(max)  NULL,
-    [Strength] nvarchar(max)  NULL,
-    [Units] nvarchar(max)  NULL,
-    [DoseForm] nvarchar(max)  NOT NULL,
-    [NfName] nvarchar(max)  NOT NULL,
-    [Csfs] nvarchar(max)  NOT NULL,
-    [RxOtc] nvarchar(max)  NOT NULL,
-    [NfIndicat] nvarchar(max)  NOT NULL,
-    [VaPrn] nvarchar(max)  NULL,
-    [DispUnt] nvarchar(max)  NULL,
-    [Id] nvarchar(max)  NULL,
-    [Mark] nvarchar(max)  NOT NULL
-);
-GO
+--CREATE TABLE [dbo].[VaDrug] (
+--    [Ndc_1] nvarchar(5)  NOT NULL,
+--    [Ndc_2] nvarchar(4)  NOT NULL,
+--    [Ndc_3] nvarchar(2)  NOT NULL,
+--    [NdfNdc] nvarchar(11)  NOT NULL,
+--    [Upn] nvarchar(max)  NULL,
+--    [IDateNdc] datetime  NULL,
+--    [Trade] nvarchar(max)  NOT NULL,
+--    [VaProduct] nvarchar(max)  NOT NULL,
+--    [IDateVap] datetime  NULL,
+--    [ProductNu] nvarchar(max)  NULL,
+--    [FeeDer] nvarchar(max)  NOT NULL,
+--    [Generic] nvarchar(max)  NOT NULL,
+--    [PkgSz] decimal(18,0)  NOT NULL,
+--    [PkgType] nvarchar(max)  NOT NULL,
+--    [VaClass] nvarchar(max)  NOT NULL,
+--    [Manufac] nvarchar(max)  NOT NULL,
+--    [StandardMedRoute] nvarchar(max)  NULL,
+--    [Strength] nvarchar(max)  NULL,
+--    [Units] nvarchar(max)  NULL,
+--    [DoseForm] nvarchar(max)  NOT NULL,
+--    [NfName] nvarchar(max)  NOT NULL,
+--    [Csfs] nvarchar(max)  NOT NULL,
+--    [RxOtc] nvarchar(max)  NOT NULL,
+--    [NfIndicat] nvarchar(max)  NOT NULL,
+--    [VaPrn] nvarchar(max)  NULL,
+--    [DispUnt] nvarchar(max)  NULL,
+--    [Id] nvarchar(max)  NULL,
+--    [Mark] nvarchar(max)  NOT NULL
+--);
+--GO
 
 -- Creating table 'Plan'
 CREATE TABLE [dbo].[Plan] (
@@ -345,8 +345,7 @@ CREATE TABLE [dbo].[PlanRule] (
     [Retraction] bit  NOT NULL,
     [OriginalFactRecordId] uniqueidentifier  NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
-    [RecordCreatedUser] nvarchar(30)  NOT NULL,
-    [Rule_RuleId] uniqueidentifier  NOT NULL
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
 GO
 
@@ -488,10 +487,10 @@ ADD CONSTRAINT [PK_PatientGroup]
 GO
 
 -- Creating primary key on [NdfNdc] in table 'VaDrug'
-ALTER TABLE [dbo].[VaDrug]
-ADD CONSTRAINT [PK_VaDrug]
-    PRIMARY KEY CLUSTERED ([NdfNdc] ASC);
-GO
+--ALTER TABLE [dbo].[VaDrug]
+--ADD CONSTRAINT [PK_VaDrug]
+--    PRIMARY KEY CLUSTERED ([NdfNdc] ASC);
+--GO
 
 -- Creating primary key on [PlanInternalId] in table 'Plan'
 ALTER TABLE [dbo].[Plan]
@@ -698,10 +697,10 @@ ON [dbo].[RuleImplication]
     ([ImplicationId]);
 GO
 
--- Creating foreign key on [Rule_RuleId] in table 'PlanRule'
+-- Creating foreign key on [RuleId] in table 'PlanRule'
 ALTER TABLE [dbo].[PlanRule]
 ADD CONSTRAINT [FK_RulePlanRules]
-    FOREIGN KEY ([Rule_RuleId])
+    FOREIGN KEY ([RuleId])
     REFERENCES [dbo].[Rule]
         ([RuleId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -710,7 +709,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_RulePlanRules'
 CREATE INDEX [IX_FK_RulePlanRules]
 ON [dbo].[PlanRule]
-    ([Rule_RuleId]);
+    ([RuleId]);
 GO
 
 -- Creating foreign key on [AtomGroupId] in table 'AtomGroupItem'

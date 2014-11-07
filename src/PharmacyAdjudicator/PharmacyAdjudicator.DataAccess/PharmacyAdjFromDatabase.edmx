@@ -313,7 +313,6 @@
     <Property Name="OriginalFactRecordId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
-    <Property Name="Rule_RuleId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Implication">
     <Key>
@@ -510,7 +509,7 @@
         <PropertyRef Name="RuleId" />
       </Principal>
       <Dependent Role="PlanRules">
-        <PropertyRef Name="Rule_RuleId" />
+        <PropertyRef Name="RuleId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1221,6 +1220,14 @@
         <Association Name="RulePlanRules">
           <End Type="PharmacyClaimAdjudicatorModel.Rule" Role="Rule" Multiplicity="1" />
           <End Type="PharmacyClaimAdjudicatorModel.PlanRule" Role="PlanRules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rule">
+              <PropertyRef Name="RuleId" />
+            </Principal>
+            <Dependent Role="PlanRules">
+              <PropertyRef Name="RuleId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="AtomGroupAtomGroupItems">
           <End Type="PharmacyClaimAdjudicatorModel.AtomGroup" Role="AtomGroup" Multiplicity="1" />
@@ -1879,14 +1886,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="RulePlanRules" TypeName="PharmacyClaimAdjudicatorModel.RulePlanRules" StoreEntitySet="PlanRule">
-      <EndProperty Name="Rule">
-        <ScalarProperty Name="RuleId" ColumnName="Rule_RuleId" />
-      </EndProperty>
-      <EndProperty Name="PlanRules">
-        <ScalarProperty Name="RecordId" ColumnName="RecordId" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

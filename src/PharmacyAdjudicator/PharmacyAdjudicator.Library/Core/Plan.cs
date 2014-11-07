@@ -98,8 +98,9 @@ namespace PharmacyAdjudicator.Library.Core
 
         #region Data Access
 
-        protected override void DataPortal_Create()
+        protected void DataPortal_Create(string planId)
         {
+            this.PlanId = planId;
             this.RecordId = Guid.NewGuid();
             this.PlanInternalId = Guid.NewGuid();
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
@@ -177,6 +178,7 @@ namespace PharmacyAdjudicator.Library.Core
             {
                 var planData = CreateNewEntity();
                 ctx.DbContext.PlanDetail.Add(planData);
+                FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
             }
         }
@@ -247,6 +249,7 @@ namespace PharmacyAdjudicator.Library.Core
 
         private void PopulateByRow(DataAccess.PlanDetail planData)
         {
+            this.RecordId = planData.RecordId;
             this.PlanInternalId = planData.PlanInternalId;
             this.PlanId = planData.PlanId;
             this.Name = planData.Name;
@@ -255,8 +258,10 @@ namespace PharmacyAdjudicator.Library.Core
         private DataAccess.PlanDetail CreateNewEntity()
         {
             var planData = new DataAccess.PlanDetail();
-            planData.RecordId = Guid.NewGuid();
+            planData.RecordId = this.RecordId;
             planData.PlanInternalId = this.PlanInternalId;
+            planData.PlanId = this.PlanId;
+            planData.Name = this.Name;
             planData.Retraction = false;
             planData.RecordCreatedDateTime = DateTime.Now;
             planData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
