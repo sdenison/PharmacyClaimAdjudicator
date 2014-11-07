@@ -67,6 +67,7 @@
     <Compile Include="Core\Client\ClientInfoList.cs" />
     <Compile Include="Core\Enums\AddressType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Enums\TaxExemptIndicator.cs" />
     <Compile Include="Core\Group\ClientAssignment.cs" />
     <Compile Include="Core\Group\ClientAssignmentList.cs" />
     <Compile Include="Core\Group\ClientAssignmentsCannotOverlap.cs" />

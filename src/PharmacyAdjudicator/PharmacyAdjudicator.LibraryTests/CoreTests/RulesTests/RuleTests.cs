@@ -13,6 +13,27 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
     [TestClass]
     public class RuleTests
     {
+        [ClassInitialize()]
+        public static void Setup(TestContext testContext)
+        {
+            var principal = new System.Security.Principal.GenericPrincipal(
+                new System.Security.Principal.GenericIdentity("Test"),
+                new string[] { "RuleManager" });
+            //var principal = new System.Security.Principal.GenericPrincipal(
+            //    new System.Security.Principal.GenericIdentity("Test"),
+            //    new string[] { "PatientViewer" });
+            Csla.ApplicationContext.User = principal;
+
+            //Using SQL Server script to recreate the datC:\Users\sdenison\work\Projects\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.LibraryTests\CoreTests\RulesTests\AtomTests.csabase
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.StartInfo.FileName = "Scripts\\recreate_database.bat";
+            proc.StartInfo.RedirectStandardError = false;
+            proc.StartInfo.RedirectStandardOutput = false;
+            proc.StartInfo.UseShellExecute = false;
+            proc.Start();
+            proc.WaitForExit();
+        }
+
         public RuleTests()
         {
         }
@@ -117,14 +138,10 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atom1.Property = "Formulary";
             atom1.Value = "True";
             implication.Body.AddPredicate(atom1);
-            //rule.Implications.Add(implication);
             rule.AddImplication(implication);
             var brokenRules = rule.GetBrokenRules();
             Assert.IsTrue(rule.BrokenRulesCollection.Count == 1); //The implication.Head.Property should be the same as rule.RuleType
-            SaveChild(rule);
-            //var ruleFromDb = Library.Core.Rules.Rule.GetByRuleId(rule.RuleId);
-            //Assert.IsNotNull(ruleFromDb);
-            //Assert.IsTrue(ruleFromDb.Implications.Count == 1);
+            Assert.IsTrue(rule.BrokenRulesCollection[0].Description.Contains("AmountOfCopay cannot"));
         }
 
         private void SaveChild(Library.Core.Rules.Rule child)

@@ -9,8 +9,8 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
     [TestClass]
     public class PlanTests
     {
-        [TestInitialize()]
-        public void Setup()
+        [ClassInitialize]
+        public static void Setup(TestContext ctx)
         {
             var principal = new System.Security.Principal.GenericPrincipal(
                 new System.Security.Principal.GenericIdentity("Test"),
@@ -28,6 +28,24 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             proc.StartInfo.UseShellExecute = false;
             proc.Start();
             proc.WaitForExit();
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            var principal = new System.Security.Principal.GenericPrincipal(
+                new System.Security.Principal.GenericIdentity("Test"),
+                new string[] { "RuleManager" });
+            Csla.ApplicationContext.User = principal;
+        }
+
+        [TestMethod]
+        public void Should_be_able_to_create_plan_and_all_rules_should_be_present()
+        {
+            Plan testPlan = Plan.NewPlan("NEW-PLAN-ID-1");
+            testPlan.Name = "This is a test plan";
+            Assert.IsTrue(testPlan.AssignedRules.Count > 0);
+            //testPlan = testPlan.Save();
         }
 
         //[TestMethod]

@@ -142,10 +142,10 @@ namespace PharmacyAdjudicator.Library.Core
             set { SetProperty(DispensingFeePaidProperty, value); }
         }
 
-        public static readonly PropertyInfo<string> TaxExemptIndicatorProperty = RegisterProperty<string>(c => c.TaxExemptIndicator);
+        public static readonly PropertyInfo<Enums.TaxExemptIndicator> TaxExemptIndicatorProperty = RegisterProperty<Enums.TaxExemptIndicator>(c => c.TaxExemptIndicator);
         [NcpdpField("557-AV")]
         [Inferrable]
-        public string TaxExemptIndicator
+        public Enums.TaxExemptIndicator TaxExemptIndicator
         {
             get { return GetProperty(TaxExemptIndicatorProperty); }
             set { SetProperty(TaxExemptIndicatorProperty, value); }

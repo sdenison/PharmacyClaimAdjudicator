@@ -6,8 +6,7 @@ using Csla;
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
     [Serializable]
-    public class RuleList :
-      BusinessListBase<RuleList, Rule>
+    public class RuleList : BusinessListBase<RuleList, Rule>
     {
         #region Factory Methods
 

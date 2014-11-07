@@ -22,10 +22,33 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var propertyList = RuleTypes.GetInferrableProperties();
                 if (propertyList.Contains(value))
+                {
                     SetProperty(RuleTypeProperty, value);
+                    this.DefaultValue = DefaultDefault(value);
+                }
                 else
                     throw new ArgumentException("RuleType must be an inferrable attribute of Transaction.");
             }
+        }
+
+        /// <summary>
+        /// Provides a default value for the default property based on the ruleType's type.  Very meta.
+        /// </summary>
+        /// <param name="ruleType"></param>
+        /// <returns></returns>
+        private string DefaultDefault(string ruleType)
+        {
+            var pi = typeof(Transaction).GetProperty(RuleType);
+            if (pi.PropertyType.Equals(typeof(Boolean)))
+                return "true";
+            if (pi.PropertyType.Equals(typeof(Decimal)))
+                return "0";
+            if (pi.PropertyType.Equals(typeof(Enums.ResponseStatus)))
+                return Enums.ResponseStatus.Captured.ToString();
+            if (pi.PropertyType.Equals(typeof(Enums.BasisOfReimbursement)))
+                return Enums.BasisOfReimbursement.NotSpecified.ToString();
+            if (pi.PropertyType.Equals(typeof()))
+            throw new ArgumentException("Unknown ruleType = " + ruleType);
         }
 
         /// <summary>
@@ -37,7 +60,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             get { return GetProperty(DefaultValueProperty); }
             set
             {
-
                 var pi = typeof(Transaction).GetProperty(RuleType);
                 if (pi.PropertyType.Equals(typeof(Boolean)))
                 {
@@ -60,6 +82,15 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     //already throws argument exception 
                     Enums.ResponseStatus rs = (Enums.ResponseStatus)Enum.Parse(typeof(Enums.ResponseStatus), value);
                     if (Enum.IsDefined(typeof(Enums.ResponseStatus), rs))
+                        SetProperty(DefaultValueProperty, value);
+                    else
+                        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                }
+                else if (pi.PropertyType.Equals(typeof(Enums.BasisOfReimbursement)))
+                {
+                    //already throws argument exception 
+                    Enums.BasisOfReimbursement bor = (Enums.BasisOfReimbursement)Enum.Parse(typeof(Enums.BasisOfReimbursement), value);
+                    if (Enum.IsDefined(typeof(Enums.BasisOfReimbursement), bor))
                         SetProperty(DefaultValueProperty, value);
                     else
                         throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
