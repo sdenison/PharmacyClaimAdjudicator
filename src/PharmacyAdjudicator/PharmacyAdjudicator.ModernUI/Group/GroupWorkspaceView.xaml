@@ -194,12 +194,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                
             </Grid>
-            
         </Border>
-
-        
-
     </Grid>
 </UserControl>

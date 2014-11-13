@@ -310,6 +310,12 @@ namespace PharmacyAdjudicator.Library.Core.Plan
             return planData;
         }
 
+        private void Child_Fetch(DataAccess.PlanDetail planData)
+        {
+            using (BypassPropertyChecks)
+                PopulateByRow(planData);
+        }
+
         private void PopulateByRow(DataAccess.PlanDetail planData)
         {
             this.RecordId = planData.RecordId;

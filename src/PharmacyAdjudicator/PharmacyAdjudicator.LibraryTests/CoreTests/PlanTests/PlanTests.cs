@@ -8,7 +8,7 @@ using System.IO;
 using PharmacyAdjudicator.Library.Core.Rules;
 using PharmacyAdjudicator.Library.Core.Plan;
 
-namespace PharmacyAdjudicator.TestLibrary.CoreTests
+namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
 {
     [TestClass]
     public class PlanTests
@@ -57,7 +57,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         {
             var onTheFlyRules = new Library.Core.RuleBase();
 
-            PlanEdit testPlan = PlanEdit.NewPlan("NEW-PLAN-ID-2");
+            PlanEdit testPlan = PlanEdit.NewPlan("NEW-PLAN-ID-3");
             testPlan.Name = "This is the first plan to process a claim";
 
             //Create a Formulary = true implication with the following atoms

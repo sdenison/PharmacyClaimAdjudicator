@@ -55,7 +55,11 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -75,12 +79,13 @@
     <Compile Include="CoreTests\GroupTests\GroupEditTests.cs" />
     <Compile Include="CoreTests\GroupTests\GroupListTests.cs" />
     <Compile Include="CoreTests\PatientTests\AddressTests.cs" />
+    <Compile Include="CoreTests\PlanTests\PlanListTests.cs" />
     <Compile Include="CoreTests\RulesTests\AtomGroupTests.cs" />
     <Compile Include="CoreTests\RulesTests\AtomTests.cs" />
     <Compile Include="CoreTests\GroupTest.cs" />
     <Compile Include="CoreTests\PatientTests\PatientHistoryTests.cs" />
     <Compile Include="CoreTests\PatientTests\PatientTests.cs" />
-    <Compile Include="CoreTests\PlanTests.cs" />
+    <Compile Include="CoreTests\PlanTests\PlanTests.cs" />
     <Compile Include="CoreTests\RulesTests\RuleTests.cs" />
     <Compile Include="CoreTests\RulesTests\RuleTypesTests.cs" />
     <Compile Include="CoreTests\TransactionProcessorTests.cs" />
@@ -139,7 +144,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Csla-Templates Read Me.txt" />
-    <Content Include="Scripts\Create_test_data.sql">
+    <Content Include="Scripts\Create_test_data.sql" />
+    <Content Include="Scripts\Create_test_data_old.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\Create_database_with_test_data.sql">

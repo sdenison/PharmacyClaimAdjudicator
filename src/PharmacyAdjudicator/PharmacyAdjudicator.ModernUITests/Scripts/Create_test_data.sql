@@ -5,97 +5,135 @@ GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
+INSERT [dbo].[Group] ([GroupInternalId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'e24b42fa-4a53-4949-b695-957e690451fd', CAST(0x0000A3E200C06D51 AS DateTime), N'SDENISON')
+INSERT [dbo].[GroupDetail] ([RecordId], [Name], [GroupId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [GroupInternalId]) VALUES (N'd02f06fe-30fa-4062-adb4-cf6be5633784', N'Very excellent group', N'GROUP1', 0, NULL, CAST(0x0000A3E200C06D52 AS DateTime), N'SDENISON', N'e24b42fa-4a53-4949-b695-957e690451fd')
+SET IDENTITY_INSERT [dbo].[Patient] ON 
 
-set identity_insert dbo.patient on;
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (20, '2009-10-01 00:00:01', 'SDENISON');
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (21, '2009-10-01 00:00:01', 'SDENISON');
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (22, '2009-10-01 00:00:01', 'SDENISON');
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (55, '2009-10-01 00:00:01', 'SDENISON');
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (1, '2009-10-01 00:00:01', 'SDENISON');
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (60, '2009-10-01 00:00:01', 'SDENISON');
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (61, '2009-10-01 00:00:01', 'SDENISON');
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (62, '2009-10-01 00:00:01', 'SDENISON');
-insert into dbo.Patient(PatientId, RecordCreatedDateTime, RecordCreatedUser) values (100, '2009-10-01 00:00:01', 'SDENISON');
-set identity_insert dbo.patient off;
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (1, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (20, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (21, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (22, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (55, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (60, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (61, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (62, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+INSERT [dbo].[Patient] ([PatientId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (100, CAST(0x00009C950000012C AS DateTime), N'SDENISON')
+SET IDENTITY_INSERT [dbo].[Patient] OFF
+INSERT [dbo].[PatientGroup] ([RecordId], [EffectiveDate], [ExpirationDate], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId], [GroupInternalId]) VALUES (N'4acbfe41-cc8e-4f15-b027-98516efac728', CAST(0x0000931200000000 AS DateTime), CAST(0x002D247F00000000 AS DateTime), 0, NULL, CAST(0x0000A3E200C06D51 AS DateTime), N'SDENISON', 61, N'e24b42fa-4a53-4949-b695-957e690451fd')
+INSERT [dbo].[Client] ([ClientInternalId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'ee60cd12-8063-4fbc-9165-0c6f7d81b6eb', CAST(0x0000A3B000F6EFBB AS DateTime), N'Test')
+INSERT [dbo].[Client] ([ClientInternalId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'874199af-8839-4984-b4a0-c4db53d5442a', CAST(0x0000A3B00117E53B AS DateTime), N'Test')
+INSERT [dbo].[ClientGroup] ([RecordId], [ClientInternalId], [GroupInternalId], [EffectiveDate], [ExpirationDate], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'32a9594c-74a1-463a-a995-4913c31551e6', N'ee60cd12-8063-4fbc-9165-0c6f7d81b6eb', N'e24b42fa-4a53-4949-b695-957e690451fd', CAST(0x00008EAC00000000 AS DateTime), CAST(0x002D247F00000000 AS DateTime), 0, NULL, CAST(0x0000A3B000F6F609 AS DateTime), N'Test')
+INSERT [dbo].[Plan] ([PlanInternalId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'2670c1c6-4fe9-4235-8c5a-027f7dced346', CAST(0x0000A3E200C06DF2 AS DateTime), N'Test')
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'9d8e05b5-3e34-4512-9dab-057ef627a404', N'GARY', N'M', N'COOPER', N'123456789', CAST(0x00008DBA00000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A19300C6C1A4 AS DateTime), N'SDENISON', 100)
 
---set identity_insert dbo.PatientDetail on;
-DECLARE @TRUE bit;
-set @TRUE=1;
-DECLARE @FALSE bit;
-set @FALSE=0;
---User 100
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('9D8E05B5-3E34-4512-9DAB-057EF627A404', 'GARY', 'M', 'COOPER', '123456789', '1999-05-04', '01', '1', '1', @FALSE, '2013-04-01 12:03:39', 'SDENISON', null, 100);
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('D0D8C406-3D93-4964-9579-63F74B35534E', 'GARY', 'M', 'COOPER', '987654321', '1999-05-04', '01', '1', '1', @TRUE, '2013-05-05 17:05:25', 'SDENISON', '9D8E05B5-3E34-4512-9DAB-057EF627A404', 100);
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('8B90061C-A11E-4114-863D-4C57991E30BF', 'GARY', 'M', 'COOPER', '987654321', '1999-05-04', '01', '1', '1', @FALSE, '2013-05-05 17:05:25', 'SDENISON', null, 100);
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('8A40E6E0-CFB6-478B-A698-21A9A3E8E169', 'GARY', 'M', 'COOPER', '987654321', '1999-05-04', '01', '1', '1', @TRUE, '2013-05-05 17:05:25', 'SDENISON', '8B90061C-A11E-4114-863D-4C57991E30BF', 100);
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('9BC9DC04-A279-4A50-BEC1-2E64446202D5', 'GARY', 'M', 'COOPER', '987654321', '1999-05-05', '01', '1', '1', @FALSE, '2013-05-10 00:00:00', 'TEST', null, 100);
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('8580F9B8-3F05-410E-B025-FBE8A9E1B072', 'GARY', 'M', 'COOPER', '987654321', '1999-05-05', '01', '1', '1', @TRUE, '2013-06-01 08:59:00', 'SDENISON', '9BC9DC04-A279-4A50-BEC1-2E64446202D5', 100);
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('916BF69E-6B5A-40BB-BBAE-54E64332669A', 'GARY', 'M', 'COOPER', '987654321', '1999-07-05', '01', '1', '1', @FALSE, '2013-06-05 09:15:30', 'SDENISON', null, 100);
---User 20 
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('14239EAF-364A-42F6-A7D6-E92EAAFBCEFC', 'Eric', '', 'Bloom', '111222333', '1999-12-01', '01', '1', '1', @FALSE, sysdatetime(), 'SDENISON', null, 20);
---User 21
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('6D056E08-B334-4AAD-99FF-75F9D77E6CA0', 'Richard', '', 'Hell', '222333444555', '1949-10-02', '01', '1', '1', @FALSE, sysdatetime(), 'SDENISON', null, 21);
---User 22
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('1A456D6A-61CD-467C-B2AF-7086A3AFD926', 'Joe', '', 'Strummer', '222333444', '1952-08-21', '01', '1', '', @FALSE, sysdatetime(), 'SDENISON', null, 22);
---User55 
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('91CCA16B-587F-4B28-8BED-93AB4698E514', 'John', '', 'Doe', '333444555b', '1954-02-25', '01', '1', '1', @FALSE, sysdatetime(), 'SDENISON', null, 55);
---User 1 
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('2C1A176D-D735-49D4-99A1-D78DCCD18EDF', 'Bobby', '', 'Bob', '123456789', '1975-02-19', '01', '1', '1', @FALSE, sysdatetime(), 'SDENISON', null, 1);
-
---Family
---User 61 (Dad)
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('578957C0-0E28-4FC3-B184-7F10EDAB575C', 'Joseph', '', 'Smith', '987654321', '1932-09-15', '01', '1', '1', @FALSE, sysdatetime(), 'SDENISON', null, 61);
---User 60  (Son)
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('95ECC071-F983-469A-B2D5-F8B63A7F599F', 'Joseph', '', 'Smith', '987654321', '1962-06-15', '03', '3', '1', @FALSE, sysdatetime(), 'SDENISON', null, 60);
---User 62 (twin sister)
-insert into dbo.patientdetail (recordid, firstname, middlename, lastname, cardholderid, birthdate, personcode, patientrelationshipcode, gender, retraction, recordcreateddatetime, recordcreateduser, originalfactrecordid, PatientId)
-	values ('366B47B2-A58C-42CA-863F-BDD677762D57', 'Josephina', '', 'Smith', '987654321', '1962-06-15', '04', '3', '2', @FALSE, sysdatetime(), 'SDENISON', null, 62);
-
-insert into dbo.[group] (groupinternalid, recordcreateddatetime, recordcreateduser)
-	values('E24B42FA-4A53-4949-B695-957E690451FD', sysdatetime(), 'SDENISON');
-
-insert into dbo.patientgroup (recordid, effectivedate, expirationdate, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, patientid, groupinternalid)
-	values ('4ACBFE41-CC8E-4F15-B027-98516EFAC728', '2003-01-31', '9999-12-31', @FALSE, null, sysdatetime(), 'SDENISON', 61, 'E24B42FA-4A53-4949-B695-957E690451FD');
-
-insert into dbo.groupdetail (recordid, Name, GroupId, Retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, groupinternalid)
-	values ('D02F06FE-30FA-4062-ADB4-CF6BE5633784', 'Very excellent group', 'GROUP1', @FALSE, null, sysdatetime(), 'SDENISON', 'E24B42FA-4A53-4949-B695-957E690451FD');
-
---Add client ACME with multiple versions of detail record
-insert into client (clientinternalid, recordcreateddatetime, recordcreateduser)
-	values ('EE60CD12-8063-4FBC-9165-0C6F7D81B6EB', '2014-09-24 14:59:04.090', 'Test');
-
-insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
-	values ('EE91E12B-F74D-439B-B85C-3E98DFC4B69E', 'ACME',	'ACME Corporation',	0, NULL, '2014-09-24 14:59:06.033', 'Test', 'EE60CD12-8063-4FBC-9165-0C6F7D81B6EB');
-insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
-	values ('36439C62-8EAD-4F0B-BA21-9429371392DC', 'ACME', 'New ACME Corporation Name', 1, 'EE91E12B-F74D-439B-B85C-3E98DFC4B69E', '2014-09-24 14:59:09.470', 'Test', 'EE60CD12-8063-4FBC-9165-0C6F7D81B6EB');
-insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
-	values ('FA73CA67-1BA8-4277-9B81-28D8C0467641', 'ACME', 'New ACME Corporation Name', 0, NULL, '2014-09-24 14:59:09.470', 'Test', 'EE60CD12-8063-4FBC-9165-0C6F7D81B6EB');
-
---Add client OB with just one detail record
-insert into client (clientinternalid, recordcreateddatetime, recordcreateduser)
-	values ('874199AF-8839-4984-B4A0-C4DB53D5442A', '2014-09-24 16:59:04.090', 'Test');
-insert into clientdetail (recordid, clientid, name, retraction, originalfactrecordid, recordcreateddatetime, recordcreateduser, clientinternalid)
-	values ('0F0F9FB0-067D-4B5C-B807-1173C1DBA959', 'OB', 'Oyster Bar', 0, NULL, '2014-09-24 16:59:09.470', 'Test', '874199AF-8839-4984-B4A0-C4DB53D5442A'); 
-
---Tie GROUP1 to ACME
-insert into clientgroup (recordid, clientinternalid, groupinternalid, effectivedate, expirationdate, retraction, recordcreateddatetime, recordcreateduser)
-    values ('32A9594C-74A1-463A-A995-4913C31551E6', 'EE60CD12-8063-4FBC-9165-0C6F7D81B6EB', 'E24B42FA-4A53-4949-B695-957E690451FD', '2000-01-01', '9999-12-31', 0,'2014-09-24 14:59:09.470', 'Test') 
-
---Add address types
-insert into AddressType values ("Physical", "Physical Location");
-insert into AddressType values ("Mailing", "Mailing Address");
-insert into AddressType values ("Billing", "Billing Address");
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'9bc9dc04-a279-4a50-bec1-2e64446202d5', N'GARY', N'M', N'COOPER', N'987654321', CAST(0x00008DBB00000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A1BA00000000 AS DateTime), N'TEST', 100)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'8b90061c-a11e-4114-863d-4c57991e30bf', N'GARY', N'M', N'COOPER', N'987654321', CAST(0x00008DBA00000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A1B50119A39C AS DateTime), N'SDENISON', 100)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'916bf69e-6b5a-40bb-bbae-54e64332669a', N'GARY', N'M', N'COOPER', N'987654321', CAST(0x00008DF800000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A1D400989298 AS DateTime), N'SDENISON', 100)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'1a456d6a-61cd-467c-b2af-7086a3afd926', N'Joe', N'', N'Strummer', N'222333444', CAST(0x00004B1900000000 AS DateTime), N'01', N'1', N' ', 0, NULL, CAST(0x0000A3E200C06D50 AS DateTime), N'SDENISON', 22)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'6d056e08-b334-4aad-99ff-75f9d77e6ca0', N'Richard', N'', N'Hell', N'222333444555', CAST(0x000046FB00000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A3E200C06D4F AS DateTime), N'SDENISON', 21)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'578957c0-0e28-4fc3-b184-7f10edab575c', N'Joseph', N'', N'Smith', N'987654321', CAST(0x00002EA900000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A3E200C06D50 AS DateTime), N'SDENISON', 61)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'91cca16b-587f-4b28-8bed-93ab4698e514', N'John', N'', N'Doe', N'333444555b', CAST(0x00004D4200000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A3E200C06D50 AS DateTime), N'SDENISON', 55)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'366b47b2-a58c-42ca-863f-bdd677762d57', N'Josephina', N'', N'Smith', N'987654321', CAST(0x0000591A00000000 AS DateTime), N'04', N'3', N'2', 0, NULL, CAST(0x0000A3E200C06D51 AS DateTime), N'SDENISON', 62)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'2c1a176d-d735-49d4-99a1-d78dccd18edf', N'Bobby', N'', N'Bob', N'123456789', CAST(0x00006B3200000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A3E200C06D50 AS DateTime), N'SDENISON', 1)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'14239eaf-364a-42f6-a7d6-e92eaafbcefc', N'Eric', N'', N'Bloom', N'111222333', CAST(0x00008E8D00000000 AS DateTime), N'01', N'1', N'1', 0, NULL, CAST(0x0000A3E200C06D4F AS DateTime), N'SDENISON', 20)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'95ecc071-f983-469a-b2d5-f8b63a7f599f', N'Joseph', N'', N'Smith', N'987654321', CAST(0x0000591A00000000 AS DateTime), N'03', N'3', N'1', 0, NULL, CAST(0x0000A3E200C06D51 AS DateTime), N'SDENISON', 60)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'8a40e6e0-cfb6-478b-a698-21a9a3e8e169', N'GARY', N'M', N'COOPER', N'987654321', CAST(0x00008DBA00000000 AS DateTime), N'01', N'1', N'1', 1, N'8b90061c-a11e-4114-863d-4c57991e30bf', CAST(0x0000A1B50119A39C AS DateTime), N'SDENISON', 100)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'8580f9b8-3f05-410e-b025-fbe8a9e1b072', N'GARY', N'M', N'COOPER', N'987654321', CAST(0x00008DBB00000000 AS DateTime), N'01', N'1', N'1', 1, N'9bc9dc04-a279-4a50-bec1-2e64446202d5', CAST(0x0000A1D000940A70 AS DateTime), N'SDENISON', 100)
+INSERT [dbo].[PatientDetail] ([RecordId], [FirstName], [MiddleName], [LastName], [CardholderId], [BirthDate], [PersonCode], [PatientRelationshipCode], [Gender], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PatientId]) VALUES (N'd0d8c406-3d93-4964-9579-63f74b35534e', N'GARY', N'M', N'COOPER', N'987654321', CAST(0x00008DBA00000000 AS DateTime), N'01', N'1', N'1', 1, N'9d8e05b5-3e34-4512-9dab-057ef627a404', CAST(0x0000A1B50119A39C AS DateTime), N'SDENISON', 100)
+INSERT [dbo].[AddressType] ([AddressTypeCode], [Description]) VALUES (N'Billing', N'Billing Address')
+INSERT [dbo].[AddressType] ([AddressTypeCode], [Description]) VALUES (N'Mailing', N'Mailing Address')
+INSERT [dbo].[AddressType] ([AddressTypeCode], [Description]) VALUES (N'Physical', N'Physical Location')
+INSERT [dbo].[Plan] ([PlanInternalId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'2670c1c6-4fe9-4235-8c5a-027f7dced346', CAST(0x0000A3E200C06DF2 AS DateTime), N'Test')
+INSERT [dbo].[Plan] ([PlanInternalId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', CAST(0x0000A3E2010221CC AS DateTime), N'Test')
+INSERT [dbo].[PlanDetail] ([RecordId], [PlanId], [Name], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PlanInternalId]) VALUES (N'96d184a1-aec5-4df1-8ddf-0220faa3adcb', N'NEW-PLAN-ID-1', N'This is the a test plan', 0, NULL, CAST(0x0000A3E200C07428 AS DateTime), N'Test', N'2670c1c6-4fe9-4235-8c5a-027f7dced346')
+INSERT [dbo].[PlanDetail] ([RecordId], [PlanId], [Name], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [PlanInternalId]) VALUES (N'ae7849ad-458a-4d61-b2fb-f3d8f2cd89a2', N'NEW-PLAN-ID-3', N'This should filter on the word filter', 0, NULL, CAST(0x0000A3E201022A6E AS DateTime), N'Test', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'656b8aeb-f7b4-49bd-9e1f-15760c75fa23', N'AmountOfCopay', N'100')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'6ebbf181-e32c-430b-901c-192b64255171', N'PatientPaySalesTaxAmount', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'dc2e8862-4cf4-4362-9da4-1a5134956e2f', N'FlatSalesTaxAmountPaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'57b1a1e7-3996-44f9-961e-218ae6605dab', N'TotalAmountPaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'd99e3873-2e2c-41c0-97f0-22a6a0dbf77c', N'PatientPaySalesTaxAmount', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'28da4df1-78d1-47a4-8575-398f76008ccc', N'PercentageSalesTaxAmountPaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'ae4713f7-33ca-49c8-8107-6a07d6eb92c9', N'IngredientCostPaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'81762a00-9f4e-4450-8139-747c2da95d86', N'DispensingFeePaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'e75aa0ea-ca06-4ddf-81bd-81b9e7625623', N'TaxExemptIndicator', N'NotSpecified')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'8e8155ae-d5bc-4614-8839-85145b0fcc76', N'AmountOfCopay', N'100')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'46f18161-562b-48ed-9584-90f16275d330', N'ResponseStatus', N'Captured')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'0387888f-cdba-42de-9989-96f92785af7e', N'BasisOfReimbursement', N'NotSpecified')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'bfea2977-6356-455a-af20-98cdbbf851a8', N'BasisOfReimbursement', N'NotSpecified')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'e18e6258-6912-45ce-820a-99da090ed016', N'IngredientCostPaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'3491b301-d22c-417f-b149-a10d90365fa7', N'PercentageSalesTaxAmountPaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'ce244526-1015-486f-a49f-b3789e6ec3c7', N'ResponseStatus', N'Captured')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'53f27885-d99c-40ff-972d-b50283385b15', N'Formulary', N'false')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'bc8643f5-dc3f-407d-8f7f-c0e03ebd4a39', N'TotalAmountPaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'0851849f-0030-4ca8-8e28-c81a6ec677a1', N'Formulary', N'false')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'529ca294-92d0-4d54-94ad-cdbf5298f6cf', N'DispensingFeePaid', N'0')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'743e45de-fb71-40ed-bff9-e0c56a3f38a6', N'TaxExemptIndicator', N'NotSpecified')
+INSERT [dbo].[Rule] ([RuleId], [RuleType], [DefaultValue]) VALUES (N'47fd4b36-308b-48a8-bd72-fc6fdbcd715a', N'FlatSalesTaxAmountPaid', N'0')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'db96c2b8-1974-44f6-ba11-026e7d6e5627', N'0387888f-cdba-42de-9989-96f92785af7e', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742B AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'7ab65a72-a20e-4c8e-b719-04fd99f9bd3b', N'ae4713f7-33ca-49c8-8107-6a07d6eb92c9', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A71 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'd11b6ce6-595e-4e40-86db-06cae2a7de3e', N'53f27885-d99c-40ff-972d-b50283385b15', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A71 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'8759f9b1-a4e3-4baa-9f08-175ced07d03b', N'bc8643f5-dc3f-407d-8f7f-c0e03ebd4a39', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742C AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'9d46e510-490e-4950-b176-4470bfaf0b32', N'743e45de-fb71-40ed-bff9-e0c56a3f38a6', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742C AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'e227f669-03e6-4f64-93f7-4bf3fedbcc8a', N'dc2e8862-4cf4-4362-9da4-1a5134956e2f', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742B AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'd56a8de8-82e2-4422-9cfa-4d0ed1196e90', N'28da4df1-78d1-47a4-8575-398f76008ccc', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A71 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'c1e2fcd9-322a-4706-bdd9-54132163739c', N'529ca294-92d0-4d54-94ad-cdbf5298f6cf', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A71 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'9f199789-7f87-4b2a-bce6-6dc39eb9f137', N'e75aa0ea-ca06-4ddf-81bd-81b9e7625623', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A72 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'0f1b7595-4c3a-4a9a-9f01-7272354d2fb7', N'81762a00-9f4e-4450-8139-747c2da95d86', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742B AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'471c587d-8023-4a4f-8b01-7a7a122d095e', N'8e8155ae-d5bc-4614-8839-85145b0fcc76', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A70 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'289a1eff-bced-44dd-8899-7b27057a5274', N'd99e3873-2e2c-41c0-97f0-22a6a0dbf77c', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A71 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'303a9b85-510c-44a3-8448-80df97457edc', N'bfea2977-6356-455a-af20-98cdbbf851a8', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A71 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'25f5bc9d-32b1-4cbe-bb5a-8baf771e465e', N'656b8aeb-f7b4-49bd-9e1f-15760c75fa23', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742A AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'8dd5f435-7ba7-436a-a414-945aed5be2c1', N'6ebbf181-e32c-430b-901c-192b64255171', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742C AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'e73869dc-6a59-4b2a-83a2-a861eb48b419', N'0851849f-0030-4ca8-8e28-c81a6ec677a1', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742B AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'a21e434a-b57f-470d-856c-bef5cffad51c', N'3491b301-d22c-417f-b149-a10d90365fa7', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742C AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'db72468a-f043-45e8-a7f8-c17ff89bdb17', N'e18e6258-6912-45ce-820a-99da090ed016', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742C AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'c848eed3-2c26-4720-a0d7-d45d26a0ebf0', N'57b1a1e7-3996-44f9-961e-218ae6605dab', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A72 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'3719f237-90fc-4408-b037-e89d3f374141', N'47fd4b36-308b-48a8-bd72-fc6fdbcd715a', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A71 AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'b6d9aa86-66b3-4aa0-8f64-ef06c3a52f4f', N'46f18161-562b-48ed-9584-90f16275d330', N'2670c1c6-4fe9-4235-8c5a-027f7dced346', 0, NULL, CAST(0x0000A3E200C0742C AS DateTime), N'Test')
+INSERT [dbo].[PlanRule] ([RecordId], [RuleId], [PlanInternalId], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser]) VALUES (N'5db17392-f4eb-43c8-84ce-f083aa521eee', N'ce244526-1015-486f-a49f-b3789e6ec3c7', N'3be33f7f-0e83-4145-9cbc-c0139663f8cc', 0, NULL, CAST(0x0000A3E201022A71 AS DateTime), N'Test')
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'39005fdd-fa36-42d4-b23d-0ba99e6cf608', N'Transaction', N'Formulary', N'true', N'', CAST(0x0000A3E201022AF0 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'012b30b4-21b0-4337-baf2-0db45b548c6e', N'Drug', N'DosageForm', N'TAB', N'', CAST(0x0000A3E2010229FA AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'd32ab93e-1477-436c-b558-0ff3295d62e8', N'Transaction', N'Formulary', N'true', N'', CAST(0x0000A3E200C0F7B5 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'2ca3e827-bdad-455a-9ded-15194308c0a9', N'Transaction', N'AmountOfCopay', N'5', N'', CAST(0x0000A3E201022AF1 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'609f3bf2-6064-4c90-8582-3633dec64275', N'Drug', N'VaClass', N'PENICILLINS,AMINO DERIVATIVES', N'', CAST(0x0000A3E200C0740E AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'7ae70304-c121-4f79-b414-39b8f1294644', N'Drug', N'Ndc', N'9999*', N'Matches', CAST(0x0000A3E201022A41 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'97ae6882-ecdf-43ee-bffd-48b3c6adce96', N'Drug', N'Ndc', N'9999*', N'Matches', CAST(0x0000A3E200C07414 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'b970061c-d3f4-481b-8a8d-5642a1be0d35', N'Drug', N'VaClass', N'PENICILLINS,AMINO DERIVATIVES', N'', CAST(0x0000A3E201022A34 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'e2f484d3-7a2b-43e4-ae54-58009ae1f6f3', N'Drug', N'DosageForm', N'PWDR,RENST-ORAL', N'', CAST(0x0000A3E2010229ED AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'e5da37e2-0f64-4f45-bcd9-661680a97d8a', N'Transaction', N'AmountOfCopay', N'5', N'', CAST(0x0000A3E200C0F7B5 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'640b5b89-ae35-4724-b767-9693c3f1e03b', N'Drug', N'DosageForm', N'TAB', N'', CAST(0x0000A3E200C073E1 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'2560fd36-77a7-41aa-8808-cc363e1672a9', N'Drug', N'DosageForm', N'PWDR,RENST-ORAL', N'', CAST(0x0000A3E200C073D5 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'18507306-f868-4121-beb6-d323dab702a4', N'Transaction', N'Formulary', N'true', N'', CAST(0x0000A3E200C07431 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[Atom] ([AtomId], [Class], [Property], [Value], [Operation], [RecordCreatedDateTime], [RecordCreatedUser], [RecordDeleteDate], [RecordDeleteUser], [IsDeleted]) VALUES (N'a69a4de1-457e-4647-a3aa-e288125badc4', N'Transaction', N'Formulary', N'true', N'', CAST(0x0000A3E201022A77 AS DateTime), N'Test', NULL, N'', 0)
+INSERT [dbo].[AtomGroup] ([AtomGroupId], [LogicalOperator], [Name]) VALUES (N'a367dfed-e0f5-4b9e-b9b6-3a308c6f05f9', N'Or', N'DosageForm is TAB or PWDR,RENST-ORAL')
+INSERT [dbo].[AtomGroup] ([AtomGroupId], [LogicalOperator], [Name]) VALUES (N'c3058b17-8cf3-4799-b328-56495860173e', N'And', N'')
+INSERT [dbo].[AtomGroup] ([AtomGroupId], [LogicalOperator], [Name]) VALUES (N'5ddd7c37-db5a-4eec-8237-641f7dd46760', N'Or', N'DosageForm is TAB or PWDR,RENST-ORAL')
+INSERT [dbo].[AtomGroup] ([AtomGroupId], [LogicalOperator], [Name]) VALUES (N'1af370b9-9827-44bd-b780-74ce930406c8', N'And', N'')
+INSERT [dbo].[AtomGroup] ([AtomGroupId], [LogicalOperator], [Name]) VALUES (N'19f4d97f-08ee-4507-8557-a8d5188beff2', N'Or', N'')
+INSERT [dbo].[AtomGroup] ([AtomGroupId], [LogicalOperator], [Name]) VALUES (N'f3a09ff2-8537-42a8-af65-bbe4e67d3ad2', N'And', N'')
+INSERT [dbo].[AtomGroup] ([AtomGroupId], [LogicalOperator], [Name]) VALUES (N'c7200b4b-b74c-4d95-a002-cd521ca8bce4', N'And', N'')
+INSERT [dbo].[AtomGroup] ([AtomGroupId], [LogicalOperator], [Name]) VALUES (N'63f4fafc-e312-45bb-85b6-e6e4cc834673', N'Or', N'')
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'763fa3a1-751d-4f98-b32d-0ae40ae3c808', N'19f4d97f-08ee-4507-8557-a8d5188beff2', N'609f3bf2-6064-4c90-8582-3633dec64275', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'd2995cbf-ae6b-4563-9510-310d8f7dcc55', N'a367dfed-e0f5-4b9e-b9b6-3a308c6f05f9', N'e2f484d3-7a2b-43e4-ae54-58009ae1f6f3', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'62f42ac8-2cbd-4fa2-9e41-49bf4785c88f', N'19f4d97f-08ee-4507-8557-a8d5188beff2', N'97ae6882-ecdf-43ee-bffd-48b3c6adce96', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'd2f535f2-37b8-477e-8a6c-5a6dbcecd666', N'1af370b9-9827-44bd-b780-74ce930406c8', NULL, N'63f4fafc-e312-45bb-85b6-e6e4cc834673', 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'22e50c9f-0dfb-4f1b-8d75-61f704ee1f56', N'5ddd7c37-db5a-4eec-8237-641f7dd46760', N'2560fd36-77a7-41aa-8808-cc363e1672a9', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'1f87588b-0c05-44ac-8091-7166429e21e1', N'c7200b4b-b74c-4d95-a002-cd521ca8bce4', N'39005fdd-fa36-42d4-b23d-0ba99e6cf608', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'3f7fa7be-44fe-472d-a280-86c7f875c40e', N'5ddd7c37-db5a-4eec-8237-641f7dd46760', N'640b5b89-ae35-4724-b767-9693c3f1e03b', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'97c5d410-e800-4422-b50d-910bb86e2040', N'c3058b17-8cf3-4799-b328-56495860173e', NULL, N'5ddd7c37-db5a-4eec-8237-641f7dd46760', 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'5e9ba72e-5704-4c00-9188-a57e1d80ba1a', N'63f4fafc-e312-45bb-85b6-e6e4cc834673', N'7ae70304-c121-4f79-b414-39b8f1294644', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'3cbc20c6-c01f-41f8-9d9d-c003a72c4aa6', N'1af370b9-9827-44bd-b780-74ce930406c8', NULL, N'a367dfed-e0f5-4b9e-b9b6-3a308c6f05f9', 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'72b79947-d62b-4afe-950f-c31df5f69218', N'63f4fafc-e312-45bb-85b6-e6e4cc834673', N'b970061c-d3f4-481b-8a8d-5642a1be0d35', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'67438882-ef4d-42f4-937c-d88b47687725', N'f3a09ff2-8537-42a8-af65-bbe4e67d3ad2', N'd32ab93e-1477-436c-b558-0ff3295d62e8', NULL, 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'7ba4c325-4968-4b0b-be52-dd420032c72b', N'c3058b17-8cf3-4799-b328-56495860173e', NULL, N'19f4d97f-08ee-4507-8557-a8d5188beff2', 0)
+INSERT [dbo].[AtomGroupItem] ([RecordId], [AtomGroupId], [AtomId], [ContainedAtomGroupId], [Priority]) VALUES (N'a1a1baa4-0999-4b2d-ac98-e188e914c4ff', N'a367dfed-e0f5-4b9e-b9b6-3a308c6f05f9', N'012b30b4-21b0-4337-baf2-0db45b548c6e', NULL, 0)
+INSERT [dbo].[Implication] ([ImplicationId], [AtomGroupId], [DeductionAtomId], [Label]) VALUES (N'45824a21-9848-4e4b-befa-95cf57aa3277', N'c3058b17-8cf3-4799-b328-56495860173e', N'18507306-f868-4121-beb6-d323dab702a4', N'PENICILLINS,AMINO DERIVATIVES with PWDR,RENST-ORAL OR TAB are formulary')
+INSERT [dbo].[Implication] ([ImplicationId], [AtomGroupId], [DeductionAtomId], [Label]) VALUES (N'1a782e8c-66d1-4362-8e64-9eca4a4f010f', N'c7200b4b-b74c-4d95-a002-cd521ca8bce4', N'2ca3e827-bdad-455a-9ded-15194308c0a9', N'Formulary drugs have 5 dollar copay')
+INSERT [dbo].[Implication] ([ImplicationId], [AtomGroupId], [DeductionAtomId], [Label]) VALUES (N'2cb64d56-40e6-4c3e-8bd7-ab13626154e3', N'f3a09ff2-8537-42a8-af65-bbe4e67d3ad2', N'e5da37e2-0f64-4f45-bcd9-661680a97d8a', N'Formulary drugs have 5 dollar copay')
+INSERT [dbo].[Implication] ([ImplicationId], [AtomGroupId], [DeductionAtomId], [Label]) VALUES (N'4411b9f1-4733-4737-b4ae-e1e9665e1343', N'1af370b9-9827-44bd-b780-74ce930406c8', N'a69a4de1-457e-4647-a3aa-e288125badc4', N'PENICILLINS,AMINO DERIVATIVES with PWDR,RENST-ORAL OR TAB are formulary')
+INSERT [dbo].[RuleImplication] ([RecordId], [RuleId], [ImplicationId], [Priority]) VALUES (N'96c2bbe7-c5a8-43c6-9996-2e746f32922c', N'0851849f-0030-4ca8-8e28-c81a6ec677a1', N'45824a21-9848-4e4b-befa-95cf57aa3277', N'')
+INSERT [dbo].[RuleImplication] ([RecordId], [RuleId], [ImplicationId], [Priority]) VALUES (N'81691e8b-2950-45fe-99c5-e4e8e57aa797', N'53f27885-d99c-40ff-972d-b50283385b15', N'4411b9f1-4733-4737-b4ae-e1e9665e1343', N'')
+INSERT [dbo].[ClientDetail] ([RecordId], [ClientId], [Name], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [ClientInternalId]) VALUES (N'0f0f9fb0-067d-4b5c-b807-1173c1dba959', N'OB', N'Oyster Bar', 0, NULL, CAST(0x0000A3B00117EB89 AS DateTime), N'Test', N'874199af-8839-4984-b4a0-c4db53d5442a')
+INSERT [dbo].[ClientDetail] ([RecordId], [ClientId], [Name], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [ClientInternalId]) VALUES (N'fa73ca67-1ba8-4277-9b81-28d8c0467641', N'ACME', N'New ACME Corporation Name', 0, NULL, CAST(0x0000A3B000F6F609 AS DateTime), N'Test', N'ee60cd12-8063-4fbc-9165-0c6f7d81b6eb')
+INSERT [dbo].[ClientDetail] ([RecordId], [ClientId], [Name], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [ClientInternalId]) VALUES (N'ee91e12b-f74d-439b-b85c-3e98dfc4b69e', N'ACME', N'ACME Corporation', 0, NULL, CAST(0x0000A3B000F6F202 AS DateTime), N'Test', N'ee60cd12-8063-4fbc-9165-0c6f7d81b6eb')
+INSERT [dbo].[ClientDetail] ([RecordId], [ClientId], [Name], [Retraction], [OriginalFactRecordId], [RecordCreatedDateTime], [RecordCreatedUser], [ClientInternalId]) VALUES (N'36439c62-8ead-4f0b-ba21-9429371392dc', N'ACME', N'New ACME Corporation Name', 1, N'ee91e12b-f74d-439b-b85c-3e98dfc4b69e', CAST(0x0000A3B000F6F609 AS DateTime), N'Test', N'ee60cd12-8063-4fbc-9165-0c6f7d81b6eb')

@@ -135,6 +135,10 @@
     <Compile Include="Patient\PatientEditViewModel.cs" />
     <Compile Include="Patient\PatientEditViewModelClosingMessage.cs" />
     <Compile Include="Patient\PatientViewModel.cs" />
+    <Compile Include="Plan\PlanWorkspaceView.xaml.cs">
+      <DependentUpon>PlanWorkspaceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plan\PlanWorkspaceViewModel.cs" />
     <Compile Include="Services\CaliburnContentLoader.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ModernWindowManager.cs" />
@@ -226,6 +230,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Plan\PlanWorkspaceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Shell\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -242,6 +250,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\NxBRE\NxBRE3\Source\NxBRE.csproj">
+      <Project>{c5a2507e-550e-4eec-b3c2-a278ecb27e30}</Project>
+      <Name>NxBRE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PharmacyAdjudicator.DataAccess\PharmacyAdjudicator.DataAccess.csproj">
       <Project>{9467e711-a5d6-435a-be7d-cd36dd21c8c0}</Project>
       <Name>PharmacyAdjudicator.DataAccess</Name>
