@@ -120,7 +120,11 @@ namespace PharmacyAdjudicator.Library.Core
                 else if (property.PropertyType == typeof(decimal))
                     property.SetValue(transaction, decimal.Parse(value.ToString()));
                 else if (property.PropertyType == typeof(Enums.BasisOfReimbursement))
-                    property.SetValue(transaction, (Enums.BasisOfReimbursement)int.Parse(value));
+                    property.SetValue(transaction, Enums.BasisOfReimbursementConverter.Parse(value));
+                else if (property.PropertyType == typeof(Enums.ResponseStatus))
+                    property.SetValue(transaction, Enums.ResponseStatusConverter.Parse(value));
+                else if (property.PropertyType == typeof(Enums.TaxExemptIndicator))
+                    property.SetValue(transaction, Enums.TaxExemptConverter.Parse(value));
                 else
                     throw new Exception("No conversion defined for " + property.Name + ".");
             }

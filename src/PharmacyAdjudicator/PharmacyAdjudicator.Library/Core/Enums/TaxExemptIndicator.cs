@@ -34,7 +34,7 @@ namespace PharmacyAdjudicator.Library.Core.Enums
                 case "4":
                     return TaxExemptIndicator.PlanAndPatientAreTaxExempt;
                 default:
-                    throw new ArgumentException("No taxExemptIndicator = " + taxExemptStatus);
+                    return (TaxExemptIndicator)Enum.Parse(typeof(TaxExemptIndicator), taxExemptStatus);
             }
         }
 

@@ -23,6 +23,10 @@ namespace PharmacyAdjudicator.Library.Core.Enums
     {
         public static ResponseStatus Parse(string responseStatus)
         {
+            int intValue;
+            if (int.TryParse(responseStatus, out intValue))
+                return (ResponseStatus)intValue;
+
             switch (responseStatus)
             {
                 case "A":
@@ -44,7 +48,7 @@ namespace PharmacyAdjudicator.Library.Core.Enums
                 case "S":
                     return ResponseStatus.DuplicateOfApproved;
                 default:
-                    throw new ArgumentException("No responseStatus = " + responseStatus);
+                    return (ResponseStatus) Enum.Parse(typeof(ResponseStatus), responseStatus);
             }
         }
 

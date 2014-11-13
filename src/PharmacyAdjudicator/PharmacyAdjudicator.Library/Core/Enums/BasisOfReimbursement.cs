@@ -30,4 +30,26 @@ namespace PharmacyAdjudicator.Library.Core.Enums
         DirectPrice = 18,
         StateFeeSchedule = 19
     }
+
+    public class BasisOfReimbursementConverter
+    {
+        public static string ToString(BasisOfReimbursement basisOfReimbursement)
+        {
+            return ((int)basisOfReimbursement).ToString();
+        }
+
+        public static BasisOfReimbursement Parse(int basisOfReimbursement)
+        {
+            return (BasisOfReimbursement)basisOfReimbursement;
+        }
+
+        public static BasisOfReimbursement Parse(string basisOfReimbursement)
+        {
+            int enumIntValue;
+            if (int.TryParse(basisOfReimbursement, out enumIntValue))
+                return (Enums.BasisOfReimbursement)enumIntValue;
+            else
+                return (Enums.BasisOfReimbursement)Enum.Parse(typeof(Enums.BasisOfReimbursement), basisOfReimbursement);
+        }
+    }
 }

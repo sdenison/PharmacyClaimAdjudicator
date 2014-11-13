@@ -3,13 +3,76 @@ using Csla;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NxBRE.InferenceEngine.IO;
+using System.Collections.Generic;
 
 namespace PharmacyAdjudicator.Library.Core
 {
     [Serializable]
-    public class Plan : BusinessBase<Plan>//, IRuleBaseAdapter
+    public class Plan : BusinessBase<Plan>, IRuleBaseAdapter
     {
         #region Business Methods
+
+        public IList<NxBRE.InferenceEngine.Rules.Implication> Implications
+        {
+            get
+            {
+                var implications = new List<NxBRE.InferenceEngine.Rules.Implication>();
+                foreach (var rule in this.AssignedRules)
+                    foreach (var implication in rule.Implications)
+                        implications.Add(implication.ToNxBre());
+                return implications;
+            }
+            set { }
+        }
+
+        public IList<NxBRE.InferenceEngine.Rules.Query> Queries
+        {
+            get
+            {
+                return new List<NxBRE.InferenceEngine.Rules.Query>();
+            }
+            set { }
+        }
+
+        public IList<NxBRE.InferenceEngine.Rules.Fact> Facts
+        {
+            get
+            {
+                var defaults = new List<NxBRE.InferenceEngine.Rules.Fact>();
+                foreach (var rule in this.AssignedRules)
+                {
+                    //var atom = Library.Core.Rules.Atom.NewAtom();
+                    //atom.Class = "Transaction";
+                    //atom.Property = "Default " + rule.RuleType;
+                    //atom.Value = rule.DefaultValue;
+                    //defaults.Add(new NxBRE.InferenceEngine.Rules.Fact(atom.ToNxBre()));
+                    var defaultValue = new NxBRE.InferenceEngine.Rules.Individual(rule.DefaultValue);
+                    var atom = new NxBRE.InferenceEngine.Rules.Atom("Default" + rule.RuleType, defaultValue);
+                    var fact = new NxBRE.InferenceEngine.Rules.Fact("Default " + rule.RuleType, atom);
+                    defaults.Add(fact);
+                }
+                return defaults;
+            }
+            set { }
+        }
+
+        private NxBRE.InferenceEngine.IO.IBinder _binder;
+        public NxBRE.InferenceEngine.IO.IBinder Binder
+        {
+            set { _binder = value; }
+        }
+
+        public string Direction
+        {
+            get { return "forward"; }
+            set { throw new NotImplementedException(); }
+        }
+        
+        public string Label
+        {
+            get { return this.Name; }
+            set { }
+        }
 
         public static readonly PropertyInfo<string> PlanIdProperty = RegisterProperty<string>(c => c.PlanId);
         [Display(Name="Plan ID")]
@@ -269,5 +332,10 @@ namespace PharmacyAdjudicator.Library.Core
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

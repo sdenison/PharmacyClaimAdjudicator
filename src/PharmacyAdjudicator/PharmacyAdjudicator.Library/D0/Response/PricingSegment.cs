@@ -701,7 +701,7 @@ namespace PharmacyAdjudicator.Library.D0.Response
                     returnValue.Append(otherAmount.ToNcpdpString());
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.OtherPayerAmountRecognized, this.OtherPayerAmountRecognized));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.TotalAmountPaid, this.TotalAmountPaid));
-            returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfReimbursementDetermination, Core.Enums.EnumConvert.ToString(this.BasisOfReimbursementDetermination)));
+            returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfReimbursementDetermination, Core.Enums.BasisOfReimbursementConverter.ToString(this.BasisOfReimbursementDetermination)));
             //returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.BasisOfReimbursementDetermination, this.BasisOfReimbursementDetermination.ToString()));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.AmountAttributedToSalesTax, this.AmountAttributedToSalesTax));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.AccumulatedDeductibleAmount, this.AccumulatedDeductibleAmount));

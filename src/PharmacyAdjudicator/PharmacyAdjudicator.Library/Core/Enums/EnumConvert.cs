@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace PharmacyAdjudicator.Library.Core.Enums
 {
-    public static class EnumConvert
+    public static class EnumConvert 
     {
-        public static string ToString(BasisOfReimbursement basisOfReimbursement)
-        {
-            return ((int)basisOfReimbursement).ToString();
-        }
+        //public static string ToString(BasisOfReimbursement basisOfReimbursement)
+        //{
+        //    return ((int)basisOfReimbursement).ToString();
+        //}
 
-        public static BasisOfReimbursement Parse(int basisOfReimbursement)
-        {
-            return (BasisOfReimbursement)basisOfReimbursement;
-        }
+        //public static BasisOfReimbursement Parse(int basisOfReimbursement)
+        //{
+        //    return (BasisOfReimbursement)basisOfReimbursement;
+        //}
 
         public static string ToString(ResponseStatus responseStatus)
         {

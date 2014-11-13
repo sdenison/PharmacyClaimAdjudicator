@@ -252,7 +252,7 @@
     <Key>
       <PropertyRef Name="RecordId" />
     </Key>
-    <Property Name="RecordId" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecordId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="PlanId" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
     <Property Name="Retraction" Type="bit" Nullable="false" />
@@ -1084,7 +1084,7 @@
           <Key>
             <PropertyRef Name="RecordId" />
           </Key>
-          <Property Name="RecordId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="PlanId" Type="String" Nullable="false" MaxLength="30" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" />
           <Property Name="Retraction" Type="Boolean" Nullable="false" />

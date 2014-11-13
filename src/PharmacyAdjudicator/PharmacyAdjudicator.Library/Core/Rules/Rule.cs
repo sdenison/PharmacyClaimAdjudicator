@@ -40,7 +40,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             var pi = typeof(Transaction).GetProperty(RuleType);
             if (pi.PropertyType.Equals(typeof(Boolean)))
-                return "true";
+                return "false";
             if (pi.PropertyType.Equals(typeof(Decimal)))
                 return "0";
             if (pi.PropertyType.Equals(typeof(Enums.ResponseStatus)))

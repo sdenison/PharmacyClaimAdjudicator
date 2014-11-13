@@ -88,7 +88,8 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         }
 
 
-        [TestMethod]
+        //This kind of logic is now found in plans.
+        //[TestMethod]
         public void Formulary_is_true_using_VaClass_and_DosageForm_with_persistable_rules()
         {
             var onTheFlyRules = new Library.Core.RuleBase();

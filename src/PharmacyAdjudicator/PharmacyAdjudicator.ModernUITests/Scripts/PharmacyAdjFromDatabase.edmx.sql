@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/07/2014 14:53:34
+-- Date Created: 11/11/2014 10:34:14
 -- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 

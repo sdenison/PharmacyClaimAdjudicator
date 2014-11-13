@@ -72,6 +72,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
+        //public NxBRE.InferenceEngine.Rules.Fact ToNxBreFact()
+        //{
+        //    return new NxBRE.InferenceEngine.Rules.Fact()
+        //}
+
         #endregion
 
         #region Business Rules
