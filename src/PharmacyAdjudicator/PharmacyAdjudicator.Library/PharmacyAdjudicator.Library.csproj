@@ -94,7 +94,7 @@
     <Compile Include="Core\InferrableAttribute.cs" />
     <Compile Include="Core\NamespaceDoc.cs" />
     <Compile Include="Core\Patient\PatientHistory.cs" />
-    <Compile Include="Core\Plan.cs" />
+    <Compile Include="Core\Plan\PlanEdit.cs" />
     <Compile Include="Core\RuleBase.cs" />
     <Compile Include="Core\Rules\Implication.cs" />
     <Compile Include="Core\Rules\ImplicationList.cs" />

@@ -66,7 +66,7 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.PatientPayAmount = 10;
             pricing.IngredientCostPaid = (decimal)55.7;
             pricing.DispensingFeePaid = 8;
-            pricing.TaxExemptIndicator = "1";
+            pricing.TaxExemptIndicator = Library.Core.Enums.TaxExemptIndicator.PlanIsTaxExempt;
             pricing.OtherAmountPaidCount = 1;
 
             PricingSegment.OtherAmountPaidContainer otherAmount = new PricingSegment.OtherAmountPaidContainer();
@@ -97,7 +97,7 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.PatientPayAmount = 15;
             pricing.IngredientCostPaid = (decimal)55.7;
             pricing.DispensingFeePaid = 10;
-            pricing.TaxExemptIndicator = "1";
+            pricing.TaxExemptIndicator = Library.Core.Enums.TaxExemptIndicator.PlanIsTaxExempt;
 
             //Changed TotalAmountPaid to calculated field
             //pricing.TotalAmountPaid = (decimal)70.70;
@@ -118,7 +118,7 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.PatientPayAmount = 10;
             pricing.IngredientCostPaid = (decimal)55.7;
             pricing.DispensingFeePaid = 5;
-            pricing.TaxExemptIndicator = "1";
+            pricing.TaxExemptIndicator = Library.Core.Enums.TaxExemptIndicator.PlanIsTaxExempt;
             //pricing.TotalAmountPaid = (decimal)50.70;
             pricing.BasisOfReimbursementDetermination = Library.Core.Enums.BasisOfReimbursement.IngredientCostPaid;
 
@@ -134,7 +134,7 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.PatientPayAmount = 10;
             pricing.IngredientCostPaid = (decimal)55.7;
             pricing.DispensingFeePaid = 5;
-            pricing.TaxExemptIndicator = "1";
+            pricing.TaxExemptIndicator = Library.Core.Enums.TaxExemptIndicator.PlanIsTaxExempt;
             //pricing.TotalAmountPaid = 0;
             pricing.BasisOfReimbursementDetermination = Library.Core.Enums.BasisOfReimbursement.IngredientCostPaid;
 
@@ -150,7 +150,7 @@ namespace PharmacyAdjudicator.LibraryTests.D0Tests.ResponseTests
             pricing.PatientPayAmount = 5;
             pricing.IngredientCostPaid = (decimal)14.20;
             pricing.DispensingFeePaid = 15;
-            pricing.TaxExemptIndicator = "1";
+            pricing.TaxExemptIndicator = Library.Core.Enums.TaxExemptIndicator.PlanIsTaxExempt;
 
             pricing.OtherAmountPaidCount = 1;
             PricingSegment.OtherAmountPaidContainer otherAmount = new PricingSegment.OtherAmountPaidContainer();

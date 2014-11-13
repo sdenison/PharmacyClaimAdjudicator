@@ -148,7 +148,15 @@ namespace PharmacyAdjudicator.Library.Core
         public Enums.TaxExemptIndicator TaxExemptIndicator
         {
             get { return GetProperty(TaxExemptIndicatorProperty); }
-            set { SetProperty(TaxExemptIndicatorProperty, value); }
+            set 
+            { 
+                int intVal;
+                if (int.TryParse(value.ToString(), out intVal))
+                    SetProperty(TaxExemptIndicatorProperty, (Enums.TaxExemptIndicator) intVal); 
+                else
+                    SetProperty(TaxExemptIndicatorProperty, Enums.TaxExemptConverter.Parse(value.ToString()));
+                //SetProperty(TaxExemptIndicatorProperty, Enums.TaxExemptConverter.Parse(value)); 
+            }
         }
 
         public static readonly PropertyInfo<decimal> TotalAmountPaidProperty = RegisterProperty<decimal>(c => c.TotalAmountPaid);

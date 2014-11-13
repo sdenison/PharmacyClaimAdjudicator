@@ -18,6 +18,11 @@ namespace PharmacyAdjudicator.Library.Core.Enums
         //    return (BasisOfReimbursement)basisOfReimbursement;
         //}
 
+        public static string ToString(TaxExemptIndicator taxExemptIndicator)
+        {
+            return TaxExemptConverter.ToString(taxExemptIndicator);
+        }
+
         public static string ToString(ResponseStatus responseStatus)
         {
             switch (responseStatus)

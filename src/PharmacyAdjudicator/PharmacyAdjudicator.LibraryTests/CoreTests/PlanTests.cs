@@ -6,6 +6,7 @@ using NxBRE.InferenceEngine;
 using NxBRE.InferenceEngine.Rules;
 using System.IO;
 using PharmacyAdjudicator.Library.Core.Rules;
+using PharmacyAdjudicator.Library.Core.Plan;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests
 {
@@ -45,19 +46,18 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
         [TestMethod]
         public void Should_be_able_to_create_plan_and_all_rules_should_be_present()
         {
-            Plan testPlan = Plan.NewPlan("NEW-PLAN-ID-1");
+            PlanEdit testPlan = PlanEdit.NewPlan("NEW-PLAN-ID-1");
             testPlan.Name = "This is a test plan";
             Assert.IsTrue(testPlan.AssignedRules.Count > 0);
             testPlan = testPlan.Save();
         }
-
 
         [TestMethod]
         public void Formulary_is_true_using_VaClass_and_DosageForm_with_persistable_rules()
         {
             var onTheFlyRules = new Library.Core.RuleBase();
 
-            Plan testPlan = Plan.NewPlan("NEW-PLAN-ID-2");
+            PlanEdit testPlan = PlanEdit.NewPlan("NEW-PLAN-ID-2");
             testPlan.Name = "This is the first plan to process a claim";
 
             //Create a Formulary = true implication with the following atoms
@@ -160,6 +160,5 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             var transAfterProcessing3 = Library.Core.TransactionProcessor.Process(transaction3, testPlan);
             Assert.IsTrue(transAfterProcessing3.Formulary);
         }
-
     }
 }

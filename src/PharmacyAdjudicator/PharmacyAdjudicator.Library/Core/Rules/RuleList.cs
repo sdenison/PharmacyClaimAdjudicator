@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Csla;
+using PharmacyAdjudicator.Library.Core.Plan;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
@@ -22,7 +23,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Data Access
 
-        private void Child_Fetch(Plan parent)
+        private void Child_Fetch(PlanEdit parent)
         {
             RaiseListChangedEvents = false;
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
@@ -40,7 +41,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             RaiseListChangedEvents = true;
         }
 
-        protected void Child_Update(Plan parent)
+        protected void Child_Update(PlanEdit parent)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -70,7 +71,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-        private DataAccess.PlanRule CreateEntity(Plan plan, Rule rule)
+        private DataAccess.PlanRule CreateEntity(PlanEdit plan, Rule rule)
         {
             var entity = new DataAccess.PlanRule();
             entity.RecordId = Guid.NewGuid();

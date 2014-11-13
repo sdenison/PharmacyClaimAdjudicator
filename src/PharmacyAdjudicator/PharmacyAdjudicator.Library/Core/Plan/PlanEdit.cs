@@ -5,10 +5,10 @@ using System.Linq;
 using NxBRE.InferenceEngine.IO;
 using System.Collections.Generic;
 
-namespace PharmacyAdjudicator.Library.Core
+namespace PharmacyAdjudicator.Library.Core.Plan
 {
     [Serializable]
-    public class Plan : BusinessBase<Plan>, IRuleBaseAdapter
+    public class PlanEdit : BusinessBase<PlanEdit>, IRuleBaseAdapter
     {
         #region Business Methods
 
@@ -139,22 +139,22 @@ namespace PharmacyAdjudicator.Library.Core
 
         #region Factory Methods
 
-        public static Plan NewPlan(string planId)
+        public static PlanEdit NewPlan(string planId)
         {
-            return DataPortal.Create<Plan>(planId);
+            return DataPortal.Create<PlanEdit>(planId);
         }
 
-        public static Plan GetPlanByPlanId(string planId)
+        public static PlanEdit GetPlanByPlanId(string planId)
         {
-            return DataPortal.Fetch<Plan>(planId);
+            return DataPortal.Fetch<PlanEdit>(planId);
         }
 
         public static void DeletePlan(string planId)
         {
-            DataPortal.Delete<Plan>(planId);
+            DataPortal.Delete<PlanEdit>(planId);
         }
 
-        private Plan()
+        private PlanEdit()
         { /* Require use of factory methods */ }
 
         #endregion

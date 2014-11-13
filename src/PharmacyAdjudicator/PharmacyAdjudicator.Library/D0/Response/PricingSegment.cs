@@ -71,7 +71,8 @@ namespace PharmacyAdjudicator.Library.D0.Response
         /// </para>
         /// </remarks>
         [NcpdpField("557-AV")]
-        public string TaxExemptIndicator { get; set; }
+        //public string TaxExemptIndicator { get; set; }
+        public Core.Enums.TaxExemptIndicator TaxExemptIndicator { get; set; }
 
         /// <summary>
         /// Flat Sales Tax Amount Paid
@@ -621,25 +622,8 @@ namespace PharmacyAdjudicator.Library.D0.Response
         public PricingSegment(Core.Transaction transaction)
         {
             this.SegmentIdentification = "23";
-
-            ////Doing attribute binding instead
-            //this.PatientPayAmount = transaction.PatientPayAmount;
-            //this.IngredientCostPaid = transaction.IngredientCostPaid;
-            //this.DispensingFeePaid = transaction.DispensingFeePaid;
-            //this.TaxExemptIndicator = transaction.TaxExemptIndicator;
-            //this.AmountOfCopay = transaction.Copay;
-
-            ////TODO: implement other amount paid loop
-            ////this.OtherAmountPaidCount = transaction.OtherAmountPaids.Count();
-            ////foreach (var otherAmountPaid in transaction.OtherAmountPaids)
-            ////    this.OtherAmountPaids.Add(new OtherAmountPaidContainer() { OtherAmountPaid = otherAmountPaid.AmountPaid, OtherAmountPaidQualifier = otherAmountPaid.Qualifier });
-            //this.TotalAmountPaid = transaction.TotalAmountPaid;
-            //this.BasisOfReimbursementDetermination = ((int)transaction.BasisOfReimbursement).ToString();
-
             BindTransaction(transaction);
         }
-
-
 
         private void BindTransaction(Core.Transaction transaction)
         {
@@ -652,9 +636,10 @@ namespace PharmacyAdjudicator.Library.D0.Response
                     if (!ncpdpField.NcpdpFieldName.Equals("111-AM"))
                     {
                         var value = ncpdpField.FindPropertyInObject(transaction);
+
                         if (value != null)
                         { 
-                            propertyInfo.SetValue(this, value);
+                                propertyInfo.SetValue(this, value);
                         }
                     }
                 }
@@ -688,7 +673,7 @@ namespace PharmacyAdjudicator.Library.D0.Response
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.PatientPayAmount, this.PatientPayAmount));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.IngredientCostPaid, this.IngredientCostPaid));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.DispensingFeePaid, this.DispensingFeePaid));
-            returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.TaxExemptIndicator, this.TaxExemptIndicator));
+            returnValue.Append(Utils.NcpdpString.ToNcpdpFieldString(() => this.TaxExemptIndicator, Core.Enums.TaxExemptConverter.ToString(this.TaxExemptIndicator)));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.FlatSalesTaxAmountPaid, this.FlatSalesTaxAmountPaid));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.PercentageSalesTaxAmount, this.PercentageSalesTaxAmount));
             returnValue.Append(Utils.NcpdpString.ToNcpdpFieldStringFromCurrency(() => this.PercentageSalesTaxRatePaid, this.PercentageSalesTaxRatePaid));
