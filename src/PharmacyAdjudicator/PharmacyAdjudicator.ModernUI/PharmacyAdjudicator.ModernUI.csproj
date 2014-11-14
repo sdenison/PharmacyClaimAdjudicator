@@ -135,6 +135,11 @@
     <Compile Include="Patient\PatientEditViewModel.cs" />
     <Compile Include="Patient\PatientEditViewModelClosingMessage.cs" />
     <Compile Include="Patient\PatientViewModel.cs" />
+    <Compile Include="Plan\PlanEditView.xaml.cs">
+      <DependentUpon>PlanEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plan\PlanEditViewModel.cs" />
+    <Compile Include="Plan\PlanLoader.cs" />
     <Compile Include="Plan\PlanWorkspaceView.xaml.cs">
       <DependentUpon>PlanWorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -227,6 +232,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Patient\PatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plan\PlanEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

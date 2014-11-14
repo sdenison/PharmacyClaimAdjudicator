@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using FirstFloor.ModernUI.Presentation;
 using PharmacyAdjudicator.ModernUI.Interface;
 
 namespace PharmacyAdjudicator.ModernUI.Plan
@@ -25,6 +26,7 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             _eventAggregator.Subscribe(this);
             Plans = Library.Core.Plan.PlanList.GetAll();
             NotifyOfPropertyChange(() => FilteredPlans);
+            _planLoader = new PlanLoader(this);
         }
 
         public Library.Core.Plan.PlanList Plans
@@ -57,6 +59,23 @@ namespace PharmacyAdjudicator.ModernUI.Plan
                 _planfilter = value;
                 NotifyOfPropertyChange(() => FilteredPlans);
             }
+        }
+
+        public LinkCollection PlanLinks
+        {
+            get
+            {
+                var lc = new LinkCollection();
+                foreach (var plan in FilteredPlans)
+                    lc.Add(new Link() { DisplayName = plan.PlanId, Source = new Uri(plan.PlanId, UriKind.Relative) });
+                return lc;
+            }
+        }
+
+        private PlanLoader _planLoader;
+        public PlanLoader PlanLoader
+        {
+            get { return _planLoader; }
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Windows.Input;
 using FirstFloor.ModernUI.Windows.Navigation;
 using PharmacyAdjudicator.Library.Core.Patient;
 using PharmacyAdjudicator.Library.Core.Group;
+using PharmacyAdjudicator.Library.Core.Plan;
 
 namespace PharmacyAdjudicator.ModernUI.Shell
 {
@@ -140,6 +141,27 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             return patientLinkGroup;
         }
 
+        private void UpdatePlanMenu()
+        {
+            if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(PlanEdit)))
+            {
+                if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Plan")))
+                    this.MenuLinkGroups.Add(PlanLinkGroup());
+            }
+            else
+            {
+                if (MenuLinkGroups.Any(l => l.DisplayName.Equals("Plan")))
+                    this.MenuLinkGroups.Remove(MenuLinkGroups.FirstOrDefault(l => l.DisplayName.Equals("Plan")));
+            }
+        }
+
+        private LinkGroup PlanLinkGroup()
+        {
+            var patientLinkGroup = new LinkGroup { DisplayName = "Plan" };
+            patientLinkGroup.Links.Add(new Link { DisplayName = "Plan Manager", Source = new Uri("/Plan/PlanWorkspaceView.xaml", UriKind.Relative) });
+            return patientLinkGroup;
+        }
+
         private void UpdateMenu()
         {
             if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Welcome")))
@@ -155,6 +177,7 @@ namespace PharmacyAdjudicator.ModernUI.Shell
             {
                 UpdatePatientMenu();
                 UpdateGroupMenu();
+                UpdatePlanMenu();
                 //if (Csla.Rules.BusinessRules.HasPermission(Csla.Rules.AuthorizationActions.GetObject, typeof(PatientEdit)))
                 //{
                 //    if (!MenuLinkGroups.Any(l => l.DisplayName.Equals("Patient")))
