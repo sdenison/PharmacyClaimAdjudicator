@@ -4,8 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="600">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="1"/>
+            <ColumnDefinition Width="50*"/>
+        </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Row="0">
             <StackPanel MinWidth="200">
                 <StackPanel x:Name="PlanEditForm" Orientation="Vertical">
@@ -33,7 +38,34 @@
                         <Label Content="Plan Name" />
                         <TextBox x:Name="Name" Width="150" Text="{Binding Path=Model.Name, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
                     </StackPanel>
+                    <!--<Model.AssignedRules></Model.AssignedRules>-->
+                        <ListBox x:Name="rules" ItemsSource="{Binding Path=Model.AssignedRules}" SelectedItem="{Binding Path=SelectedRule, Mode=TwoWay}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Rule Type: " />
+                                        <Label Content="{Binding RuleType}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox> 
                 </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <GridSplitter Grid.Column="1"/>
+        <ScrollViewer Grid.Column="2">
+            <StackPanel Orientation="Vertical">
+                <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>
+                <ListBox ItemsSource="{Binding Path=SelectedRule.Implications}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Is "></Label>
+                                <TextBox Text="{Binding Path=Head.Value}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </ScrollViewer>
     </Grid>

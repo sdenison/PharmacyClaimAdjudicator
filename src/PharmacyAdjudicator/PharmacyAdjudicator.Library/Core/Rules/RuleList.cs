@@ -36,7 +36,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                    orderby r.RuleType
                                    select r;
                 foreach (var ruleData in ruleListData)
-                    DataPortal.FetchChild<Rule>(ruleData);
+                    Add(DataPortal.FetchChild<Rule>(ruleData));
             }
             RaiseListChangedEvents = true;
         }

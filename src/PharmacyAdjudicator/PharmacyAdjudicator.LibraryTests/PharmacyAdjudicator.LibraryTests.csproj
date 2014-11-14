@@ -144,7 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Csla-Templates Read Me.txt" />
-    <Content Include="Scripts\Create_test_data.sql" />
+    <Content Include="Scripts\Create_test_data.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\Create_test_data_old.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

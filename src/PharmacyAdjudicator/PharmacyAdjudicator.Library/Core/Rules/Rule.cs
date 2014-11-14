@@ -236,6 +236,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 using (BypassPropertyChecks)
                 {
                     PopulateByEntity(ruleData);
+                    LoadProperty(ImplicationsProperty, DataPortal.FetchChild<ImplicationList>(this.RuleId));
                 }
             }
         }
@@ -243,6 +244,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private void Child_Fetch(DataAccess.Rule ruleData)
         {
             PopulateByEntity(ruleData);
+            LoadProperty(ImplicationsProperty, DataPortal.FetchChild<ImplicationList>(this.RuleId));
         }
 
         protected override void DataPortal_Insert()

@@ -14,5 +14,19 @@ namespace PharmacyAdjudicator.ModernUI.Plan
         {
             this.Model = model;
         }
+
+        private Library.Core.Rules.Rule _selectedRule;
+        public Library.Core.Rules.Rule SelectedRule
+        {
+            get
+            {
+                return _selectedRule;
+            }
+            set
+            {
+                _selectedRule = value;
+                NotifyOfPropertyChange(() => SelectedRule);
+            }
+        }
     }
 }

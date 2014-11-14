@@ -144,6 +144,9 @@
       <DependentUpon>PlanWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plan\PlanWorkspaceViewModel.cs" />
+    <Compile Include="Plan\RuleView.xaml.cs">
+      <DependentUpon>RuleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\CaliburnContentLoader.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ModernWindowManager.cs" />
@@ -240,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plan\PlanWorkspaceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plan\RuleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

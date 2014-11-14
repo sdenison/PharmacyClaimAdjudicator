@@ -229,7 +229,11 @@ namespace PharmacyAdjudicator.Library.Core.Plan
 
                 if (planData != null)
                     using (BypassPropertyChecks)
+                    {
                         PopulateByRow(planData);
+                        //Eagerly load the assigned rules
+                        LoadProperty(AssignedRulesProperty, DataPortal.FetchChild<Rules.RuleList>(this)); 
+                    }
                 else 
                     throw new DataNotFoundException("PlanId = " + planId);
             }
@@ -313,7 +317,10 @@ namespace PharmacyAdjudicator.Library.Core.Plan
         private void Child_Fetch(DataAccess.PlanDetail planData)
         {
             using (BypassPropertyChecks)
+            { 
                 PopulateByRow(planData);
+                LoadProperty(AssignedRulesProperty, DataPortal.FetchChild<Rules.RuleList>(this));
+            }
         }
 
         private void PopulateByRow(DataAccess.PlanDetail planData)
