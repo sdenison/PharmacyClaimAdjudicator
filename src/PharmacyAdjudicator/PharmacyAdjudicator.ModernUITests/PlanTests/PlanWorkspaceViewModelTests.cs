@@ -61,10 +61,10 @@ namespace PharmacyAdjudicator.ModernUITests.PlanTests
         public void FilteredPlans_property_should_have_less_items_than_Plans()
         {
             var planViewModel = new ModernUI.Plan.PlanWorkspaceViewModel(_dialog.Object, _eventAggregator.Object);
-            var numberOfUnfilteredPlans = planViewModel.Plans.Count;
-            planViewModel.PlanFilter = "filter";
+            planViewModel.PlanFilter = "adsf";
+            Assert.IsTrue(planViewModel.FilteredPlans.Count == 0);
+            planViewModel.PlanFilter = "plan";
             Assert.IsTrue(planViewModel.FilteredPlans.Count > 0);
-            Assert.IsTrue(planViewModel.FilteredPlans.Count < numberOfUnfilteredPlans);
         }
     }
 }

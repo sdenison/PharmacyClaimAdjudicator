@@ -253,7 +253,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var ruleData = CreateNewEntity();
                 ctx.DbContext.Rule.Add(ruleData);
-                FieldManager.UpdateChildren();
+                FieldManager.UpdateChildren(this);
+                //UpdateAssignedImplications();
                 ctx.DbContext.SaveChanges();
             }
         }
@@ -265,6 +266,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 var ruleData = CreateNewEntity();
                 ctx.DbContext.Rule.Add(ruleData);
                 FieldManager.UpdateChildren(this);
+                //UpdateAssignedImplications();
             }
         }
 
@@ -277,7 +279,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     var ruleData = CreateNewEntity();
                     ctx.DbContext.Entry(ruleData).State = EntityState.Modified;
                 }
-                FieldManager.UpdateChildren();
+                FieldManager.UpdateChildren(this);
+                //UpdateAssignedImplications();
                 ctx.DbContext.SaveChanges();
             }
         }
@@ -291,7 +294,24 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     var ruleData = CreateNewEntity();
                     ctx.DbContext.Entry(ruleData).State = EntityState.Modified;
                 }
-                FieldManager.UpdateChildren();
+                FieldManager.UpdateChildren(this);
+                //UpdateAssignedImplications();
+            }
+        }
+
+        private void UpdateAssignedImplications()
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                foreach (var assignedImplication in this.Implications)
+                {
+                    var implicationLinkData = ctx.DbContext.RuleImplication.FirstOrDefault(ri => ri.RuleId == this.RuleId && ri.ImplicationId == assignedImplication.ImplicationId);
+                    if (implicationLinkData == null)
+                    {
+                        implicationLinkData = new DataAccess.RuleImplication() { RecordId = Guid.NewGuid(), RuleId = this.RuleId, ImplicationId = assignedImplication.ImplicationId, Priority = "60" };
+                        ctx.DbContext.RuleImplication.Add(implicationLinkData);
+                    }
+                }
             }
         }
 
