@@ -266,6 +266,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private void PopulateByEntity(DataAccess.AtomGroupItem atomGroupItemData)
         {
             _RecordId = atomGroupItemData.RecordId;
+            this.AtomGroupId = atomGroupItemData.AtomGroupId;
             if (atomGroupItemData.AtomId.HasValue)
             {
                 if (atomGroupItemData.AtomId.HasValue)

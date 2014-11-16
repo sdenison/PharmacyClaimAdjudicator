@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <Grid>
@@ -56,12 +57,47 @@
         <ScrollViewer Grid.Column="2">
             <StackPanel Orientation="Vertical">
                 <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>
-                <ListBox ItemsSource="{Binding Path=SelectedRule.Implications}">
+                <ListBox ItemsSource="{Binding Path=SelectedRule.Implications}" Margin="5,0,0,0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="Is "></Label>
-                                <TextBox Text="{Binding Path=Head.Value}"/>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Is "></Label>
+                                    <TextBox Text="{Binding Path=Head.Value}"/>
+                                </StackPanel>
+                                <Label Content="When"></Label>
+                                <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                                    <mui:BBCodeBlock BBCode="Logical Operator"/>
+                                    <ComboBox ItemsSource="{Binding Path=Body.LogicalOperator}"></ComboBox>
+                                </StackPanel>
+                                <TreeView>
+                                    <TreeViewItem Header="Example 1">
+                                        <TreeViewItem Header="sub heading 1"/>
+                                        <TreeViewItem Header="sub heading 2"/>
+                                        <TreeViewItem Header="sub heading 3"/>
+                                        <TreeViewItem Header="sub heading 4"/>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="Example 2">
+                                        <TreeViewItem Header="second sub heading"/>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="Example 3"/>
+                                </TreeView>
+                                <ListBox ItemsSource="{Binding Path=Body.Predicates}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <!--<Label Content="Predicate ID "></Label>
+                                                <TextBox Text="{Binding Path=AtomGroupId, Mode=OneWay}"></TextBox>-->
+                                                <Label Content="{Binding Path=Atom.Class}"/>
+                                                <Label Content="."/>
+                                                <Label Content="{Binding Path=Atom.Property}"/>
+                                                <Label Content=" equals "/>
+                                                <TextBox Text="{Binding Path=Atom.Value}"/>
+                                                
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

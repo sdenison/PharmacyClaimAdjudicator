@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="984f98ab5a984b5086018baad0566953" Name="Diagram1" ZoomLevel="83">
+      <Diagram DiagramId="984f98ab5a984b5086018baad0566953" Name="Diagram1" ZoomLevel="95">
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Group" Width="1.5" PointX="0.625" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.GroupDetail" Width="1.75" PointX="0.5" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.Patient" Width="2" PointX="6.375" PointY="0.5" IsExpanded="true" />
