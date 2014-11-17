@@ -3,6 +3,7 @@ using System.Linq;
 using Csla;
 using System.Threading.Tasks;
 using NxBRE.InferenceEngine.Rules;
+using System.ComponentModel;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
@@ -11,8 +12,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
     {
         #region Business Methods
 
-        public static readonly PropertyInfo<string> ValueProperty = RegisterProperty<string>(c => c.Value);
-        public string Value
+        public static readonly PropertyInfo<object> ValueProperty = RegisterProperty<object>(c => c.Value);
+        public object Value
         {
             get { return GetProperty(ValueProperty); }
             set { SetProperty(ValueProperty, value); }
@@ -52,7 +53,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             string valueWithOperation;
             if (this.Operation == "")
-                valueWithOperation = this.Value;
+                //value to object
+                valueWithOperation = this.Value.ToString();
             else
                 valueWithOperation = string.Format("{0}({1})", this.Operation, this.Value);
             return new NxBRE.InferenceEngine.Rules.Atom(this.Property, new NxBRE.InferenceEngine.Rules.Variable(this.Class), new NxBRE.InferenceEngine.Rules.Individual(valueWithOperation));
@@ -63,7 +65,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             //Only supporting nxbre://operator 
             if (this.Operation != "")
             {
-                var predicate = new Function(Function.FunctionResolutionType.NxBRE, this.Value, null, string.Format("{0}({1})", this.Operation, this.Value), this.Value);
+                //value to object
+                //var predicate = new Function(Function.FunctionResolutionType.NxBRE, this.Value, null, string.Format("{0}({1})", this.Operation, this.Value), this.Value);
+                var predicate = new Function(Function.FunctionResolutionType.NxBRE, this.Value.ToString(), null, string.Format("{0}({1})", this.Operation, this.Value), this.Value.ToString());
                 return new NxBRE.InferenceEngine.Rules.Atom(this.Property, new NxBRE.InferenceEngine.Rules.Variable(this.Class), predicate); 
             }
             else
@@ -230,13 +234,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             this.Class = atomData.Class;
             this.Property = atomData.Property;
             this.Operation = atomData.Operation;
+
+            //var valueType = new System.Reflection.PropertyInfo();
+            Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
+            var pi = type.GetProperty(this.Property);
+            var propertyType = pi.PropertyType;
+            TypeConverter tc = TypeDescriptor.GetConverter(propertyType);
+            this.Value = tc.ConvertFromString(atomData.Value);
         }
 
         private DataAccess.Atom CreateNewEntity()
         {
             var atomData = new DataAccess.Atom();
             atomData.AtomId = this.AtomId;
-            atomData.Value = this.Value;
+            //atomData.Value = this.Value;
+            atomData.Value = this.Value.ToString();
             atomData.Class = this.Class;
             atomData.Property = this.Property;
             atomData.Operation = this.Operation;
