@@ -6,8 +6,7 @@ using Csla;
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
     [Serializable]
-    public class PredicateList :
-      BusinessListBase<PredicateList, Predicate>
+    public class PredicateList : BusinessListBase<PredicateList, Predicate>
     {
         #region Authorization Rules
 

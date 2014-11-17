@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:library="clr-namespace:PharmacyAdjudicator.Library.Core.Rules;assembly=PharmacyAdjudicator.Library"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <Grid>
@@ -44,9 +45,10 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Label Content="Rule Type: " />
                                         <Label Content="{Binding RuleType}" />
-                                    </StackPanel>
+                                        <Label Content=" Has default value "/>
+                                        <TextBox Text="{Binding DefaultValue}"/>
+                                </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox> 
@@ -57,8 +59,8 @@
         <ScrollViewer Grid.Column="2">
             <StackPanel Orientation="Vertical">
                 <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>
-                <ListBox ItemsSource="{Binding Path=SelectedRule.Implications}" Margin="5,0,0,0">
-                    <ListBox.ItemTemplate>
+                <ItemsControl ItemsSource="{Binding Path=SelectedRule.Implications}" Margin="5,0,0,0">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
@@ -68,9 +70,30 @@
                                 <Label Content="When"></Label>
                                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
                                     <mui:BBCodeBlock BBCode="Logical Operator"/>
-                                    <ComboBox ItemsSource="{Binding Path=Body.LogicalOperator}"></ComboBox>
+                                    <TextBox Text="{Binding Path=Body.LogicalOperator}"></TextBox>
                                 </StackPanel>
-                                <TreeView>
+                                <TreeView ItemsSource="{Binding Path=Body.TopLevel}">
+                                    <TreeView.Resources>
+                                        <DataTemplate 
+                                            DataType="{x:Type library:Atom}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Class}"/>
+                                                <TextBlock Text="."/>
+                                                <TextBlock Text="{Binding Property}"/>
+                                                <TextBlock Text="="/>
+                                                <TextBlock Text="{Binding Value}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                        <HierarchicalDataTemplate
+                                            DataType="{x:Type library:AtomGroup}" ItemsSource="{Binding Children}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="List type: "/>
+                                                <TextBlock Text="{Binding LogicalOperator}"/>
+                                            </StackPanel>
+                                            </HierarchicalDataTemplate>
+                                    </TreeView.Resources>
+                                </TreeView>
+                                <!--<TreeView>
                                     <TreeViewItem Header="Example 1">
                                         <TreeViewItem Header="sub heading 1"/>
                                         <TreeViewItem Header="sub heading 2"/>
@@ -81,27 +104,26 @@
                                         <TreeViewItem Header="second sub heading"/>
                                     </TreeViewItem>
                                     <TreeViewItem Header="Example 3"/>
-                                </TreeView>
-                                <ListBox ItemsSource="{Binding Path=Body.Predicates}">
+                                </TreeView>-->
+                                <!--<ListBox ItemsSource="{Binding Path=Body.Predicates}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <!--<Label Content="Predicate ID "></Label>
-                                                <TextBox Text="{Binding Path=AtomGroupId, Mode=OneWay}"></TextBox>-->
+                                                --><!--<Label Content="Predicate ID "></Label>
+                                                <TextBox Text="{Binding Path=AtomGroupId, Mode=OneWay}"></TextBox>--><!--
                                                 <Label Content="{Binding Path=Atom.Class}"/>
                                                 <Label Content="."/>
                                                 <Label Content="{Binding Path=Atom.Property}"/>
                                                 <Label Content=" equals "/>
                                                 <TextBox Text="{Binding Path=Atom.Value}"/>
-                                                
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
-                                </ListBox>
+                                </ListBox>-->
                             </StackPanel>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </ScrollViewer>
     </Grid>

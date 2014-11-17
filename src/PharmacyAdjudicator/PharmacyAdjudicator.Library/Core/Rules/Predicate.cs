@@ -33,6 +33,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(AtomGroupProperty, value); }
         }
 
+        public object PredicateValue
+        {
+            get
+            {
+                if (PredicateType == PredicateTypeEnum.Atom)
+                    return Atom;
+                if (PredicateType == PredicateTypeEnum.AtomGroup)
+                    return AtomGroup;
+                throw new Exception("Predicate must be an Atom or AtomGroup to retrieve PredicateValue");
+            }
+        }
+
         public PredicateTypeEnum PredicateType
         {
             get

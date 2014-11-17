@@ -43,11 +43,45 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             private set { SetProperty(PredicatesProperty, value); }
         }
 
+
+
+        public IEnumerable<object> TopLevel 
+        {
+            get
+            {
+                //FirstGeneration must be a AtomGroup since we're using it as top level for Implication
+                yield return this;
+            }
+            
+        }
+
+        public IEnumerable<object> Children
+        {
+            get
+            {
+                foreach (Predicate predicate in this.Predicates)
+                {
+                    if (predicate.PredicateType == Predicate.PredicateTypeEnum.Atom)
+                        yield return predicate.Atom;
+                    if (predicate.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
+                        yield return predicate.AtomGroup;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Will map to ViewModel.AddNewCriteriaItem
+        /// </summary>
+        /// <param name="predicate"></param>
         public void AddPredicate(Atom predicate)
         {
             this.Predicates.Add(this, predicate);
         }
 
+        /// <summary>
+        /// Will map to ViewModel.AddNewCriteriaGroup
+        /// </summary>
+        /// <param name="predicate"></param>
         public void AddPredicate(AtomGroup predicate)
         {
             if (this.LogicalOperator == predicate.LogicalOperator)
@@ -75,11 +109,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return contains;
         }
 
-        public NxBRE.InferenceEngine.Rules.AtomGroup GetInferenceEngineAtomGroup()
-        {
-            //return new NxBRE.InferenceEngine.Rules.Atom(this.Property, new NxBRE.InferenceEngine.Rules.Variable(this.Class), new NxBRE.InferenceEngine.Rules.Individual(this.Value));
-            return new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator, this.Predicates.ToNxBre());
-        }
+        //public NxBRE.InferenceEngine.Rules.AtomGroup GetInferenceEngineAtomGroup()
+        //{
+        //    //return new NxBRE.InferenceEngine.Rules.Atom(this.Property, new NxBRE.InferenceEngine.Rules.Variable(this.Class), new NxBRE.InferenceEngine.Rules.Individual(this.Value));
+        //    return new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator, this.Predicates.ToNxBre());
+        //}
 
         public NxBRE.InferenceEngine.Rules.AtomGroup ToNxBre()
         {
