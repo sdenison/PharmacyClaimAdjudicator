@@ -173,69 +173,69 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             Assert.AreEqual(rulesEngineAtomGroup.AllAtoms.Count, 3);
         }
 
+        //This test is no longer need.  
+        //[TestMethod]
+        //public void Can_create_and_retrieve_AM111OnFormulary_rules_in_database()
+        //{
+        //    //Create first AtomGroup
+        //    var atomGroup = Library.Core.Rules.AtomGroup.NewAtomGroup();
+        //    atomGroup.Name = "First Test Atom Group";
+        //    atomGroup.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
+        //    atomGroup = atomGroup.Save();
 
-        [TestMethod]
-        public void Can_create_and_retrieve_AM111OnFormulary_rules_in_database()
-        {
-            //Create first AtomGroup
-            var atomGroup = Library.Core.Rules.AtomGroup.NewAtomGroup();
-            atomGroup.Name = "First Test Atom Group";
-            atomGroup.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
-            atomGroup = atomGroup.Save();
+        //    //Add Atom predicate to first AtomGroup
+        //    var atom = Library.Core.Rules.Atom.NewAtom();
+        //    atom.Class = "Drug";
+        //    atom.Property = "VaClass";
+        //    atom.Value = "PENICILLINS,AMINO DERIVATIVES";
+        //    atom = atom.Save();
+        //    atomGroup.AddPredicate(atom);
 
-            //Add Atom predicate to first AtomGroup
-            var atom = Library.Core.Rules.Atom.NewAtom();
-            atom.Class = "Drug";
-            atom.Property = "VaClass";
-            atom.Value = "PENICILLINS,AMINO DERIVATIVES";
-            atom = atom.Save();
-            atomGroup.AddPredicate(atom);
+        //    Assert.AreEqual(1, atomGroup.Predicates.Count);
 
-            Assert.AreEqual(1, atomGroup.Predicates.Count);
+        //    //Create a second AtomGroup
+        //    var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();
+        //    atomGroup2.Name = "Second Test Atom Group";
+        //    atomGroup2.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
+        //    atomGroup2 = atomGroup2.Save();
 
-            //Create a second AtomGroup
-            var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();
-            atomGroup2.Name = "Second Test Atom Group";
-            atomGroup2.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
-            atomGroup2 = atomGroup2.Save();
+        //    var dosageForm1 = Library.Core.Rules.Atom.NewAtom();
+        //    dosageForm1.Class = "Drug";
+        //    dosageForm1.Property = "DosageForm";
+        //    dosageForm1.Value = "PWDR,RENST-ORAL";
+        //    //dosageForm1 = dosageForm1.Save();
 
-            var dosageForm1 = Library.Core.Rules.Atom.NewAtom();
-            dosageForm1.Class = "Drug";
-            dosageForm1.Property = "DosageForm";
-            dosageForm1.Value = "PWDR,RENST-ORAL";
-            //dosageForm1 = dosageForm1.Save();
+        //    atomGroup2.AddPredicate(dosageForm1);
 
-            atomGroup2.AddPredicate(dosageForm1);
+        //    var dosageForm2 = Library.Core.Rules.Atom.NewAtom();
+        //    dosageForm2.Class = "Drug";
+        //    dosageForm2.Property = "DosageForm";
+        //    dosageForm2.Value = "TAB";
+        //    dosageForm2 = dosageForm2.Save();
 
-            var dosageForm2 = Library.Core.Rules.Atom.NewAtom();
-            dosageForm2.Class = "Drug";
-            dosageForm2.Property = "DosageForm";
-            dosageForm2.Value = "TAB";
-            dosageForm2 = dosageForm2.Save();
+        //    atomGroup2.AddPredicate(dosageForm2);
+        //    atomGroup2 = atomGroup2.Save();
 
-            atomGroup2.AddPredicate(dosageForm2);
-            atomGroup2 = atomGroup2.Save();
+        //    //Add Or AtomGroup to first top level AtomGroup
+        //    atomGroup.AddPredicate(atomGroup2);
 
-            //Add Or AtomGroup to first top level AtomGroup
-            atomGroup.AddPredicate(atomGroup2);
+        //    //Hacked: The Contains fact need to be rethought.
+        //    //var containsAtom = Library.Core.Rules.Atom.NewAtom();
+        //    //containsAtom.Property = "Contains";
+        //    //containsAtom.Class = "Transaction";
+        //    //containsAtom.Value = "Drug";
+        //    //containsAtom = containsAtom.Save();
 
-            //Hacked: The Contains fact need to be rethought.
-            var containsAtom = Library.Core.Rules.Atom.NewAtom();
-            containsAtom.Property = "Contains";
-            containsAtom.Class = "Transaction";
-            containsAtom.Value = "Drug";
-            containsAtom = containsAtom.Save();
+        //    //atomGroup.AddPredicate(containsAtom);
 
-            atomGroup.AddPredicate(containsAtom);
+        //    atomGroup = atomGroup.Save();
 
-            atomGroup = atomGroup.Save();
+        //    NxBRE.InferenceEngine.Rules.AtomGroup rulesEngineAtomGroup = atomGroup.ToNxBre();
+        //    Assert.AreEqual(rulesEngineAtomGroup.AllAtoms.Count, 4);
 
-            NxBRE.InferenceEngine.Rules.AtomGroup rulesEngineAtomGroup = atomGroup.ToNxBre();
-            Assert.AreEqual(rulesEngineAtomGroup.AllAtoms.Count, 4);
-
-            var storedAtomGroup = Library.Core.Rules.AtomGroup.GetById(atomGroup.AtomGroupId);
-            NxBRE.InferenceEngine.Rules.AtomGroup rulesEngineStoredAtomGroup = storedAtomGroup.ToNxBre();
-            Assert.AreEqual(rulesEngineStoredAtomGroup.AllAtoms.Count, 4);
-        }
+        //    var storedAtomGroup = Library.Core.Rules.AtomGroup.GetById(atomGroup.AtomGroupId);
+        //    NxBRE.InferenceEngine.Rules.AtomGroup rulesEngineStoredAtomGroup = storedAtomGroup.ToNxBre();
+        //    Assert.AreEqual(rulesEngineStoredAtomGroup.AllAtoms.Count, 4);
+        //}
     }
 }

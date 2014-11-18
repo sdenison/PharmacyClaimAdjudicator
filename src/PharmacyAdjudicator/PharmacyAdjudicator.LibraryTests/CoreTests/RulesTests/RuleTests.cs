@@ -43,7 +43,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
         {
             var rule = Library.Core.Rules.Rule.NewRule();
             rule.RuleType = "Formulary";
-            rule.DefaultValue = "true";
+            rule.DefaultValue = true;
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
         {
             var rule = Library.Core.Rules.Rule.NewRule();
             rule.RuleType = "ResponseStatus";
-            rule.DefaultValue = Library.Core.Enums.ResponseStatus.Rejected.ToString();
+            rule.DefaultValue = Library.Core.Enums.ResponseStatus.Rejected;
         }
 
         [TestMethod]

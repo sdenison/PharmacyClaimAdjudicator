@@ -3,6 +3,7 @@ using Csla;
 using System.Linq;
 using NxBRE.InferenceEngine.IO;
 using System.Data.Entity;
+using System.ComponentModel;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
@@ -24,11 +25,40 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 if (propertyList.Contains(value))
                 {
                     SetProperty(RuleTypeProperty, value);
-                    this.DefaultValue = DefaultDefault(value);
+                    this.DefaultValue = DefaultDefault();
                 }
                 else
                     throw new ArgumentException("RuleType must be an inferrable attribute of Transaction.");
             }
+        }
+
+        ///// <summary>
+        ///// Provides a default value for the default property based on the ruleType's type.  Very meta.
+        ///// </summary>
+        ///// <param name="ruleType"></param>
+        ///// <returns></returns>
+        //private string DefaultDefault()
+        //{
+        //    var pi = typeof(Transaction).GetProperty(RuleType);
+        //    if (pi.PropertyType.Equals(typeof(Boolean)))
+        //        return "false";
+        //    if (pi.PropertyType.Equals(typeof(Decimal)))
+        //        return "0";
+        //    if (pi.PropertyType.Equals(typeof(Enums.ResponseStatus)))
+        //        return Enums.ResponseStatus.Captured.ToString();
+        //    if (pi.PropertyType.Equals(typeof(Enums.BasisOfReimbursement)))
+        //        return Enums.BasisOfReimbursement.NotSpecified.ToString();
+        //    if (pi.PropertyType.Equals(typeof(Enums.TaxExemptIndicator)))
+        //        return Enums.TaxExemptIndicator.NotSpecified.ToString();
+        //    throw new ArgumentException("Unknown ruleType = " + RuleType);
+        //}
+
+        public Type ClrType()
+        {
+            if (string.IsNullOrEmpty(this.RuleType))
+                throw new Exception("Cannot get ClrType while RuleType is not set");
+            var pi = typeof(Transaction).GetProperty(this.RuleType);
+            return pi.PropertyType;
         }
 
         /// <summary>
@@ -36,83 +66,156 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         /// </summary>
         /// <param name="ruleType"></param>
         /// <returns></returns>
-        private string DefaultDefault(string ruleType)
+        private object DefaultDefault()
         {
             var pi = typeof(Transaction).GetProperty(RuleType);
             if (pi.PropertyType.Equals(typeof(Boolean)))
-                return "false";
+                return false; 
             if (pi.PropertyType.Equals(typeof(Decimal)))
-                return "0";
+                return 0;
             if (pi.PropertyType.Equals(typeof(Enums.ResponseStatus)))
-                return Enums.ResponseStatus.Captured.ToString();
+                return Enums.ResponseStatus.Captured;
             if (pi.PropertyType.Equals(typeof(Enums.BasisOfReimbursement)))
-                return Enums.BasisOfReimbursement.NotSpecified.ToString();
+                return Enums.BasisOfReimbursement.NotSpecified;
             if (pi.PropertyType.Equals(typeof(Enums.TaxExemptIndicator)))
-                return Enums.TaxExemptIndicator.NotSpecified.ToString();
-            throw new ArgumentException("Unknown ruleType = " + ruleType);
+                return Enums.TaxExemptIndicator.NotSpecified;
+            throw new ArgumentException("Unknown ruleType = " + RuleType);
         }
-
         /// <summary>
         /// This is the default value of field the rule applies to
         /// </summary>
-        public static readonly PropertyInfo<string> DefaultValueProperty = RegisterProperty<string>(c => c.DefaultValue);
-        public string DefaultValue
+        public static readonly PropertyInfo<object> DefaultValueProperty = RegisterProperty<object>(c => c.DefaultValue);
+        public object DefaultValue
         {
             get { return GetProperty(DefaultValueProperty); }
             set
             {
                 var pi = typeof(Transaction).GetProperty(RuleType);
-                if (pi.PropertyType.Equals(typeof(Boolean)))
-                {
-                    bool boolValue;
-                    if (bool.TryParse(value, out boolValue))
-                        SetProperty(DefaultValueProperty, value);
-                    else
-                        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
-                }
+                if (pi.PropertyType == value.GetType())
+                    SetProperty(DefaultValueProperty, value);
                 else if (pi.PropertyType.Equals(typeof(Decimal)))
                 {
-                    decimal decimalValue;
-                    if (decimal.TryParse(value, out decimalValue))
+                    if ((value.GetType() == typeof(int)) || (value.GetType() == typeof(long)))
                         SetProperty(DefaultValueProperty, value);
-                    else
-                        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
                 }
-                else if (pi.PropertyType.Equals(typeof(Enums.ResponseStatus)))
+                else if (pi.PropertyType != value.GetType())
                 {
-                    //already throws argument exception 
-                    Enums.ResponseStatus rs = (Enums.ResponseStatus)Enum.Parse(typeof(Enums.ResponseStatus), value);
-                    if (Enum.IsDefined(typeof(Enums.ResponseStatus), rs))
-                        SetProperty(DefaultValueProperty, value);
-                    else
-                        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                    throw new ArgumentException("Default value cannot be set to " + value.ToString() + " when Rule has RuleType of " + RuleType + ".");
                 }
-                else if (pi.PropertyType.Equals(typeof(Enums.BasisOfReimbursement)))
-                {
-                    //already throws argument exception 
-                    Enums.BasisOfReimbursement bor = (Enums.BasisOfReimbursement)Enum.Parse(typeof(Enums.BasisOfReimbursement), value);
-                    if (Enum.IsDefined(typeof(Enums.BasisOfReimbursement), bor))
-                        SetProperty(DefaultValueProperty, value);
-                    else
-                        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
-                }
-                else if (pi.PropertyType.Equals(typeof(Enums.TaxExemptIndicator)))
-                {
-                    //already throws argument exception 
-                    Enums.TaxExemptIndicator tei = (Enums.TaxExemptIndicator)Enum.Parse(typeof(Enums.TaxExemptIndicator), value);
-                    if (Enum.IsDefined(typeof(Enums.TaxExemptIndicator), tei))
-                        SetProperty(DefaultValueProperty, value);
-                    else
-                        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
-                }
-                else
-                {
-                    throw new ArgumentException("DefaultValue does not impliment conversion for " + RuleType);
-                }
+
+                //if (pi.PropertyType.Equals(typeof(Boolean)))
+                //{
+                //    bool boolValue;
+                //    if (bool.TryParse(value, out boolValue))
+                //        SetProperty(DefaultValueProperty, value);
+                //    else
+                //        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                //}
+                //else if (pi.PropertyType.Equals(typeof(Decimal)))
+                //{
+                //    decimal decimalValue;
+                //    if (decimal.TryParse(value, out decimalValue))
+                //        SetProperty(DefaultValueProperty, value);
+                //    else
+                //        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                //}
+                //else if (pi.PropertyType.Equals(typeof(Enums.ResponseStatus)))
+                //{
+                //    //already throws argument exception 
+                //    Enums.ResponseStatus rs = (Enums.ResponseStatus)Enum.Parse(typeof(Enums.ResponseStatus), value);
+                //    if (Enum.IsDefined(typeof(Enums.ResponseStatus), rs))
+                //        SetProperty(DefaultValueProperty, value);
+                //    else
+                //        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                //}
+                //else if (pi.PropertyType.Equals(typeof(Enums.BasisOfReimbursement)))
+                //{
+                //    //already throws argument exception 
+                //    Enums.BasisOfReimbursement bor = (Enums.BasisOfReimbursement)Enum.Parse(typeof(Enums.BasisOfReimbursement), value);
+                //    if (Enum.IsDefined(typeof(Enums.BasisOfReimbursement), bor))
+                //        SetProperty(DefaultValueProperty, value);
+                //    else
+                //        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                //}
+                //else if (pi.PropertyType.Equals(typeof(Enums.TaxExemptIndicator)))
+                //{
+                //    //already throws argument exception 
+                //    Enums.TaxExemptIndicator tei = (Enums.TaxExemptIndicator)Enum.Parse(typeof(Enums.TaxExemptIndicator), value);
+                //    if (Enum.IsDefined(typeof(Enums.TaxExemptIndicator), tei))
+                //        SetProperty(DefaultValueProperty, value);
+                //    else
+                //        throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                //}
+                //else
+                //{
+                //    throw new ArgumentException("DefaultValue does not impliment conversion for " + RuleType);
+                //}
 
                 //SetProperty(DefaultValueProperty, value); 
             }
         }
+
+        ///// <summary>
+        ///// This is the default value of field the rule applies to
+        ///// </summary>
+        //public static readonly PropertyInfo<string> DefaultValueProperty = RegisterProperty<string>(c => c.DefaultValue);
+        //public string DefaultValue
+        //{
+        //    get { return GetProperty(DefaultValueProperty); }
+        //    set
+        //    {
+        //        var pi = typeof(Transaction).GetProperty(RuleType);
+        //        if (pi.PropertyType.Equals(typeof(Boolean)))
+        //        {
+        //            bool boolValue;
+        //            if (bool.TryParse(value, out boolValue))
+        //                SetProperty(DefaultValueProperty, value);
+        //            else
+        //                throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+        //        }
+        //        else if (pi.PropertyType.Equals(typeof(Decimal)))
+        //        {
+        //            decimal decimalValue;
+        //            if (decimal.TryParse(value, out decimalValue))
+        //                SetProperty(DefaultValueProperty, value);
+        //            else
+        //                throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+        //        }
+        //        else if (pi.PropertyType.Equals(typeof(Enums.ResponseStatus)))
+        //        {
+        //            //already throws argument exception 
+        //            Enums.ResponseStatus rs = (Enums.ResponseStatus)Enum.Parse(typeof(Enums.ResponseStatus), value);
+        //            if (Enum.IsDefined(typeof(Enums.ResponseStatus), rs))
+        //                SetProperty(DefaultValueProperty, value);
+        //            else
+        //                throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+        //        }
+        //        else if (pi.PropertyType.Equals(typeof(Enums.BasisOfReimbursement)))
+        //        {
+        //            //already throws argument exception 
+        //            Enums.BasisOfReimbursement bor = (Enums.BasisOfReimbursement)Enum.Parse(typeof(Enums.BasisOfReimbursement), value);
+        //            if (Enum.IsDefined(typeof(Enums.BasisOfReimbursement), bor))
+        //                SetProperty(DefaultValueProperty, value);
+        //            else
+        //                throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+        //        }
+        //        else if (pi.PropertyType.Equals(typeof(Enums.TaxExemptIndicator)))
+        //        {
+        //            //already throws argument exception 
+        //            Enums.TaxExemptIndicator tei = (Enums.TaxExemptIndicator)Enum.Parse(typeof(Enums.TaxExemptIndicator), value);
+        //            if (Enum.IsDefined(typeof(Enums.TaxExemptIndicator), tei))
+        //                SetProperty(DefaultValueProperty, value);
+        //            else
+        //                throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+        //        }
+        //        else
+        //        {
+        //            throw new ArgumentException("DefaultValue does not impliment conversion for " + RuleType);
+        //        }
+
+        //        //SetProperty(DefaultValueProperty, value); 
+        //    }
+        //}
 
         public static readonly PropertyInfo<ImplicationList> ImplicationsProperty = RegisterProperty<ImplicationList>(c => c.Implications, RelationshipTypes.Child | RelationshipTypes.LazyLoad);
         public ImplicationList Implications
@@ -329,7 +432,13 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             this.RuleId = ruleData.RuleId;
             this.RuleType = ruleData.RuleType;
-            this.DefaultValue = ruleData.DefaultValue;
+            //this.DefaultValue = ruleData.DefaultValue;
+
+            Type type = Type.GetType("PharmacyAdjudicator.Library.Core.Transaction");
+            var pi = type.GetProperty(this.RuleType);
+            var propertyType = pi.PropertyType;
+            TypeConverter tc = TypeDescriptor.GetConverter(propertyType);
+            this.DefaultValue = tc.ConvertFromString(ruleData.DefaultValue);
         }
 
         private DataAccess.Rule CreateNewEntity()
@@ -337,7 +446,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             var ruleData = new DataAccess.Rule();
             ruleData.RuleId = this.RuleId;
             ruleData.RuleType = this.RuleType;
-            ruleData.DefaultValue = this.DefaultValue;
+            ruleData.DefaultValue = this.DefaultValue.ToString();
             return ruleData;
         }
 

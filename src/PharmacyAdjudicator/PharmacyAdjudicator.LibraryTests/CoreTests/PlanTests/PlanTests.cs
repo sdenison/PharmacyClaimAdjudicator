@@ -110,7 +110,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             var head1 = Library.Core.Rules.Atom.NewAtom();
             head1.Class = "Transaction";
             head1.Property = "Formulary";
-            head1.Value = "true";
+            head1.Value = true;
             dosageClassFormularyImplication.Head = head1;
             dosageClassFormularyImplication.Body = dosageAndClassAtomGroup;
             dosageClassFormularyImplication.Label = "PENICILLINS,AMINO DERIVATIVES with PWDR,RENST-ORAL OR TAB are formulary";
@@ -126,7 +126,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             var formularyTrueAtom = Library.Core.Rules.Atom.NewAtom();
             formularyTrueAtom.Class = "Transaction";
             formularyTrueAtom.Property = "Formulary";
-            formularyTrueAtom.Value = "true";
+            formularyTrueAtom.Value = true;
             formularyDrugsAre5Dollars.Body.AddPredicate(formularyTrueAtom);
 
             var amountOfCopay5Dollars = Library.Core.Rules.Atom.NewAtom();
@@ -135,7 +135,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             amountOfCopay5Dollars.Value = "5";
             formularyDrugsAre5Dollars.Head = amountOfCopay5Dollars;
             rule = testPlan.AssignedRules.FirstOrDefault(r => r.RuleType == "AmountOfCopay");
-            rule.DefaultValue = "100";
+            rule.DefaultValue = 100;
             rule.AddImplication(formularyDrugsAre5Dollars);
             testPlan = testPlan.Save();
 
