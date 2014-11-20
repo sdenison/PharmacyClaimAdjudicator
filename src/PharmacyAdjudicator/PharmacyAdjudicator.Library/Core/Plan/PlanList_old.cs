@@ -6,7 +6,7 @@ using Csla;
 namespace PharmacyAdjudicator.Library.Core.Plan
 {
     [Serializable]
-    public class PlanList : ReadOnlyListBase<PlanList, PlanEdit>
+    public class PlanList_old : ReadOnlyListBase<PlanList_old, PlanEdit>
     {
         #region Authorization Rules
 
@@ -25,12 +25,12 @@ namespace PharmacyAdjudicator.Library.Core.Plan
         //    return DataPortal.Fetch<PlanList>(filter);
         //}
 
-        public static PlanList GetAll()
+        public static PlanList_old GetAll()
         {
-            return DataPortal.Fetch<PlanList>();
+            return DataPortal.Fetch<PlanList_old>();
         }
 
-        private PlanList()
+        private PlanList_old()
         { /* require use of factory methods */ }
 
         #endregion

@@ -8,7 +8,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <mui:ModernTab Layout="List" Links="{Binding PlanLinks}" ContentLoader="{Binding PlanLoader}">
-        </mui:ModernTab>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <mui:ModernButton>Add Plan</mui:ModernButton>
+        <mui:ModernTab Grid.Row="1" Layout="List" Links="{Binding PlanLinks}" ContentLoader="{Binding PlanLoader}">
+        </mui:ModernTab>-->
+        <StackPanel Orientation="Vertical">
+            <Button Margin="5, 0, 0, 0" x:Name="AddPlan" Content="Add Plan" Width="100" HorizontalAlignment="Left"/>
+            <mui:ModernTab Grid.Row="1" Layout="List" Links="{Binding PlanLinks}" ContentLoader="{Binding PlanLoader}">
+            </mui:ModernTab>
+        </StackPanel>
     </Grid>
 </UserControl>

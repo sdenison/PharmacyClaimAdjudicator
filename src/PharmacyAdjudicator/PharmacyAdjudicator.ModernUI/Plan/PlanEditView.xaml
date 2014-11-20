@@ -21,7 +21,22 @@
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding RuleType}" />
                 <Label Content=" Has default value "/>
-                <CheckBox IsChecked="{Binding DefaultValue, Mode=TwoWay}"/>
+                <CheckBox IsChecked="{Binding DefaultValue, Mode=TwoWay}" Width="100" Height="22">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <ComboBox>
+                                            <ComboBoxItem x:Name="TrueComboBoxItem" Content="True" IsSelected="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=CheckBox}, UpdateSourceTrigger=PropertyChanged}" />
+                                            <ComboBoxItem x:Name="FalseComboBoxItem" Content="False" IsSelected="{Binding IsChecked, Converter={StaticResource booleanInverter}, RelativeSource={RelativeSource AncestorType=CheckBox}}" />
+                                        </ComboBox>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="StringTemplate">
@@ -54,7 +69,7 @@
                 <!--local:Masking.Mask="^(\d+)?+([\.]{1})?+([\d]{1,2})?$" />-->
             </StackPanel>
         </DataTemplate>
-        <local:RuleDefaultTemplateSelector x:Key="RuleDefaultTemplateSelecor" 
+        <local:RuleDefaultTemplateSelector x:Key="RuleDefaultTemplateSelector" 
                                            BooleanTemplate="{StaticResource BooleanTemplate}"
                                            MoneyTemplate="{StaticResource MoneyTemplate}"
                                            BasisOfReimbursementTemplate="{StaticResource BasisOfReimbursementTemplate}"
@@ -94,27 +109,28 @@
                         <TextBox x:Name="Name" Width="150" Text="{Binding Path=Model.Name, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
                     </StackPanel>
                     <!--<Model.AssignedRules></Model.AssignedRules>-->
-                    <ListBox x:Name="DynamicDefaultListBox" ItemTemplateSelector="{StaticResource RuleDefaultTemplateSelecor}" ItemsSource="{Binding Path=Model.AssignedRules}"></ListBox>
-                        <ListBox x:Name="rules" ItemsSource="{Binding Path=Model.AssignedRules}" SelectedItem="{Binding Path=SelectedRule, Mode=TwoWay}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                    <StackPanel.Resources>
-                                        <!--<ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type SystemGesture:}">
+                    
+                    <ListBox x:Name="rules" ItemsSource="{Binding Path=Model.AssignedRules}" SelectedItem="{Binding Path=SelectedRule, Mode=TwoWay}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                <StackPanel.Resources>
+                                    <!--<ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type SystemGesture:}">
                                             
-                                        </ObjectDataProvider>-->
-                                        <DataTemplate DataType="{x:Type enums:BasisOfReimbursement}">
-                                            <ComboBox ItemsSource="{Binding Source={StaticResource BasisOfReimbursementValues}}"/>
-                                        </DataTemplate>
-                                    </StackPanel.Resources>
-                                        <Label Content="{Binding RuleType}" />
-                                        <Label Content=" Has default value "/>
-                                        <TextBox Text="{Binding DefaultValue}"/>
+                                    </ObjectDataProvider>-->
+                                    <DataTemplate DataType="{x:Type enums:BasisOfReimbursement}">
+                                        <ComboBox ItemsSource="{Binding Source={StaticResource BasisOfReimbursementValues}}"/>
+                                    </DataTemplate>
+                                </StackPanel.Resources>
+                                    <Label Content="{Binding RuleType}" />
+                                    <!--<Label Content=" Has default value "/>
+                                    <TextBox Text="{Binding DefaultValue}"/>-->
                                         
-                                </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox> 
+                            </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <ListBox x:Name="DynamicDefaultListBox" ItemTemplateSelector="{StaticResource RuleDefaultTemplateSelector}" ItemsSource="{Binding Path=Model.AssignedRules}"></ListBox>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
@@ -122,6 +138,13 @@
         <ScrollViewer Grid.Column="2">
             <StackPanel Orientation="Vertical">
                 <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>
+                <ContentControl Content="{Binding Path=SelectedRule}" ContentTemplateSelector="{StaticResource RuleDefaultTemplateSelector}" Margin="5,0,0,0"/>
+                <!--<StackPanel Orientation="Horizontal" TemplateSelector="{StaticResource RuleDefaultTemplateSelector}">
+                    <StackPanel.Resources>
+                        
+                        
+                    </StackPanel.Resources>
+                </StackPanel>-->
                 <ItemsControl ItemsSource="{Binding Path=SelectedRule.Implications}" Margin="5,0,0,0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

@@ -7,6 +7,7 @@ using System.Windows.Data;
 
 namespace PharmacyAdjudicator.ModernUI.Converters
 {
+    [ValueConversion(typeof(bool), typeof(bool))]
     public class BooleanInterter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -18,6 +19,10 @@ namespace PharmacyAdjudicator.ModernUI.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            if (targetType == typeof(bool))
+                return !(bool)value;
+            if (targetType == typeof(bool?))
+                return !(bool?)value;
             throw new NotSupportedException();
         }
     }

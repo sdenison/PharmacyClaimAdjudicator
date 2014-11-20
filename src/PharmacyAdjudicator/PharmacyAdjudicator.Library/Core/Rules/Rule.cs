@@ -98,6 +98,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     if ((value.GetType() == typeof(int)) || (value.GetType() == typeof(long)))
                         SetProperty(DefaultValueProperty, value);
                 }
+                else if (pi.PropertyType.Equals(typeof(Boolean)))
+                {
+                    if (value is string)
+                    {
+                        bool boolValue;
+                        if (bool.TryParse(value.ToString(), out boolValue))
+                            SetProperty(DefaultValueProperty, value);
+                        else
+                            throw new ArgumentException("Default value cannot be set to " + value.ToString() + " when Rule has RuleType of " + RuleType + ".");
+                    }
+
+                }
                 else if (pi.PropertyType != value.GetType())
                 {
                     throw new ArgumentException("Default value cannot be set to " + value.ToString() + " when Rule has RuleType of " + RuleType + ".");

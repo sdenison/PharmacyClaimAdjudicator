@@ -77,5 +77,13 @@ namespace PharmacyAdjudicator.ModernUI.Plan
         {
             get { return _planLoader; }
         }
+
+        public void AddPlan()
+        {
+            var newPlan = Library.Core.Plan.PlanEdit.NewPlan("Replace this Plan ID");
+            this.Plans.Add(newPlan);
+            //this.Plans.AddNew();
+
+        }
     }
 }
