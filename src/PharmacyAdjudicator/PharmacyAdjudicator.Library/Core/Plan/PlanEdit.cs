@@ -186,6 +186,13 @@ namespace PharmacyAdjudicator.Library.Core.Plan
                 this.AssignedRules.Add(ruleToAdd);
             }
 
+            //base.Child_Create();
+        }
+
+        protected void Child_Create()
+        {
+            //this.RecordId = Guid.NewGuid();
+            DataPortal_Create("NEW-PLAN-ID");
             base.Child_Create();
         }
 
@@ -250,6 +257,17 @@ namespace PharmacyAdjudicator.Library.Core.Plan
             }
         }
 
+        protected void Child_Insert()
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var planData = CreateNewEntity();
+                ctx.DbContext.PlanDetail.Add(planData);
+                FieldManager.UpdateChildren(this);
+                //ctx.DbContext.SaveChanges();
+            }
+        }
+
         protected override void DataPortal_Update()
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
@@ -265,6 +283,24 @@ namespace PharmacyAdjudicator.Library.Core.Plan
                 }
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
+            }
+        }
+
+        protected void Child_Update()
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                if (this.IsSelfDirty)
+                {
+                    //Adds an entry in the database retracting the current data.
+                    RetractFact();
+                    //Adds an entry in the database asserting the current data.
+                    //Need to return this because rowid will be changed when savechanges is called
+                    var newPlanData = AssertNewFact();
+                    PopulateByRow(newPlanData);
+                }
+                FieldManager.UpdateChildren(this);
+                //ctx.DbContext.SaveChanges();
             }
         }
 

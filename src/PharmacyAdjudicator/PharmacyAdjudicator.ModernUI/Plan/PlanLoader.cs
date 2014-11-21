@@ -21,17 +21,19 @@ namespace PharmacyAdjudicator.ModernUI.Plan
 
         protected override object LoadContent(Uri uri)
         {
-            //return base.LoadContent(uri);
-            //return new 
+            //return null;
+            ////return base.LoadContent(uri);
+            ////return new 
 
-            // don't do anything in design mode
+            //don't do anything in design mode
             if (ModernUIHelper.IsInDesignMode)
             {
                 return null;
             }
 
             //var content = Application.LoadComponent(uri);
-            var plan = _planViewModel.Plans.FirstOrDefault(p => p.PlanId == uri.OriginalString);
+            //var plan = _planViewModel.Plans.FirstOrDefault(p => p.PlanId == uri.OriginalString);
+            var plan = _planViewModel.Plans.FirstOrDefault(p => p.PlanInternalId.ToString() == uri.OriginalString);
             var content = Application.LoadComponent(new Uri("/Plan/PlanEditView.xaml", UriKind.Relative));
             
             if (content == null)

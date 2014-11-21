@@ -140,6 +140,10 @@
       <DependentUpon>PlanEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plan\PlanEditViewModel.cs" />
+    <Compile Include="Plan\PlanListItemView.xaml.cs">
+      <DependentUpon>PlanListItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plan\PlanListViewModel.cs" />
     <Compile Include="Plan\PlanLoader.cs" />
     <Compile Include="Plan\PlanWorkspaceView.xaml.cs">
       <DependentUpon>PlanWorkspaceView.xaml</DependentUpon>
@@ -149,6 +153,7 @@
     <Compile Include="Plan\RuleView.xaml.cs">
       <DependentUpon>RuleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plan\RuleViewModel.cs" />
     <Compile Include="Services\CaliburnContentLoader.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ModernWindowManager.cs" />
@@ -241,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plan\PlanEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plan\PlanListItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

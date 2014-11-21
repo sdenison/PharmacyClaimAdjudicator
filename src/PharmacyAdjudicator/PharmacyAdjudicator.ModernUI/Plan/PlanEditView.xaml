@@ -118,9 +118,9 @@
                                     <!--<ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type SystemGesture:}">
                                             
                                     </ObjectDataProvider>-->
-                                    <DataTemplate DataType="{x:Type enums:BasisOfReimbursement}">
+                                    <!--<DataTemplate DataType="{x:Type enums:BasisOfReimbursement}">
                                         <ComboBox ItemsSource="{Binding Source={StaticResource BasisOfReimbursementValues}}"/>
-                                    </DataTemplate>
+                                    </DataTemplate>-->
                                 </StackPanel.Resources>
                                     <Label Content="{Binding RuleType}" />
                                     <!--<Label Content=" Has default value "/>
@@ -135,6 +135,7 @@
             </StackPanel>
         </ScrollViewer>
         <GridSplitter Grid.Column="1"/>
+         
         <ScrollViewer Grid.Column="2">
             <StackPanel Orientation="Vertical">
                 <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>

@@ -35,5 +35,17 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             var plans = PlanList.GetAll();
             Assert.IsTrue(plans.Count > 0);
         }
+
+        [TestMethod]
+        public void Can_add_new_plan_to_list()
+        {
+            var planId = "TEST-PLAN-2";
+            var plans = PlanList.GetAll();
+            var newPlan = plans.AddNew(); //PlanEdit.lan(planId);
+            newPlan.PlanId = planId;
+            plans = plans.Save();
+            var planToCheck = PlanEdit.GetPlanByPlanId(planId);
+            Assert.AreEqual(planToCheck.PlanId, planId);
+        }
     }
 }
