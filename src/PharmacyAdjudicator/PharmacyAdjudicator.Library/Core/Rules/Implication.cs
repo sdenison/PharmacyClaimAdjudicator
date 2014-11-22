@@ -173,11 +173,13 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     PopulateByEntity(implicationData);
                 }
             }
+            MarkOld();
         }
 
         private void Child_Fetch(DataAccess.Implication implicationData)
         {
             PopulateByEntity(implicationData);
+            MarkOld();
         }
 
         private void DataPortal_Fetch(string label)
@@ -210,6 +212,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     PopulateByEntity(implicationData);
                 }
             }
+            MarkOld();
         }
 
         protected override void DataPortal_Insert()

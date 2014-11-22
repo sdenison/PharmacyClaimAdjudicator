@@ -633,6 +633,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
         {
             using (BypassPropertyChecks)
                 PopulateByRow(patientData);
+            MarkOld();
         }
 
         private void Child_Insert(object parent)

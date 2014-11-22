@@ -159,7 +159,19 @@ namespace PharmacyAdjudicator.ModernUI.Plan
 
         public void Save()
         {
+            var planCanSave = Plans.IsSavable;
+            var dirty = Plans.IsDirty;
+            Plans.Save();
 
+        }
+
+        public bool CanSave
+        {
+            get
+            {
+                return Plans.IsSavable;
+            }
+            private set { }
         }
     }
 }

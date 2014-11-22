@@ -354,12 +354,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     LoadProperty(ImplicationsProperty, DataPortal.FetchChild<ImplicationList>(this.RuleId));
                 }
             }
+            MarkOld();
         }
 
         private void Child_Fetch(DataAccess.Rule ruleData)
         {
             PopulateByEntity(ruleData);
             LoadProperty(ImplicationsProperty, DataPortal.FetchChild<ImplicationList>(this.RuleId));
+            MarkOld();
         }
 
         protected override void DataPortal_Insert()

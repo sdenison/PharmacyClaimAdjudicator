@@ -9,45 +9,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <!--<Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <mui:ModernButton>Add Plan</mui:ModernButton>
-        <mui:ModernTab Grid.Row="1" Layout="List" Links="{Binding PlanLinks}" ContentLoader="{Binding PlanLoader}">
-        </mui:ModernTab>-->
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1"/> 
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>-->
         <StackPanel Orientation="Vertical">
-            <Button Margin="5, 0, 0, 0" x:Name="AddPlan" Content="Add Plan" Width="100" HorizontalAlignment="Left"/>
-            <!--<ListBox x:Name="Plans">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Path=PlanId, Mode=OneWay}"></TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>-->
-            <!--<ListView x:Name="Plans" SelectionMode="Single" ItemsSource="{Binding}">
-                --><!--<local:PlanListItemView DataContext="{Binding}" />--><!--
-            </ListView>-->
-            <!--<StackPanel Orientation="Horizontal">
-                --><!--<ItemsControl x:Name="Plans">
-                    <ItemContainerTemplate>
-                        <TextBlock Margin="5,0,0,0" x:Name="Name"/>
-                    </ItemContainerTemplate>
-                </ItemsControl-->
-                <!--<ListBox Grid.Row="1" x:Name="Plans"></ListBox>-->
-                <!--<local:PlanEditView x:Name="SelectedPlan"/>--><!--
-            </StackPanel>-->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Button Margin="5, 0, 0, 0" x:Name="AddPlan" Content="Add Plan" Width="100" HorizontalAlignment="Left"/>
+                <Button Margin="5, 0, 0, 0" x:Name="Save" IsEnabled="{Binding Path=Plans.IsSavable}" Content="Save Plans" Width="100" HorizontalAlignment="Left"/>
+            </StackPanel> 
             <mui:ModernTab Grid.Row="0" Layout="List" Links="{Binding PlanLinks}" ContentLoader="{Binding PlanLoader}">
             </mui:ModernTab>
         </StackPanel>
-        <!--<GridSplitter Grid.Column="1"/>
-        <local:PlanEditView x:Name="SelectedPlan" Grid.Column="2"/>-->
-        <!--<ContentControl Grid.Column="2" Binding="SelectedPlan"></ContentControl>
-        <local:PlanEditViewModel Grid.Column="2" x:Name="SelectedPlan"></local:PlanEditViewModel>-->
     </Grid>
 </UserControl>

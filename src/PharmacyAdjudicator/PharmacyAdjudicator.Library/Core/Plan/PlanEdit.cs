@@ -356,6 +356,7 @@ namespace PharmacyAdjudicator.Library.Core.Plan
             { 
                 PopulateByRow(planData);
                 LoadProperty(AssignedRulesProperty, DataPortal.FetchChild<Rules.RuleList>(this));
+                MarkOld();
             }
         }
 

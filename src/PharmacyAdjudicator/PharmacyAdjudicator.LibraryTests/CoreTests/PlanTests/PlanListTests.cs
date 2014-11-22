@@ -47,5 +47,14 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             var planToCheck = PlanEdit.GetPlanByPlanId(planId);
             Assert.AreEqual(planToCheck.PlanId, planId);
         }
+
+        [TestMethod]
+        public void Plan_IsDirty_should_be_false_after_GetAll()
+        {
+            var plans = PlanList.GetAll();
+            var planCanSave = plans.IsSavable;
+            var dirty = plans.IsDirty;
+            Assert.IsFalse(dirty);
+        }
     }
 }
