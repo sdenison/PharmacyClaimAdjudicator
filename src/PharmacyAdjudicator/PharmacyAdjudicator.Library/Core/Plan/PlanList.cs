@@ -51,7 +51,6 @@ namespace PharmacyAdjudicator.Library.Core.Plan
 
         private void DataPortal_Fetch()
         {
-            var isDirty = this.IsDirty;
             //Gets all plans ordered by name
             RaiseListChangedEvents = false;
             //IsReadOnly = false;

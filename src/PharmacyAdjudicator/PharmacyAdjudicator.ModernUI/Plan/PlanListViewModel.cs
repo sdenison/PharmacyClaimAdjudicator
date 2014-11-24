@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,56 +14,71 @@ using PharmacyAdjudicator.ModernUI.Interface;
 
 namespace PharmacyAdjudicator.ModernUI.Plan
 {
-    //public class PlanListViewModel : Conductor<PlanEditViewModel>.Collection.OneActive, IContentLoader// ScreenWithModel<PlanList> /// Conductor<PlanEditViewModel>.Collection.OneActive
-    //{
-    //    //private PlanList _planList;
-    //    //private IDialog _dialogManager;
+    [Export]
+    public class PlanListViewModel : ScreenWithModel<PlanList> //, IContentLoader //Conductor<PlanEditViewModel>.Collection.OneActive, IContentLoader// ScreenWithModel<PlanList> /// Conductor<PlanEditViewModel>.Collection.OneActive
+    {
+        private IDialog _dialogManager;
 
-    //    //public PlanListViewModel(IDialog dialogManager)
-    //    //{
-    //    //    _planList = PlanList.GetAll();
-    //    //    _dialogManager = dialogManager;
-    //    //    _planList.CollectionChanged += OnPlanListChanged;
-    //    //}
+        [ImportingConstructor]
+        public PlanListViewModel(IDialog dialogManager)
+        {
+            //_planList = PlanList.GetAll();
+            Model = PlanList.GetAll(); // _planList;
+            Plans = new BindableCollection<PlanListItemViewModel>();
+            foreach (var plan in Model)
+                Plans.Add(new PlanListItemViewModel(plan));
+            //Model = _planList;
+            _dialogManager = dialogManager;
+            _selectedPlan = Plans.FirstOrDefault();
+            //_planList.CollectionChanged +=  OnPlanListChanged;
+        }
 
-    //    //public delegate void OnPlanListChanged(object sender, NotifyCollectionChangedEventArgs e)
-    //    //{
-    //    //    NotifyOfPropertyChange(() => PlanLinks);
-    //    //}
+        public BindableCollection<PlanListItemViewModel> Plans
+        {
+            get;
+            private set;
+        }
 
-    //    //public LinkCollection PlanLinks
-    //    //{
-    //    //    get 
-    //    //    { 
-    //    //        var lc = new LinkCollection();
-    //    //        //foreach (var plan in FilteredPlans)
-    //    //        //    lc.Add(new Link() { DisplayName = plan.PlanId, Source = new Uri(plan.PlanId, UriKind.Relative) });
-    //    //        return lc;
-    //    //    }
-    //    //}
+        private PlanListItemViewModel _selectedPlan;
+        public PlanListItemViewModel SelectedPlan
+        {
+            get 
+            { 
+                return _selectedPlan; 
+            }
+            set
+            {
+                _selectedPlan = value;
+                NotifyOfPropertyChange(() => SelectedPlan);
+                NotifyOfPropertyChange(() => SelectedPlanEdit);
+            }
+        }
 
-    //    //private void 
+        public PlanEditViewModel SelectedPlanEdit
+        {
+            get
+            {
+                return new PlanEditViewModel(_selectedPlan.Model);
+            }
+            private set { }
+        }
 
-    //    //        //        var lc = new LinkCollection();
-    //    //        //foreach (var plan in FilteredPlans)
-    //    //        //    lc.Add(new Link() { DisplayName = plan.PlanId, Source = new Uri(plan.PlanId, UriKind.Relative) });
-    //    //        //return lc;
-    //    //public IContentLoader ContentLoader
-    //    //{
-    //    //    get { return this; }
-    //    //    private set { }
-    //    //}
+        
 
-    //    //public PlanEditViewModel SelectedPlan { get; set; }
+        //public PlanEditViewModel SelectedPlan
+        //{
+        //    get;
+        //    set;
+        //}
 
-    //    ////public BindableCollection<PlanEditViewModel> Plans { get; set; }
+        //public BindableCollection<PlanEditViewModel> Plans { get; set; }
 
-    //    //Task<object> IContentLoader.LoadContentAsync(Uri uri, System.Threading.CancellationToken cancellationToken)
-    //    //{
-    //    //    //throw new NotImplementedException();
-    //    //    return this.ActiveItem;
-    //    //}
+        //Task<object> IContentLoader.LoadContentAsync(Uri uri, System.Threading.CancellationToken cancellationToken)
+        //{
+        //    //throw new NotImplementedException();
+        //    return new Task(new Action(SelectedPlan));// Task<SelectedPlan>;
+        //}
 
 
-    //}
+    }
 }

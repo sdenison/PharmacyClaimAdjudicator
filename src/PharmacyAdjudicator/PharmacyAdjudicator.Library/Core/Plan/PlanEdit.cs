@@ -332,6 +332,7 @@ namespace PharmacyAdjudicator.Library.Core.Plan
                 var originalRecordId = this.RecordId;
                 var planData = CreateNewEntity();
                 planData.Retraction = true;
+                planData.RecordId = Guid.NewGuid();
                 planData.OriginalFactRecordId = originalRecordId;
                 using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
                 {
@@ -343,6 +344,8 @@ namespace PharmacyAdjudicator.Library.Core.Plan
         private DataAccess.PlanDetail AssertNewFact()
         {
             var planData = CreateNewEntity();
+            if (!this.IsNew)
+                planData.RecordId = Guid.NewGuid();
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 ctx.DbContext.PlanDetail.Add(planData);

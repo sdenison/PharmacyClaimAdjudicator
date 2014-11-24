@@ -95,7 +95,15 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     SetProperty(DefaultValueProperty, value);
                 else if (pi.PropertyType.Equals(typeof(Decimal)))
                 {
-                    if ((value.GetType() == typeof(int)) || (value.GetType() == typeof(long)))
+                    if ((value.GetType() == typeof(string)))
+                    {
+                        decimal decimalValue;
+                        if (decimal.TryParse(value.ToString(), out decimalValue))
+                            SetProperty(DefaultValueProperty, value);
+                        else
+                            throw new ArgumentException("Default value cannot be set to " + value + " when Rule has RuleType of " + RuleType + ".");
+                    }
+                    else if ((value.GetType() == typeof(int)) || (value.GetType() == typeof(long)))
                         SetProperty(DefaultValueProperty, value);
                 }
                 else if (pi.PropertyType.Equals(typeof(Boolean)))

@@ -158,7 +158,8 @@ namespace PharmacyAdjudicator.ModernUI.Shell
         private LinkGroup PlanLinkGroup()
         {
             var patientLinkGroup = new LinkGroup { DisplayName = "Plan" };
-            patientLinkGroup.Links.Add(new Link { DisplayName = "Plan Manager", Source = new Uri("/Plan/PlanWorkspaceView.xaml", UriKind.Relative) });
+            //patientLinkGroup.Links.Add(new Link { DisplayName = "Plan Manager", Source = new Uri("/Plan/PlanWorkspaceView.xaml", UriKind.Relative) });
+            patientLinkGroup.Links.Add(new Link { DisplayName = "Plan Manager", Source = new Uri("/Plan/PlanListView.xaml", UriKind.Relative) });
             return patientLinkGroup;
         }
 

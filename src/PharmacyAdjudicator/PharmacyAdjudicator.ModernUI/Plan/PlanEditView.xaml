@@ -8,6 +8,7 @@
              xmlns:library="clr-namespace:PharmacyAdjudicator.Library.Core.Rules;assembly=PharmacyAdjudicator.Library"
              xmlns:enums="clr-namespace:PharmacyAdjudicator.Library.Core.Enums;assembly=PharmacyAdjudicator.Library"
              xmlns:local="clr-namespace:PharmacyAdjudicator.ModernUI.Plan"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <UserControl.Resources>
@@ -41,15 +42,17 @@
         </DataTemplate>
         <DataTemplate x:Key="StringTemplate">
             <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding RuleType}" />
-                <Label Content=" Has default value "/>
+                <!--<Label Content="{Binding RuleType}" />
+                <Label Content=" Has default value "/>-->
+                <mui:BBCodeBlock>DEFAULT: </mui:BBCodeBlock>
                 <TextBox Text="{Binding DefaultValue, Mode=TwoWay}"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="MoneyTemplate">
             <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding RuleType}" />
-                <Label Content=" Has default value $"/>
+                <!--<Label Content="{Binding RuleType}" />
+                <Label Content=" Has default value $"/>-->
+                <mui:BBCodeBlock>DEFAULT: $</mui:BBCodeBlock>
                 <TextBox Text="{Binding DefaultValue, Mode=TwoWay}"/> <!--local:Masking.Mask="^(\d+)?+([\.]{1})?+([\d]{1,2})?$" />-->
             </StackPanel>
         </DataTemplate>
@@ -62,7 +65,7 @@
         </ObjectDataProvider>
         <DataTemplate x:Key="BasisOfReimbursementTemplate">
             <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding RuleType}" />
+                <Label Content="{Binding RuleType, Mode=TwoWay}" />
                 <Label Content=" Has default value "/>
                 <!--<TextBox Text="{Binding DefaultValue, Mode=TwoWay}"/>-->
                 <ComboBox SelectedItem="{Binding DefaultValue, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource BasisOfReimbursementValues}}" />
@@ -110,7 +113,7 @@
                     </StackPanel>
                     <!--<Model.AssignedRules></Model.AssignedRules>-->
                     
-                    <ListBox x:Name="rules" ItemsSource="{Binding Path=Model.AssignedRules}" SelectedItem="{Binding Path=SelectedRule, Mode=TwoWay}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
+                    <ListBox x:Name="rules" ItemsSource="{Binding Path=Model.AssignedRules}" SelectedItem="{Binding Path=SelectedRule, Mode=TwoWay}" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

@@ -56,5 +56,14 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             var dirty = plans.IsDirty;
             Assert.IsFalse(dirty);
         }
+
+        [TestMethod]
+        public void Plan_IsDirty_should_be_true_after_calling_AddPlan()
+        {
+            var plans = PlanList.GetAll();
+            Assert.IsFalse(plans.IsDirty);
+            plans.AddNew();
+            Assert.IsTrue(plans.IsDirty);
+        }
     }
 }

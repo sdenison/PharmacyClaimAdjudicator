@@ -12,7 +12,7 @@
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                 <Button Margin="5, 0, 0, 0" x:Name="AddPlan" Content="Add Plan" Width="100" HorizontalAlignment="Left"/>
-                <Button Margin="5, 0, 0, 0" x:Name="Save" IsEnabled="{Binding Path=Plans.IsSavable}" Content="Save Plans" Width="100" HorizontalAlignment="Left"/>
+                <Button Margin="5, 0, 0, 0" x:Name="SavePlans" Content="Save Plans" Width="100" HorizontalAlignment="Left"/>
             </StackPanel> 
             <mui:ModernTab Grid.Row="0" Layout="List" Links="{Binding PlanLinks}" ContentLoader="{Binding PlanLoader}">
             </mui:ModernTab>

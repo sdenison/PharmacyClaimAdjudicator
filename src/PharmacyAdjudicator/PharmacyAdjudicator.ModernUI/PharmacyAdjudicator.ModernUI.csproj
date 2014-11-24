@@ -143,6 +143,10 @@
     <Compile Include="Plan\PlanListItemView.xaml.cs">
       <DependentUpon>PlanListItemView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plan\PlanListItemViewModel.cs" />
+    <Compile Include="Plan\PlanListView.xaml.cs">
+      <DependentUpon>PlanListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plan\PlanListViewModel.cs" />
     <Compile Include="Plan\PlanLoader.cs" />
     <Compile Include="Plan\PlanWorkspaceView.xaml.cs">
@@ -250,6 +254,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plan\PlanListItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plan\PlanListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,6 +17,7 @@ namespace PharmacyAdjudicator.ModernUI.Plan
         public PlanLoader(PlanWorkspaceViewModel planViewModel)
         {
             _planViewModel = planViewModel;
+            //_planViewModel.Plans.Saved += (o, e) => LoadContent;
         }
 
         protected override object LoadContent(Uri uri)
@@ -33,7 +34,8 @@ namespace PharmacyAdjudicator.ModernUI.Plan
 
             //var content = Application.LoadComponent(uri);
             //var plan = _planViewModel.Plans.FirstOrDefault(p => p.PlanId == uri.OriginalString);
-            var plan = _planViewModel.Plans.FirstOrDefault(p => p.PlanInternalId.ToString() == uri.OriginalString);
+            //var plan = _planViewModel.Plans.FirstOrDefault(p => p.PlanInternalId.ToString() == uri.OriginalString);
+            var plan = _planViewModel.Model.FirstOrDefault(p => p.PlanInternalId.ToString() == uri.OriginalString);
             var content = Application.LoadComponent(new Uri("/Plan/PlanEditView.xaml", UriKind.Relative));
             
             if (content == null)
