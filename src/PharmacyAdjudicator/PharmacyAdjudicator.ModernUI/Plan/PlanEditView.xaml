@@ -140,7 +140,7 @@
         <GridSplitter Grid.Column="1"/>
          
         <ScrollViewer Grid.Column="2">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" x:Name="ImplicationsStackPanel">
                 <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>
                 <ContentControl Content="{Binding Path=SelectedRule}" ContentTemplateSelector="{StaticResource RuleDefaultTemplateSelector}" Margin="5,0,0,0"/>
                 <!--<StackPanel Orientation="Horizontal" TemplateSelector="{StaticResource RuleDefaultTemplateSelector}">
@@ -162,7 +162,7 @@
                                     <mui:BBCodeBlock BBCode="Logical Operator"/>
                                     <TextBox Text="{Binding Path=Body.LogicalOperator}"></TextBox>
                                 </StackPanel>
-                                <TreeView ItemsSource="{Binding Path=Body.TopLevel}">
+                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.TopLevel}">
                                     <TreeView.Resources>
                                         <!--<ContextMenu x:Key="AtomGroupContextMenu" StaysOpen="True">
                                             <MenuItem Header="Add..."/>
@@ -180,10 +180,11 @@
                                         </DataTemplate>
                                         <HierarchicalDataTemplate
                                             DataType="{x:Type library:AtomGroup}" ItemsSource="{Binding Children}">
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal" Tag="{Binding DataContext, ElementName=ImplicationsStackPanel}"> <!-- AtomGroupTreeView}"-->
                                                 <StackPanel.ContextMenu>
-                                                    <ContextMenu>
-                                                        <MenuItem Header="Add..."/>
+                                                    <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                                        <MenuItem Header="Add New List..." cal:Message.Attach="AddAtomGroup($dataContext)" />
+                                                        <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom($dataContext)" />
                                                         <MenuItem Header="Remove..."/>
                                                     </ContextMenu>
                                                 </StackPanel.ContextMenu>
@@ -191,7 +192,7 @@
                                                 </TextBlock>
                                                 <TextBlock Text="{Binding LogicalOperator}"/>
                                             </StackPanel>
-                                            </HierarchicalDataTemplate>
+                                       </HierarchicalDataTemplate>
                                     </TreeView.Resources>
                                 </TreeView>
                                 <!--<TreeView>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Csla;
 
@@ -9,6 +10,16 @@ namespace PharmacyAdjudicator.Library.Core.Rules
     public class AtomGroup : BusinessBase<AtomGroup>
     {
         #region Business Methods
+
+        //public void AddAtomGroup()
+        //{
+        //    var x = "o";
+        //}
+
+        //public void AddAtom()
+        //{
+        //    var x = "0";
+        //}
 
         public static readonly PropertyInfo<NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator> LogicalOperatorProperty = RegisterProperty<NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator>(c => c.LogicalOperator);
         public NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator LogicalOperator
@@ -31,17 +42,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(AtomGroupIdProperty, value); }
         }
 
-        public static readonly PropertyInfo<PredicateList> PredicatesProperty = RegisterProperty<PredicateList>(c => c.Predicates, RelationshipTypes.Child);
-        public PredicateList Predicates
-        {
-            get 
-            {
-                if (!(FieldManager.FieldExists(PredicatesProperty)))
-                    LoadProperty(PredicatesProperty, DataPortal.FetchChild<PredicateList>(this.AtomGroupId));
-                return GetProperty(PredicatesProperty); 
-            }
-            private set { SetProperty(PredicatesProperty, value); }
-        }
+        //public static readonly PropertyInfo<PredicateList> PredicatesProperty = RegisterProperty<PredicateList>(c => c.Predicates, RelationshipTypes.Child);
+        //public PredicateList Predicates
+        //{
+        //    get 
+        //    {
+        //        if (!(FieldManager.FieldExists(PredicatesProperty)))
+        //            LoadProperty(PredicatesProperty, DataPortal.FetchChild<PredicateList>(this.AtomGroupId));
+        //        return GetProperty(PredicatesProperty); 
+        //    }
+        //    private set { SetProperty(PredicatesProperty, value); }
+        //}
 
 
 
@@ -55,19 +66,27 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             
         }
 
-        public IEnumerable<object> Children
+        public static readonly PropertyInfo<ObservableCollection<object>> ChildrenProperty = RegisterProperty<ObservableCollection<object>>(c => c.Children, RelationshipTypes.PrivateField);
+        private ObservableCollection<object> _children = new ObservableCollection<object>; // ChildrenProperty.DefaultValue;
+        public ObservableCollection<object> Children
         {
-            get
-            {
-                foreach (Predicate predicate in this.Predicates)
-                {
-                    if (predicate.PredicateType == Predicate.PredicateTypeEnum.Atom)
-                        yield return predicate.Atom;
-                    if (predicate.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
-                        yield return predicate.AtomGroup;
-                }
-            }
+            get { return GetProperty(ChildrenProperty, _children); }
+            private set { _children = value; }
         }
+
+        //public IEnumerable<object> Children
+        //{
+        //    get
+        //    {
+        //        foreach (Predicate predicate in this.Predicates)
+        //        {
+        //            if (predicate.PredicateType == Predicate.PredicateTypeEnum.Atom)
+        //                yield return predicate.Atom;
+        //            if (predicate.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
+        //                yield return predicate.AtomGroup;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Will map to ViewModel.AddNewCriteriaItem
