@@ -164,6 +164,10 @@
                                 </StackPanel>
                                 <TreeView ItemsSource="{Binding Path=Body.TopLevel}">
                                     <TreeView.Resources>
+                                        <!--<ContextMenu x:Key="AtomGroupContextMenu" StaysOpen="True">
+                                            <MenuItem Header="Add..."/>
+                                            <MenuItem Header="Remove..."/>
+                                        </ContextMenu>-->
                                         <DataTemplate 
                                             DataType="{x:Type library:Atom}">
                                             <StackPanel Orientation="Horizontal">
@@ -177,7 +181,14 @@
                                         <HierarchicalDataTemplate
                                             DataType="{x:Type library:AtomGroup}" ItemsSource="{Binding Children}">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="List type: "/>
+                                                <StackPanel.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Add..."/>
+                                                        <MenuItem Header="Remove..."/>
+                                                    </ContextMenu>
+                                                </StackPanel.ContextMenu>
+                                                <TextBlock Text="List type: ">
+                                                </TextBlock>
                                                 <TextBlock Text="{Binding LogicalOperator}"/>
                                             </StackPanel>
                                             </HierarchicalDataTemplate>

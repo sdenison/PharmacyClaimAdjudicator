@@ -24,33 +24,52 @@ namespace PharmacyAdjudicator.ModernUI.Plan
         {
             //_planList = PlanList.GetAll();
             Model = PlanList.GetAll(); // _planList;
-            Plans = new BindableCollection<PlanListItemViewModel>();
-            foreach (var plan in Model)
-                Plans.Add(new PlanListItemViewModel(plan));
+            SelectedPlan = Model.FirstOrDefault();
+            //Plans = new BindableCollection<PlanListItemViewModel>();
+            //foreach (var plan in Model)
+            //    Plans.Add(new PlanListItemViewModel(plan));
             //Model = _planList;
             _dialogManager = dialogManager;
-            _selectedPlan = Plans.FirstOrDefault();
+            //_selectedPlan = Model.FirstOrDefault();
             //_planList.CollectionChanged +=  OnPlanListChanged;
         }
 
-        public BindableCollection<PlanListItemViewModel> Plans
-        {
-            get;
-            private set;
-        }
+        //public BindableCollection<PlanListItemViewModel> Plans
+        //{
+        //    get;
+        //    private set;
+        //}
 
-        private PlanListItemViewModel _selectedPlan;
-        public PlanListItemViewModel SelectedPlan
+        //private PlanListItemViewModel _selectedPlan;
+        //public PlanListItemViewModel SelectedPlan
+        //{
+        //    get 
+        //    { 
+        //        return _selectedPlan; 
+        //    }
+        //    set
+        //    {
+        //        _selectedPlan = value;
+        //        NotifyOfPropertyChange(() => SelectedPlan);
+        //        NotifyOfPropertyChange(() => SelectedPlanEdit);
+        //    }
+        //}
+
+        private PlanEdit _selectedPlan;
+        public PlanEdit SelectedPlan
         {
-            get 
-            { 
-                return _selectedPlan; 
+            get
+            {
+                return _selectedPlan;
             }
             set
             {
-                _selectedPlan = value;
-                NotifyOfPropertyChange(() => SelectedPlan);
-                NotifyOfPropertyChange(() => SelectedPlanEdit);
+                if ((_selectedPlan == null)||(!_selectedPlan.Equals(value)))
+                {
+                    _selectedPlan = value;
+                    NotifyOfPropertyChange(() => SelectedPlan);
+                    NotifyOfPropertyChange(() => SelectedPlanEdit);
+                }
             }
         }
 
@@ -58,10 +77,38 @@ namespace PharmacyAdjudicator.ModernUI.Plan
         {
             get
             {
-                return new PlanEditViewModel(_selectedPlan.Model);
+                return new PlanEditViewModel(_selectedPlan);
             }
             private set { }
         }
+
+        private int selectedPlanIndex = 0;
+        public void Save()
+        {
+            //Guards the save if there is another patient with the same first name, last name, dob and cardholder combination.
+            //if (Model.IsNew)
+            //{
+            //    if (Library.Core.Patient.PatientEdit.Exists(Model.FirstName, Model.LastName, Model.DateOfBirth.Value, Model.CardholderId))
+            //    {
+            //        _dialog.ShowMessage("Another patient already exists with the same name, date of birth and cardholder ID.", "Could not add patient", MessageBoxButton.OK);
+            //        return;
+            //    }
+            //}
+
+            selectedPlanIndex = Model.IndexOf(SelectedPlan);
+            BeginSave();
+        }
+
+        protected override void OnModelChanged(PlanList oldValue, PlanList newValue)
+        {
+            base.OnModelChanged(oldValue, newValue);
+            SelectedPlan = Model[selectedPlanIndex];
+        }
+
+        //public void SavePlans()
+        //{
+        //    BeginSave();
+        //}
 
         
 
