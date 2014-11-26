@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PharmacyAdjudicator.Library.Core.Rules;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
 {
@@ -76,8 +77,13 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atomGroup2.AddPredicate(atomGroup);
             atomGroup2 = atomGroup2.Save();
 
-            Assert.AreEqual(atomGroup2.Predicates[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
-            Assert.AreEqual(atomGroup2.Predicates[0].AtomGroup.Name, "First Test Atom Group");
+            //Assert.AreEqual(atomGroup2.Predicates[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
+            //Assert.AreEqual(atomGroup2.Predicates[0].AtomGroup.Name, "First Test Atom Group");
+
+            var predicate = (AtomGroup)atomGroup2.Children[0];
+            Assert.AreEqual(predicate.Name, "First Test Atom Group");
+            //Assert.AreEqual(atomGroup2.Children[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
+            //Assert.AreEqual(atomGroup2.Children[0].AtomGroup.Name, "First Test Atom Group");
         }
 
         [TestMethod]
@@ -97,7 +103,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atom = atom.Save();
             atomGroup.AddPredicate(atom);
 
-            Assert.AreEqual(1, atomGroup.Predicates.Count);
+            Assert.AreEqual(1, atomGroup.Children.Count);
 
             //Create a second AtomGroup
             var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();
@@ -108,8 +114,11 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atomGroup2.AddPredicate(atomGroup);
             atomGroup2 = atomGroup2.Save();
 
-            Assert.AreEqual(atomGroup2.Predicates[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
-            Assert.AreEqual(atomGroup2.Predicates[0].AtomGroup.Name, "First Test Atom Group");
+            //Assert.AreEqual(atomGroup2.Predicates[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
+            //Assert.AreEqual(atomGroup2.Predicates[0].AtomGroup.Name, "First Test Atom Group");
+
+            var predicate = (AtomGroup)atomGroup2.Children[0];
+            Assert.AreEqual(predicate.Name, "First Test Atom Group");
 
             NxBRE.InferenceEngine.Rules.AtomGroup rulesEngineAtomGroup = atomGroup2.ToNxBre();
             Assert.AreEqual(rulesEngineAtomGroup.AllAtoms.Count, 1);
@@ -132,7 +141,8 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atom = atom.Save();
             atomGroup.AddPredicate(atom);
 
-            Assert.AreEqual(1, atomGroup.Predicates.Count);
+            //Assert.AreEqual(1, atomGroup.Predicates.Count);
+            Assert.AreEqual(1, atomGroup.Children.Count);
 
             //Create a second AtomGroup
             var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();

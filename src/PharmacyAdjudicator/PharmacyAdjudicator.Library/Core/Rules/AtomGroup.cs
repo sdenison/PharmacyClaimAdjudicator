@@ -310,12 +310,25 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
+        private void SaveChildren()
+        {
+            foreach (var child in Children)
+            {
+                var savableChild = (IBusinessBase)child;
+                if (savableChild.IsSavable)
+                {
+                    savableChild.Save();
+                }
+            }
+        }
+
         protected override void DataPortal_Insert()
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var atomGroupData = CreateEntity();
                 ctx.DbContext.AtomGroup.Add(atomGroupData);
+                SaveChildren();
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
                 //this.AtomGroupId = atomGroupData.AtomGroupId;
@@ -328,6 +341,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var atomGroupData = CreateEntity();
                 ctx.DbContext.AtomGroup.Add(atomGroupData);
+                SaveChildren();
                 FieldManager.UpdateChildren(this);
                 //ctx.DbContext.SaveChanges();
                 //this.AtomGroupId = atomGroupData.AtomGroupId;
@@ -343,6 +357,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                      select a).FirstOrDefault();
                 atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
                 atomGroupData.Name = this.Name;
+                SaveChildren();
                 FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
             }
@@ -357,6 +372,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                      select a).FirstOrDefault();
                 atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
                 atomGroupData.Name = this.Name;
+                SaveChildren();
                 FieldManager.UpdateChildren(this);
                 //ctx.DbContext.SaveChanges();
             }
