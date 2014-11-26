@@ -162,7 +162,8 @@
                                     <mui:BBCodeBlock BBCode="Logical Operator"/>
                                     <TextBox Text="{Binding Path=Body.LogicalOperator}"></TextBox>
                                 </StackPanel>
-                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.TopLevel}">
+                                <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.TopLevel}">-->
+                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}">
                                     <TreeView.Resources>
                                         <!--<ContextMenu x:Key="AtomGroupContextMenu" StaysOpen="True">
                                             <MenuItem Header="Add..."/>

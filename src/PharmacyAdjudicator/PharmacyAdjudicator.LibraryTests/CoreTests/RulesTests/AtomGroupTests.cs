@@ -42,7 +42,8 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atom.Save();
             atomGroup.AddPredicate(atom);
 
-            Assert.AreEqual(1, atomGroup.Predicates.Count);
+            //Assert.AreEqual(1, atomGroup.Predicates.Count);
+            Assert.AreEqual(1, atomGroup.Children.Count);// .Predicates.Count);
         }
 
         [TestMethod]
@@ -63,7 +64,8 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atomGroup.AddPredicate(atom);
             atomGroup = atomGroup.Save();
 
-            Assert.AreEqual(1, atomGroup.Predicates.Count);
+            //Assert.AreEqual(1, atomGroup.Predicates.Count);
+            Assert.AreEqual(1, atomGroup.Children.Count); //.Predicates.Count);
 
             //Create a second AtomGroup
             var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();
