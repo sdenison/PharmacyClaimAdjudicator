@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using PharmacyAdjudicator.Library.Core.Plan;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
@@ -41,11 +41,15 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
         {
             var planId = "TEST-PLAN-2";
             var plans = PlanList.GetAll();
+            var originalPlanCount = plans.Count;
             var newPlan = plans.AddNew(); //PlanEdit.lan(planId);
             newPlan.PlanId = planId;
             plans = plans.Save();
-            var planToCheck = PlanEdit.GetPlanByPlanId(planId);
+            var planToCheck = PlanEdit.GetByPlanId(planId);
             Assert.AreEqual(planToCheck.PlanId, planId);
+
+            var plansAfterAddition = PlanList.GetAll();
+            Assert.IsTrue(originalPlanCount < plansAfterAddition.Count);
         }
 
         [TestMethod]
@@ -64,6 +68,13 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             Assert.IsFalse(plans.IsDirty);
             plans.AddNew();
             Assert.IsTrue(plans.IsDirty);
+        }
+
+        [TestMethod]
+        public async Task Can_get_PlanList_async()
+        {
+            var plans = await PlanList.GetAllAsync();
+            Assert.IsTrue(plans.Count > 0);
         }
     }
 }

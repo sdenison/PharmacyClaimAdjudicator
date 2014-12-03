@@ -57,14 +57,14 @@ namespace PharmacyAdjudicator.ModernUITests.PlanTests
         //    Assert.IsTrue(planViewModel.Plans.Count > 0);
         //}
 
-        //[TestMethod]
-        //public void FilteredPlans_property_should_have_less_items_than_Plans()
-        //{
-        //    var planViewModel = new ModernUI.Plan.PlanWorkspaceViewModel(_dialog.Object, _eventAggregator.Object);
-        //    planViewModel.PlanFilter = "adsf";
-        //    Assert.IsTrue(planViewModel.FilteredPlans.Count == 0);
-        //    planViewModel.PlanFilter = "plan";
-        //    Assert.IsTrue(planViewModel.FilteredPlans.Count > 0);
-        //}
+        [TestMethod]
+        public void FilteredPlans_property_should_have_less_items_than_Plans()
+        {
+            var planViewModel = new ModernUI.Plan.PlanWorkspaceViewModel(_dialog.Object, _eventAggregator.Object);
+            planViewModel.PlanFilter = "adsf";
+            Assert.IsTrue(planViewModel.FilteredPlans.Count == 0);
+            planViewModel.PlanFilter = "plan";
+            Assert.IsTrue(planViewModel.FilteredPlans.Count > 0);
+        }
     }
 }

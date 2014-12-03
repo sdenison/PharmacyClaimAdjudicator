@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NxBRE.InferenceEngine.IO;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PharmacyAdjudicator.Library.Core.Plan
 {
@@ -139,12 +140,22 @@ namespace PharmacyAdjudicator.Library.Core.Plan
 
         #region Factory Methods
 
+        public static async Task<PlanEdit> NewPlanAsync(string planId)
+        {
+            return await DataPortal.CreateAsync<PlanEdit>(planId);
+        }
+
         public static PlanEdit NewPlan(string planId)
         {
             return DataPortal.Create<PlanEdit>(planId);
         }
 
-        public static PlanEdit GetPlanByPlanId(string planId)
+        public static async Task<PlanEdit> GetByPlanIdAsync(string planId)
+        {
+            return await DataPortal.FetchAsync<PlanEdit>(planId);
+        }
+
+        public static PlanEdit GetByPlanId(string planId)
         {
             return DataPortal.Fetch<PlanEdit>(planId);
         }

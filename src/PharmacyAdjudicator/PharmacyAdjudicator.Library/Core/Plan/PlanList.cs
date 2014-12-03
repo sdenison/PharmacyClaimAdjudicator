@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Csla;
 
 namespace PharmacyAdjudicator.Library.Core.Plan
@@ -37,6 +38,11 @@ namespace PharmacyAdjudicator.Library.Core.Plan
         //    return newPlan;
         //}
 
+        public async static Task<PlanList> GetAllAsync()
+        {
+            return await DataPortal.FetchAsync<PlanList>();
+        }
+
         public static PlanList GetAll()
         {
             return DataPortal.Fetch<PlanList>();
@@ -46,6 +52,15 @@ namespace PharmacyAdjudicator.Library.Core.Plan
         { /* Require use of factory methods */ }
 
         #endregion
+
+        protected override PlanEdit AddNewCore()
+        {
+            //PlanEdit planEdit = PlanEdit.NewPlan("NEW-PLAN-ID");
+            PlanEdit planEdit = DataPortal.CreateChild<PlanEdit>();
+            //planEdit.PlanId = "NEW-PLAN-ID";
+            Add(planEdit);
+            return planEdit;
+        }
 
         #region Data Access
 
@@ -75,8 +90,15 @@ namespace PharmacyAdjudicator.Library.Core.Plan
             this.RaiseListChangedEvents = false;
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                Child_Update(null);
+                Child_Update();
                 ctx.DbContext.SaveChanges();
+                //try
+                //{
+                //}
+                //catch (Exception ex)
+                //{
+                //    var x = ex;
+                //}
             }
             this.RaiseListChangedEvents = rlce;
             //base.Child_Update();

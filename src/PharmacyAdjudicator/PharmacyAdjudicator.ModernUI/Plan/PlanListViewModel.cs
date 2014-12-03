@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Csla.Core;
+using Csla.Server;
 using CslaContrib.Caliburn.Micro;
 using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows;
@@ -15,45 +18,108 @@ using PharmacyAdjudicator.ModernUI.Interface;
 namespace PharmacyAdjudicator.ModernUI.Plan
 {
     [Export]
-    public class PlanListViewModel : ScreenWithModel<PlanList> //, IContentLoader //Conductor<PlanEditViewModel>.Collection.OneActive, IContentLoader// ScreenWithModel<PlanList> /// Conductor<PlanEditViewModel>.Collection.OneActive
+    public class PlanListViewModel : Screen //ScreenWithModel<PlanList> //ViewModelEdit<PlanList>  //ScreenWithModel<PlanList> //, IContentLoader //Conductor<PlanEditViewModel>.Collection.OneActive, IContentLoader// ScreenWithModel<PlanList> /// Conductor<PlanEditViewModel>.Collection.OneActive
     {
         private IDialog _dialogManager;
 
         [ImportingConstructor]
         public PlanListViewModel(IDialog dialogManager)
         {
-            //_planList = PlanList.GetAll();
-            Model = PlanList.GetAll(); // _planList;
-            SelectedPlan = Model.FirstOrDefault();
-            //Plans = new BindableCollection<PlanListItemViewModel>();
-            //foreach (var plan in Model)
-            //    Plans.Add(new PlanListItemViewModel(plan));
-            //Model = _planList;
             _dialogManager = dialogManager;
-            //_selectedPlan = Model.FirstOrDefault();
-            //_planList.CollectionChanged +=  OnPlanListChanged;
+            var task = PlanList.GetAllAsync();
+            var awaiter = task.GetAwaiter();
+            IsBusy = true;
+            awaiter.OnCompleted(() =>
+                {
+                    if (task.Exception != null)
+                    {
+                        IsBusy = false;
+                        _dialogManager.ShowMessage(task.Exception.Message, "Could not load plans", System.Windows.MessageBoxButton.OK);
+                    }
+                    else
+                    {
+                        this.Model = task.Result;
+                        IsBusy = false;
+                    }
+                });
         }
 
-        //public BindableCollection<PlanListItemViewModel> Plans
-        //{
-        //    get;
-        //    private set;
-        //}
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                _isBusy = value; 
+                NotifyOfPropertyChange(() => IsBusy);
+            }
+        }
 
-        //private PlanListItemViewModel _selectedPlan;
-        //public PlanListItemViewModel SelectedPlan
-        //{
-        //    get 
-        //    { 
-        //        return _selectedPlan; 
-        //    }
-        //    set
-        //    {
-        //        _selectedPlan = value;
-        //        NotifyOfPropertyChange(() => SelectedPlan);
-        //        NotifyOfPropertyChange(() => SelectedPlanEdit);
-        //    }
-        //}
+        private PlanList _model;
+        public PlanList Model
+        {
+            get { return _model; }
+            set 
+            {
+                if (_model != null)
+                { 
+                    _model.ChildChanged -= ModelChildChanged;
+                    _model.CollectionChanged -= ModelCollectionChanged;
+                }
+                _model = value;
+                if (value != null)
+                {
+                    value.ChildChanged += ModelChildChanged;
+                    value.CollectionChanged += ModelCollectionChanged;
+                }
+                NotifyOfPropertyChange(() => this.Model);
+                NotifyOfPropertyChange(() => this.CanSave);
+            }
+        }
+
+        private void ModelChildChanged(object sender, ChildChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(() => this.CanSave);
+        }
+
+        private void ModelCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(() => this.CanSave);
+        }
+
+        public bool CanSave
+        {
+            get 
+            { 
+                return Model != null && Model.IsSavable; 
+            }
+        }
+
+        public async Task Save()
+        {
+            //Saves the currently selected plan ID so we can re-select the plan after saving.
+            string currentlySelectedPlanId = "";
+            if (SelectedPlan != null)
+                currentlySelectedPlanId = SelectedPlan.PlanId;
+
+            IsBusy = true;
+            try
+            {
+                Model = await Model.SaveAsync();
+                //If there was a plan selected when the saved then try to select that plan again.
+                //Otherwise just use the first item as the selected plan.
+                if (string.IsNullOrEmpty(currentlySelectedPlanId))
+                    SelectedPlan = Model[0];
+                else
+                    SelectedPlan = Model.Where(p => p.PlanId == currentlySelectedPlanId).FirstOrDefault();
+                IsBusy = false;
+            }
+            catch (Exception ex)
+            {
+                var message = ex.GetBaseException().Message;
+                _dialogManager.ShowMessage(message, "ERROR", System.Windows.MessageBoxButton.OK);
+            }
+        }
 
         private PlanEdit _selectedPlan;
         public PlanEdit SelectedPlan
@@ -64,7 +130,7 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             }
             set
             {
-                if ((_selectedPlan == null)||(!_selectedPlan.Equals(value)))
+                if ((_selectedPlan == null) || (!_selectedPlan.Equals(value)))
                 {
                     _selectedPlan = value;
                     NotifyOfPropertyChange(() => SelectedPlan);
@@ -82,50 +148,9 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             private set { }
         }
 
-        private int selectedPlanIndex = 0;
-        public void Save()
+        public void AddPlan()
         {
-            //Guards the save if there is another patient with the same first name, last name, dob and cardholder combination.
-            //if (Model.IsNew)
-            //{
-            //    if (Library.Core.Patient.PatientEdit.Exists(Model.FirstName, Model.LastName, Model.DateOfBirth.Value, Model.CardholderId))
-            //    {
-            //        _dialog.ShowMessage("Another patient already exists with the same name, date of birth and cardholder ID.", "Could not add patient", MessageBoxButton.OK);
-            //        return;
-            //    }
-            //}
-
-            selectedPlanIndex = Model.IndexOf(SelectedPlan);
-            BeginSave();
+            SelectedPlan = Model.AddNew();
         }
-
-        protected override void OnModelChanged(PlanList oldValue, PlanList newValue)
-        {
-            base.OnModelChanged(oldValue, newValue);
-            SelectedPlan = Model[selectedPlanIndex];
-        }
-
-        //public void SavePlans()
-        //{
-        //    BeginSave();
-        //}
-
-        
-
-        //public PlanEditViewModel SelectedPlan
-        //{
-        //    get;
-        //    set;
-        //}
-
-        //public BindableCollection<PlanEditViewModel> Plans { get; set; }
-
-        //Task<object> IContentLoader.LoadContentAsync(Uri uri, System.Threading.CancellationToken cancellationToken)
-        //{
-        //    //throw new NotImplementedException();
-        //    return new Task(new Action(SelectedPlan));// Task<SelectedPlan>;
-        //}
-
-
     }
 }
