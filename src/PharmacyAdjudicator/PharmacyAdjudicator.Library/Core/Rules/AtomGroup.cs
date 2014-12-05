@@ -11,16 +11,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
     {
         #region Business Methods
 
-        //public void AddAtomGroup()
-        //{
-        //    var x = "o";
-        //}
-
-        //public void AddAtom()
-        //{
-        //    var x = "0";
-        //}
-
         public static readonly PropertyInfo<NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator> LogicalOperatorProperty = RegisterProperty<NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator>(c => c.LogicalOperator);
         public NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator LogicalOperator
         {
@@ -42,20 +32,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(AtomGroupIdProperty, value); }
         }
 
-        //public static readonly PropertyInfo<PredicateList> PredicatesProperty = RegisterProperty<PredicateList>(c => c.Predicates, RelationshipTypes.Child);
-        //public PredicateList Predicates
-        //{
-        //    get 
-        //    {
-        //        if (!(FieldManager.FieldExists(PredicatesProperty)))
-        //            LoadProperty(PredicatesProperty, DataPortal.FetchChild<PredicateList>(this.AtomGroupId));
-        //        return GetProperty(PredicatesProperty); 
-        //    }
-        //    private set { SetProperty(PredicatesProperty, value); }
-        //}
-
-
-
         public IEnumerable<object> TopLevel 
         {
             get
@@ -67,26 +43,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         }
 
         public static readonly PropertyInfo<ObservableCollection<object>> ChildrenProperty = RegisterProperty<ObservableCollection<object>>(c => c.Children, RelationshipTypes.PrivateField);
-        private ObservableCollection<object> _children = new ObservableCollection<object>(); // ChildrenProperty.DefaultValue;
+        private ObservableCollection<object> _children = new ObservableCollection<object>(); 
         public ObservableCollection<object> Children
         {
             get { return GetProperty(ChildrenProperty, _children); }
             private set { _children = value; }
         }
-
-        //public IEnumerable<object> Children
-        //{
-        //    get
-        //    {
-        //        foreach (Predicate predicate in this.Predicates)
-        //        {
-        //            if (predicate.PredicateType == Predicate.PredicateTypeEnum.Atom)
-        //                yield return predicate.Atom;
-        //            if (predicate.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
-        //                yield return predicate.AtomGroup;
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Will map to ViewModel.AddNewCriteriaItem
@@ -106,20 +68,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             if (this.LogicalOperator == predicate.LogicalOperator)
                 throw new Exception("Child logical operator cannot be the same as parent logical operator.");
-            //this.Predicates.Add(this, predicate);
             this.Children.Add(predicate);
         }
 
         public List<string> ComplexFactsUsed()
         {
             List<string> contains = new List<string>();
-            //foreach (var predicate in this.Predicates)
             foreach (var child in this.Children)
             {
                 if (child is Atom)
                 {
                     var predicate = (Atom)child;
-                    if (!contains.Contains(predicate.Class))//.Atom.Class))
+                    if (!contains.Contains(predicate.Class))
                         contains.Add(predicate.Class);
                 }
                 if (child is AtomGroup)
@@ -129,27 +89,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                         if (!contains.Contains(complexFactUsed))
                             contains.Add(complexFactUsed);
                 }
-
-                //if (predicate.PredicateType == Predicate.PredicateTypeEnum.Atom)
-                //{
-                //    if (!contains.Contains(predicate.Atom.Class))
-                //        contains.Add(predicate.Atom.Class);
-                //}
-                //else if (predicate.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
-                //{
-                //    foreach (var complexFactUsed in predicate.AtomGroup.ComplexFactsUsed())
-                //        if (!contains.Contains(complexFactUsed))
-                //            contains.Add(complexFactUsed); 
-                //}
             }
             return contains;
         }
-
-        //public NxBRE.InferenceEngine.Rules.AtomGroup GetInferenceEngineAtomGroup()
-        //{
-        //    //return new NxBRE.InferenceEngine.Rules.Atom(this.Property, new NxBRE.InferenceEngine.Rules.Variable(this.Class), new NxBRE.InferenceEngine.Rules.Individual(this.Value));
-        //    return new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator, this.Predicates.ToNxBre());
-        //}
 
         public NxBRE.InferenceEngine.Rules.AtomGroup ToNxBre()
         {
@@ -169,27 +111,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     predicates.Add(predicate.ToNxBre());
                 }
             }
-            return new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator, predicates.ToArray()); // this.Predicates.ToNxBre().ToArray());
-
-            //var returnValue = new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator);
-            //foreach (var child in Children)
-            //{
-            //    if (child is Atom)
-            //        yield return 
-            //}
+            return new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator, predicates.ToArray()); 
         }
-
-        //public static readonly PropertyInfo<AtomList> AtomsProperty = RegisterProperty<AtomList>(c => c.Atoms);
-        //public AtomList Atoms
-        //{
-        //    get 
-        //    {
-        //        if (!(FieldManager.FieldExists(AtomsProperty)))
-        //            LoadProperty(AtomsProperty, DataPortal.CreateChild<AtomList>());
-        //        return GetProperty(AtomsProperty); 
-        //    }
-        //    private set { SetProperty(AtomsProperty, value); }
-        //}
 
         #endregion
 
@@ -237,33 +160,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         protected void Child_Update(Implication parent)
         {
-            //FieldManager.UpdateChildren();
             base.DataPortal_Update();
         }
 
         protected void Child_Update(Predicate parent)
         {
-            //FieldManager.UpdateChildren();
             base.DataPortal_Update();
         }
 
-        //[RunLocal]
+        [RunLocal]
         protected override void DataPortal_Create()
         {
-            // TODO: load default values
-            // omit this override if you have no defaults to set
-            //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-            //{
-            //    var atomGroupData = new DataAccess.AtomGroup();
-            //    atomGroupData.Name = "";
-            //    atomGroupData.LogicalOperator = "OR";
-            //    ctx.DbContext.AtomGroups.Add(atomGroupData);
-            //    ctx.DbContext.SaveChanges();
-            //    this.AtomGroupId = atomGroupData.AtomGroupId;
-            //}
             this.AtomGroupId = Guid.NewGuid();
-            //this.Predicates = DataPortal.Create<PredicateList>(this);
-            //this.Children = new ObservableCollection<object>();// DataPortal.Create<PredicateList>(this);
             base.DataPortal_Create();
         }
 
@@ -296,16 +204,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                             Children.Add(DataPortal.Fetch<AtomGroup>(predicateData.ContainedAtomGroupId));
                         }
                     }
-                    
-                    //if (predicateData != null)
-                    //{
-
-                    //}
-
-                    //if (predicateData != null)
-                    //    Predicates = DataPortal.FetchChild<PredicateList>(predicateData);
-                    //else
-                    //    Predicates = DataPortal.CreateChild<PredicateList>(atomGroupId);
                 }
             }
         }

@@ -96,19 +96,16 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public static Implication NewImplication()
         {
-            //return DataPortal.Create<Implication>();
             return DataPortal.CreateChild<Implication>();
         }
 
         public static Implication GetById(Guid id)
         {
-            //return DataPortal.Fetch<Implication>(id);
             return DataPortal.FetchChild<Implication>(id);
         }
 
         public static Implication GetByLabel(string label)
         {
-            //return DataPortal.Fetch<Implication>(label);
             return DataPortal.FetchChild<Implication>(label);
         }
 
@@ -123,18 +120,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         #endregion
 
         #region Data Access
-
-        //[RunLocal]
-        //protected override void DataPortal_Create()
-        //{
-        //    //using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-        //    //{
-        //    //    var identityAtom = new DataAccess.Implication();
-        //    //    ctx.DbContext.SaveChanges();
-        //    //}
-        //    this.ImplicationId = Guid.NewGuid();
-        //    base.DataPortal_Create();
-        //}
 
         [RunLocal]
         protected override void Child_Create()
@@ -248,16 +233,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                if (this.Head.IsDirty)
-                {
-                    var newHead = DataPortal.CreateChild<Atom>();// Atom.NewAtom();
-                    newHead.Class = this.Head.Class;
-                    newHead.Property = this.Head.Property;
-                    newHead.Value = this.Head.Value;
-                    //this.Head.Delete();
-                    //this.Head.Save();
-                    this.Head = newHead;
-                }
                 this.FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
             }
@@ -267,16 +242,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                if (this.Head.IsDirty)
-                {
-                    var newHead = DataPortal.CreateChild<Atom>();// Atom.NewAtom();
-                    newHead.Class = this.Head.Class;
-                    newHead.Property = this.Head.Property;
-                    newHead.Value = this.Head.Value;
-                    //this.Head.Delete();
-                    //this.Head.Save();
-                    this.Head = newHead;
-                }
                 this.FieldManager.UpdateChildren(this);
             }
         }

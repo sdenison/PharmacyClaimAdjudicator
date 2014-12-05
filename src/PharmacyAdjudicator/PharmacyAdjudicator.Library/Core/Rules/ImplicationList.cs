@@ -37,22 +37,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Data Access
 
-        //private void DataPortal_Fetch(Guid ruleId)
-        //{
-        //    RaiseListChangedEvents = false;
-        //    using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-        //    {
-        //        var implicationListData = (from ri in ctx.DbContext.RuleImplication 
-        //                              join i in ctx.DbContext.Implication on ri.ImplicationId equals i.ImplicationId
-        //                              where ri.RuleId == ruleId
-        //                              orderby ri.Priority descending 
-        //                              select i);
-        //        foreach (var implicationData in implicationListData)
-        //            this.Add(DataPortal.FetchChild<Implication>(implicationData));
-        //    }
-        //    RaiseListChangedEvents = true;
-        //}
-
         private void Child_Fetch(Guid ruleId)
         {
             RaiseListChangedEvents = false;

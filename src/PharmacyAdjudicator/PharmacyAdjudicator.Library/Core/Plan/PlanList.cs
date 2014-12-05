@@ -21,23 +21,6 @@ namespace PharmacyAdjudicator.Library.Core.Plan
 
         #region Factory Methods
 
-        //public static PlanList NewPlanList()
-        //{
-        //    return DataPortal.Create<PlanList>();
-        //}
-
-        //public static PlanList GetEditableRootList(int id)
-        //{
-        //    return DataPortal.Fetch<PlanList>(id);
-        //}
-
-        //public PlanEdit AddPlan()
-        //{
-        //    var newPlan = DataPortal.CreateChild<PlanEdit>();
-        //    this.Add(newPlan);
-        //    return newPlan;
-        //}
-
         public async static Task<PlanList> GetAllAsync()
         {
             return await DataPortal.FetchAsync<PlanList>();
@@ -55,9 +38,7 @@ namespace PharmacyAdjudicator.Library.Core.Plan
 
         protected override PlanEdit AddNewCore()
         {
-            //PlanEdit planEdit = PlanEdit.NewPlan("NEW-PLAN-ID");
             PlanEdit planEdit = DataPortal.CreateChild<PlanEdit>();
-            //planEdit.PlanId = "NEW-PLAN-ID";
             Add(planEdit);
             return planEdit;
         }
@@ -68,7 +49,6 @@ namespace PharmacyAdjudicator.Library.Core.Plan
         {
             //Gets all plans ordered by name
             RaiseListChangedEvents = false;
-            //IsReadOnly = false;
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var plansData = from pd in ctx.DbContext.PlanDetail
@@ -80,10 +60,8 @@ namespace PharmacyAdjudicator.Library.Core.Plan
                     Add(DataPortal.FetchChild<PlanEdit>(planData));
             }
             RaiseListChangedEvents = true;
-            //IsReadOnly = true;
         }
 
-        //[Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Update()
         {
             var rlce = this.RaiseListChangedEvents;
@@ -92,16 +70,8 @@ namespace PharmacyAdjudicator.Library.Core.Plan
             {
                 Child_Update();
                 ctx.DbContext.SaveChanges();
-                //try
-                //{
-                //}
-                //catch (Exception ex)
-                //{
-                //    var x = ex;
-                //}
             }
             this.RaiseListChangedEvents = rlce;
-            //base.Child_Update();
         }
 
         #endregion
