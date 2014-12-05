@@ -69,5 +69,28 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atomFromDatabase = atomFromDatabase.Save();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void Can_get_clr_type_when_property_is_set()
+        {
+            var myAtom = Library.Core.Rules.Atom.NewAtom();
+            //Default type 
+            Assert.IsTrue(myAtom.ClrType == typeof(string));
+
+            myAtom.Class = "Drug";
+            //Should still be default because property is not set
+            Assert.IsTrue(myAtom.ClrType == typeof(string));
+
+            myAtom.Property = "Otc";
+            Assert.IsTrue(myAtom.ClrType == typeof(Boolean));
+
+            //Changing the class to transaction should bring back default ClrType
+            myAtom.Class = "Transaction";
+            Assert.IsTrue(myAtom.ClrType == typeof(string));
+
+            myAtom.Property = "IngredientCostSubmitted";
+            Assert.IsTrue(myAtom.ClrType == typeof(decimal));
+        }
+
     }
 }

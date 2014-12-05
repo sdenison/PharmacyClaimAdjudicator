@@ -23,14 +23,34 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         public string Property
         {
             get { return GetProperty(PropertyProperty); }
-            set { SetProperty(PropertyProperty, value); }
+            set { SetProperty(PropertyProperty, value); OnPropertyChanged("ClrType"); }
+        }
+
+        public Type ClrType
+        {
+            get 
+            {
+                if ((string.IsNullOrEmpty(this.Class)) || (string.IsNullOrEmpty(this.Property)))
+                    return typeof(string);
+                Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
+                //If we don't have enough information to get the type of the atom then return string by default.
+                var pi = type.GetProperty(this.Property);
+                return pi.PropertyType;
+            }
+            private set { }
         }
 
         public static readonly PropertyInfo<string> ClassProperty = RegisterProperty<string>(c => c.Class);
         public string Class
         {
             get { return GetProperty(ClassProperty); }
-            set { SetProperty(ClassProperty, value); }
+            set 
+            {
+                //If class is changing then property should not be set
+                if ((this.Class != value) && (!string.IsNullOrEmpty(this.Property)))
+                    this.Property = "";
+                SetProperty(ClassProperty, value); 
+            }
         }
 
         public static readonly PropertyInfo<string> OperationProperty = RegisterProperty<string>(c => c.Operation);
@@ -283,17 +303,16 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             this.RecordId = atomData.RecordId;
             this.AtomId = atomData.AtomId;
-            this.Value = atomData.Value;
             this.Class = atomData.Class;
             this.Property = atomData.Property;
             this.Operation = atomData.Operation;
 
-            Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
-            var pi = type.GetProperty(this.Property);
-            var propertyType = pi.PropertyType;
-            TypeConverter tc = TypeDescriptor.GetConverter(propertyType);
+            //Converts Value to correct ClrType
+            TypeConverter tc = TypeDescriptor.GetConverter(this.ClrType); 
             this.Value = tc.ConvertFromString(atomData.Value);
         }
+
+
 
         private DataAccess.AtomDetail CreateNewEntity()
         {

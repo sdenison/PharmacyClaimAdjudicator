@@ -162,7 +162,7 @@
                                     <mui:BBCodeBlock BBCode="Logical Operator"/>
                                     <TextBox Text="{Binding Path=Body.LogicalOperator}"></TextBox>
                                 </StackPanel>
-                                <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.TopLevel}">-->
+                                <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}">-->
                                 <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}">
                                     <TreeView.Resources>
                                         <!--<ContextMenu x:Key="AtomGroupContextMenu" StaysOpen="True">
@@ -172,11 +172,13 @@
                                         <DataTemplate 
                                             DataType="{x:Type library:Atom}">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Class}"/>
+                                                <!--<TextBlock Text="{Binding Class}"/>
                                                 <TextBlock Text="."/>
                                                 <TextBlock Text="{Binding Property}"/>
                                                 <TextBlock Text="="/>
-                                                <TextBlock Text="{Binding Value}"/>
+                                                <TextBlock Text="{Binding Value}"/>-->
+
+                                                <ListBox x:Name="DynamicDefaultListBox" ItemTemplateSelector="{StaticResource AtomDefaultTemplateSelector}" ItemsSource="{Binding DataContext}"></ListBox>
                                             </StackPanel>
                                         </DataTemplate>
                                         <HierarchicalDataTemplate

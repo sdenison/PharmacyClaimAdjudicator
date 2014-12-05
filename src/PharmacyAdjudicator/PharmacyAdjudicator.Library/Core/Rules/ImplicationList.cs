@@ -69,7 +69,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     if (implication.IsNew)
                         assignedImplications.Add(new DataAccess.RuleImplication() { RecordId = Guid.NewGuid(), ImplicationId = implication.ImplicationId, RuleId = parent.RuleId, Priority = "" });
                 base.Child_Update();
-                ctx.DbContext.RuleImplication.AddRange(assignedImplications);
+                if (assignedImplications.Count > 0)
+                    ctx.DbContext.RuleImplication.AddRange(assignedImplications);
             }
         }
 
