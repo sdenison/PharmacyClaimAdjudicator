@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Csla.Core;
@@ -37,68 +38,63 @@ namespace PharmacyAdjudicator.ModernUITests.PlanTests
             //    new string[] { "PatientViewer" });
             Csla.ApplicationContext.User = principal;
         }
-        
+
 
         [TestMethod]
         public void Can_get_ViewModel_with_plans()
         {
             var plans = new PharmacyAdjudicator.ModernUI.Plan.PlanListViewModel(_dialog.Object);
-            
+            var i = 0;
+            while (plans.IsBusy) 
+            { 
+                Thread.Sleep(500); /*Do nothing while waiting for the object to load. */
+                i++;
+                if (i > 100)
+                {
+                    Assert.IsTrue(false, "first plans.IsBusy timed out");
+                }
+            }
             Assert.IsTrue(plans.Model.Count > 0);
         }
 
         [TestMethod]
-        public void Can_add_plan_to_PlanListViewModel()
+        public void Can_save_plan_async()
         {
             var plans = new PharmacyAdjudicator.ModernUI.Plan.PlanListViewModel(_dialog.Object);
-            var originalPlanCount = plans.Model.Count;
-
-            plans.AddPlan();
-            plans.SelectedPlan.Name = "ADDED TEST PLAN";
-
-
-
-            var manageObjectLifetime = plans.ManageObjectLifetime;
-            var savable = plans.Model as ISavable;
-
-            //plans.Model.ApplyEdit();
-            //plans.Model.Save();
-
-
-           
-            
-
-            //plans.SaveAsync
-            //plans.SavePlans(); //doesn't work
-            var task = plans.SavePlansAsync(); //.Wait(); //doesn't work
-            var awaiter = task.GetAwaiter();
-            awaiter.OnCompleted(() =>
+            //Wait until plans.IsBusy is false before further evaluations.
+            int i = 0;
+            while (plans.IsBusy) 
+            { 
+                Thread.Sleep(500);  
+                i++; 
+                if (i > 100)
                 {
-                    var plansFromDatabase = new PharmacyAdjudicator.ModernUI.Plan.PlanListViewModel(_dialog.Object);
-                    Assert.IsTrue(originalPlanCount < plansFromDatabase.Model.Count);
-                });
-            //plans.Save(new object(), new Csla.Xaml.ExecuteEventArgs());
-            //plans.Save();
-            //plans.Save(new object(), new CslaContrib.Caliburn.Micro.ExecuteEventArgs()); //doesn't work either
+                    Assert.IsTrue(false, "first plans.IsBusy timed out");
+                }
+            }
+            Console.WriteLine("Counted to " + i.ToString() + " while waiting for IsBusy");
+            Assert.IsTrue(i > 0);
 
-            //var plansFromDatabase = new PharmacyAdjudicator.ModernUI.Plan.PlanListViewModel(_dialog.Object);
-            //Assert.IsTrue(originalPlanCount < plansFromDatabase.Model.Count);
-        }
-
-        [TestMethod]
-        public async Task Can_save_plan_async()
-        {
-            var plans = new PharmacyAdjudicator.ModernUI.Plan.PlanListViewModel(_dialog.Object);
-            var originalPlanCount = plans.Model.Count;
+            int originalPlanCount = 0;
+            originalPlanCount = plans.Model.Count;
 
             plans.AddPlan();
             plans.SelectedPlan.Name = "ADDED TEST PLAN";
-            await plans.SavePlansAsync();
-            //plans.Save();
+            var task = plans.Save();
+            i = 0;
+            while (plans.IsBusy) 
+            { 
+                Thread.Sleep(500); 
+                i++; 
+                if (i > 100)
+                {
+                    Assert.IsTrue(false, "second plans.IsBusy timed out");
+                }
+            }
             var plansFromDatabase = new PharmacyAdjudicator.ModernUI.Plan.PlanListViewModel(_dialog.Object);
+            while (plansFromDatabase.IsBusy) { Thread.Sleep(500); }
             Assert.IsTrue(originalPlanCount < plansFromDatabase.Model.Count);
         }
-
     
     }
 }

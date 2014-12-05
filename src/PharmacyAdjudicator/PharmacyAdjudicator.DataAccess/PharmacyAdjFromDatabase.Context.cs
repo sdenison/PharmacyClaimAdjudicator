@@ -47,5 +47,6 @@ namespace PharmacyAdjudicator.DataAccess
         public DbSet<ClientDetail> ClientDetail { get; set; }
         public DbSet<ClientGroup> ClientGroup { get; set; }
         public DbSet<GroupPlan> GroupPlan { get; set; }
+        public DbSet<AtomDetail> AtomDetail { get; set; }
     }
 }

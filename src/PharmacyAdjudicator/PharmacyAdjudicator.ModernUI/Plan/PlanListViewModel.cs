@@ -23,25 +23,44 @@ namespace PharmacyAdjudicator.ModernUI.Plan
         private IDialog _dialogManager;
 
         [ImportingConstructor]
-        public PlanListViewModel(IDialog dialogManager)
+        public PlanListViewModel(IDialog dialogManager) : base()
         {
             _dialogManager = dialogManager;
-            var task = PlanList.GetAllAsync();
-            var awaiter = task.GetAwaiter();
+            //var task = PlanList.GetAllAsync();
+            //var awaiter = task.GetAwaiter();
+            //IsBusy = true;
+            //awaiter.OnCompleted(() =>
+            //    {
+            //        if (task.Exception != null)
+            //        {
+            //            IsBusy = false;
+            //            _dialogManager.ShowMessage(task.Exception.Message, "Could not load plans", System.Windows.MessageBoxButton.OK);
+            //        }
+            //        else
+            //        {
+            //            this.Model = task.Result;
+            //            IsBusy = false;
+            //        }
+            //    });
+
+            GetPlans();
+        }
+
+        public async void GetPlans()
+        {
             IsBusy = true;
-            awaiter.OnCompleted(() =>
-                {
-                    if (task.Exception != null)
-                    {
-                        IsBusy = false;
-                        _dialogManager.ShowMessage(task.Exception.Message, "Could not load plans", System.Windows.MessageBoxButton.OK);
-                    }
-                    else
-                    {
-                        this.Model = task.Result;
-                        IsBusy = false;
-                    }
-                });
+            Model = await PlanList.GetAllAsync();
+            IsBusy = false;
+        }
+
+        //protected override void OnActivate()
+        //{
+        //    base.OnActivate();
+        //}
+
+        protected override async void OnInitialize()
+        {
+            base.OnInitialize();
         }
 
         private bool _isBusy;
@@ -116,6 +135,7 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             }
             catch (Exception ex)
             {
+                IsBusy = false;
                 var message = ex.GetBaseException().Message;
                 _dialogManager.ShowMessage(message, "ERROR", System.Windows.MessageBoxButton.OK);
             }

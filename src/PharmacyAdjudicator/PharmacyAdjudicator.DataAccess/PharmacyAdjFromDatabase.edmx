@@ -28,6 +28,7 @@
     <EntitySet Name="ClientDetail" EntityType="PharmacyClaimAdjudicatorModel.Store.ClientDetail" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ClientGroup" EntityType="PharmacyClaimAdjudicatorModel.Store.ClientGroup" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GroupPlan" EntityType="PharmacyClaimAdjudicatorModel.Store.GroupPlan" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AtomDetail" EntityType="PharmacyClaimAdjudicatorModel.Store.AtomDetail" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FKGroupFacts397517" Association="PharmacyClaimAdjudicatorModel.Store.FKGroupFacts397517">
       <End Role="Group" EntitySet="Group" />
       <End Role="GroupFacts" EntitySet="GroupDetail" />
@@ -143,6 +144,14 @@
     <AssociationSet Name="PlanPlanRule" Association="PharmacyClaimAdjudicatorModel.Store.PlanPlanRule">
       <End Role="Plan" EntitySet="Plan" />
       <End Role="PlanRule" EntitySet="PlanRule" />
+    </AssociationSet>
+    <AssociationSet Name="AtomAtomDetail" Association="PharmacyClaimAdjudicatorModel.Store.AtomAtomDetail">
+      <End Role="Atom" EntitySet="Atom" />
+      <End Role="AtomDetail" EntitySet="AtomDetail" />
+    </AssociationSet>
+    <AssociationSet Name="AtomDetailAtomDetail" Association="PharmacyClaimAdjudicatorModel.Store.AtomDetailAtomDetail">
+      <End Role="AtomDetail" EntitySet="AtomDetail" />
+      <End Role="AtomDetail1" EntitySet="AtomDetail" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Group">
@@ -266,15 +275,8 @@
       <PropertyRef Name="AtomId" />
     </Key>
     <Property Name="AtomId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Class" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="Property" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Operation" Type="nvarchar(max)" Nullable="false" />
     <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
-    <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="RecordDeleteDate" Type="datetime" Nullable="true" />
-    <Property Name="RecordDeleteUser" Type="nvarchar" Nullable="false" DefaultValue="" MaxLength="50" />
-    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
   </EntityType>
   <EntityType Name="AtomGroup">
     <Key>
@@ -416,6 +418,21 @@
     <Property Name="Retraction" Type="bit" Nullable="false" />
     <Property Name="OriginalFactRecordId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="RecordCreateDateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AtomDetail">
+    <Key>
+      <PropertyRef Name="RecordId" />
+    </Key>
+    <Property Name="RecordId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AtomId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Class" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Property" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Operation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Retraction" Type="bit" Nullable="false" />
+    <Property Name="OriginalFactRecordId" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
+    <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
   </EntityType>
   <Association Name="FKGroupFacts397517">
     <End Role="Group" Type="PharmacyClaimAdjudicatorModel.Store.Group" Multiplicity="1" />
@@ -765,6 +782,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="AtomAtomDetail">
+    <End Role="Atom" Type="PharmacyClaimAdjudicatorModel.Store.Atom" Multiplicity="1" />
+    <End Role="AtomDetail" Type="PharmacyClaimAdjudicatorModel.Store.AtomDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Atom">
+        <PropertyRef Name="AtomId" />
+      </Principal>
+      <Dependent Role="AtomDetail">
+        <PropertyRef Name="AtomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AtomDetailAtomDetail">
+    <End Role="AtomDetail" Type="PharmacyClaimAdjudicatorModel.Store.AtomDetail" Multiplicity="0..1" />
+    <End Role="AtomDetail1" Type="PharmacyClaimAdjudicatorModel.Store.AtomDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AtomDetail">
+        <PropertyRef Name="RecordId" />
+      </Principal>
+      <Dependent Role="AtomDetail1">
+        <PropertyRef Name="OriginalFactRecordId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -907,6 +948,15 @@
           <AssociationSet Name="PlanPlanRule" Association="PharmacyClaimAdjudicatorModel.PlanPlanRule">
             <End Role="Plan" EntitySet="Plan" />
             <End Role="PlanRule" EntitySet="PlanRule" />
+          </AssociationSet>
+          <EntitySet Name="AtomDetail" EntityType="PharmacyClaimAdjudicatorModel.AtomDetail" />
+          <AssociationSet Name="AtomAtomDetail" Association="PharmacyClaimAdjudicatorModel.AtomAtomDetail">
+            <End Role="Atom" EntitySet="Atom" />
+            <End Role="AtomDetail" EntitySet="AtomDetail" />
+          </AssociationSet>
+          <AssociationSet Name="AtomDetailAtomDetail" Association="PharmacyClaimAdjudicatorModel.AtomDetailAtomDetail">
+            <End Role="AtomDetail" EntitySet="AtomDetail" />
+            <End Role="AtomDetail1" EntitySet="AtomDetail" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Group">
@@ -1110,17 +1160,11 @@
             <PropertyRef Name="AtomId" />
           </Key>
           <Property Name="AtomId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="Class" Type="String" Nullable="false" MaxLength="50" />
-          <Property Name="Property" Type="String" Nullable="false" MaxLength="50" />
-          <Property Name="Value" Type="String" Nullable="false" />
-          <Property Name="Operation" Type="String" Nullable="false" />
           <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
-          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
           <NavigationProperty Name="AtomGroupItems" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" FromRole="Atom" ToRole="AtomGroupItems" />
-          <Property Name="RecordDeleteDate" Type="DateTime" Nullable="true" />
-          <Property Name="RecordDeleteUser" Type="String" Nullable="false" DefaultValue="" MaxLength="50" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Implication" Relationship="PharmacyClaimAdjudicatorModel.AtomImplication" FromRole="Atom" ToRole="Implication" />
+          <NavigationProperty Name="AtomDetail" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomDetail" FromRole="Atom" ToRole="AtomDetail" />
         </EntityType>
         <EntityType Name="AtomGroup">
           <Key>
@@ -1586,6 +1630,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AtomDetail">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="AtomId" Type="Guid" Nullable="false" />
+          <Property Name="Class" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Property" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Value" Type="String" Nullable="false" />
+          <Property Name="Operation" Type="String" Nullable="false" />
+          <Property Name="Retraction" Type="Boolean" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Guid" Nullable="true" />
+          <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
+          <NavigationProperty Name="Atom" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomDetail" FromRole="AtomDetail" ToRole="Atom" />
+          <NavigationProperty Name="AtomDetail1" Relationship="PharmacyClaimAdjudicatorModel.AtomDetailAtomDetail" FromRole="AtomDetail" ToRole="AtomDetail1" />
+          <NavigationProperty Name="AtomDetail2" Relationship="PharmacyClaimAdjudicatorModel.AtomDetailAtomDetail" FromRole="AtomDetail1" ToRole="AtomDetail" />
+        </EntityType>
+        <Association Name="AtomAtomDetail">
+          <End Type="PharmacyClaimAdjudicatorModel.Atom" Role="Atom" Multiplicity="1" />
+          <End Type="PharmacyClaimAdjudicatorModel.AtomDetail" Role="AtomDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Atom">
+              <PropertyRef Name="AtomId" />
+            </Principal>
+            <Dependent Role="AtomDetail">
+              <PropertyRef Name="AtomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AtomDetailAtomDetail">
+          <End Type="PharmacyClaimAdjudicatorModel.AtomDetail" Role="AtomDetail" Multiplicity="0..1" />
+          <End Type="PharmacyClaimAdjudicatorModel.AtomDetail" Role="AtomDetail1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AtomDetail">
+              <PropertyRef Name="RecordId" />
+            </Principal>
+            <Dependent Role="AtomDetail1">
+              <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1720,15 +1806,8 @@
       <EntityTypeMapping TypeName="IsTypeOf(PharmacyClaimAdjudicatorModel.Atom)">
         <MappingFragment StoreEntitySet="Atom">
           <ScalarProperty Name="AtomId" ColumnName="AtomId" />
-          <ScalarProperty Name="Class" ColumnName="Class" />
-          <ScalarProperty Name="Property" ColumnName="Property" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
-          <ScalarProperty Name="Operation" ColumnName="Operation" />
           <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
           <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
-          <ScalarProperty Name="RecordDeleteDate" ColumnName="RecordDeleteDate" />
-          <ScalarProperty Name="RecordDeleteUser" ColumnName="RecordDeleteUser" />
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1883,6 +1962,22 @@
           <ScalarProperty Name="Retraction" ColumnName="Retraction" />
           <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
           <ScalarProperty Name="RecordCreateDateTime" ColumnName="RecordCreateDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AtomDetail">
+      <EntityTypeMapping TypeName="IsTypeOf(PharmacyClaimAdjudicatorModel.AtomDetail)">
+        <MappingFragment StoreEntitySet="AtomDetail">
+          <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+          <ScalarProperty Name="AtomId" ColumnName="AtomId" />
+          <ScalarProperty Name="Class" ColumnName="Class" />
+          <ScalarProperty Name="Property" ColumnName="Property" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="Operation" ColumnName="Operation" />
+          <ScalarProperty Name="Retraction" ColumnName="Retraction" />
+          <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
+          <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
+          <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

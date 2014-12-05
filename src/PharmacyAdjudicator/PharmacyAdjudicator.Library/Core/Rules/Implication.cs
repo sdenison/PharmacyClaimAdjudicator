@@ -248,23 +248,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                //var implicationData = (from i in ctx.DbContext.Implications
-                //                       where i.Label == criteria
-                //                       select i).FirstOrDefault();
-
-                //
-                //this.Head.Save();
-                //this.Body.Save();
-
-
-                this.FieldManager.UpdateChildren();
+                if (this.Head.IsDirty)
+                {
+                    var newHead = DataPortal.CreateChild<Atom>();// Atom.NewAtom();
+                    newHead.Class = this.Head.Class;
+                    newHead.Property = this.Head.Property;
+                    newHead.Value = this.Head.Value;
+                    //this.Head.Delete();
+                    //this.Head.Save();
+                    this.Head = newHead;
+                }
+                this.FieldManager.UpdateChildren(this);
                 ctx.DbContext.SaveChanges();
-                //if (implicationData == null)
-                //    throw new DataNotFoundException("ImplicationId = " + criteria);
-                //using (BypassPropertyChecks)
-                //{
-                //    PopulateByEntity(implicationData);
-                //}
             }
         }
 
@@ -272,7 +267,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                this.FieldManager.UpdateChildren();
+                if (this.Head.IsDirty)
+                {
+                    var newHead = DataPortal.CreateChild<Atom>();// Atom.NewAtom();
+                    newHead.Class = this.Head.Class;
+                    newHead.Property = this.Head.Property;
+                    newHead.Value = this.Head.Value;
+                    //this.Head.Delete();
+                    //this.Head.Save();
+                    this.Head = newHead;
+                }
+                this.FieldManager.UpdateChildren(this);
             }
         }
 

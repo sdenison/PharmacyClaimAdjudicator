@@ -76,10 +76,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-        //public NxBRE.InferenceEngine.Rules.Fact ToNxBreFact()
-        //{
-        //    return new NxBRE.InferenceEngine.Rules.Fact()
-        //}
+        private Guid _RecordId;
+        private Guid RecordId
+        {
+            get { return _RecordId; }
+            set { _RecordId = value; }
+        }
 
         #endregion
 
@@ -152,7 +154,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var atomData = ctx.DbContext.Atom.FirstOrDefault(a => a.AtomId == atomId);
+                var atomData = (from a in ctx.DbContext.AtomDetail
+                                where a.AtomId == atomId
+                                && a.Retraction == false
+                                && !ctx.DbContext.AtomDetail.Any(a2 => a2.Retraction == true && a2.OriginalFactRecordId == a.RecordId)
+                                select a).FirstOrDefault();
                 if (atomData == null)
                     throw new DataNotFoundException("AtomId = " + atomId);
                 using (BypassPropertyChecks)
@@ -166,8 +172,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var atomData = CreateNewEntity();
-                ctx.DbContext.Atom.Add(atomData);
+                //Add identity record
+                var atomIdentityData = new DataAccess.Atom();
+                atomIdentityData.AtomId = this.AtomId;
+                atomIdentityData.RecordCreatedDateTime = DateTime.Now;
+                atomIdentityData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
+                ctx.DbContext.Atom.Add(atomIdentityData);
+               
+                //Add detail record
+                AssertNewFact();
+                //var atomData = CreateNewEntity();
+                //ctx.DbContext.AtomDetail.Add(atomData);
                 ctx.DbContext.SaveChanges();
             }
         }
@@ -176,37 +191,55 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
+                //Add identity record
+                var atomIdentityData = new DataAccess.Atom();
+                atomIdentityData.AtomId = this.AtomId;
+                atomIdentityData.RecordCreatedDateTime = DateTime.Now;
+                atomIdentityData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
+                ctx.DbContext.Atom.Add(atomIdentityData);
                 var atomData = CreateNewEntity();
-                ctx.DbContext.Atom.Add(atomData);
+
+                //Add detail record
+                AssertNewFact();
+                //ctx.DbContext.Atom.Add(atomData);
             }
         }
 
         protected override void DataPortal_Update()
         {
-            throw new NotSupportedException("Updates to an Atom are not allowed.");
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                RetractFact();
+                AssertNewFact();
+                ctx.DbContext.SaveChanges();
+            }
         }
 
         protected void Child_Update()
         {
-            throw new NotSupportedException("Updates to an Atom are not allowed.");
+            RetractFact();
+            AssertNewFact();
         }
 
         protected override void DataPortal_DeleteSelf()
         {
-            DataPortal_Delete(this.AtomId);
+            using(BypassPropertyChecks)
+            {
+                RetractFact();
+                using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+                {
+                    ctx.DbContext.SaveChanges();
+                }
+            }
         }
 
         private void DataPortal_Delete(Guid criteria)
         {
             using(BypassPropertyChecks)
             {
-                var atomData = CreateNewEntity();
+                RetractFact();
                 using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
                 {
-                    atomData.IsDeleted = true;
-                    atomData.RecordDeleteUser = Csla.ApplicationContext.User.Identity.Name;
-                    atomData.RecordDeleteDate = DateTime.Now;
-                    ctx.DbContext.Atom.Add(atomData);
                     ctx.DbContext.SaveChanges();
                 }
             }
@@ -216,26 +249,45 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (BypassPropertyChecks)
             {
+                RetractFact();
+            }
+        }
+
+        private void RetractFact()
+        {
+            using (BypassPropertyChecks)
+            {
                 var atomData = CreateNewEntity();
+                atomData.Retraction = true;
+                atomData.OriginalFactRecordId = this.RecordId;
                 using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
                 {
-                    atomData.IsDeleted = true;
-                    atomData.RecordDeleteUser = Csla.ApplicationContext.User.Identity.Name;
-                    atomData.RecordDeleteDate = DateTime.Now;
-                    ctx.DbContext.Atom.Add(atomData);
+                    ctx.DbContext.AtomDetail.Add(atomData);
                 }
             }
         }
 
-        private void PopulateByEntity(DataAccess.Atom atomData)
+        private void AssertNewFact()
         {
+            using (BypassPropertyChecks)
+            {
+                var atomData = CreateNewEntity();
+                using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+                {
+                    ctx.DbContext.AtomDetail.Add(atomData);
+                }
+            }
+        }
+
+        private void PopulateByEntity(DataAccess.AtomDetail atomData)
+        {
+            this.RecordId = atomData.RecordId;
             this.AtomId = atomData.AtomId;
             this.Value = atomData.Value;
             this.Class = atomData.Class;
             this.Property = atomData.Property;
             this.Operation = atomData.Operation;
 
-            //var valueType = new System.Reflection.PropertyInfo();
             Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
             var pi = type.GetProperty(this.Property);
             var propertyType = pi.PropertyType;
@@ -243,16 +295,16 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             this.Value = tc.ConvertFromString(atomData.Value);
         }
 
-        private DataAccess.Atom CreateNewEntity()
+        private DataAccess.AtomDetail CreateNewEntity()
         {
-            var atomData = new DataAccess.Atom();
+            var atomData = new DataAccess.AtomDetail();
+            atomData.RecordId = Guid.NewGuid();
             atomData.AtomId = this.AtomId;
-            //atomData.Value = this.Value;
             atomData.Value = this.Value.ToString();
             atomData.Class = this.Class;
             atomData.Property = this.Property;
             atomData.Operation = this.Operation;
-            atomData.IsDeleted = false;
+            atomData.Retraction = false;
             atomData.RecordCreatedDateTime = DateTime.Now;
             atomData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
             return atomData;

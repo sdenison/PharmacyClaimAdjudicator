@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/11/2014 10:34:14
+-- Date Created: 12/04/2014 18:33:36
 -- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -104,6 +104,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PlanPlanRule]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PlanRule] DROP CONSTRAINT [FK_PlanPlanRule];
 GO
+IF OBJECT_ID(N'[dbo].[FK_AtomAtomDetail]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomDetail] DROP CONSTRAINT [FK_AtomAtomDetail];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AtomDetailAtomDetail]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AtomDetail] DROP CONSTRAINT [FK_AtomDetailAtomDetail];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -174,6 +180,9 @@ IF OBJECT_ID(N'[dbo].[ClientGroup]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[GroupPlan]', 'U') IS NOT NULL
     DROP TABLE [dbo].[GroupPlan];
+GO
+IF OBJECT_ID(N'[dbo].[AtomDetail]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AtomDetail];
 GO
 
 -- --------------------------------------------------
@@ -299,15 +308,8 @@ GO
 -- Creating table 'Atom'
 CREATE TABLE [dbo].[Atom] (
     [AtomId] uniqueidentifier  NOT NULL,
-    [Class] nvarchar(50)  NOT NULL,
-    [Property] nvarchar(50)  NOT NULL,
-    [Value] nvarchar(max)  NOT NULL,
-    [Operation] nvarchar(max)  NOT NULL,
     [RecordCreatedDateTime] datetime  NOT NULL,
-    [RecordCreatedUser] nvarchar(50)  NOT NULL,
-    [RecordDeleteDate] datetime  NULL,
-    [RecordDeleteUser] nvarchar(50)  NOT NULL,
-    [IsDeleted] bit  NOT NULL
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
 GO
 
@@ -452,6 +454,21 @@ CREATE TABLE [dbo].[GroupPlan] (
 );
 GO
 
+-- Creating table 'AtomDetail'
+CREATE TABLE [dbo].[AtomDetail] (
+    [RecordId] uniqueidentifier  NOT NULL,
+    [AtomId] uniqueidentifier  NOT NULL,
+    [Class] nvarchar(50)  NOT NULL,
+    [Property] nvarchar(50)  NOT NULL,
+    [Value] nvarchar(max)  NOT NULL,
+    [Operation] nvarchar(max)  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -585,6 +602,12 @@ GO
 -- Creating primary key on [RecordId] in table 'GroupPlan'
 ALTER TABLE [dbo].[GroupPlan]
 ADD CONSTRAINT [PK_GroupPlan]
+    PRIMARY KEY CLUSTERED ([RecordId] ASC);
+GO
+
+-- Creating primary key on [RecordId] in table 'AtomDetail'
+ALTER TABLE [dbo].[AtomDetail]
+ADD CONSTRAINT [PK_AtomDetail]
     PRIMARY KEY CLUSTERED ([RecordId] ASC);
 GO
 
@@ -1025,6 +1048,36 @@ GO
 CREATE INDEX [IX_FK_PlanPlanRule]
 ON [dbo].[PlanRule]
     ([PlanInternalId]);
+GO
+
+-- Creating foreign key on [AtomId] in table 'AtomDetail'
+ALTER TABLE [dbo].[AtomDetail]
+ADD CONSTRAINT [FK_AtomAtomDetail]
+    FOREIGN KEY ([AtomId])
+    REFERENCES [dbo].[Atom]
+        ([AtomId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomAtomDetail'
+CREATE INDEX [IX_FK_AtomAtomDetail]
+ON [dbo].[AtomDetail]
+    ([AtomId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'AtomDetail'
+ALTER TABLE [dbo].[AtomDetail]
+ADD CONSTRAINT [FK_AtomDetailAtomDetail]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[AtomDetail]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomDetailAtomDetail'
+CREATE INDEX [IX_FK_AtomDetailAtomDetail]
+ON [dbo].[AtomDetail]
+    ([OriginalFactRecordId]);
 GO
 
 -- --------------------------------------------------

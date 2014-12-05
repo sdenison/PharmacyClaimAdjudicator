@@ -12,21 +12,26 @@ namespace PharmacyAdjudicator.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Atom
+    public partial class AtomDetail
     {
-        public Atom()
+        public AtomDetail()
         {
-            this.AtomGroupItems = new HashSet<AtomGroupItem>();
-            this.Implication = new HashSet<Implication>();
-            this.AtomDetail = new HashSet<AtomDetail>();
+            this.AtomDetail1 = new HashSet<AtomDetail>();
         }
     
+        public System.Guid RecordId { get; set; }
         public System.Guid AtomId { get; set; }
+        public string Class { get; set; }
+        public string Property { get; set; }
+        public string Value { get; set; }
+        public string Operation { get; set; }
+        public bool Retraction { get; set; }
+        public Nullable<System.Guid> OriginalFactRecordId { get; set; }
         public System.DateTime RecordCreatedDateTime { get; set; }
         public string RecordCreatedUser { get; set; }
     
-        public virtual ICollection<AtomGroupItem> AtomGroupItems { get; set; }
-        public virtual ICollection<Implication> Implication { get; set; }
-        public virtual ICollection<AtomDetail> AtomDetail { get; set; }
+        public virtual Atom Atom { get; set; }
+        public virtual ICollection<AtomDetail> AtomDetail1 { get; set; }
+        public virtual AtomDetail AtomDetail2 { get; set; }
     }
 }
