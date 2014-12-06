@@ -56,6 +56,24 @@
                 <TextBox Text="{Binding DefaultValue, Mode=TwoWay}"/> <!--local:Masking.Mask="^(\d+)?+([\.]{1})?+([\d]{1,2})?$" />-->
             </StackPanel>
         </DataTemplate>
+        <DataTemplate x:Key="AtomMoneyTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Class, Mode=TwoWay}"/>
+                <TextBlock Text="."/>
+                <TextBox Text="{Binding Property, Mode=TwoWay}"/>
+                <mui:BBCodeBlock>: $</mui:BBCodeBlock>
+                <TextBox Text="{Binding Value, Mode=TwoWay}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AtomStringTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Class, Mode=TwoWay}"/>
+                <TextBlock Text="."/>
+                <TextBox Text="{Binding Property, Mode=TwoWay}"/>
+                <mui:BBCodeBlock>: </mui:BBCodeBlock>
+                <TextBox Text="{Binding Value, Mode=TwoWay}"/>
+            </StackPanel>
+        </DataTemplate>
         <ObjectDataProvider MethodName="GetValues"
                     ObjectType="{x:Type sys:Enum}"
                     x:Key="BasisOfReimbursementValues">
@@ -77,6 +95,12 @@
                                            MoneyTemplate="{StaticResource MoneyTemplate}"
                                            BasisOfReimbursementTemplate="{StaticResource BasisOfReimbursementTemplate}"
                                            StringTemplate="{StaticResource StringTemplate}"/>
+
+        <local:AtomDefaultTemplateSelector x:Key="AtomDefaultTemplateSelector" 
+                                           BooleanTemplate="{StaticResource BooleanTemplate}"
+                                           AtomMoneyTemplate="{StaticResource AtomMoneyTemplate}"
+                                           BasisOfReimbursementTemplate="{StaticResource BasisOfReimbursementTemplate}"
+                                           AtomStringTemplate="{StaticResource AtomStringTemplate}"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -163,24 +187,25 @@
                                     <TextBox Text="{Binding Path=Body.LogicalOperator}"></TextBox>
                                 </StackPanel>
                                 <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}">-->
-                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}">
+                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}" ItemTemplateSelector="{StaticResource AtomDefaultTemplateSelector}" >
                                     <TreeView.Resources>
                                         <!--<ContextMenu x:Key="AtomGroupContextMenu" StaysOpen="True">
                                             <MenuItem Header="Add..."/>
                                             <MenuItem Header="Remove..."/>
                                         </ContextMenu>-->
-                                        <DataTemplate 
-                                            DataType="{x:Type library:Atom}">
+                                        <!--<DataTemplate 
+                                            DataType="{x:Type library:Atom}"  >
+                                            
                                             <StackPanel Orientation="Horizontal">
-                                                <!--<TextBlock Text="{Binding Class}"/>
+                                                --><!--<TextBlock Text="{Binding Class}"/>
                                                 <TextBlock Text="."/>
                                                 <TextBlock Text="{Binding Property}"/>
                                                 <TextBlock Text="="/>
                                                 <TextBlock Text="{Binding Value}"/>-->
 
-                                                <ListBox x:Name="DynamicDefaultListBox" ItemTemplateSelector="{StaticResource AtomDefaultTemplateSelector}" ItemsSource="{Binding DataContext}"></ListBox>
-                                            </StackPanel>
-                                        </DataTemplate>
+                                                <!--<ListBox x:Name="DynamicDefaultListBox" ItemTemplateSelector="{StaticResource AtomDefaultTemplateSelector}" ItemsSource="{Binding DataContext}"></ListBox>--><!--
+                                            </StackPanel>-->
+                                        <!--</DataTemplate>-->
                                         <HierarchicalDataTemplate
                                             DataType="{x:Type library:AtomGroup}" ItemsSource="{Binding Children}">
                                             <StackPanel Orientation="Horizontal" Tag="{Binding DataContext, ElementName=ImplicationsStackPanel}"> <!-- AtomGroupTreeView}"-->

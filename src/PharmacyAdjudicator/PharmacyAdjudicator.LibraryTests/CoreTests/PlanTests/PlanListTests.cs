@@ -77,19 +77,19 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             Assert.IsTrue(plans.Count > 0);
         }
 
-        [TestMethod]
-        public async Task Can_change_rule_in_implication()
-        {
-            var plans = await PlanList.GetAllAsync();
-            var implication = plans[0].AssignedRules[0].Implications[0];
-            var value = implication.Head.Value;
-            Assert.IsTrue(value.ToString().Equals("5"));
-            implication.Head.Value = 10;
-            Assert.IsTrue(plans.IsDirty);
-            plans = await plans.SaveAsync();
-            var plansFromDb = await PlanList.GetAllAsync();
-            var implicationFromDb = plansFromDb[0].AssignedRules[0].Implications[0];
-            Assert.IsTrue(implicationFromDb.Head.Value.ToString().Equals("10"));
-        }
+        //[TestMethod]
+        //public async Task Can_change_rule_in_implication()
+        //{
+        //    var plans = await PlanList.GetAllAsync();
+        //    var implication = plans[0].AssignedRules[0].Implications[0];
+        //    var value = implication.Head.Value;
+        //    Assert.IsTrue(value.ToString().Equals("5"));
+        //    implication.Head.Value = 10;
+        //    Assert.IsTrue(plans.IsDirty);
+        //    plans = await plans.SaveAsync();
+        //    var plansFromDb = await PlanList.GetAllAsync();
+        //    var implicationFromDb = plansFromDb[0].AssignedRules[0].Implications[0];
+        //    Assert.IsTrue(implicationFromDb.Head.Value.ToString().Equals("10"));
+        //}
     }
 }
