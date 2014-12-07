@@ -10,7 +10,7 @@ namespace PharmacyAdjudicator.ModernUI.Plan
 {
     public class AtomDefaultTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate BooleanTemplate { get; set; }
+        public DataTemplate AtomBooleanTemplate { get; set; }
         public DataTemplate AtomStringTemplate { get; set; }
         public DataTemplate EnumTemplate { get; set; }
         public DataTemplate AtomMoneyTemplate { get; set; }
@@ -22,7 +22,7 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             {
                 var atomItem = (Library.Core.Rules.Atom)item;
                 if (atomItem.ClrType.Equals(typeof(Boolean)))
-                    return BooleanTemplate;
+                    return AtomBooleanTemplate;
                 if (atomItem.ClrType.Equals(typeof(string)))
                     return AtomStringTemplate;
                 if (atomItem.ClrType.Equals(typeof(decimal)))

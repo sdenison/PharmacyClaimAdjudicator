@@ -66,12 +66,42 @@
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="AtomStringTemplate">
+            <DataTemplate.Resources>
+                <DataTemplate x:Key="asdf1">
+                </DataTemplate>
+                <DataTemplate x:Key="asdf2">
+                </DataTemplate>
+            </DataTemplate.Resources>
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding Class, Mode=TwoWay}"/>
                 <TextBlock Text="."/>
                 <TextBox Text="{Binding Property, Mode=TwoWay}"/>
                 <mui:BBCodeBlock>: </mui:BBCodeBlock>
                 <TextBox Text="{Binding Value, Mode=TwoWay}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AtomBooleanTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Class, Mode=TwoWay}"/>
+                <TextBlock Text="."/>
+                <TextBox Text="{Binding Property, Mode=TwoWay}"/>
+                <mui:BBCodeBlock>: </mui:BBCodeBlock>
+                <CheckBox IsChecked="{Binding Value, Mode=TwoWay}" Width="100" Height="22">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <ComboBox>
+                                            <ComboBoxItem x:Name="TrueComboBoxItem" Content="True" IsSelected="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=CheckBox}, UpdateSourceTrigger=PropertyChanged}" />
+                                            <ComboBoxItem x:Name="FalseComboBoxItem" Content="False" IsSelected="{Binding IsChecked, Converter={StaticResource booleanInverter}, RelativeSource={RelativeSource AncestorType=CheckBox}}" />
+                                        </ComboBox>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
             </StackPanel>
         </DataTemplate>
         <ObjectDataProvider MethodName="GetValues"
@@ -82,6 +112,7 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <DataTemplate x:Key="BasisOfReimbursementTemplate">
+
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding RuleType, Mode=TwoWay}" />
                 <Label Content=" Has default value "/>
@@ -97,7 +128,7 @@
                                            StringTemplate="{StaticResource StringTemplate}"/>
 
         <local:AtomDefaultTemplateSelector x:Key="AtomDefaultTemplateSelector" 
-                                           BooleanTemplate="{StaticResource BooleanTemplate}"
+                                           AtomBooleanTemplate="{StaticResource AtomBooleanTemplate}"
                                            AtomMoneyTemplate="{StaticResource AtomMoneyTemplate}"
                                            BasisOfReimbursementTemplate="{StaticResource BasisOfReimbursementTemplate}"
                                            AtomStringTemplate="{StaticResource AtomStringTemplate}"/>
