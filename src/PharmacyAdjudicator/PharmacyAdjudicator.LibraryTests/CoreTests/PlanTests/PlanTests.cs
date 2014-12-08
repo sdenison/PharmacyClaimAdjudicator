@@ -160,5 +160,6 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             var transAfterProcessing3 = Library.Core.TransactionProcessor.Process(transaction3, testPlan);
             Assert.IsTrue(transAfterProcessing3.Formulary);
         }
+        
     }
 }

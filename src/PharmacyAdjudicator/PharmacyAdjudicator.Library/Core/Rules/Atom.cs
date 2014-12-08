@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
     [Serializable]
-    public class Atom : BusinessBase<Atom>
+    public class Atom : BusinessBase<Atom>, IPredicate
     {
         #region Business Methods
 
@@ -186,6 +186,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     PopulateByEntity(atomData);
                 }
             }
+        }
+
+        private void Child_Fetch(Guid atomId)
+        {
+            DataPortal_Fetch(atomId);
+            MarkAsChild();
         }
 
         protected override void DataPortal_Insert()

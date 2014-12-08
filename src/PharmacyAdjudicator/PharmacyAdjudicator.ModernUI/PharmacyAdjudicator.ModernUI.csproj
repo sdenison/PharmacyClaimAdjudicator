@@ -139,6 +139,7 @@
     <Compile Include="Patient\PatientEditViewModelClosingMessage.cs" />
     <Compile Include="Patient\PatientViewModel.cs" />
     <Compile Include="Plan\AtomDefaultTemplateSelector.cs" />
+    <Compile Include="Plan\EnumToListConverter.cs" />
     <Compile Include="Plan\Masking.cs" />
     <Compile Include="Plan\PageViewModel.cs" />
     <Compile Include="Plan\PlanEditView.xaml.cs">

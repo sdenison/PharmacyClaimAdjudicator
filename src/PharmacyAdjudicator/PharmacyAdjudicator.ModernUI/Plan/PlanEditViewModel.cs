@@ -42,15 +42,24 @@ namespace PharmacyAdjudicator.ModernUI.Plan
                 logicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
 
             //Add AtomGroup to AtomGroup passed in as parameter
-            var atomGroupToAdd = AtomGroup.NewAtomGroup();
-            atomGroupToAdd.LogicalOperator = logicalOperator;
-            atomGroup.AddPredicate(atomGroupToAdd);
+            //var atomGroupToAdd = AtomGroup.NewAtomGroup();
+            //atomGroupToAdd.LogicalOperator = logicalOperator;
+            //atomGroup.AddPredicate(atomGroupToAdd);
+
+
+            atomGroup.AddAtomGroup(logicalOperator);
             NotifyOfPropertyChange(() => Model);
         }
 
         public void AddAtom(AtomGroup atomGroup)
         {
-            atomGroup.AddPredicate(Atom.NewAtom());
+            //atomGroup.AddPredicate(Atom.NewAtom());
+            atomGroup.AddAtom();
+
+            var x = Model.AssignedRules[4].IsDirty;
+
+            //_selectedRule.Implications[0].Body.AddPredicate(Atom.NewAtom());
+            //Model.Implications[0].AtomGroup.Members[0]
             NotifyOfPropertyChange(() => Model);
         }
     }

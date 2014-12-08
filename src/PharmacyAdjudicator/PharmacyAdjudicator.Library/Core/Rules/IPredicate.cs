@@ -7,8 +7,8 @@ using Csla;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
-    public interface IPredicate 
+    public interface IPredicate : IBusinessBase
     {
-        
+        //object ToNxBre();
     }
 }

@@ -12,9 +12,9 @@ namespace PharmacyAdjudicator.ModernUI.Plan
     {
         public DataTemplate AtomBooleanTemplate { get; set; }
         public DataTemplate AtomStringTemplate { get; set; }
-        public DataTemplate EnumTemplate { get; set; }
         public DataTemplate AtomMoneyTemplate { get; set; }
-        public DataTemplate BasisOfReimbursementTemplate { get; set; }
+        public DataTemplate AtomEnumTemplate { get; set; }
+        //public DataTemplate BasisOfReimbursementTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -27,8 +27,10 @@ namespace PharmacyAdjudicator.ModernUI.Plan
                     return AtomStringTemplate;
                 if (atomItem.ClrType.Equals(typeof(decimal)))
                     return AtomMoneyTemplate;
-                if (atomItem.ClrType.Equals(typeof(Library.Core.Enums.BasisOfReimbursement)))
-                    return BasisOfReimbursementTemplate;
+                if (atomItem.ClrType.Equals(typeof(Enum)))
+                    return AtomEnumTemplate;
+                //if (atomItem.ClrType.Equals(typeof(Library.Core.Enums.BasisOfReimbursement)))
+                //    return BasisOfReimbursementTemplate;
             }
             return base.SelectTemplate(item, container);
 

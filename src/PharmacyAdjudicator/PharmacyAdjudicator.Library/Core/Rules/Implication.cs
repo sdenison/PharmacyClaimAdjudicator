@@ -159,12 +159,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 }
             }
             MarkOld();
+            MarkAsChild();
         }
 
         private void Child_Fetch(DataAccess.Implication implicationData)
         {
             PopulateByEntity(implicationData);
             MarkOld();
+            MarkAsChild();
         }
 
         private void DataPortal_Fetch(string label)
@@ -198,6 +200,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 }
             }
             MarkOld();
+            MarkAsChild();
         }
 
         protected override void DataPortal_Insert()
@@ -277,8 +280,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private void PopulateByEntity(DataAccess.Implication implicationData)
         {
             this.ImplicationId = implicationData.ImplicationId;
-            this.Head = Atom.GetByAtomId(implicationData.DeductionAtomId);
-            this.Body = AtomGroup.GetById(implicationData.AtomGroupId);
+            this.Head = DataPortal.FetchChild<Atom>(implicationData.DeductionAtomId);
+            this.Body = DataPortal.FetchChild<AtomGroup>(implicationData.AtomGroupId);
+
+            //this.Head = Atom.GetByAtomId(implicationData.DeductionAtomId);
+            //this.Body = AtomGroup.GetById(implicationData.AtomGroupId);
         }
 
         #endregion

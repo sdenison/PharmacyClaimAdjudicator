@@ -7,7 +7,7 @@ using Csla;
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
     [Serializable]
-    public class AtomGroup : BusinessBase<AtomGroup>
+    public class AtomGroup : BusinessBase<AtomGroup>, IPredicate
     {
         #region Business Methods
 
@@ -42,9 +42,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             
         }
 
-        public static readonly PropertyInfo<ObservableCollection<object>> ChildrenProperty = RegisterProperty<ObservableCollection<object>>(c => c.Children, RelationshipTypes.PrivateField);
-        private ObservableCollection<object> _children = new ObservableCollection<object>(); 
-        public ObservableCollection<object> Children
+        //public static readonly PropertyInfo<ObservableCollection<object>> ChildrenProperty = RegisterProperty<ObservableCollection<object>>(c => c.Children, RelationshipTypes.PrivateField);
+        //private ObservableCollection<object> _children = new ObservableCollection<object>(); 
+        //public ObservableCollection<object> Children
+        //{
+        //    get { return GetProperty(ChildrenProperty, _children); }
+        //    private set { _children = value; }
+        //}
+
+        public static readonly PropertyInfo<ObservableCollection<IPredicate>> ChildrenProperty = RegisterProperty<ObservableCollection<IPredicate>>(c => c.Children, RelationshipTypes.PrivateField);
+        private ObservableCollection<IPredicate> _children = new ObservableCollection<IPredicate>();
+        public ObservableCollection<IPredicate> Children
         {
             get { return GetProperty(ChildrenProperty, _children); }
             private set { _children = value; }
@@ -58,6 +66,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             //this.Predicates.Add(this, predicate);
             this.Children.Add(predicate);
+            this.Children.Add(DataPortal.CreateChild<Atom>());
+            MarkDirty();
+        }
+
+        public void AddAtom()
+        {
+            this.Children.Add(DataPortal.CreateChild<Atom>());
+            MarkDirty();
         }
 
         /// <summary>
@@ -69,6 +85,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             if (this.LogicalOperator == predicate.LogicalOperator)
                 throw new Exception("Child logical operator cannot be the same as parent logical operator.");
             this.Children.Add(predicate);
+            MarkDirty();
+        }
+
+        public void AddAtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator)
+        {
+            //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
+            var child = DataPortal.CreateChild<AtomGroup>();
+            child.LogicalOperator = logicalOperator;
+            this.Children.Add(child);
+            //this.Children.Add(DataPortal.CreateChild<AtomGroup>(this));
+            MarkDirty();
         }
 
         public List<string> ComplexFactsUsed()
@@ -95,19 +122,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public NxBRE.InferenceEngine.Rules.AtomGroup ToNxBre()
         {
-            //return new NxBRE.InferenceEngine.Rules.AtomGroup(this.LogicalOperator, this.Predicates.ToNxBre().ToArray());
-
             List<object> predicates = new List<object>();
             foreach (var child in Children)
             {
+                //predicates.Add(child.ToNxBre());
                 if (child is Atom)
                 {
-                    var predicate = (Atom) child;
+                    var predicate = (Atom)child;
                     predicates.Add(predicate.ToNxBre());
                 }
                 if (child is AtomGroup)
                 {
-                    var predicate = (AtomGroup) child;
+                    var predicate = (AtomGroup)child;
                     predicates.Add(predicate.ToNxBre());
                 }
             }
@@ -138,12 +164,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public static AtomGroup NewAtomGroup()
         {
-            return DataPortal.Create<AtomGroup>();
+            var ag = DataPortal.Create<AtomGroup>();
+            ag.Children.CollectionChanged += (obj, evn) => { ag.MarkDirty(); };
+            return ag;
+
+            //return DataPortal.Create<AtomGroup>();
         }
 
         public static AtomGroup GetById(Guid id)
         {
-            return DataPortal.Fetch<AtomGroup>(id);
+            var ag = DataPortal.Fetch<AtomGroup>(id);
+            ag.Children.CollectionChanged += (obj, evn) => { ag.MarkDirty(); };
+            return ag;
+
+
+            //return DataPortal.Fetch<AtomGroup>(id);
         }
 
         public static void DeleteById(Guid id)
@@ -197,15 +232,23 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     {
                         if (predicateData.AtomId != null)
                         {
-                            Children.Add(DataPortal.Fetch<Atom>(predicateData.AtomId));
+                            //Children.Add(DataPortal.Fetch<Atom>(predicateData.AtomId));
+                            Children.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
                         }
                         else
                         {
-                            Children.Add(DataPortal.Fetch<AtomGroup>(predicateData.ContainedAtomGroupId));
+                            //Children.Add(DataPortal.Fetch<AtomGroup>(predicateData.ContainedAtomGroupId));
+                            Children.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId));
                         }
                     }
                 }
             }
+        }
+
+        private void Child_Fetch(Guid atomGroupId)
+        {
+            DataPortal_Fetch(atomGroupId);
+            MarkAsChild();
         }
 
         private void SaveChildren()

@@ -66,12 +66,6 @@
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="AtomStringTemplate">
-            <DataTemplate.Resources>
-                <DataTemplate x:Key="asdf1">
-                </DataTemplate>
-                <DataTemplate x:Key="asdf2">
-                </DataTemplate>
-            </DataTemplate.Resources>
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding Class, Mode=TwoWay}"/>
                 <TextBlock Text="."/>
@@ -112,13 +106,17 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <DataTemplate x:Key="BasisOfReimbursementTemplate">
-
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding RuleType, Mode=TwoWay}" />
                 <Label Content=" Has default value "/>
-                <!--<TextBox Text="{Binding DefaultValue, Mode=TwoWay}"/>-->
                 <ComboBox SelectedItem="{Binding DefaultValue, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource BasisOfReimbursementValues}}" />
-                <!--local:Masking.Mask="^(\d+)?+([\.]{1})?+([\d]{1,2})?$" />-->
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AtomEnumTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding RuleType, Mode=TwoWay}" />
+                <Label Content=" Has default value "/>
+                <ComboBox SelectedValue="{Binding Value, Mode=TwoWay}" ItemsSource="{Binding PropertyType, Converter={local:EnumToListConverter}}" />
             </StackPanel>
         </DataTemplate>
         <local:RuleDefaultTemplateSelector x:Key="RuleDefaultTemplateSelector" 
@@ -130,7 +128,7 @@
         <local:AtomDefaultTemplateSelector x:Key="AtomDefaultTemplateSelector" 
                                            AtomBooleanTemplate="{StaticResource AtomBooleanTemplate}"
                                            AtomMoneyTemplate="{StaticResource AtomMoneyTemplate}"
-                                           BasisOfReimbursementTemplate="{StaticResource BasisOfReimbursementTemplate}"
+                                           AtomEnumTemplate="{StaticResource AtomEnumTemplate}"
                                            AtomStringTemplate="{StaticResource AtomStringTemplate}"/>
     </UserControl.Resources>
     <Grid>
