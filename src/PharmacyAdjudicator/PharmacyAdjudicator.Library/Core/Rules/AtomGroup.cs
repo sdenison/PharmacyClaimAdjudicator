@@ -50,13 +50,23 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         //    private set { _children = value; }
         //}
 
-        public static readonly PropertyInfo<ObservableCollection<IPredicate>> ChildrenProperty = RegisterProperty<ObservableCollection<IPredicate>>(c => c.Children, RelationshipTypes.PrivateField);
-        private ObservableCollection<IPredicate> _children = new ObservableCollection<IPredicate>();
-        public ObservableCollection<IPredicate> Children
+        //public static readonly PropertyInfo<ObservableCollection<IPredicate>> ChildrenProperty = RegisterProperty<ObservableCollection<IPredicate>>(c => c.Children, RelationshipTypes.PrivateField);
+        //private ObservableCollection<IPredicate> _children = new ObservableCollection<IPredicate>();
+        //public ObservableCollection<IPredicate> Children
+        //{
+        //    get { return GetProperty(ChildrenProperty, _children); }
+        //    private set { _children = value; }
+        //}
+
+        public static readonly PropertyInfo<PredicateList> ChildrenProperty = RegisterProperty<PredicateList>(c => c.Children, RelationshipTypes.PrivateField);
+        private PredicateList _children = ChildrenProperty.DefaultValue;
+        public PredicateList Children
         {
             get { return GetProperty(ChildrenProperty, _children); }
             private set { _children = value; }
         }
+
+
 
         /// <summary>
         /// Will map to ViewModel.AddNewCriteriaItem
@@ -66,14 +76,23 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             //this.Predicates.Add(this, predicate);
             this.Children.Add(predicate);
-            this.Children.Add(DataPortal.CreateChild<Atom>());
+            //this.Children.Add(DataPortal.CreateChild<Atom>());
             MarkDirty();
+            
         }
 
         public void AddAtom()
         {
             this.Children.Add(DataPortal.CreateChild<Atom>());
+            OnPropertyChanged(ChildrenProperty);
+            //var x = this.Parent;
+            //var y = (IBusinessBase)this.Parent;
+            //y.
+            
+            
             MarkDirty();
+            //this.Parent
+            //parent.PropertyChanged += (o, e) => { this. }; //.IsDirty=true;//.PropertyChanged();
         }
 
         /// <summary>
@@ -164,21 +183,20 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public static AtomGroup NewAtomGroup()
         {
-            var ag = DataPortal.Create<AtomGroup>();
-            ag.Children.CollectionChanged += (obj, evn) => { ag.MarkDirty(); };
-            return ag;
+            //var ag = DataPortal.Create<AtomGroup>();
+            //ag.Children.CollectionChanged += (obj, evn) => { ag.MarkDirty(); };
+            //return ag;
 
-            //return DataPortal.Create<AtomGroup>();
+            return DataPortal.Create<AtomGroup>();
         }
 
         public static AtomGroup GetById(Guid id)
         {
-            var ag = DataPortal.Fetch<AtomGroup>(id);
-            ag.Children.CollectionChanged += (obj, evn) => { ag.MarkDirty(); };
-            return ag;
+            //var ag = DataPortal.Fetch<AtomGroup>(id);
+            //ag.Children.CollectionChanged += (obj, evn) => { ag.MarkDirty(); };
+            //return ag;
 
-
-            //return DataPortal.Fetch<AtomGroup>(id);
+            return DataPortal.Fetch<AtomGroup>(id);
         }
 
         public static void DeleteById(Guid id)
@@ -245,9 +263,48 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-        private void Child_Fetch(Guid atomGroupId)
+        private void Child_Fetch(Guid atomGroupId, IBusinessBase parent)
         {
-            DataPortal_Fetch(atomGroupId);
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var atomGroupData = (from a in ctx.DbContext.AtomGroup
+                                     where a.AtomGroupId == atomGroupId
+                                     select a).FirstOrDefault();
+                if (atomGroupData == null)
+                    throw new DataNotFoundException("AtomGroupId = " + atomGroupId.ToString());
+                using (BypassPropertyChecks)
+                {
+                    PopulateByEntity(atomGroupData);
+                    this.SetParent(parent);
+                    var predicateDataList = from p in ctx.DbContext.AtomGroupItem
+                                            where p.AtomGroupId == atomGroupId
+                                            orderby p.Priority
+                                            select p;
+                    if (Children == null)
+                        Children = PredicateList.NewPredicateList(this);
+                    foreach (var predicateData in predicateDataList)
+                    {
+                        //Load child data
+                        if (predicateData.AtomId != null)
+                        {
+                            //this.SetParent(parent);
+                            Children.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
+                        }
+                        else
+                        {
+                            //this.SetParent(parent);
+                            var atomGroupToAdd = DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId, this);
+                            atomGroupToAdd.PropertyChanged += (o, a) => { this.MarkDirty(); };
+                            Children.Add(atomGroupToAdd);
+                            //Children.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId, this));
+                        }
+                    }
+                }
+            }
+
+
+
+            //DataPortal_Fetch(atomGroupId);
             MarkAsChild();
         }
 

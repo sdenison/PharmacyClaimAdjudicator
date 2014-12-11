@@ -114,23 +114,15 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             var plans = PlanList.GetAll();
             Assert.IsTrue(plans.IsDirty == false);
 
-
             var implication = plans[0].AssignedRules[4].Implications[0];
-            //implication.Body.AddPredicate(Library.Core.Rules.Atom.NewAtom());
-            //implication.Body.AddAtom();//.AddPredicate(Library.Core.Rules.Atom.NewAtom());
 
             var child = (AtomGroup)implication.Body.Children[0];
-
-            //Testing AtomGroup add
-            //NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator;
-            //if (child.LogicalOperator ==  NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And)
-            //   logicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
-            //else
-            //    logicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
-            //child.AddAtomGroup(logicalOperator);
+            //implication.Body.Name = "asdf"; //this makes plans.IsDirty = true
 
             //Testing Atom add
             child.AddAtom();
+
+            //implication.Body.AddAtom(); //one level deep AddAtom works.
 
             Assert.IsTrue(plans.IsDirty == true);
 

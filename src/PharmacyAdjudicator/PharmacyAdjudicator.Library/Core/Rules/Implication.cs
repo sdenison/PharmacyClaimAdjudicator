@@ -281,7 +281,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             this.ImplicationId = implicationData.ImplicationId;
             this.Head = DataPortal.FetchChild<Atom>(implicationData.DeductionAtomId);
-            this.Body = DataPortal.FetchChild<AtomGroup>(implicationData.AtomGroupId);
+            //this.Body = DataPortal.FetchChild<AtomGroup>(implicationData.AtomGroupId);
+            this.Body = DataPortal.FetchChild<AtomGroup>(implicationData.AtomGroupId, this); //With this sent to fetch to set parent
 
             //this.Head = Atom.GetByAtomId(implicationData.DeductionAtomId);
             //this.Body = AtomGroup.GetById(implicationData.AtomGroupId);

@@ -56,7 +56,7 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             //atomGroup.AddPredicate(Atom.NewAtom());
             atomGroup.AddAtom();
 
-            var x = Model.AssignedRules[4].IsDirty;
+            //var x = Model.AssignedRules[4].IsDirty;
 
             //_selectedRule.Implications[0].Body.AddPredicate(Atom.NewAtom());
             //Model.Implications[0].AtomGroup.Members[0]

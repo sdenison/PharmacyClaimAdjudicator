@@ -6,7 +6,7 @@ using Csla;
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
     [Serializable]
-    public class PredicateList : BusinessListBase<PredicateList, Predicate>
+    public class PredicateList : BusinessListBase<PredicateList, IPredicate>
     {
         #region Authorization Rules
 
@@ -20,10 +20,10 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Factory Methods
 
-        //public static PredicateList NewPredicateList(AtomGroup parent)
-        //{
-        //    return DataPortal.Create<PredicateList>(parent);
-        //}
+        public static PredicateList NewPredicateList(AtomGroup parent)
+        {
+            return DataPortal.Create<PredicateList>(parent);
+        }
 
         //public static PredicateList GetByAtomGroupId(int atomGroupId)
         //{
@@ -37,53 +37,54 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Data Access
         
-        public IEnumerable<object> ToNxBre()
-        {
-            foreach (var item in this)
-            {
-                if (item.PredicateType == Predicate.PredicateTypeEnum.Atom)
-                    yield return item.Atom.ToNxBre();
-                else if (item.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
-                    yield return item.AtomGroup.ToNxBre();
-                else
-                    throw new Exception ("PredicateList may only contain Atoms and AtomGroups for ToNxBre() return correct values.");
-            }
-        }
+        //public IEnumerable<object> ToNxBre()
+        //{
+        //    foreach (var item in this)
+        //    {
+        //        if (item.PredicateType == Predicate.PredicateTypeEnum.Atom)
+        //            yield return item.Atom.ToNxBre();
+        //        else if (item.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
+        //            yield return item.AtomGroup.ToNxBre();
+        //        else
+        //            throw new Exception ("PredicateList may only contain Atoms and AtomGroups for ToNxBre() return correct values.");
+        //    }
+        //}
 
-        internal void Add(AtomGroup parent, AtomGroup atomGroup)
-        {
-            this.Add(DataPortal.CreateChild<Predicate>(parent, atomGroup));
-        }
+        //internal void Add(AtomGroup parent, AtomGroup atomGroup)
+        //{
+        //    this.Add(DataPortal.CreateChild<Predicate>(parent, atomGroup));
+        //}
 
-        internal void Add(AtomGroup parent, Atom atom)
-        {
-            this.Add(DataPortal.CreateChild<Predicate>(parent, atom));
-        }
+        //internal void Add(AtomGroup parent, Atom atom)
+        //{
+        //    this.Add(DataPortal.CreateChild<Predicate>(parent, atom));
+        //}
 
-        private AtomGroup _parent;
+        //private AtomGroup _parent;
 
-        protected void Child_Create(AtomGroup parent)
-        {
-            //Every predicate list must be a child of an AtomGroup.
-            _parent = parent;
-        }
+        //protected void Child_Create(AtomGroup parent)
+        //{
+        //    //Every predicate list must be a child of an AtomGroup.
+        //    _parent = parent;
+        //}
 
-        private void Child_Fetch(IEnumerable<DataAccess.AtomGroupItem> atomGroupItems)
-        {
-            var rlce = RaiseListChangedEvents;
-            RaiseListChangedEvents = false;
-            foreach (var atomGroupItem in atomGroupItems)
-                Add(DataPortal.FetchChild<Predicate>(atomGroupItem));
-            RaiseListChangedEvents = rlce;
-        }
 
-        protected override void DataPortal_Update()
-        {
-            foreach (var item in this)
-            {
-                item.Save();
-            }
-        }
+        //private void Child_Fetch(IEnumerable<DataAccess.AtomGroupItem> atomGroupItems)
+        //{
+        //    var rlce = RaiseListChangedEvents;
+        //    RaiseListChangedEvents = false;
+        //    foreach (var atomGroupItem in atomGroupItems)
+        //        Add(DataPortal.FetchChild<Predicate>(atomGroupItem));
+        //    RaiseListChangedEvents = rlce;
+        //}
+
+        //protected override void DataPortal_Update()
+        //{
+        //    foreach (var item in this)
+        //    {
+        //        item.Save();
+        //    }
+        //}
 
         #endregion
     }
