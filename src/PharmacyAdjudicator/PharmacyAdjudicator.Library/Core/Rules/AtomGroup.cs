@@ -42,31 +42,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             
         }
 
-        //public static readonly PropertyInfo<ObservableCollection<object>> ChildrenProperty = RegisterProperty<ObservableCollection<object>>(c => c.Children, RelationshipTypes.PrivateField);
-        //private ObservableCollection<object> _children = new ObservableCollection<object>(); 
-        //public ObservableCollection<object> Children
-        //{
-        //    get { return GetProperty(ChildrenProperty, _children); }
-        //    private set { _children = value; }
-        //}
-
-        //public static readonly PropertyInfo<ObservableCollection<IPredicate>> ChildrenProperty = RegisterProperty<ObservableCollection<IPredicate>>(c => c.Children, RelationshipTypes.PrivateField);
-        //private ObservableCollection<IPredicate> _children = new ObservableCollection<IPredicate>();
-        //public ObservableCollection<IPredicate> Children
-        //{
-        //    get { return GetProperty(ChildrenProperty, _children); }
-        //    private set { _children = value; }
-        //}
-
-        public static readonly PropertyInfo<PredicateList> ChildrenProperty = RegisterProperty<PredicateList>(c => c.Children, RelationshipTypes.PrivateField);
-        private PredicateList _children = ChildrenProperty.DefaultValue;
+        public static readonly PropertyInfo<PredicateList> ChildrenProperty = RegisterProperty<PredicateList>(c => c.Children, RelationshipTypes.Child); // | RelationshipTypes.LazyLoad);
         public PredicateList Children
         {
-            get { return GetProperty(ChildrenProperty, _children); }
-            private set { _children = value; }
+            get
+            {
+                if (!FieldManager.FieldExists(ChildrenProperty))
+                    Children = DataPortal.FetchChild<PredicateList>(this);
+                return GetProperty(ChildrenProperty);
+            }
+            private set
+            {
+                LoadProperty(ChildrenProperty, value);
+                OnPropertyChanged(ChildrenProperty);
+            }
         }
-
-
 
         /// <summary>
         /// Will map to ViewModel.AddNewCriteriaItem
@@ -75,24 +65,20 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         public void AddPredicate(Atom predicate)
         {
             //this.Predicates.Add(this, predicate);
+            predicate.MarkAsChild();
             this.Children.Add(predicate);
             //this.Children.Add(DataPortal.CreateChild<Atom>());
             MarkDirty();
-            
+
         }
 
-        public void AddAtom()
+        public Atom AddAtom()
         {
-            this.Children.Add(DataPortal.CreateChild<Atom>());
+            var atomToAdd = DataPortal.CreateChild<Atom>();
+            this.Children.Add(atomToAdd);
             OnPropertyChanged(ChildrenProperty);
-            //var x = this.Parent;
-            //var y = (IBusinessBase)this.Parent;
-            //y.
-            
-            
             MarkDirty();
-            //this.Parent
-            //parent.PropertyChanged += (o, e) => { this. }; //.IsDirty=true;//.PropertyChanged();
+            return atomToAdd;
         }
 
         /// <summary>
@@ -103,18 +89,19 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             if (this.LogicalOperator == predicate.LogicalOperator)
                 throw new Exception("Child logical operator cannot be the same as parent logical operator.");
+            predicate.MarkAsChild();
             this.Children.Add(predicate);
             MarkDirty();
         }
 
-        public void AddAtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator)
+        public AtomGroup AddAtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator)
         {
             //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
             var child = DataPortal.CreateChild<AtomGroup>();
             child.LogicalOperator = logicalOperator;
             this.Children.Add(child);
-            //this.Children.Add(DataPortal.CreateChild<AtomGroup>(this));
             MarkDirty();
+            return child;
         }
 
         public List<string> ComplexFactsUsed()
@@ -144,7 +131,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             List<object> predicates = new List<object>();
             foreach (var child in Children)
             {
-                //predicates.Add(child.ToNxBre());
                 if (child is Atom)
                 {
                     var predicate = (Atom)child;
@@ -225,6 +211,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         protected override void DataPortal_Create()
         {
             this.AtomGroupId = Guid.NewGuid();
+            //this.Children = PredicateList.NewPredicateList(this);
+            //this.Children = DataPortal.CreateChild<PredicateList>();
             base.DataPortal_Create();
         }
 
@@ -241,24 +229,42 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 using (BypassPropertyChecks)
                 {
                     PopulateByEntity(atomGroupData);
-                    var predicateDataList = from p in ctx.DbContext.AtomGroupItem
-                                        where p.AtomGroupId == atomGroupId
-                                        orderby p.Priority
-                                        select p;
+                    //var predicateDataList = from p in ctx.DbContext.AtomGroupItem
+                    //                    where p.AtomGroupId == atomGroupId
+                    //                    orderby p.Priority
+                    //                    select p;
 
-                    foreach (var predicateData in predicateDataList)
-                    {
-                        if (predicateData.AtomId != null)
-                        {
-                            //Children.Add(DataPortal.Fetch<Atom>(predicateData.AtomId));
-                            Children.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
-                        }
-                        else
-                        {
-                            //Children.Add(DataPortal.Fetch<AtomGroup>(predicateData.ContainedAtomGroupId));
-                            Children.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId));
-                        }
-                    }
+                    //foreach (var predicateData in predicateDataList)
+                    //{
+                    //    if (predicateData.AtomId != null)
+                    //    {
+                    //        //Children.Add(DataPortal.Fetch<Atom>(predicateData.AtomId));
+                    //        Children.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
+                    //    }
+                    //    else
+                    //    {
+                    //        //Children.Add(DataPortal.Fetch<AtomGroup>(predicateData.ContainedAtomGroupId));
+                    //        Children.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId));
+                    //    }
+                    //}
+                }
+            }
+        }
+
+        private void Child_Fetch(Guid atomGroupId)
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var atomGroupData = (from a in ctx.DbContext.AtomGroup
+                                     where a.AtomGroupId == atomGroupId
+                                     select a).FirstOrDefault();
+
+                if (atomGroupData == null)
+                    throw new DataNotFoundException("AtomGroupId = " + atomGroupId.ToString());
+                using (BypassPropertyChecks)
+                {
+                    PopulateByEntity(atomGroupData);
+                    //var children = this.Children; //called to so we can eagerly load the children
                 }
             }
         }
@@ -276,29 +282,29 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 {
                     PopulateByEntity(atomGroupData);
                     this.SetParent(parent);
-                    var predicateDataList = from p in ctx.DbContext.AtomGroupItem
-                                            where p.AtomGroupId == atomGroupId
-                                            orderby p.Priority
-                                            select p;
-                    if (Children == null)
-                        Children = PredicateList.NewPredicateList(this);
-                    foreach (var predicateData in predicateDataList)
-                    {
-                        //Load child data
-                        if (predicateData.AtomId != null)
-                        {
-                            //this.SetParent(parent);
-                            Children.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
-                        }
-                        else
-                        {
-                            //this.SetParent(parent);
-                            var atomGroupToAdd = DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId, this);
-                            atomGroupToAdd.PropertyChanged += (o, a) => { this.MarkDirty(); };
-                            Children.Add(atomGroupToAdd);
-                            //Children.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId, this));
-                        }
-                    }
+                    //var predicateDataList = from p in ctx.DbContext.AtomGroupItem
+                    //                        where p.AtomGroupId == atomGroupId
+                    //                        orderby p.Priority
+                    //                        select p;
+                    //if (Children == null)
+                    //    Children = PredicateList.NewPredicateList(this);
+                    //foreach (var predicateData in predicateDataList)
+                    //{
+                    //    //Load child data
+                    //    if (predicateData.AtomId != null)
+                    //    {
+                    //        //this.SetParent(parent);
+                    //        Children.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
+                    //    }
+                    //    else
+                    //    {
+                    //        //this.SetParent(parent);
+                    //        var atomGroupToAdd = DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId, this);
+                    //        atomGroupToAdd.PropertyChanged += (o, a) => { this.MarkDirty(); };
+                    //        Children.Add(atomGroupToAdd);
+                    //        //Children.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId, this));
+                    //    }
+                    //}
                 }
             }
 
@@ -308,17 +314,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             MarkAsChild();
         }
 
-        private void SaveChildren()
-        {
-            foreach (var child in Children)
-            {
-                var savableChild = (IBusinessBase)child;
-                if (savableChild.IsSavable)
-                {
-                    savableChild.Save();
-                }
-            }
-        }
+        //private void SaveChildren()
+        //{
+        //    foreach (var child in Children)
+        //    {
+        //        var savableChild = (IBusinessBase)child;
+        //        if (savableChild.IsSavable)
+        //        {
+        //            savableChild.Save();
+        //        }
+        //    }
+        //}
 
         protected override void DataPortal_Insert()
         {
@@ -326,12 +332,32 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var atomGroupData = CreateEntity();
                 ctx.DbContext.AtomGroup.Add(atomGroupData);
-                SaveChildren();
+
                 FieldManager.UpdateChildren(this);
+                //foreach (var child in this.Children)
+                //{
+                //    var atomGroupItem = new DataAccess.AtomGroupItem();
+                //    atomGroupItem.RecordId = Guid.NewGuid();
+                //    atomGroupItem.AtomGroupId = this.AtomGroupId;
+                //    var atom = (Atom) child;
+                //    if (atom != null)
+                //        atomGroupItem.AtomId = atom.AtomId;
+                //    else
+                //    {
+                //        var atomGroup = (AtomGroup)child;
+                //        if (atomGroup != null)
+                //            atomGroupItem.ContainedAtomGroupId = atomGroup.AtomGroupId;
+                //        else
+                //            throw new Exception("AtomGroup.child must be of type Atom or AtomGroup");
+                //    }
+                //    atomGroupItem.Priority = 0;
+                //    ctx.DbContext.AtomGroupItem.Add(atomGroupItem);
+                //}
                 ctx.DbContext.SaveChanges();
-                //this.AtomGroupId = atomGroupData.AtomGroupId;
             }
         }
+
+
 
         protected void Child_Insert()
         {
@@ -339,7 +365,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var atomGroupData = CreateEntity();
                 ctx.DbContext.AtomGroup.Add(atomGroupData);
-                SaveChildren();
+                //SaveChildren();
                 FieldManager.UpdateChildren(this);
                 //ctx.DbContext.SaveChanges();
                 //this.AtomGroupId = atomGroupData.AtomGroupId;
@@ -350,14 +376,16 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                var atomGroupData = (from a in ctx.DbContext.AtomGroup
-                                     where a.AtomGroupId == this.AtomGroupId
-                                     select a).FirstOrDefault();
-                atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
-                atomGroupData.Name = this.Name;
-                SaveChildren();
-                FieldManager.UpdateChildren(this);
+                Child_Update();
                 ctx.DbContext.SaveChanges();
+                //var atomGroupData = (from a in ctx.DbContext.AtomGroup
+                //                     where a.AtomGroupId == this.AtomGroupId
+                //                     select a).FirstOrDefault();
+                //atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
+                //atomGroupData.Name = this.Name;
+                ////SaveChildren();
+                //FieldManager.UpdateChildren(this);
+                //ctx.DbContext.SaveChanges();
             }
         }
 
@@ -370,7 +398,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                      select a).FirstOrDefault();
                 atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
                 atomGroupData.Name = this.Name;
-                SaveChildren();
+                //SaveChildren();
                 FieldManager.UpdateChildren(this);
                 //ctx.DbContext.SaveChanges();
             }

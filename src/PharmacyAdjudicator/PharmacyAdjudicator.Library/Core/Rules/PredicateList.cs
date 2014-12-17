@@ -78,14 +78,88 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         //    RaiseListChangedEvents = rlce;
         //}
 
-        //protected override void DataPortal_Update()
-        //{
-        //    foreach (var item in this)
-        //    {
-        //        item.Save();
-        //    }
-        //}
+        private void Child_Fetch(AtomGroup parent)
+        {
+            var rlce = RaiseListChangedEvents;
+            RaiseListChangedEvents = false;
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var predicateDataList =  from ag in ctx.DbContext.AtomGroupItem
+                                         where ag.AtomGroupId == parent.AtomGroupId
+                                         select ag;
+                foreach (var predicateData in predicateDataList)
+                {
+                    if (predicateData.AtomId != null)
+                    {
+                        this.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
+                    }
+                    else
+                    {
+                        this.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId));  
+                    }
+                }
+            }
+            RaiseListChangedEvents = rlce;
+        }
 
+        protected override void DataPortal_Update()
+        {
+            foreach (var item in this)
+            {
+                item.Save();
+            }
+        }
+
+//        protected override void Child_Update(params object[] parameters)
+//{
+//     base.Child_Update(parameters);
+//}
+
+        protected void Child_Update(AtomGroup parent)
+        {
+            //Takes care of saving AtomGroups and Atoms
+            base.Child_Update(this);
+            //Takes care of the record in AtomGroupItem
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var atomGroupItems = (from agi in ctx.DbContext.AtomGroupItem
+                                      where agi.AtomGroupId == parent.AtomGroupId
+                                      select agi).ToList();
+                foreach (var item in this)
+                {
+                    //var atom = (Atom) item;
+                    var atom = item as Atom;
+                    if (atom != null)
+                    {
+                        var atomData = atomGroupItems.FirstOrDefault(agi => agi.AtomId == atom.AtomId);
+                        if (atomData == null)
+                        {
+                            atomData = new DataAccess.AtomGroupItem();
+                            atomData.RecordId = Guid.NewGuid();
+                            atomData.AtomGroupId = parent.AtomGroupId;
+                            atomData.AtomId = atom.AtomId;
+                            atomData.Priority = 0;
+                            ctx.DbContext.AtomGroupItem.Add(atomData);
+                        }
+                    }
+                    //var atomGroup = (AtomGroup) item;
+                    var atomGroup = item as AtomGroup;
+                    if (atomGroup != null)
+                    {
+                        var atomData = atomGroupItems.FirstOrDefault(agi => agi.ContainedAtomGroupId == atomGroup.AtomGroupId);
+                        if (atomData == null)
+                        {
+                            atomData = new DataAccess.AtomGroupItem();
+                            atomData.RecordId = Guid.NewGuid();
+                            atomData.AtomGroupId = parent.AtomGroupId;
+                            atomData.ContainedAtomGroupId = atomGroup.AtomGroupId;
+                            atomData.Priority = 0;
+                            ctx.DbContext.AtomGroupItem.Add(atomData);
+                        }
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

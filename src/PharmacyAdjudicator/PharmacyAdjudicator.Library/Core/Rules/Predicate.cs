@@ -51,10 +51,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 if (Atom != null)
                     return PredicateTypeEnum.Atom;
-                else if (AtomGroup != null)
+                if (AtomGroup != null)
                     return PredicateTypeEnum.AtomGroup;
-                else
-                    return PredicateTypeEnum.NotSet;
+                throw new Exception("PredicateType has unknown value");
             }
             private set { throw new Exception("Not supported");  }
         }
@@ -126,31 +125,35 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             base.DataPortal_Create();
         }
 
-        private void Child_Create(AtomGroup parent)
+        private void Child_Create(AtomGroup parent, PredicateTypeEnum predicateType)
         {
             using (BypassPropertyChecks)
             {
                 this._RecordId = Guid.NewGuid();
+                if (predicateType == PredicateTypeEnum.Atom)
+                    this.Atom = DataPortal.CreateChild<Atom>();
+                else
+                    this.AtomGroup = DataPortal.CreateChild<AtomGroup>();
                 this.AtomGroupId = parent.AtomGroupId;
             }
             base.Child_Create();
         }
 
-        private void Child_Create(AtomGroup parent, AtomGroup item)
-        {
-            this._RecordId = Guid.NewGuid();
-            this.AtomGroupId = parent.AtomGroupId;
-            this.AtomGroup = item;
-            base.Child_Create();
-        }
+        //private void Child_Create(AtomGroup parent, AtomGroup item)
+        //{
+        //    this._RecordId = Guid.NewGuid();
+        //    this.AtomGroupId = parent.AtomGroupId;
+        //    this.AtomGroup = item;
+        //    base.Child_Create();
+        //}
 
-        private void Child_Create(AtomGroup parent, Atom item)
-        {
-            this._RecordId = Guid.NewGuid();
-            this.AtomGroupId = parent.AtomGroupId;
-            this.Atom = item;
-            base.Child_Create();
-        }
+        //private void Child_Create(AtomGroup parent, Atom item)
+        //{
+        //    this._RecordId = Guid.NewGuid();
+        //    this.AtomGroupId = parent.AtomGroupId;
+        //    this.Atom = item;
+        //    base.Child_Create();
+        //}
 
         //private void Child_Fetch(int recordId)
         //{
@@ -283,7 +286,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 if (atomGroupItemData.AtomId.HasValue)
                 {
-                    this.Atom = Core.Rules.Atom.GetByAtomId(atomGroupItemData.AtomId.Value);
+                    //this.Atom = Core.Rules.Atom.GetByAtomId(atomGroupItemData.AtomId.Value);
+                    this.Atom = DataPortal.FetchChild<Atom>(atomGroupItemData.AtomId.Value);
                     //this.PredicateType = PredicateTypeEnum.Atom;
                 }
             }
@@ -291,7 +295,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 if (atomGroupItemData.ContainedAtomGroupId.HasValue)
                 {
-                    this.AtomGroup = Core.Rules.AtomGroup.GetById(atomGroupItemData.ContainedAtomGroupId.Value);
+                    //this.AtomGroup = Core.Rules.AtomGroup.GetById(atomGroupItemData.ContainedAtomGroupId.Value);
+                    this.AtomGroup = DataPortal.FetchChild<AtomGroup>(atomGroupItemData.ContainedAtomGroupId.Value);
                     //this.PredicateType = PredicateTypeEnum.AtomGroup;
                 }
             }
@@ -317,8 +322,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         public enum PredicateTypeEnum
         {
             AtomGroup,
-            Atom,
-            NotSet
+            Atom
         }
 
         #endregion

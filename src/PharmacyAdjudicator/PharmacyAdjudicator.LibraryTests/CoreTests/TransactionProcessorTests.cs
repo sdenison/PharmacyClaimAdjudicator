@@ -204,47 +204,67 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
 
         }
 
+        //[TestMethod]
+        //public void AtomGroup_should_save_children_no_matter_how_they_were_created()
+        //{
+        //    var drugClassAtom = Library.Core.Rules.Atom.NewAtom();
+        //    drugClassAtom.Class = "Drug";
+        //    drugClassAtom.Property = "VaClass";
+        //    drugClassAtom.Value = "PENICILLINS,AMINO DERIVATIVES";
+        //    drugClassAtom = drugClassAtom.Save();
+
+        //    //Testing operations
+        //    var atom3 = Library.Core.Rules.Atom.NewAtom();
+        //    atom3.Class = "Drug";
+        //    atom3.Property = "Ndc";
+        //    atom3.Value = "9999*";
+        //    atom3.Operation = "Matches";
+
+        //    var pennicillinsOrNdcStartsWith = Library.Core.Rules.AtomGroup.NewAtomGroup();
+        //    pennicillinsOrNdcStartsWith.LogicalOperator = AtomGroup.LogicalOperator.Or;
+        //    pennicillinsOrNdcStartsWith.AddPredicate(drugClassAtom);
+        //    pennicillinsOrNdcStartsWith.AddPredicate(atom3);
+
+        //    //Should throw an exception when atom3 has not yet been saved.
+        //    try
+        //    {
+        //        var atom3Clone = Library.Core.Rules.Atom.GetByAtomId(atom3.AtomId);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        if (ex.GetBaseException() is Library.DataNotFoundException)
+        //        {
+        //            Assert.IsTrue(true);
+        //        }
+        //        else
+        //            throw ex;
+        //    }
+
+        //    pennicillinsOrNdcStartsWith = pennicillinsOrNdcStartsWith.Save();
+
+        //    //atom3 is not in the database.
+        //    var atom3Clone2 = Library.Core.Rules.Atom.GetByAtomId(atom3.AtomId);
+        //    Assert.IsTrue(atom3Clone2 != null);
+        //}
+
         [TestMethod]
-        public void AtomGroup_should_save_children_no_matter_how_they_were_created()
+        public void AtomGroup_will_save_children_when_children_are_created_only_by_AtomGroups()
         {
-            var drugClassAtom = Library.Core.Rules.Atom.NewAtom();
+            var pennicillinsOrNdcStartsWith = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            pennicillinsOrNdcStartsWith.LogicalOperator = AtomGroup.LogicalOperator.Or;
+            var drugClassAtom = pennicillinsOrNdcStartsWith.AddAtom();
             drugClassAtom.Class = "Drug";
             drugClassAtom.Property = "VaClass";
             drugClassAtom.Value = "PENICILLINS,AMINO DERIVATIVES";
-            drugClassAtom = drugClassAtom.Save();
-
-            //Testing operations
-            var atom3 = Library.Core.Rules.Atom.NewAtom();
-            atom3.Class = "Drug";
-            atom3.Property = "Ndc";
-            atom3.Value = "9999*";
-            atom3.Operation = "Matches";
-
-            var pennicillinsOrNdcStartsWith = Library.Core.Rules.AtomGroup.NewAtomGroup();
-            pennicillinsOrNdcStartsWith.LogicalOperator = AtomGroup.LogicalOperator.Or;
-            pennicillinsOrNdcStartsWith.AddPredicate(drugClassAtom);
-            pennicillinsOrNdcStartsWith.AddPredicate(atom3);
-
-            //Should throw an exception when atom3 has not yet been saved.
-            try
-            {
-                var atom3Clone = Library.Core.Rules.Atom.GetByAtomId(atom3.AtomId);
-            }
-            catch(Exception ex)
-            {
-                if (ex.GetBaseException() is Library.DataNotFoundException)
-                {
-                    Assert.IsTrue(true);
-                }
-                else
-                    throw ex;
-            }
-
+            var ndcMatchesAtom = pennicillinsOrNdcStartsWith.AddAtom();
+            ndcMatchesAtom.Class = "Drug";
+            ndcMatchesAtom.Property = "Ndc";
+            ndcMatchesAtom.Value = "9999*";
+            ndcMatchesAtom.Operation = "Matches";
             pennicillinsOrNdcStartsWith = pennicillinsOrNdcStartsWith.Save();
 
-            //atom3 is not in the database.
-            var atom3Clone2 = Library.Core.Rules.Atom.GetByAtomId(atom3.AtomId);
-            Assert.IsTrue(atom3Clone2 != null);
+            var atomGroupFromDb = Library.Core.Rules.AtomGroup.GetById(pennicillinsOrNdcStartsWith.AtomGroupId);
+            Assert.IsTrue(pennicillinsOrNdcStartsWith.Children.Count == atomGroupFromDb.Children.Count);
         }
 
         [TestMethod]

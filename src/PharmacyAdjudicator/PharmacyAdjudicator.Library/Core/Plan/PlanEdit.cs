@@ -310,6 +310,7 @@ namespace PharmacyAdjudicator.Library.Core.Plan
                     var newPlanData = AssertNewFact();
                     PopulateByRow(newPlanData);
                 }
+                DataPortal.UpdateChild(AssignedRules);
                 FieldManager.UpdateChildren(this);
                 //ctx.DbContext.SaveChanges();
             }

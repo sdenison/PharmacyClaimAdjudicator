@@ -105,13 +105,13 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
 
             implication.Body = Library.Core.Rules.AtomGroup.NewAtomGroup();
             implication.Body.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
-            var atom1 = Library.Core.Rules.Atom.NewAtom();
+            var atom1 = implication.Body.AddAtom();//Library.Core.Rules.Atom.NewAtom();
             atom1.Class = "Transaction";
             atom1.Property = "Formulary";
             atom1.Value = "True";
-            implication.Body.AddPredicate(atom1);
+            //implication.Body.AddPredicate(atom1);
             rule.Implications.Add(implication);
-            var transFormularyTrue = Library.Core.Rules.AtomGroup.NewAtomGroup();
+            //var transFormularyTrue = Library.Core.Rules.AtomGroup.NewAtomGroup();
             SaveChild(rule);
             var ruleFromDb = Library.Core.Rules.Rule.GetByRuleId(rule.RuleId);
             Assert.IsNotNull(ruleFromDb);
@@ -133,11 +133,11 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
 
             implication.Body = Library.Core.Rules.AtomGroup.NewAtomGroup();
             implication.Body.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
-            var atom1 = Library.Core.Rules.Atom.NewAtom();
+            var atom1 = implication.Body.AddAtom(); // Library.Core.Rules.Atom.NewAtom();
             atom1.Class = "Transaction";
             atom1.Property = "Formulary";
             atom1.Value = "True";
-            implication.Body.AddPredicate(atom1);
+            //implication.Body.AddPredicate(atom1);
             rule.AddImplication(implication);
             var brokenRules = rule.GetBrokenRules();
             Assert.IsTrue(rule.BrokenRulesCollection.Count == 1); //The implication.Head.Property should be the same as rule.RuleType

@@ -103,6 +103,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { _RecordId = value; }
         }
 
+        public void MarkAsChild()
+        {
+            base.MarkAsChild();
+        }
+
         #endregion
 
         #region Business Rules
@@ -204,11 +209,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 atomIdentityData.RecordCreatedDateTime = DateTime.Now;
                 atomIdentityData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
                 ctx.DbContext.Atom.Add(atomIdentityData);
-               
                 //Add detail record
                 AssertNewFact();
-                //var atomData = CreateNewEntity();
-                //ctx.DbContext.AtomDetail.Add(atomData);
                 ctx.DbContext.SaveChanges();
             }
         }
@@ -223,11 +225,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 atomIdentityData.RecordCreatedDateTime = DateTime.Now;
                 atomIdentityData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
                 ctx.DbContext.Atom.Add(atomIdentityData);
-                var atomData = CreateNewEntity();
-
-                //Add detail record
+                //Add AtomDetail
                 AssertNewFact();
-                //ctx.DbContext.Atom.Add(atomData);
             }
         }
 
@@ -298,6 +297,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             using (BypassPropertyChecks)
             {
                 var atomData = CreateNewEntity();
+                this.RecordId = atomData.RecordId;
                 using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
                 {
                     ctx.DbContext.AtomDetail.Add(atomData);

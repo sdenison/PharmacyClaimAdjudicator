@@ -120,11 +120,13 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
             //implication.Body.Name = "asdf"; //this makes plans.IsDirty = true
 
             //Testing Atom add
-            child.AddAtom();
+            var addedAtom = child.AddAtom();
 
             //implication.Body.AddAtom(); //one level deep AddAtom works.
 
             Assert.IsTrue(plans.IsDirty == true);
+
+            var savedPlans = plans.Save();
 
             //plans[0].AssignedRules[0].Implications[0].Body.AddPredicate(Library.Core.Rules.Atom.NewAtom());
             //Assert.IsTrue(plans.IsDirty == true);
