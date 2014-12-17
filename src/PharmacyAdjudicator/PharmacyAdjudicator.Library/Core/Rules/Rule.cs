@@ -420,7 +420,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     ctx.DbContext.Entry(ruleData).State = EntityState.Modified;
                 }
                 FieldManager.UpdateChildren(this);
-                //UpdateAssignedImplications();
             }
         }
 

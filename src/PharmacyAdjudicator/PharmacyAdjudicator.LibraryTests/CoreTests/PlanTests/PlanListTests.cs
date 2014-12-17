@@ -126,7 +126,11 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.PlanTests
 
             Assert.IsTrue(plans.IsDirty == true);
 
-            var savedPlans = plans.Save();
+            plans = plans.Save();
+
+            var savedPlans = PlanList.GetAll();
+            var savedImplication = savedPlans[0].AssignedRules[4].Implications[0];
+            var savedChild = (AtomGroup)savedImplication.Body.Children[0]; 
 
             //plans[0].AssignedRules[0].Implications[0].Body.AddPredicate(Library.Core.Rules.Atom.NewAtom());
             //Assert.IsTrue(plans.IsDirty == true);

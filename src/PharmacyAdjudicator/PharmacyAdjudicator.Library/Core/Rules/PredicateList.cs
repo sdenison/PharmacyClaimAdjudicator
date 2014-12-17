@@ -118,7 +118,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         protected void Child_Update(AtomGroup parent)
         {
             //Takes care of saving AtomGroups and Atoms
-            base.Child_Update(this);
+            base.Child_Update();
             //Takes care of the record in AtomGroupItem
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {

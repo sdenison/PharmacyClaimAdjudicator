@@ -68,7 +68,13 @@ namespace PharmacyAdjudicator.Library.Core.Plan
             this.RaiseListChangedEvents = false;
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                Child_Update();
+                foreach (var plan in this)
+                {
+                    if ((plan.IsSavable) && (plan.IsChild))
+                    {
+                        DataPortal.UpdateChild(plan);
+                    }
+                }
                 ctx.DbContext.SaveChanges();
             }
             this.RaiseListChangedEvents = rlce;

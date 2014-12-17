@@ -215,7 +215,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-        protected void Child_Insert(object parent)
+        protected void Child_Insert()
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
@@ -325,7 +325,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             var atomData = new DataAccess.AtomDetail();
             atomData.RecordId = Guid.NewGuid();
             atomData.AtomId = this.AtomId;
-            atomData.Value = this.Value.ToString();
+            atomData.Value = this.Value != null ? this.Value.ToString() : "";// this.Value.ToString();
             atomData.Class = this.Class;
             atomData.Property = this.Property;
             atomData.Operation = this.Operation;
