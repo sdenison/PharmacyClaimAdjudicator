@@ -127,7 +127,7 @@ namespace PharmacyAdjudicator.Library.Core.Client
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 DataAccess.Client newClient = new DataAccess.Client();
-                this.ClientInternalId = Guid.NewGuid();
+                this.ClientInternalId = Utils.GuidHelper.GenerateComb();
                 newClient.ClientInternalId = this.ClientInternalId;
                 newClient.RecordCreatedDateTime = DateTime.Now;
                 newClient.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
@@ -215,7 +215,7 @@ namespace PharmacyAdjudicator.Library.Core.Client
         private DataAccess.ClientDetail CreateNewEntity()
         {
             var clientData = new DataAccess.ClientDetail();
-            clientData.RecordId = Guid.NewGuid();
+            clientData.RecordId = Utils.GuidHelper.GenerateComb();
             clientData.ClientId = this.ClientId;
             clientData.Name = this.Name;
             clientData.ClientInternalId = this.ClientInternalId;

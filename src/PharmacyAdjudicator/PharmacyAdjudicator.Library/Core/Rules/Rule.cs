@@ -324,14 +324,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         //{
         //    // TODO: load default values
         //    // omit this override if you have no defaults to set
-        //    this.RuleId = Guid.NewGuid();
+        //    this.RuleId = Utils.GuidHelper.GenerateComb();
         //    base.DataPortal_Create();
         //}
 
         [RunLocal]
         protected override void Child_Create()
         {
-            this.RuleId = Guid.NewGuid();
+            this.RuleId = Utils.GuidHelper.GenerateComb();
             base.Child_Create();
         }
 
@@ -432,7 +432,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     var implicationLinkData = ctx.DbContext.RuleImplication.FirstOrDefault(ri => ri.RuleId == this.RuleId && ri.ImplicationId == assignedImplication.ImplicationId);
                     if (implicationLinkData == null)
                     {
-                        implicationLinkData = new DataAccess.RuleImplication() { RecordId = Guid.NewGuid(), RuleId = this.RuleId, ImplicationId = assignedImplication.ImplicationId, Priority = "60" };
+                        implicationLinkData = new DataAccess.RuleImplication() { RecordId = Utils.GuidHelper.GenerateComb(), RuleId = this.RuleId, ImplicationId = assignedImplication.ImplicationId, Priority = "60" };
                         ctx.DbContext.RuleImplication.Add(implicationLinkData);
                     }
                 }

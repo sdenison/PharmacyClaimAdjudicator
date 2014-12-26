@@ -7,7 +7,7 @@ using Csla;
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
     [Serializable]
-    public class AtomGroup : BusinessBase<AtomGroup>, IPredicate
+    public class AtomGroup : BusinessBase<AtomGroup>, IPredicate, IEnumerable<AtomGroup>
     {
         #region Business Methods
 
@@ -81,6 +81,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return atomToAdd;
         }
 
+        //public Atom AddAtom(object param)
+        //{
+        //    return AddAtom();
+        //}
+
         /// <summary>
         /// Will map to ViewModel.AddNewCriteriaGroup
         /// </summary>
@@ -98,7 +103,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
             var child = DataPortal.CreateChild<AtomGroup>();
+            //var child = new AtomGroup();
             child.LogicalOperator = logicalOperator;
+            this.Children.Add(child);
+            MarkDirty();
+            return child;
+        }
+
+        public AtomGroup AddAtomGroup()
+        {
+            //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
+            var child = DataPortal.CreateChild<AtomGroup>();
+            if (this.LogicalOperator == NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And)
+                child.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
+            else
+                child.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
             this.Children.Add(child);
             MarkDirty();
             return child;
@@ -197,6 +216,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Data Access
 
+        [RunLocal]
+        protected override void Child_Create()
+        {
+            this.AtomGroupId = Utils.GuidHelper.GenerateComb();
+        }
+
         protected void Child_Update(Implication parent)
         {
             //base.DataPortal_Update();
@@ -212,7 +237,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         [RunLocal]
         protected override void DataPortal_Create()
         {
-            this.AtomGroupId = Guid.NewGuid();
+            this.AtomGroupId = Utils.GuidHelper.GenerateComb();
             //this.Children = PredicateList.NewPredicateList(this);
             //this.Children = DataPortal.CreateChild<PredicateList>();
             base.DataPortal_Create();
@@ -339,7 +364,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 //foreach (var child in this.Children)
                 //{
                 //    var atomGroupItem = new DataAccess.AtomGroupItem();
-                //    atomGroupItem.RecordId = Guid.NewGuid();
+                //    atomGroupItem.RecordId = Utils.GuidHelper.GenerateComb();
                 //    atomGroupItem.AtomGroupId = this.AtomGroupId;
                 //    var atom = (Atom) child;
                 //    if (atom != null)
@@ -449,5 +474,25 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         }
 
         #endregion
+
+        IEnumerator<AtomGroup> IEnumerable<AtomGroup>.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            //throw new NotImplementedException();
+            
+            //return new List<AtomGroup>();
+            //var x = new ReadOnlyCollection<AtomGroup>(
+            //    new AtomGroup[]
+            //    {
+            //        this
+            //    });
+            var returnValue = new List<AtomGroup>();
+            returnValue.Add(this);
+            return returnValue.GetEnumerator();
+        }
     }
 }

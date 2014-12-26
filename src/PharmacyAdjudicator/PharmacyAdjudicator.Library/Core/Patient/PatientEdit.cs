@@ -598,7 +598,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
         private DataAccess.PatientDetail CreateNewEntity()
         {
             var patientData = new DataAccess.PatientDetail();
-            patientData.RecordId = Guid.NewGuid();
+            patientData.RecordId = Utils.GuidHelper.GenerateComb();
             patientData.PatientId = this.PatientId;
             patientData.FirstName = this.FirstName;
             patientData.MiddleName = this.MiddleName;

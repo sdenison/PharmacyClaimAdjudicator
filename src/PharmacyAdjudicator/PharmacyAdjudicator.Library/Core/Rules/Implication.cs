@@ -124,7 +124,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         [RunLocal]
         protected override void Child_Create()
         {
-            this.ImplicationId = Guid.NewGuid();
+            this.ImplicationId = Utils.GuidHelper.GenerateComb();
             base.DataPortal_Create();
         }
 

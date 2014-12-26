@@ -83,7 +83,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
         [RunLocal]
         protected override void Child_Create()
         {
-            _recordId = Guid.NewGuid();
+            _recordId = Utils.GuidHelper.GenerateComb();
             this.Address = DataPortal.CreateChild<Address>();
             base.Child_Create();
         }
@@ -92,7 +92,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
         protected void Child_Create(long patientId)
         {
             this.PatientId = patientId;
-            _recordId = Guid.NewGuid();
+            _recordId = Utils.GuidHelper.GenerateComb();
             this.Address = DataPortal.CreateChild<Address>();
             base.Child_Create();
         }
@@ -116,7 +116,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
         private void Child_Update(PatientEdit parent)
         {
             RetractFact();
-            this._recordId = Guid.NewGuid();
+            this._recordId = Utils.GuidHelper.GenerateComb();
             AssertNewFact();
         }
 
@@ -145,7 +145,7 @@ namespace PharmacyAdjudicator.Library.Core.Patient
                 var patientAddressData = CreateEntity();
                 patientAddressData.Retraction = true;
                 patientAddressData.OriginalFactRecordId = _recordId;
-                _recordId = Guid.NewGuid();
+                _recordId = Utils.GuidHelper.GenerateComb();
                 patientAddressData.RecordId = _recordId;
                 using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
                 {

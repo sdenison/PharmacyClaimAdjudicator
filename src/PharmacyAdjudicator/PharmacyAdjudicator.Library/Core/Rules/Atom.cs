@@ -165,13 +165,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         [RunLocal]
         protected override void Child_Create()
         {
-            this.AtomId = Guid.NewGuid();
+            this.AtomId = Utils.GuidHelper.GenerateComb();
+            //this.AtomId = Guid.
             base.Child_Create();
         }
 
         protected override void DataPortal_Create()
         {
-            this.AtomId = Guid.NewGuid();
+            this.AtomId = Utils.GuidHelper.GenerateComb();
             base.DataPortal_Create();
         }
 
@@ -310,6 +311,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             this.RecordId = atomData.RecordId;
             this.AtomId = atomData.AtomId;
             this.Class = atomData.Class;
+            if (atomData.Property == "BasisOfReimbursement")
+            {
+                var x = "asdf";
+            }
+
             this.Property = atomData.Property;
             this.Operation = atomData.Operation;
 
@@ -323,7 +329,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private DataAccess.AtomDetail CreateNewEntity()
         {
             var atomData = new DataAccess.AtomDetail();
-            atomData.RecordId = Guid.NewGuid();
+            atomData.RecordId = Utils.GuidHelper.GenerateComb();
             atomData.AtomId = this.AtomId;
             atomData.Value = this.Value != null ? this.Value.ToString() : "";// this.Value.ToString();
             atomData.Class = this.Class;

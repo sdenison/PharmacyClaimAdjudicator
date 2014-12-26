@@ -55,7 +55,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                         select pr).FirstOrDefault();
                     planRuleData.Retraction = true;
                     planRuleData.OriginalFactRecordId = planRuleData.RecordId;
-                    planRuleData.RecordId = Guid.NewGuid();
+                    planRuleData.RecordId = Utils.GuidHelper.GenerateComb();
                     ctx.DbContext.PlanRule.Add(planRuleData);
                 }
                 foreach (var newRule in this)
@@ -74,7 +74,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private DataAccess.PlanRule CreateEntity(PlanEdit plan, Rule rule)
         {
             var entity = new DataAccess.PlanRule();
-            entity.RecordId = Guid.NewGuid();
+            entity.RecordId = Utils.GuidHelper.GenerateComb();
             entity.RuleId = rule.RuleId;
             entity.PlanInternalId = plan.PlanInternalId;
             entity.Retraction = false;

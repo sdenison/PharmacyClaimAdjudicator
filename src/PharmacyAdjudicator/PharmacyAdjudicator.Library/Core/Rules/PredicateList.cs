@@ -135,7 +135,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                         if (atomData == null)
                         {
                             atomData = new DataAccess.AtomGroupItem();
-                            atomData.RecordId = Guid.NewGuid();
+                            atomData.RecordId = Utils.GuidHelper.GenerateComb();
                             atomData.AtomGroupId = parent.AtomGroupId;
                             atomData.AtomId = atom.AtomId;
                             atomData.Priority = 0;
@@ -150,7 +150,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                         if (atomData == null)
                         {
                             atomData = new DataAccess.AtomGroupItem();
-                            atomData.RecordId = Guid.NewGuid();
+                            atomData.RecordId = Utils.GuidHelper.GenerateComb();
                             atomData.AtomGroupId = parent.AtomGroupId;
                             atomData.ContainedAtomGroupId = atomGroup.AtomGroupId;
                             atomData.Priority = 0;

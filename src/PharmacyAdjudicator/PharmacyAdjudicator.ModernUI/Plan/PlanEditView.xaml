@@ -98,6 +98,15 @@
                 </CheckBox>
             </StackPanel>
         </DataTemplate>
+        <DataTemplate x:Key="AtomEnumTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Class, Mode=TwoWay}"/>
+                <TextBlock Text="."/>
+                <TextBox Text="{Binding Property, Mode=TwoWay}"/>
+                <mui:BBCodeBlock>:</mui:BBCodeBlock>
+                <ComboBox SelectedValue="{Binding Value, Mode=TwoWay}" ItemsSource="{Binding ClrType, Converter={local:EnumToListConverter}}"/>
+            </StackPanel>
+        </DataTemplate>
         <ObjectDataProvider MethodName="GetValues"
                     ObjectType="{x:Type sys:Enum}"
                     x:Key="BasisOfReimbursementValues">
@@ -112,20 +121,13 @@
                 <ComboBox SelectedItem="{Binding DefaultValue, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource BasisOfReimbursementValues}}" />
             </StackPanel>
         </DataTemplate>
-        <DataTemplate x:Key="AtomEnumTemplate">
-            <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding RuleType, Mode=TwoWay}" />
-                <Label Content=" Has default value "/>
-                <ComboBox SelectedValue="{Binding Value, Mode=TwoWay}" ItemsSource="{Binding PropertyType, Converter={local:EnumToListConverter}}" />
-            </StackPanel>
-        </DataTemplate>
         <local:RuleDefaultTemplateSelector x:Key="RuleDefaultTemplateSelector" 
                                            BooleanTemplate="{StaticResource BooleanTemplate}"
                                            MoneyTemplate="{StaticResource MoneyTemplate}"
                                            BasisOfReimbursementTemplate="{StaticResource BasisOfReimbursementTemplate}"
                                            StringTemplate="{StaticResource StringTemplate}"/>
 
-        <local:AtomDefaultTemplateSelector x:Key="AtomDefaultTemplateSelector" 
+        <local:AtomDefaultTemplateSelector x:Key="atomDefaultTemplateSelector" 
                                            AtomBooleanTemplate="{StaticResource AtomBooleanTemplate}"
                                            AtomMoneyTemplate="{StaticResource AtomMoneyTemplate}"
                                            AtomEnumTemplate="{StaticResource AtomEnumTemplate}"
@@ -211,12 +213,26 @@
                                     <TextBox Text="{Binding Path=Head.Value}"/>
                                 </StackPanel>
                                 <Label Content="When"></Label>
-                                <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                                    <mui:BBCodeBlock BBCode="Logical Operator"/>
-                                    <TextBox Text="{Binding Path=Body.LogicalOperator}"></TextBox>
+                                <StackPanel Orientation="Horizontal" Margin="5,0,0,0" DataContext="{Binding Path=Body}">
+                                    <StackPanel.ContextMenu>
+                                        <!--<ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">-->
+                                        <ContextMenu>
+                                            <MenuItem Header="Add New List..." cal:Message.Attach="AddAtomGroup()" />
+                                            <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom()" />
+                                            <MenuItem Header="Remove..."/>
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                    <!--<mui:BBCodeBlock BBCode="Logical Operator"/>
+                                    --><!--<TextBox Text="{Binding Path=Body.LogicalOperator}"></TextBox>--><!--
+                                    <TextBox Text="{Binding Path=LogicalOperator}"></TextBox>-->
+
+                                    <TextBlock Text="List type: ">
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding LogicalOperator}"/>
                                 </StackPanel>
                                 <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}">-->
-                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}" ItemTemplateSelector="{StaticResource AtomDefaultTemplateSelector}" >
+                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" ItemTemplateSelector="{StaticResource atomDefaultTemplateSelector}" >
+                                    <!--<TextBox Text="{Binding Path=LogicalOperator}"></TextBox>-->
                                     <TreeView.Resources>
                                         <!--<ContextMenu x:Key="AtomGroupContextMenu" StaysOpen="True">
                                             <MenuItem Header="Add..."/>

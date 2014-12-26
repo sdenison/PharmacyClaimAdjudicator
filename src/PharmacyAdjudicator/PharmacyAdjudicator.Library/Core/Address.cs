@@ -114,7 +114,7 @@ namespace PharmacyAdjudicator.Library.Core
 
         protected override void Child_Create()
         {
-            this.AddressId = Guid.NewGuid();
+            this.AddressId = Utils.GuidHelper.GenerateComb();
             base.Child_Create();
         }
 
@@ -138,7 +138,7 @@ namespace PharmacyAdjudicator.Library.Core
             //Address table is insert only so an update is really a table insert.
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
-                this.AddressId = Guid.NewGuid();
+                this.AddressId = Utils.GuidHelper.GenerateComb();
                 var addressData = CreateNewEntity();
                 ctx.DbContext.Address.Add(addressData);
             }

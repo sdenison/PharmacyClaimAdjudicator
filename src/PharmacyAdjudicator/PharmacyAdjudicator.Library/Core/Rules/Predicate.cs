@@ -120,7 +120,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         [RunLocal]
         protected void DataPortal_Create(AtomGroup parent)
         {
-            this._RecordId = Guid.NewGuid();
+            this._RecordId = Utils.GuidHelper.GenerateComb();
             this.AtomGroupId = parent.AtomGroupId;
             base.DataPortal_Create();
         }
@@ -129,7 +129,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             using (BypassPropertyChecks)
             {
-                this._RecordId = Guid.NewGuid();
+                this._RecordId = Utils.GuidHelper.GenerateComb();
                 if (predicateType == PredicateTypeEnum.Atom)
                     this.Atom = DataPortal.CreateChild<Atom>();
                 else
@@ -141,7 +141,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         //private void Child_Create(AtomGroup parent, AtomGroup item)
         //{
-        //    this._RecordId = Guid.NewGuid();
+        //    this._RecordId = Utils.GuidHelper.GenerateComb();
         //    this.AtomGroupId = parent.AtomGroupId;
         //    this.AtomGroup = item;
         //    base.Child_Create();
@@ -149,7 +149,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         //private void Child_Create(AtomGroup parent, Atom item)
         //{
-        //    this._RecordId = Guid.NewGuid();
+        //    this._RecordId = Utils.GuidHelper.GenerateComb();
         //    this.AtomGroupId = parent.AtomGroupId;
         //    this.Atom = item;
         //    base.Child_Create();

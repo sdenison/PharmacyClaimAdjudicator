@@ -18,10 +18,7 @@ namespace PharmacyAdjudicator.ModernUI.Plan
         {
             Type type = value as Type;
             if (type != null && type.IsEnum)
-            {
-                return Enum.GetNames(type);
-            }
-
+                return Enum.GetValues(type);
             return null;
         }
 

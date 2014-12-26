@@ -181,7 +181,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
             //No need to go to the database yet since all our Id's are Guids.
             this.ClientId = criteria.ClientId;
             this.GroupId = criteria.GroupId;
-            this.GroupInternalId = Guid.NewGuid();
+            this.GroupInternalId = Utils.GuidHelper.GenerateComb();
             //Assigns a client to the Group with default effective and expiration dates
             var clientAssignments = this.ClientAssignments;
             clientAssignments.Add(ClientAssignment.NewAssignment(this.ClientId, DateTime.Now, new DateTime(9999, 12, 31)));
@@ -194,7 +194,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
         //    //Make sure the client exists
         //    this.ClientId = criteria.ClientId;
         //    this.GroupId = criteria.GroupId;
-        //    this.GroupInternalId = Guid.NewGuid();
+        //    this.GroupInternalId = Utils.GuidHelper.GenerateComb();
         //    base.DataPortal_Create();
         //}
 
@@ -234,7 +234,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
             {
                 //Creates record in Group table
                 DataAccess.Group newGroup = new DataAccess.Group();
-                this.GroupInternalId = Guid.NewGuid();
+                this.GroupInternalId = Utils.GuidHelper.GenerateComb();
                 newGroup.GroupInternalId = this.GroupInternalId;
                 newGroup.RecordCreatedDateTime = DateTime.Now;
                 newGroup.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
@@ -259,7 +259,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
                 if (this.IsSelfDirty)
                 {
                     RetractFact();
-                    this.RecordId = Guid.NewGuid();
+                    this.RecordId = Utils.GuidHelper.GenerateComb();
                     AssertNewFact();
                 }
                 FieldManager.UpdateChildren(this);
@@ -304,7 +304,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
         private DataAccess.GroupDetail CreateNewEntity()
         {
             var groupDetail = new DataAccess.GroupDetail();
-            groupDetail.RecordId = Guid.NewGuid();
+            groupDetail.RecordId = Utils.GuidHelper.GenerateComb();
             groupDetail.GroupId = this.GroupId.ToUpper();
             groupDetail.GroupInternalId = this.GroupInternalId;
             groupDetail.Name = this.Name.ToUpper();

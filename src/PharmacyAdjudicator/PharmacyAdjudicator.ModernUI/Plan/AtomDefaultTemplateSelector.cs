@@ -27,8 +27,9 @@ namespace PharmacyAdjudicator.ModernUI.Plan
                     return AtomStringTemplate;
                 if (atomItem.ClrType.Equals(typeof(decimal)))
                     return AtomMoneyTemplate;
-                if (atomItem.ClrType.Equals(typeof(Enum)))
+                if (atomItem.ClrType.IsEnum)
                     return AtomEnumTemplate;
+                //if (atomItem.ClrType.Equals(typeof(Library.Core.Enums.BasisOfReimbursement)))
                 //if (atomItem.ClrType.Equals(typeof(Library.Core.Enums.BasisOfReimbursement)))
                 //    return BasisOfReimbursementTemplate;
             }

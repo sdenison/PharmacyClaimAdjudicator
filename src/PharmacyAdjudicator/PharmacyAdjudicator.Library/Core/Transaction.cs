@@ -243,7 +243,7 @@ namespace PharmacyAdjudicator.Library.Core
 
         public Transaction(Drug drug)
         {
-            this.Id = Guid.NewGuid().ToString();
+            this.Id = Utils.GuidHelper.GenerateComb().ToString();
             this.Drug = drug;
             this.Formulary = false;
             MarkOld();
@@ -251,7 +251,7 @@ namespace PharmacyAdjudicator.Library.Core
 
         public Transaction(Drug drug, PatientEdit patient, D0.Submitted.ClaimBilling claim)
         {
-            this.Id = Guid.NewGuid().ToString();
+            this.Id = Utils.GuidHelper.GenerateComb().ToString();
             this.AuthorizationNumber = Transaction.AssignNewAuthorizationNumber();
             this.Drug = drug;
             this.Formulary = false;
@@ -317,7 +317,7 @@ namespace PharmacyAdjudicator.Library.Core
         {
             // omit this override if you have no defaults to set
             base.DataPortal_Create();
-            Id = Guid.NewGuid().ToString();
+            Id = Utils.GuidHelper.GenerateComb().ToString();
         }
 
         private void DataPortal_Fetch(int criteria)

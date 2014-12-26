@@ -175,8 +175,8 @@ namespace PharmacyAdjudicator.Library.Core.Plan
         protected void DataPortal_Create(string planId)
         {
             this.PlanId = planId;
-            this.RecordId = Guid.NewGuid();
-            this.PlanInternalId = Guid.NewGuid();
+            this.RecordId = Utils.GuidHelper.GenerateComb();
+            this.PlanInternalId = Utils.GuidHelper.GenerateComb();
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 DataAccess.Plan newPlan = new DataAccess.Plan();
@@ -202,7 +202,7 @@ namespace PharmacyAdjudicator.Library.Core.Plan
 
         protected void Child_Create()
         {
-            //this.RecordId = Guid.NewGuid();
+            //this.RecordId = Utils.GuidHelper.GenerateComb();
             DataPortal_Create("NEW-PLAN-ID");
             base.Child_Create();
         }
@@ -343,7 +343,7 @@ namespace PharmacyAdjudicator.Library.Core.Plan
                 var originalRecordId = this.RecordId;
                 var planData = CreateNewEntity();
                 planData.Retraction = true;
-                planData.RecordId = Guid.NewGuid();
+                planData.RecordId = Utils.GuidHelper.GenerateComb();
                 planData.OriginalFactRecordId = originalRecordId;
                 using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
                 {
@@ -356,7 +356,7 @@ namespace PharmacyAdjudicator.Library.Core.Plan
         {
             var planData = CreateNewEntity();
             if (!this.IsNew)
-                planData.RecordId = Guid.NewGuid();
+                planData.RecordId = Utils.GuidHelper.GenerateComb();
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 ctx.DbContext.PlanDetail.Add(planData);

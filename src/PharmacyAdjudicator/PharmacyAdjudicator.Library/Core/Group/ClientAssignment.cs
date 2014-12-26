@@ -217,7 +217,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
 
             this.EffectiveDate = criteria.EffectiveDate.Date;
             this.ExpirationDate = criteria.ExpirationDate.Date;
-            this.RecordId = Guid.NewGuid();
+            this.RecordId = Utils.GuidHelper.GenerateComb();
             base.Child_Create();
         }
 
@@ -240,7 +240,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
             //var client = Client.ClientInfo.GetByClientId(this.ClientId);
             //this.ClientInternalId = client.ClientInternalId;
             RetractFact();
-            this.RecordId = Guid.NewGuid();
+            this.RecordId = Utils.GuidHelper.GenerateComb();
             AssertNewFact();
         }
 
@@ -255,7 +255,7 @@ namespace PharmacyAdjudicator.Library.Core.Group
             var clientGroupData = CreateNewEntity();
             clientGroupData.Retraction = true;
             clientGroupData.OriginalFactRecordId = originalRecordId;
-            clientGroupData.RecordId = Guid.NewGuid();
+            clientGroupData.RecordId = Utils.GuidHelper.GenerateComb();
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 ctx.DbContext.ClientGroup.Add(clientGroupData);
