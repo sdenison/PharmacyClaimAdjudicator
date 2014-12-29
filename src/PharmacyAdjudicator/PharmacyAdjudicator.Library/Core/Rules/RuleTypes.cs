@@ -35,5 +35,32 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             returnValue.Sort();
             return returnValue;
         }
+
+        public static List<string> GetFactProperties(Type type)
+        {
+            var returnValue = new List<string>();
+            List<PropertyInfo> properties = new List<PropertyInfo>(type.GetProperties());
+            foreach (var property in properties)
+            {
+                if (Attribute.IsDefined(property, typeof(FactAttribute)))
+                    returnValue.Add(property.Name);
+            }
+            returnValue.Sort();
+            return returnValue;
+        }
+
+        public static List<string> GetTypes()
+        {
+            var returnValue = new List<string>();
+            returnValue.Add("Transaction");
+            List<PropertyInfo> properties = new List<PropertyInfo>(typeof(Transaction).GetProperties());
+            foreach (var property in properties)
+            {
+                if (Attribute.IsDefined(property, typeof(ComplexFactAttribute)))
+                    returnValue.Add(property.Name);
+            }
+            returnValue.Sort();
+            return returnValue;
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PharmacyAdjudicator.Library.Core;
+using PharmacyAdjudicator.Library.Core.Rules;
 
 namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
 {
@@ -37,7 +38,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
         [TestMethod]
         public void Can_create_formulary_true_atom()
         {
-            var myAtom = Library.Core.Rules.Atom.NewAtom();
+            var myAtom = Atom.NewAtom();
             myAtom.Class = "Transaction";
             myAtom.Property = "Formulary";
             myAtom.Value = "True";
@@ -51,7 +52,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
         [TestMethod]
         public void Can_retrieve_an_atom_and_update_values()
         {
-            var myAtom = Library.Core.Rules.Atom.NewAtom();
+            var myAtom = Atom.NewAtom();
             myAtom.Class = "Transaction";
             myAtom.Property = "Formulary";
             myAtom.Value = false;
@@ -73,7 +74,7 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
         [TestMethod]
         public void Can_get_clr_type_when_property_is_set()
         {
-            var myAtom = Library.Core.Rules.Atom.NewAtom();
+            var myAtom = Atom.NewAtom();
             //Default type 
             Assert.IsTrue(myAtom.ClrType == typeof(string));
 
@@ -90,6 +91,25 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
 
             myAtom.Property = "IngredientCostSubmitted";
             Assert.IsTrue(myAtom.ClrType == typeof(decimal));
+        }
+
+        [TestMethod]
+        public void Atom_has_list_of_allowed_classes()
+        {
+            var atom = Atom.NewAtom();
+            Assert.IsTrue(atom.AllowedClasses.Count > 0);
+        }
+
+        [TestMethod]
+        public void Atom_has_no_allowed_properties_when_Class_property_is_not_set()
+        {
+            var atom = Atom.NewAtom();
+            Assert.IsTrue(atom.AllowedClasses.Count > 0);
+            Assert.IsTrue(string.IsNullOrEmpty(atom.Class));
+            Assert.IsTrue(atom.AllowedProperties.Count == 0);
+            //When a class is assigned the AllowedProperties list should have items.
+            atom.Class = atom.AllowedClasses[0];
+            Assert.IsTrue(atom.AllowedProperties.Count > 0);
         }
 
     }

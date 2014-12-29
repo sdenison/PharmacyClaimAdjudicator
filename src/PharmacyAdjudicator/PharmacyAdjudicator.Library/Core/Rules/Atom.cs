@@ -4,6 +4,7 @@ using Csla;
 using System.Threading.Tasks;
 using NxBRE.InferenceEngine.Rules;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
@@ -49,7 +50,26 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 //If class is changing then property should not be set
                 if ((this.Class != value) && (!string.IsNullOrEmpty(this.Property)))
                     this.Property = "";
-                SetProperty(ClassProperty, value); 
+                SetProperty(ClassProperty, value);
+                OnPropertyChanged("AllowedProperties");
+            }
+        }
+
+        public List<string> AllowedClasses
+        {
+            get { return RuleTypes.GetTypes(); }
+        }
+
+        //Returns all properties of the selected class.
+        public List<string> AllowedProperties
+        {
+            get
+            {
+                //if we can't identify the class return an empty list.
+                var classType = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
+                if (classType == null)
+                    return new List<string>();
+                return RuleTypes.GetFactProperties(classType);
             }
         }
 
@@ -66,8 +86,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             get { return GetProperty(AtomIdProperty); }
             set { SetProperty(AtomIdProperty, value); }
         }
-
-        //private int _RecordId;
 
         public NxBRE.InferenceEngine.Rules.Atom GetInferenceEngineAtom()
         {

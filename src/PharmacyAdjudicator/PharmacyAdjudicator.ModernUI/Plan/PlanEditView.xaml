@@ -60,7 +60,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding Class, Mode=TwoWay}"/>
                 <TextBlock Text="."/>
-                <TextBox Text="{Binding Property, Mode=TwoWay}"/>
+                <TextBox Text="{Binding Property, Mode=TwoWay}" />
                 <mui:BBCodeBlock>: $</mui:BBCodeBlock>
                 <TextBox Text="{Binding Value, Mode=TwoWay}"/>
             </StackPanel>
@@ -102,7 +102,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding Class, Mode=TwoWay}"/>
                 <TextBlock Text="."/>
-                <TextBox Text="{Binding Property, Mode=TwoWay}"/>
+                <TextBox Text="{Binding Property, Mode=TwoWay}" cal:Message.Attach="[Event TextChanged] = [Action AtomChanged()]" />
                 <mui:BBCodeBlock>:</mui:BBCodeBlock>
                 <ComboBox SelectedValue="{Binding Value, Mode=TwoWay}" ItemsSource="{Binding ClrType, Converter={local:EnumToListConverter}}"/>
             </StackPanel>
@@ -231,29 +231,12 @@
                                     <TextBlock Text="{Binding LogicalOperator}"/>
                                 </StackPanel>
                                 <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}">-->
+                                <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" ItemTemplateSelector="{StaticResource atomDefaultTemplateSelector}" >-->
                                 <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" ItemTemplateSelector="{StaticResource atomDefaultTemplateSelector}" >
-                                    <!--<TextBox Text="{Binding Path=LogicalOperator}"></TextBox>-->
                                     <TreeView.Resources>
-                                        <!--<ContextMenu x:Key="AtomGroupContextMenu" StaysOpen="True">
-                                            <MenuItem Header="Add..."/>
-                                            <MenuItem Header="Remove..."/>
-                                        </ContextMenu>-->
-                                        <!--<DataTemplate 
-                                            DataType="{x:Type library:Atom}"  >
-                                            
-                                            <StackPanel Orientation="Horizontal">
-                                                --><!--<TextBlock Text="{Binding Class}"/>
-                                                <TextBlock Text="."/>
-                                                <TextBlock Text="{Binding Property}"/>
-                                                <TextBlock Text="="/>
-                                                <TextBlock Text="{Binding Value}"/>-->
-
-                                                <!--<ListBox x:Name="DynamicDefaultListBox" ItemTemplateSelector="{StaticResource AtomDefaultTemplateSelector}" ItemsSource="{Binding DataContext}"></ListBox>--><!--
-                                            </StackPanel>-->
-                                        <!--</DataTemplate>-->
                                         <HierarchicalDataTemplate
                                             DataType="{x:Type library:AtomGroup}" ItemsSource="{Binding Children}">
-                                            <StackPanel Orientation="Horizontal" Tag="{Binding DataContext, ElementName=ImplicationsStackPanel}"> <!-- AtomGroupTreeView}"-->
+                                            <StackPanel Orientation="Horizontal" Tag="{Binding DataContext, ElementName=ImplicationsStackPanel}"> 
                                                 <StackPanel.ContextMenu>
                                                     <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
                                                         <MenuItem Header="Add New List..." cal:Message.Attach="AddAtomGroup($dataContext)" />

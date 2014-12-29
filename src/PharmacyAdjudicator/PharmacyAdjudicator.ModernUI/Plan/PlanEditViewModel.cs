@@ -62,5 +62,10 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             //Model.Implications[0].AtomGroup.Members[0]
             NotifyOfPropertyChange(() => Model);
         }
+
+        public void AtomChanged()
+        {
+            var x = 1;
+        }
     }
 }

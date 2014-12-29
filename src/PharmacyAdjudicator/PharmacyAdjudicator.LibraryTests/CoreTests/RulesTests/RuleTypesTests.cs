@@ -28,5 +28,22 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             var propertyList = Library.Core.Rules.RuleTypes.GetFactProperties();
             Assert.IsTrue(propertyList.Count > 0);
         }
+
+        [TestMethod]
+        public void Can_get_list_of_types()
+        {
+            var typeList = Library.Core.Rules.RuleTypes.GetTypes();
+            Assert.IsTrue(typeList.Count > 0);
+        }
+
+        [TestMethod]
+        public void Can_get_list_of_facts_for_types()
+        {
+            var transactionFacts = Library.Core.Rules.RuleTypes.GetFactProperties(typeof(Library.Core.Transaction));
+            Assert.IsTrue(transactionFacts.Count > 0);
+
+            var drugFacts = Library.Core.Rules.RuleTypes.GetFactProperties(typeof(Library.Core.Drug));
+            Assert.IsTrue(drugFacts.Count > 0);
+        }
     }
 }

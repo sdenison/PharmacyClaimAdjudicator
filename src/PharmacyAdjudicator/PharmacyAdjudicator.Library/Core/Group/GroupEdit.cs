@@ -46,7 +46,6 @@ namespace PharmacyAdjudicator.Library.Core.Group
             {
                 if (!FieldManager.FieldExists(ClientAssignmentsProperty))
                     LoadProperty(ClientAssignmentsProperty, DataPortal.FetchChild<ClientAssignmentList>(this.GroupInternalId));
-                    //LoadProperty(ClientAssignmentsProperty, DataPortal.FetchChild<ClientAssignmentList>(this.ClientId, this.GroupId));
                 return GetProperty(ClientAssignmentsProperty);
             }
             private set
