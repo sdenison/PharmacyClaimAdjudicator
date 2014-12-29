@@ -58,27 +58,23 @@
         </DataTemplate>
         <DataTemplate x:Key="AtomMoneyTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Class, Mode=TwoWay}"/>
+                <!--<TextBox Text="{Binding Class, Mode=TwoWay}"/>
                 <TextBlock Text="."/>
-                <TextBox Text="{Binding Property, Mode=TwoWay}" />
+                <TextBox Text="{Binding Property, Mode=TwoWay}" />-->
                 <mui:BBCodeBlock>: $</mui:BBCodeBlock>
                 <TextBox Text="{Binding Value, Mode=TwoWay}"/>
             </StackPanel>
         </DataTemplate>
+        <DataTemplate x:Key="AtomNotSetTemplate">
+        </DataTemplate>
         <DataTemplate x:Key="AtomStringTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Class, Mode=TwoWay}"/>
-                <TextBlock Text="."/>
-                <TextBox Text="{Binding Property, Mode=TwoWay}"/>
                 <mui:BBCodeBlock>: </mui:BBCodeBlock>
                 <TextBox Text="{Binding Value, Mode=TwoWay}"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="AtomBooleanTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Class, Mode=TwoWay}"/>
-                <TextBlock Text="."/>
-                <TextBox Text="{Binding Property, Mode=TwoWay}"/>
                 <mui:BBCodeBlock>: </mui:BBCodeBlock>
                 <CheckBox IsChecked="{Binding Value, Mode=TwoWay}" Width="100" Height="22">
                     <CheckBox.Style>
@@ -100,9 +96,6 @@
         </DataTemplate>
         <DataTemplate x:Key="AtomEnumTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Class, Mode=TwoWay}"/>
-                <TextBlock Text="."/>
-                <TextBox Text="{Binding Property, Mode=TwoWay}" cal:Message.Attach="[Event TextChanged] = [Action AtomChanged()]" />
                 <mui:BBCodeBlock>:</mui:BBCodeBlock>
                 <ComboBox SelectedValue="{Binding Value, Mode=TwoWay}" ItemsSource="{Binding ClrType, Converter={local:EnumToListConverter}}"/>
             </StackPanel>
@@ -232,8 +225,42 @@
                                 </StackPanel>
                                 <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}">-->
                                 <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" ItemTemplateSelector="{StaticResource atomDefaultTemplateSelector}" >-->
-                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" ItemTemplateSelector="{StaticResource atomDefaultTemplateSelector}" >
+                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" >
+                                    <!--<DataTemplate DataType="{x:Type library:Atom}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="{Binding Class, Mode=TwoWay}"/>
+                                            <TextBox Text="{Binding Property, Mode=TwoWay}"/>
+                                            --><!--<ComboBox TextSearch.TextPath="" ItemsSource="{Binding Path=AllowedClasses}" SelectedItem="{Binding Path=Class}"/>
+                                            <ComboBox TextSearch.TextPath="" ItemsSource="{Binding Path=AllowedProperties}" SelectedItem="{Binding Path=Property}"/>--><!--
+                                        </StackPanel>
+                                    </DataTemplate>-->
                                     <TreeView.Resources>
+                                        <DataTemplate DataType="{x:Type library:Atom}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <!--<TextBox Text="{Binding Class, Mode=TwoWay}"/>
+                                                <TextBox Text="{Binding Property, Mode=TwoWay}"/>-->
+                                                <ComboBox TextSearch.TextPath="" ItemsSource="{Binding Path=AllowedClasses}" SelectedItem="{Binding Path=Class}"/>
+                                                <ComboBox TextSearch.TextPath="" ItemsSource="{Binding Path=AllowedProperties}" SelectedItem="{Binding Path=Property}"/>
+                                                <ContentControl x:Name="ValueContentControl" Content="{Binding}" ContentTemplate="{StaticResource AtomNotSetTemplate}" />
+                                            </StackPanel>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding ClrTypeString}" Value="NotSet">
+                                                    <Setter TargetName="ValueContentControl" Property="ContentTemplate" Value="{StaticResource AtomNotSetTemplate}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ClrTypeString}" Value="String">
+                                                    <Setter TargetName="ValueContentControl" Property="ContentTemplate" Value="{StaticResource AtomStringTemplate}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ClrTypeString}" Value="Decimal">
+                                                    <Setter TargetName="ValueContentControl" Property="ContentTemplate" Value="{StaticResource AtomMoneyTemplate}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ClrTypeString}" Value="Boolean">
+                                                    <Setter TargetName="ValueContentControl" Property="ContentTemplate" Value="{StaticResource AtomBooleanTemplate}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ClrTypeString}" Value="Enum">
+                                                    <Setter TargetName="ValueContentControl" Property="ContentTemplate" Value="{StaticResource AtomEnumTemplate}"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
                                         <HierarchicalDataTemplate
                                             DataType="{x:Type library:AtomGroup}" ItemsSource="{Binding Children}">
                                             <StackPanel Orientation="Horizontal" Tag="{Binding DataContext, ElementName=ImplicationsStackPanel}"> 

@@ -24,7 +24,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         public string Property
         {
             get { return GetProperty(PropertyProperty); }
-            set { SetProperty(PropertyProperty, value); OnPropertyChanged("ClrType"); }
+            set { SetProperty(PropertyProperty, value); OnPropertyChanged("ClrType"); OnPropertyChanged("ClrTypeString"); }
         }
 
         public Type ClrType
@@ -39,6 +39,24 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 return pi.PropertyType;
             }
             private set { }
+        }
+
+        public string ClrTypeString
+        {
+            get
+            {
+                if ((string.IsNullOrEmpty(this.Class)) || (string.IsNullOrEmpty(this.Property)))
+                    return "NotSet";
+                Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
+                if (type == null) return "NotSet"; //returns "System.String" if type does not exist.
+                //If we don't have enough information to get the type of the atom then return string by default.
+                var pi = type.GetProperty(this.Property);
+                if (pi == null) 
+                    return "NotSet"; //returns "System.String" if property does not exist.
+                if (pi.PropertyType.IsEnum) 
+                    return "Enum";
+                return pi.PropertyType.Name;
+            }
         }
 
         public static readonly PropertyInfo<string> ClassProperty = RegisterProperty<string>(c => c.Class);

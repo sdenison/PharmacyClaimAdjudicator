@@ -78,6 +78,8 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             //Default type 
             Assert.IsTrue(myAtom.ClrType == typeof(string));
 
+            var x = myAtom.ClrType.ToString();
+
             myAtom.Class = "Drug";
             //Should still be default because property is not set
             Assert.IsTrue(myAtom.ClrType == typeof(string));
@@ -91,6 +93,28 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
 
             myAtom.Property = "IngredientCostSubmitted";
             Assert.IsTrue(myAtom.ClrType == typeof(decimal));
+        }
+
+        [TestMethod]
+        public void Can_get_clr_type_as_string_when_property_is_set()
+        {
+            var myAtom = Atom.NewAtom();
+            //Default type 
+            Assert.IsTrue(myAtom.ClrTypeString.Equals("NotSet"));
+
+            myAtom.Class = "Drug";
+            //Should still be default because property is not set
+            Assert.IsTrue(myAtom.ClrTypeString.Equals("NotSet"));
+
+            myAtom.Property = "Otc";
+            Assert.IsTrue(myAtom.ClrTypeString.Equals("Boolean"));
+
+            //Changing the class to transaction should bring back default ClrType
+            myAtom.Class = "Transaction";
+            Assert.IsTrue(myAtom.ClrTypeString.Equals("NotSet"));
+
+            myAtom.Property = "IngredientCostSubmitted";
+            Assert.IsTrue(myAtom.ClrTypeString.Equals("Decimal"));
         }
 
         [TestMethod]
