@@ -86,6 +86,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var predicateDataList =  from ag in ctx.DbContext.AtomGroupItem
                                          where ag.AtomGroupId == parent.AtomGroupId
+                                         orderby ag.RecordId
                                          select ag;
                 foreach (var predicateData in predicateDataList)
                 {

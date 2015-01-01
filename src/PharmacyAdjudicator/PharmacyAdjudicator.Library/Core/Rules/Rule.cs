@@ -53,12 +53,40 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         //    throw new ArgumentException("Unknown ruleType = " + RuleType);
         //}
 
-        public Type ClrType()
+        //public Type ClrType()
+        //{
+        //    if (string.IsNullOrEmpty(this.RuleType))
+        //        throw new Exception("Cannot get ClrType while RuleType is not set");
+        //    var pi = typeof(Transaction).GetProperty(this.RuleType);
+        //    return pi.PropertyType;
+        //}
+
+        public Type ClrType
         {
-            if (string.IsNullOrEmpty(this.RuleType))
-                throw new Exception("Cannot get ClrType while RuleType is not set");
-            var pi = typeof(Transaction).GetProperty(this.RuleType);
-            return pi.PropertyType;
+            get
+            {
+                if (string.IsNullOrEmpty(this.RuleType))
+                    throw new Exception("Cannot get ClrType while RuleType is not set");
+                var pi = typeof(Transaction).GetProperty(this.RuleType);
+                return pi.PropertyType;
+            }
+        }
+
+
+        public string ClrTypeString
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.RuleType))
+                    return "NotSet";
+                //If we don't have enough information to get the type of the atom then return NotSet by default.
+                var pi = typeof(Transaction).GetProperty(this.RuleType);
+                if (pi == null)
+                    return "NotSet"; 
+                if (pi.PropertyType.IsEnum)
+                    return "Enum";
+                return pi.PropertyType.Name;
+            }
         }
 
         /// <summary>

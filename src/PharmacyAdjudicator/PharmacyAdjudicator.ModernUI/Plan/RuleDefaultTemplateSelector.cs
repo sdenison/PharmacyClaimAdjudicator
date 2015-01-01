@@ -21,14 +21,19 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             if (item is Library.Core.Rules.Rule)
             {
                 var ruleItem = (Library.Core.Rules.Rule)item;
-                if (ruleItem.ClrType().Equals(typeof(Boolean)))
+                var clrType = ruleItem.ClrType;
+                if (clrType.Equals(typeof(Boolean)))
                     return BooleanTemplate;
-                if (ruleItem.ClrType().Equals(typeof(string)))
+                if (clrType.Equals(typeof(string)))
                     return StringTemplate;
-                if (ruleItem.ClrType().Equals(typeof(decimal)))
+                if (clrType.Equals(typeof(decimal)))
                     return MoneyTemplate;
-                if (ruleItem.ClrType().Equals(typeof(Library.Core.Enums.BasisOfReimbursement)))
-                    return BasisOfReimbursementTemplate;
+                if (clrType.IsEnum)
+                    return EnumTemplate;
+
+                //if (ruleItem.ClrType().Equals(typeof(Library.Core.Enums.BasisOfReimbursement)))
+                //    return EnumTemplate;
+
             }
             return base.SelectTemplate(item, container);
         }

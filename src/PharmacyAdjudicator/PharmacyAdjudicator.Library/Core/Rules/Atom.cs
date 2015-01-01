@@ -48,11 +48,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 if ((string.IsNullOrEmpty(this.Class)) || (string.IsNullOrEmpty(this.Property)))
                     return "NotSet";
                 Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
-                if (type == null) return "NotSet"; //returns "System.String" if type does not exist.
-                //If we don't have enough information to get the type of the atom then return string by default.
+                //If we don't have enough information to get the type of the atom then return NotSet by default.
+                if (type == null) 
+                    return "NotSet"; 
                 var pi = type.GetProperty(this.Property);
                 if (pi == null) 
-                    return "NotSet"; //returns "System.String" if property does not exist.
+                    return "NotSet"; 
                 if (pi.PropertyType.IsEnum) 
                     return "Enum";
                 return pi.PropertyType.Name;
