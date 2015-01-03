@@ -292,6 +292,19 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             this.CheckPropertyRules(ImplicationsProperty);
         }
 
+        public Implication AddImplication()
+        {
+            if (string.IsNullOrEmpty(this.RuleType))
+                throw new ArgumentOutOfRangeException("RuleType not set.");
+            var newImplication = this.Implications.AddNew();
+            newImplication.Head = Atom.NewAtom();
+            newImplication.Head.Class = "Transaction";
+            newImplication.Head.Property = this.RuleType;
+            newImplication.Head.Value = DefaultDefault();
+            newImplication.Body = AtomGroup.NewAtomGroup();
+            return newImplication;
+        }
+
         public static readonly PropertyInfo<Guid> RuleIdProperty = RegisterProperty<Guid>(c => c.RuleId);
         public Guid RuleId
         {

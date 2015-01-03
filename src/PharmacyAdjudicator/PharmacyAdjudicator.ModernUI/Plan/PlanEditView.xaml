@@ -199,48 +199,29 @@
             <StackPanel Orientation="Vertical" x:Name="ImplicationsStackPanel">
                 <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>
                 <ContentControl x:Name="RuleDefaultContent" Content="{Binding Path=SelectedRule}" ContentTemplateSelector="{StaticResource RuleDefaultTemplateSelector}" Margin="5,0,0,0"/>
+                <StackPanel HorizontalAlignment="Right">
+                    <mui:ModernButton x:Name="AddImplication" HorizontalAlignment="Right" ToolTip="Add new implication" ToolTipService.ShowOnDisabled="true" EllipseDiameter="25" IconData="{StaticResource appbar_add}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />
+                </StackPanel>
                 <ItemsControl ItemsSource="{Binding Path=SelectedRule.Implications}" Margin="5,0,0,0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="Is "></Label>
-                                    <TextBox Text="{Binding Path=Head.Value}"/>
-                                </StackPanel>
+                                <DockPanel>
+                                    <Label Content="Is " HorizontalAlignment="Left"></Label>
+                                    <TextBox Text="{Binding Path=Head.Value}" HorizontalAlignment="Left"/>
+                                    <mui:ModernButton x:Name="RemoveImplication" cal:Message.Attach="RemoveImplication($dataContext)" ToolTip="Remove implication" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Right" EllipseDiameter="25" IconData="{StaticResource appbar_delete}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />
+                                </DockPanel>
                                 <Label Content="When"></Label>
-                                <StackPanel Orientation="Horizontal" Margin="5,0,0,0" DataContext="{Binding Path=Body}">
-                                    <StackPanel.ContextMenu>
-                                        <!--<ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">-->
-                                        <ContextMenu>
-                                            <MenuItem Header="Add New List..." cal:Message.Attach="AddAtomGroup()" />
-                                            <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom()" />
-                                            <MenuItem Header="Remove..."/>
-                                        </ContextMenu>
-                                    </StackPanel.ContextMenu>
-                                    <!--<mui:BBCodeBlock BBCode="Logical Operator"/>
-                                    --><!--<TextBox Text="{Binding Path=Body.LogicalOperator}"></TextBox>--><!--
-                                    <TextBox Text="{Binding Path=LogicalOperator}"></TextBox>-->
-
-                                    <TextBlock Text="List type: ">
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding LogicalOperator}"/>
-                                </StackPanel>
-                                <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body.Children}">-->
-                                <!--<TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" ItemTemplateSelector="{StaticResource atomDefaultTemplateSelector}" >-->
                                 <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" >
-                                    <!--<DataTemplate DataType="{x:Type library:Atom}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBox Text="{Binding Class, Mode=TwoWay}"/>
-                                            <TextBox Text="{Binding Property, Mode=TwoWay}"/>
-                                            --><!--<ComboBox TextSearch.TextPath="" ItemsSource="{Binding Path=AllowedClasses}" SelectedItem="{Binding Path=Class}"/>
-                                            <ComboBox TextSearch.TextPath="" ItemsSource="{Binding Path=AllowedProperties}" SelectedItem="{Binding Path=Property}"/>--><!--
-                                        </StackPanel>
-                                    </DataTemplate>-->
                                     <TreeView.Resources>
                                         <DataTemplate DataType="{x:Type library:Atom}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <!--<TextBox Text="{Binding Class, Mode=TwoWay}"/>
-                                                <TextBox Text="{Binding Property, Mode=TwoWay}"/>-->
+                                            <StackPanel Orientation="Horizontal" MinWidth="300" Background="Transparent">
+                                                <StackPanel.ContextMenu>
+                                                    <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                                        <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom($dataContext)" />
+                                                        <MenuItem Header="Remove..." cal:Message.Attach="RemoveAtom($dataContext)"/>
+                                                    </ContextMenu>
+                                                </StackPanel.ContextMenu>
                                                 <ComboBox TextSearch.TextPath="" ItemsSource="{Binding Path=AllowedClasses}" SelectedItem="{Binding Path=Class}"/>
                                                 <ComboBox TextSearch.TextPath="" ItemsSource="{Binding Path=AllowedProperties}" SelectedItem="{Binding Path=Property}"/>
                                                 <ContentControl x:Name="ValueContentControl" Content="{Binding}" ContentTemplate="{StaticResource AtomNotSetTemplate}" />
@@ -280,33 +261,6 @@
                                        </HierarchicalDataTemplate>
                                     </TreeView.Resources>
                                 </TreeView>
-                                <!--<TreeView>
-                                    <TreeViewItem Header="Example 1">
-                                        <TreeViewItem Header="sub heading 1"/>
-                                        <TreeViewItem Header="sub heading 2"/>
-                                        <TreeViewItem Header="sub heading 3"/>
-                                        <TreeViewItem Header="sub heading 4"/>
-                                    </TreeViewItem>
-                                    <TreeViewItem Header="Example 2">
-                                        <TreeViewItem Header="second sub heading"/>
-                                    </TreeViewItem>
-                                    <TreeViewItem Header="Example 3"/>
-                                </TreeView>-->
-                                <!--<ListBox ItemsSource="{Binding Path=Body.Predicates}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                --><!--<Label Content="Predicate ID "></Label>
-                                                <TextBox Text="{Binding Path=AtomGroupId, Mode=OneWay}"></TextBox>--><!--
-                                                <Label Content="{Binding Path=Atom.Class}"/>
-                                                <Label Content="."/>
-                                                <Label Content="{Binding Path=Atom.Property}"/>
-                                                <Label Content=" equals "/>
-                                                <TextBox Text="{Binding Path=Atom.Value}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>-->
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

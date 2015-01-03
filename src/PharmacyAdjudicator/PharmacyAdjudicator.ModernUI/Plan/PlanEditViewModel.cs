@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using CslaContrib.Caliburn.Micro;
 using PharmacyAdjudicator.Library.Core.Plan;
 using PharmacyAdjudicator.Library.Core.Rules;
+using PharmacyAdjudicator.ModernUI.Interface;
 
 namespace PharmacyAdjudicator.ModernUI.Plan
 {
     public class PlanEditViewModel : ScreenWithModel<PlanEdit> // Screen 
     {
+        private IDialog _dialog;
         //public Library.Core.Plan.PlanEdit Model { get; set; }
         public PlanEditViewModel(Library.Core.Plan.PlanEdit model)
         {
             this.Model = model;
+            _dialog = AppBootstrapper.GetInstance<IDialog>();
         }
 
         private Library.Core.Rules.Rule _selectedRule;
@@ -62,6 +66,22 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             //Model.Implications[0].AtomGroup.Members[0]
             NotifyOfPropertyChange(() => Model);
         }
+
+        public void AddImplication()
+        {
+            this.SelectedRule.AddImplication();
+        }
+
+
+        public void RemoveImplication(Implication implicationToRemove)
+        {
+            var result = _dialog.ShowMessage("Are you sure you want to remove this implication?", "Implication Removal Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                this.SelectedRule.Implications.Remove(implicationToRemove);
+            }
+        }
+        //Model.PatientAddresses.Remove(SelectedPatientAddress);
 
         public void AtomChanged()
         {

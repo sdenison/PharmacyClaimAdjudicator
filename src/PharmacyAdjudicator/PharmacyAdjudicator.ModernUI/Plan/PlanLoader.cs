@@ -7,6 +7,7 @@ using System.Windows;
 using Caliburn.Micro;
 using FirstFloor.ModernUI;
 using FirstFloor.ModernUI.Windows;
+using PharmacyAdjudicator.ModernUI.Interface;
 
 namespace PharmacyAdjudicator.ModernUI.Plan
 {

@@ -119,6 +119,26 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
         }
 
         [TestMethod]
+        public void Can_create_implication_from_rule()
+        {
+            var rule = Library.Core.Rules.Rule.NewRule();
+            rule.RuleType = "AmountOfCopay";
+            rule.DefaultValue = (5.5).ToString();
+            var implication = rule.AddImplication();
+            Assert.IsTrue(implication.Head.Property.Equals("AmountOfCopay"));
+            implication.Head.Value = (20).ToString();
+            implication.Body.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
+            var atom1 = implication.Body.AddAtom();
+            atom1.Class = "Transaction";
+            atom1.Property = "Formulary";
+            atom1.Value = "True";
+            SaveChild(rule);
+            var ruleFromDb = Library.Core.Rules.Rule.GetByRuleId(rule.RuleId);
+            Assert.IsNotNull(ruleFromDb);
+            Assert.IsTrue(ruleFromDb.Implications.Count == 1);
+        }
+
+        [TestMethod]
         public void Can_not_add_rule_with_implication_that_has_different_property_type_than_rule()
         {
             var rule = Library.Core.Rules.Rule.NewRule();
@@ -137,7 +157,6 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             atom1.Class = "Transaction";
             atom1.Property = "Formulary";
             atom1.Value = "True";
-            //implication.Body.AddPredicate(atom1);
             rule.AddImplication(implication);
             var brokenRules = rule.GetBrokenRules();
             Assert.IsTrue(rule.BrokenRulesCollection.Count == 1); //The implication.Head.Property should be the same as rule.RuleType
