@@ -37,7 +37,7 @@ namespace PharmacyAdjudicator.Library.Security
         private void DataPortal_Fetch(UsernameCriteria criteria)
         {
             var username = criteria.Username.ToLower();
-            var password = criteria.Password.ToLower();
+            var password = !string.IsNullOrEmpty(criteria.Password) ? criteria.Password.ToLower() : "";
             try
             {
                 base.IsAuthenticated = false;

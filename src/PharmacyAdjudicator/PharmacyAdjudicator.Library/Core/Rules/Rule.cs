@@ -305,6 +305,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return newImplication;
         }
 
+        public void RemoveImplication(Implication implication)
+        {
+            this.Implications.Remove(implication);
+        }
+
         public static readonly PropertyInfo<Guid> RuleIdProperty = RegisterProperty<Guid>(c => c.RuleId);
         public Guid RuleId
         {

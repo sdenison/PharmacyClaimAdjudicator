@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/04/2014 18:33:36
+-- Date Created: 01/04/2015 12:59:42
 -- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -365,7 +365,11 @@ CREATE TABLE [dbo].[RuleImplication] (
     [RecordId] uniqueidentifier  NOT NULL,
     [RuleId] uniqueidentifier  NOT NULL,
     [ImplicationId] uniqueidentifier  NOT NULL,
-    [Priority] nvarchar(max)  NOT NULL
+    [Priority] nvarchar(max)  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
 GO
 
@@ -1080,6 +1084,21 @@ ON [dbo].[AtomDetail]
     ([OriginalFactRecordId]);
 GO
 
+-- Creating foreign key on [OriginalFactRecordId] in table 'RuleImplication'
+ALTER TABLE [dbo].[RuleImplication]
+ADD CONSTRAINT [FK_RuleImplicationRuleImplication]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[RuleImplication]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RuleImplicationRuleImplication'
+CREATE INDEX [IX_FK_RuleImplicationRuleImplication]
+ON [dbo].[RuleImplication]
+    ([OriginalFactRecordId]);
+GO
+
 -- --------------------------------------------------
 -- Script has ended
--- --------------------------------------------------
+-- ---------------------------------------------------

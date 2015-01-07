@@ -145,6 +145,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             base.MarkAsChild();
         }
 
+        //public void RemoveAtom(Atom atomToRemove)
+        //{
+        //    var x = "this worked";
+        //}
+
         #endregion
 
         #region Business Rules
@@ -282,6 +287,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             RetractFact();
             AssertNewFact();
+        }
+
+        protected void Child_DeleteSelf()
+        {
+            RetractFact();
         }
 
         protected override void DataPortal_DeleteSelf()

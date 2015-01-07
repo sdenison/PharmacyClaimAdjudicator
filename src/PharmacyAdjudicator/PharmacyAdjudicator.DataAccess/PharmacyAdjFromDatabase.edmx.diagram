@@ -58,6 +58,7 @@
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.AtomDetail" Width="1.5" PointX="11" PointY="14.125" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomAtomDetail" />
         <AssociationConnector Association="PharmacyClaimAdjudicatorModel.AtomDetailAtomDetail" />
+        <AssociationConnector Association="PharmacyClaimAdjudicatorModel.RuleImplicationRuleImplication" />
       </Diagram>
       <Diagram DiagramId="899a7adf2cc1475fb3e30bef35df66d7" Name="Diagram2" >
         <EntityTypeShape EntityType="PharmacyClaimAdjudicatorModel.VaDrug" Width="1.5" PointX="0.75" PointY="0.75" />

@@ -215,10 +215,12 @@
                                 <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" >
                                     <TreeView.Resources>
                                         <DataTemplate DataType="{x:Type library:Atom}">
-                                            <StackPanel Orientation="Horizontal" MinWidth="300" Background="Transparent">
+                                            <StackPanel Orientation="Horizontal" MinWidth="300" Background="Transparent" 
+                                                        Tag="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}, AncestorLevel=2}}">
                                                 <StackPanel.ContextMenu>
-                                                    <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                                    <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"> <!-- cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">-->
                                                         <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom($dataContext)" />
+                                                        <!--<MenuItem Header="Remove..." cal:Message.Attach="RemoveAtom($dataContext)"/>-->
                                                         <MenuItem Header="Remove..." cal:Message.Attach="RemoveAtom($dataContext)"/>
                                                     </ContextMenu>
                                                 </StackPanel.ContextMenu>

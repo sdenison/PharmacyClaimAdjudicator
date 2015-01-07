@@ -72,6 +72,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
+        //public void RemoveAtom(Atom atomToRemove)
+        //{
+        //    var x = "got here";
+        //}
+
         #endregion
 
         #region Business Rules
@@ -275,6 +280,13 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                        select i).FirstOrDefault();
                 ctx.DbContext.Implication.Remove(implicationData);
             }
+        }
+
+        private void Child_DeleteSelf()
+        {
+            //Don't want the actual implication to be deleted.
+            //It should be enough to delete the link between the rule and the implication.
+            //This way history is preserved.
         }
 
         private void PopulateByEntity(DataAccess.Implication implicationData)

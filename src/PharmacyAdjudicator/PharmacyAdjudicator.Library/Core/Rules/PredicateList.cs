@@ -92,7 +92,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 {
                     if (predicateData.AtomId != null)
                     {
-                        this.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
+                        //wrapped in a try/catch block because Atoms will not exist if they have been deleted.
+                        try
+                        {
+                            this.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
+                        }
+                        catch (Exception ex)
+                        {
+                            //swallows the excpetion if data is not found because that means it's been logically deleted.
+                            if (ex.GetBaseException().GetType() != typeof(DataNotFoundException))
+                                throw ex;
+                        }
                     }
                     else
                     {

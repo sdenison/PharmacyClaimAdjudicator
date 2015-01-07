@@ -81,6 +81,16 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return atomToAdd;
         }
 
+        public void RemoveAtom(Atom atomToRemove)
+        {
+            this.Children.Remove(atomToRemove);
+        }
+
+        public void RemoveAtom()
+        {
+            var x = "this works";
+        }
+
         //public Atom AddAtom(object param)
         //{
         //    return AddAtom();
@@ -361,30 +371,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 ctx.DbContext.AtomGroup.Add(atomGroupData);
 
                 FieldManager.UpdateChildren(this);
-                //foreach (var child in this.Children)
-                //{
-                //    var atomGroupItem = new DataAccess.AtomGroupItem();
-                //    atomGroupItem.RecordId = Utils.GuidHelper.GenerateComb();
-                //    atomGroupItem.AtomGroupId = this.AtomGroupId;
-                //    var atom = (Atom) child;
-                //    if (atom != null)
-                //        atomGroupItem.AtomId = atom.AtomId;
-                //    else
-                //    {
-                //        var atomGroup = (AtomGroup)child;
-                //        if (atomGroup != null)
-                //            atomGroupItem.ContainedAtomGroupId = atomGroup.AtomGroupId;
-                //        else
-                //            throw new Exception("AtomGroup.child must be of type Atom or AtomGroup");
-                //    }
-                //    atomGroupItem.Priority = 0;
-                //    ctx.DbContext.AtomGroupItem.Add(atomGroupItem);
-                //}
                 ctx.DbContext.SaveChanges();
             }
         }
-
-
 
         protected void Child_Insert()
         {
@@ -392,10 +381,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var atomGroupData = CreateEntity();
                 ctx.DbContext.AtomGroup.Add(atomGroupData);
-                //SaveChildren();
                 FieldManager.UpdateChildren(this);
-                //ctx.DbContext.SaveChanges();
-                //this.AtomGroupId = atomGroupData.AtomGroupId;
             }
         }
 
@@ -405,14 +391,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 Child_Update();
                 ctx.DbContext.SaveChanges();
-                //var atomGroupData = (from a in ctx.DbContext.AtomGroup
-                //                     where a.AtomGroupId == this.AtomGroupId
-                //                     select a).FirstOrDefault();
-                //atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
-                //atomGroupData.Name = this.Name;
-                ////SaveChildren();
-                //FieldManager.UpdateChildren(this);
-                //ctx.DbContext.SaveChanges();
             }
         }
 
@@ -425,26 +403,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                                      select a).FirstOrDefault();
                 atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
                 atomGroupData.Name = this.Name;
-                //SaveChildren();
                 FieldManager.UpdateChildren(this);
-                //ctx.DbContext.SaveChanges();
             }
         }
-
-        //protected void Child_Update(Implication parent)
-        //{
-        //    using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-        //    {
-        //        var atomGroupData = (from a in ctx.DbContext.AtomGroup
-        //                             where a.AtomGroupId == this.AtomGroupId
-        //                             select a).FirstOrDefault();
-        //        atomGroupData.LogicalOperator = this.LogicalOperator.ToString();
-        //        atomGroupData.Name = this.Name;
-        //        //SaveChildren();
-        //        FieldManager.UpdateChildren(this);
-        //        //ctx.DbContext.SaveChanges();
-        //    }
-        //}
 
         protected override void DataPortal_DeleteSelf()
         {
@@ -494,5 +455,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             returnValue.Add(this);
             return returnValue.GetEnumerator();
         }
+
     }
 }

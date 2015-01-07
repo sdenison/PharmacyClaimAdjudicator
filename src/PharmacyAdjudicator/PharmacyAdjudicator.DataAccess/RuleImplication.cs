@@ -18,6 +18,10 @@ namespace PharmacyAdjudicator.DataAccess
         public System.Guid RuleId { get; set; }
         public System.Guid ImplicationId { get; set; }
         public string Priority { get; set; }
+        public bool Retraction { get; set; }
+        public Nullable<System.Guid> OriginalFactRecordId { get; set; }
+        public System.DateTime RecordCreatedDateTime { get; set; }
+        public string RecordCreatedUser { get; set; }
     
         public virtual Rule Rule { get; set; }
         public virtual Implication Implication { get; set; }

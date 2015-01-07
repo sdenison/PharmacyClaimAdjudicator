@@ -81,11 +81,23 @@ namespace PharmacyAdjudicator.ModernUI.Plan
                 this.SelectedRule.Implications.Remove(implicationToRemove);
             }
         }
+
+        
         //Model.PatientAddresses.Remove(SelectedPatientAddress);
 
         public void AtomChanged()
         {
             var x = 1;
         }
+
+        //public void RemoveAtom(Atom atomToRemove)
+        //{
+        //    var x = atomToRemove;
+        //}
+
+        //public void RemoveAtom()
+        //{
+        //    var x = "this worked";
+        //}
     }
 }
