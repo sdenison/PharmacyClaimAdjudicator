@@ -83,7 +83,13 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public void RemoveAtom(Atom atomToRemove)
         {
-            this.Children.Remove(atomToRemove);
+            this.Children.Remove((IPredicate)atomToRemove);
+        }
+
+        public void RemoveAtomGroup(AtomGroup atomGroupToRemove)
+        {
+            //var x = "this works";
+            this.Children.Remove((IPredicate)atomGroupToRemove);
         }
 
         public void RemoveAtom()
@@ -109,18 +115,18 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             MarkDirty();
         }
 
-        public AtomGroup AddAtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator)
-        {
-            //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
-            var child = DataPortal.CreateChild<AtomGroup>();
-            //var child = new AtomGroup();
-            child.LogicalOperator = logicalOperator;
-            this.Children.Add(child);
-            MarkDirty();
-            return child;
-        }
+        //public AtomGroup AddAtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator)
+        //{
+        //    //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
+        //    var child = DataPortal.CreateChild<AtomGroup>();
+        //    //var child = new AtomGroup();
+        //    child.LogicalOperator = logicalOperator;
+        //    this.Children.Add(child);
+        //    MarkDirty();
+        //    return child;
+        //}
 
-        public AtomGroup AddAtomGroup()
+        public void AddAtomGroup()
         {
             //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
             var child = DataPortal.CreateChild<AtomGroup>();
@@ -130,8 +136,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 child.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
             this.Children.Add(child);
             MarkDirty();
-            return child;
+            //return child;
         }
+
+        public static void AddAtomGroup(AtomGroup atomGroupToAppendTo)
+        {
+            //Context menu woes on the treeview necessitated this.
+            atomGroupToAppendTo.AddAtomGroup();
+        }
+
+        public static void AddAtom(AtomGroup atomGroupToAppendTo)
+        {
+            //Context menu woes on the treeview necessitated this.
+            atomGroupToAppendTo.AddAtom();//.AddAtomGroup();
+        }
+
 
         public List<string> ComplexFactsUsed()
         {
@@ -238,11 +257,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             Child_Update();
         }
 
-        protected void Child_Update(Predicate parent)
-        {
-            //base.DataPortal_Update();
-            Child_Update();
-        }
+        //protected void Child_Update(Predicate parent)
+        //{
+        //    //base.DataPortal_Update();
+        //    Child_Update();
+        //}
 
         [RunLocal]
         protected override void DataPortal_Create()
@@ -385,6 +404,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
+        protected void Child_DeleteSelf()
+        {
+            //Not used
+        }
+
         protected override void DataPortal_Update()
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
@@ -436,25 +460,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #endregion
 
-        IEnumerator<AtomGroup> IEnumerable<AtomGroup>.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            //throw new NotImplementedException();
-            
-            //return new List<AtomGroup>();
-            //var x = new ReadOnlyCollection<AtomGroup>(
-            //    new AtomGroup[]
-            //    {
-            //        this
-            //    });
             var returnValue = new List<AtomGroup>();
             returnValue.Add(this);
             return returnValue.GetEnumerator();
         }
 
+
+        IEnumerator<AtomGroup> IEnumerable<AtomGroup>.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

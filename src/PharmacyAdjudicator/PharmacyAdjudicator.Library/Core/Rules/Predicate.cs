@@ -213,6 +213,19 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
+        private void Child_DeleteSelf()
+        {
+            using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
+            {
+                var atomGroupItemData = CreateEntity();
+                atomGroupItemData.Retraction = true;
+                atomGroupItemData.OriginalFactRecordId = _RecordId;
+                _RecordId = Utils.GuidHelper.GenerateComb();
+                ctx.DbContext.AtomGroupItem.Add(atomGroupItemData);
+            }
+        }
+
+
         //private void Child_Update()
         //{
         //    UpdateChildren();
@@ -316,6 +329,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
             atomGroupItemData.Priority = this.Priority;
             atomGroupItemData.AtomGroupId = this.AtomGroupId;
+            atomGroupItemData.Retraction = false;
+            atomGroupItemData.RecordCreatedDateTime = DateTime.Now;
+            atomGroupItemData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
             return atomGroupItemData;
         }
 

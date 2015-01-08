@@ -36,24 +36,24 @@ namespace PharmacyAdjudicator.ModernUI.Plan
             }
         }
 
-        public void AddAtomGroup(AtomGroup atomGroup)
-        {
-            //Determine if the new AtomGroup should have a logical operator of And or Or.
-            NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator;
-            if (atomGroup.LogicalOperator == NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And)
-                logicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
-            else
-                logicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
+        //public void AddAtomGroup(AtomGroup atomGroup)
+        //{
+        //    //Determine if the new AtomGroup should have a logical operator of And or Or.
+        //    NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator;
+        //    if (atomGroup.LogicalOperator == NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And)
+        //        logicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
+        //    else
+        //        logicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
 
-            //Add AtomGroup to AtomGroup passed in as parameter
-            //var atomGroupToAdd = AtomGroup.NewAtomGroup();
-            //atomGroupToAdd.LogicalOperator = logicalOperator;
-            //atomGroup.AddPredicate(atomGroupToAdd);
+        //    //Add AtomGroup to AtomGroup passed in as parameter
+        //    //var atomGroupToAdd = AtomGroup.NewAtomGroup();
+        //    //atomGroupToAdd.LogicalOperator = logicalOperator;
+        //    //atomGroup.AddPredicate(atomGroupToAdd);
 
 
-            atomGroup.AddAtomGroup(logicalOperator);
-            NotifyOfPropertyChange(() => Model);
-        }
+        //    atomGroup.AddAtomGroup(logicalOperator);
+        //    NotifyOfPropertyChange(() => Model);
+        //}
 
         public void AddAtom(AtomGroup atomGroup)
         {

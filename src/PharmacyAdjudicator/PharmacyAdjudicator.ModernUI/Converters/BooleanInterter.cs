@@ -8,7 +8,7 @@ using System.Windows.Data;
 namespace PharmacyAdjudicator.ModernUI.Converters
 {
     [ValueConversion(typeof(bool), typeof(bool))]
-    public class BooleanInterter : IValueConverter
+    public class BooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

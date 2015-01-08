@@ -157,6 +157,10 @@
       <End Role="RuleImplication" EntitySet="RuleImplication" />
       <End Role="RuleImplication1" EntitySet="RuleImplication" />
     </AssociationSet>
+    <AssociationSet Name="AtomGroupItemAtomGroupItem" Association="PharmacyClaimAdjudicatorModel.Store.AtomGroupItemAtomGroupItem">
+      <End Role="AtomGroupItem" EntitySet="AtomGroupItem" />
+      <End Role="AtomGroupItem1" EntitySet="AtomGroupItem" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Group">
     <Key>
@@ -299,6 +303,10 @@
     <Property Name="AtomId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="ContainedAtomGroupId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="Priority" Type="int" Nullable="false" />
+    <Property Name="Retraction" Type="bit" Nullable="false" />
+    <Property Name="OriginalFactRecordId" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="RecordCreatedDateTime" Type="datetime" Nullable="false" />
+    <Property Name="RecordCreatedUser" Type="nvarchar" Nullable="false" MaxLength="30" />
   </EntityType>
   <EntityType Name="Rule">
     <Key>
@@ -826,6 +834,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="AtomGroupItemAtomGroupItem">
+    <End Role="AtomGroupItem" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroupItem" Multiplicity="0..1" />
+    <End Role="AtomGroupItem1" Type="PharmacyClaimAdjudicatorModel.Store.AtomGroupItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AtomGroupItem">
+        <PropertyRef Name="RecordId" />
+      </Principal>
+      <Dependent Role="AtomGroupItem1">
+        <PropertyRef Name="OriginalFactRecordId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -981,6 +1001,10 @@
           <AssociationSet Name="RuleImplicationRuleImplication" Association="PharmacyClaimAdjudicatorModel.RuleImplicationRuleImplication">
             <End Role="RuleImplication" EntitySet="RuleImplication" />
             <End Role="RuleImplication1" EntitySet="RuleImplication" />
+          </AssociationSet>
+          <AssociationSet Name="AtomGroupItemAtomGroupItem" Association="PharmacyClaimAdjudicatorModel.AtomGroupItemAtomGroupItem">
+            <End Role="AtomGroupItem" EntitySet="AtomGroupItem" />
+            <End Role="AtomGroupItem1" EntitySet="AtomGroupItem" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Group">
@@ -1213,6 +1237,10 @@
           <NavigationProperty Name="AtomGroup" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems" FromRole="AtomGroupItems" ToRole="AtomGroup" />
           <NavigationProperty Name="Atom" Relationship="PharmacyClaimAdjudicatorModel.AtomAtomGroupItems" FromRole="AtomGroupItems" ToRole="Atom" />
           <NavigationProperty Name="AtomGroup1" Relationship="PharmacyClaimAdjudicatorModel.AtomGroupAtomGroupItems1" FromRole="AtomGroupItems" ToRole="AtomGroup" />
+          <Property Name="Retraction" Type="Boolean" Nullable="false" />
+          <Property Name="OriginalFactRecordId" Type="Guid" Nullable="true" />
+          <Property Name="RecordCreatedDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="RecordCreatedUser" Type="String" Nullable="false" MaxLength="30" />
         </EntityType>
         <EntityType Name="Rule">
           <Key>
@@ -1712,6 +1740,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="AtomGroupItemAtomGroupItem">
+          <End Type="PharmacyClaimAdjudicatorModel.AtomGroupItem" Role="AtomGroupItem" Multiplicity="0..1" />
+          <End Type="PharmacyClaimAdjudicatorModel.AtomGroupItem" Role="AtomGroupItem1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AtomGroupItem">
+              <PropertyRef Name="RecordId" />
+            </Principal>
+            <Dependent Role="AtomGroupItem1">
+              <PropertyRef Name="OriginalFactRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1868,6 +1908,10 @@
           <ScalarProperty Name="AtomId" ColumnName="AtomId" />
           <ScalarProperty Name="ContainedAtomGroupId" ColumnName="ContainedAtomGroupId" />
           <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="Retraction" ColumnName="Retraction" />
+          <ScalarProperty Name="OriginalFactRecordId" ColumnName="OriginalFactRecordId" />
+          <ScalarProperty Name="RecordCreatedDateTime" ColumnName="RecordCreatedDateTime" />
+          <ScalarProperty Name="RecordCreatedUser" ColumnName="RecordCreatedUser" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

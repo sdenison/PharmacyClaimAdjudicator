@@ -16,6 +16,16 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             //AuthorizationRules.AllowGet(typeof(PredicateList), "Role");
         }
 
+        //public bool Remove(IPredicate itemToRemove)
+        //{
+        //    this.DeletedList.Add(itemToRemove);
+        //    if (!this.Contains(itemToRemove))
+        //        return false;
+        //    this.DeletedList.Add(itemToRemove);
+        //    this.re
+        //    return true;
+        //}
+
         #endregion
 
         #region Factory Methods
@@ -86,23 +96,30 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 var predicateDataList =  from ag in ctx.DbContext.AtomGroupItem
                                          where ag.AtomGroupId == parent.AtomGroupId
+                                         && ag.Retraction == false
+                                         && !ctx.DbContext.AtomGroupItem.Any(agi2 => agi2.Retraction == true && agi2.OriginalFactRecordId == ag.RecordId)
                                          orderby ag.RecordId
                                          select ag;
                 foreach (var predicateData in predicateDataList)
                 {
                     if (predicateData.AtomId != null)
                     {
+                        this.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
+
+
                         //wrapped in a try/catch block because Atoms will not exist if they have been deleted.
-                        try
-                        {
-                            this.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
-                        }
-                        catch (Exception ex)
-                        {
-                            //swallows the excpetion if data is not found because that means it's been logically deleted.
-                            if (ex.GetBaseException().GetType() != typeof(DataNotFoundException))
-                                throw ex;
-                        }
+                        //try
+                        //{
+                        //    this.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    //swallows the excpetion if data is not found because that means it's been logically deleted.
+                        //    if (ex.GetBaseException().GetType() != typeof(DataNotFoundException))
+                        //        throw ex;
+                        //}
+
+
                     }
                     else
                     {
@@ -129,13 +146,56 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         protected void Child_Update(AtomGroup parent)
         {
             //Takes care of saving AtomGroups and Atoms
-            base.Child_Update();
             //Takes care of the record in AtomGroupItem
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var atomGroupItems = (from agi in ctx.DbContext.AtomGroupItem
                                       where agi.AtomGroupId == parent.AtomGroupId
+                                      && agi.Retraction == false
+                                      && !ctx.DbContext.AtomGroupItem.Any(agi2 => agi2.Retraction == true && agi2.OriginalFactRecordId == agi.RecordId)
                                       select agi).ToList();
+                foreach (var item in this.DeletedList)
+                {
+                    var atom = item as Atom;
+                    if (atom != null)
+                    {
+                        var atomData = atomGroupItems.FirstOrDefault(agi => agi.AtomId == atom.AtomId);
+                        if (atomData != null)
+                        {
+                            var atomGroupItemRetraction = new DataAccess.AtomGroupItem();
+                            atomGroupItemRetraction.OriginalFactRecordId = atomData.RecordId;
+                            atomGroupItemRetraction.Retraction = true;
+                            atomGroupItemRetraction.RecordId = Utils.GuidHelper.GenerateComb();
+                            atomGroupItemRetraction.AtomGroupId = parent.AtomGroupId;
+                            atomGroupItemRetraction.AtomId = atom.AtomId;
+                            atomGroupItemRetraction.Priority = 0;
+                            atomGroupItemRetraction.RecordCreatedDateTime = DateTime.Now;
+                            atomGroupItemRetraction.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
+                            ctx.DbContext.AtomGroupItem.Add(atomGroupItemRetraction);
+                        }
+                    }
+
+                    var atomGroup = item as AtomGroup;
+                    if (atomGroup != null)
+                    {
+                        var atomData = atomGroupItems.FirstOrDefault(agi => agi.ContainedAtomGroupId == atomGroup.AtomGroupId);
+                        if (atomData != null)
+                        { 
+                            var atomGroupItemRetraction = new DataAccess.AtomGroupItem();
+                            atomGroupItemRetraction.OriginalFactRecordId = atomData.RecordId;
+                            atomGroupItemRetraction.Retraction = true;
+                            atomGroupItemRetraction.RecordId = Utils.GuidHelper.GenerateComb();
+                            atomGroupItemRetraction.AtomGroupId = atomData.AtomGroupId;// parent.AtomGroupId;
+                            atomGroupItemRetraction.ContainedAtomGroupId = atomGroup.AtomGroupId;
+                            atomGroupItemRetraction.Priority = 0;
+                            atomGroupItemRetraction.RecordCreatedDateTime = DateTime.Now;
+                            atomGroupItemRetraction.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
+                            ctx.DbContext.AtomGroupItem.Add(atomGroupItemRetraction);
+                        }
+                    }
+                }
+                base.Child_Update();
+                DeletedList.Clear();
                 foreach (var item in this)
                 {
                     //var atom = (Atom) item;
@@ -150,6 +210,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                             atomData.AtomGroupId = parent.AtomGroupId;
                             atomData.AtomId = atom.AtomId;
                             atomData.Priority = 0;
+                            atomData.Retraction = false;
+                            atomData.RecordCreatedDateTime = DateTime.Now;
+                            atomData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
                             ctx.DbContext.AtomGroupItem.Add(atomData);
                         }
                     }
@@ -165,6 +228,9 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                             atomData.AtomGroupId = parent.AtomGroupId;
                             atomData.ContainedAtomGroupId = atomGroup.AtomGroupId;
                             atomData.Priority = 0;
+                            atomData.Retraction = false;
+                            atomData.RecordCreatedDateTime = DateTime.Now;
+                            atomData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
                             ctx.DbContext.AtomGroupItem.Add(atomData);
                         }
                     }

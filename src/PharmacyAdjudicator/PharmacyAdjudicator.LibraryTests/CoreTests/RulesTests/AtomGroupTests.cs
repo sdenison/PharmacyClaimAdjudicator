@@ -86,59 +86,43 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests.RulesTests
             //Assert.AreEqual(atomGroup2.Children[0].AtomGroup.Name, "First Test Atom Group");
         }
 
-        [TestMethod]
-        public void Can_resolve_back_to_rule_engine_types()
-        {
-            //Create first AtomGroup
-            //var atomGroup = Library.Core.Rules.AtomGroup.NewAtomGroup();
-            //atomGroup.Name = "First Test Atom Group";
-            //atomGroup.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
-            //atomGroup = atomGroup.Save();
+        //[TestMethod]
+        //public void Can_resolve_back_to_rule_engine_types()
+        //{
+        //    //Create a second AtomGroup
+        //    var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();
+        //    atomGroup2.Name = "Second Test Atom Group";
+        //    atomGroup2.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
+        //    atomGroup2 = atomGroup2.Save();
 
-            ////Add Atom predicate to first AtomGroup
-            //var atom = atomGroup.AddAtom(); // Library.Core.Rules.Atom.NewAtom();
-            //atom.Class = "Transaction";
-            //atom.Property = "Formulary";
-            //atom.Value = "False";
-            ////atom = atom.Save();
-            ////atomGroup.AddPredicate(atom);
+        //    var atomGroup = atomGroup2.AddAtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And); //.AddAtomGroup();
+        //    atomGroup.Name = "First Test Atom Group";
+        //    //atomGroup.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
+        //    //atomGroup = atomGroup.Save();
 
-            //Assert.AreEqual(1, atomGroup.Children.Count);
+        //    //Add Atom predicate to first AtomGroup
+        //    var atom = atomGroup.AddAtom(); // Library.Core.Rules.Atom.NewAtom();
+        //    atom.Class = "Transaction";
+        //    atom.Property = "Formulary";
+        //    atom.Value = "False";
+        //    //atom = atom.Save();
+        //    //atomGroup.AddPredicate(atom);
 
-            //Create a second AtomGroup
-            var atomGroup2 = Library.Core.Rules.AtomGroup.NewAtomGroup();
-            atomGroup2.Name = "Second Test Atom Group";
-            atomGroup2.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.Or;
-            atomGroup2 = atomGroup2.Save();
-
-            var atomGroup = atomGroup2.AddAtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And); //.AddAtomGroup();
-            atomGroup.Name = "First Test Atom Group";
-            //atomGroup.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
-            //atomGroup = atomGroup.Save();
-
-            //Add Atom predicate to first AtomGroup
-            var atom = atomGroup.AddAtom(); // Library.Core.Rules.Atom.NewAtom();
-            atom.Class = "Transaction";
-            atom.Property = "Formulary";
-            atom.Value = "False";
-            //atom = atom.Save();
-            //atomGroup.AddPredicate(atom);
-
-            Assert.AreEqual(1, atomGroup.Children.Count);
+        //    Assert.AreEqual(1, atomGroup.Children.Count);
 
 
-            //atomGroup2.AddPredicate(atomGroup); //already done because it was created with atomGroup2.AddAtomGroup
-            atomGroup2 = atomGroup2.Save();
+        //    //atomGroup2.AddPredicate(atomGroup); //already done because it was created with atomGroup2.AddAtomGroup
+        //    atomGroup2 = atomGroup2.Save();
 
-            //Assert.AreEqual(atomGroup2.Predicates[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
-            //Assert.AreEqual(atomGroup2.Predicates[0].AtomGroup.Name, "First Test Atom Group");
+        //    //Assert.AreEqual(atomGroup2.Predicates[0].PredicateType, Library.Core.Rules.Predicate.PredicateTypeEnum.AtomGroup);
+        //    //Assert.AreEqual(atomGroup2.Predicates[0].AtomGroup.Name, "First Test Atom Group");
 
-            var predicate = (AtomGroup)atomGroup2.Children[0];
-            Assert.AreEqual(predicate.Name, "First Test Atom Group");
+        //    var predicate = (AtomGroup)atomGroup2.Children[0];
+        //    Assert.AreEqual(predicate.Name, "First Test Atom Group");
 
-            NxBRE.InferenceEngine.Rules.AtomGroup rulesEngineAtomGroup = atomGroup2.ToNxBre();
-            Assert.AreEqual(rulesEngineAtomGroup.AllAtoms.Count, 1);
-        }
+        //    NxBRE.InferenceEngine.Rules.AtomGroup rulesEngineAtomGroup = atomGroup2.ToNxBre();
+        //    Assert.AreEqual(rulesEngineAtomGroup.AllAtoms.Count, 1);
+        //}
 
         [TestMethod]
         public void Recreating_AM111OnFormulary_rules_in_database()

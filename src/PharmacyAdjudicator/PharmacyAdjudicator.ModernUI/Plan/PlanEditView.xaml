@@ -12,12 +12,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <UserControl.Resources>
-        <!--<DataTemplate DataType="{x:Type sys:Boolean}">
-            <CheckBox IsChecked="{Binding Mode=TwoWay}"/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type sys:String}">
-            <TextBox Text="{Binding Mode=TwoWay}" />
-        </DataTemplate>-->
         <DataTemplate x:Key="BooleanTemplate">
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding RuleType}" />
@@ -42,25 +36,18 @@
         </DataTemplate>
         <DataTemplate x:Key="StringTemplate">
             <StackPanel Orientation="Horizontal">
-                <!--<Label Content="{Binding RuleType}" />
-                <Label Content=" Has default value "/>-->
                 <mui:BBCodeBlock>DEFAULT: </mui:BBCodeBlock>
                 <TextBox Text="{Binding DefaultValue, Mode=TwoWay}"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="MoneyTemplate">
             <StackPanel Orientation="Horizontal">
-                <!--<Label Content="{Binding RuleType}" />
-                <Label Content=" Has default value $"/>-->
                 <mui:BBCodeBlock>DEFAULT: $</mui:BBCodeBlock>
-                <TextBox Text="{Binding DefaultValue, Mode=TwoWay}"/> <!--local:Masking.Mask="^(\d+)?+([\.]{1})?+([\d]{1,2})?$" />-->
+                <TextBox Text="{Binding DefaultValue, Mode=TwoWay}"/> 
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="AtomMoneyTemplate">
             <StackPanel Orientation="Horizontal">
-                <!--<TextBox Text="{Binding Class, Mode=TwoWay}"/>
-                <TextBlock Text="."/>
-                <TextBox Text="{Binding Property, Mode=TwoWay}" />-->
                 <mui:BBCodeBlock>: $</mui:BBCodeBlock>
                 <TextBox Text="{Binding Value, Mode=TwoWay}"/>
             </StackPanel>
@@ -107,19 +94,11 @@
                 <x:Type TypeName="enums:BasisOfReimbursement" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <!--<DataTemplate x:Key="BasisOfReimbursementTemplate">
-            <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding RuleType, Mode=TwoWay}" />
-                <Label Content=" Has default value "/>
-                <ComboBox SelectedItem="{Binding DefaultValue, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource BasisOfReimbursementValues}}" />
-            </StackPanel>
-        </DataTemplate>-->
         <DataTemplate x:Key="EnumTemplate">
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding RuleType, Mode=TwoWay}" />
                 <Label Content=" Has default value "/>
                 <ComboBox SelectedValue="{Binding DefaultValue, Mode=TwoWay}" ItemsSource="{Binding ClrType, Converter={local:EnumToListConverter}}"/>
-                <!--<ComboBox ItemsSource="{Binding ClrType, Converter={local:EnumToListConverter}}"/>-->
             </StackPanel>
         </DataTemplate>
         <local:RuleDefaultTemplateSelector x:Key="RuleDefaultTemplateSelector" 
@@ -128,11 +107,11 @@
                                            EnumTemplate="{StaticResource EnumTemplate}"
                                            StringTemplate="{StaticResource StringTemplate}"/>
 
-        <local:AtomDefaultTemplateSelector x:Key="atomDefaultTemplateSelector" 
+        <!--<local:AtomDefaultTemplateSelector x:Key="atomDefaultTemplateSelector" 
                                            AtomBooleanTemplate="{StaticResource AtomBooleanTemplate}"
                                            AtomMoneyTemplate="{StaticResource AtomMoneyTemplate}"
                                            AtomEnumTemplate="{StaticResource AtomEnumTemplate}"
-                                           AtomStringTemplate="{StaticResource AtomStringTemplate}"/>
+                                           AtomStringTemplate="{StaticResource AtomStringTemplate}"/>-->
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -167,24 +146,11 @@
                         <Label Content="Plan Name" />
                         <TextBox x:Name="Name" Width="150" Text="{Binding Path=Model.Name, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
                     </StackPanel>
-                    <!--<Model.AssignedRules></Model.AssignedRules>-->
-                    
                     <ListBox x:Name="rules" ItemsSource="{Binding Path=Model.AssignedRules}" SelectedItem="{Binding Path=SelectedRule, Mode=TwoWay}" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                <StackPanel.Resources>
-                                    <!--<ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type SystemGesture:}">
-                                            
-                                    </ObjectDataProvider>-->
-                                    <!--<DataTemplate DataType="{x:Type enums:BasisOfReimbursement}">
-                                        <ComboBox ItemsSource="{Binding Source={StaticResource BasisOfReimbursementValues}}"/>
-                                    </DataTemplate>-->
-                                </StackPanel.Resources>
                                     <Label Content="{Binding RuleType}" />
-                                    <!--<Label Content=" Has default value "/>
-                                    <TextBox Text="{Binding DefaultValue}"/>-->
-                                        
                             </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -211,16 +177,26 @@
                                     <TextBox Text="{Binding Path=Head.Value}" HorizontalAlignment="Left"/>
                                     <mui:ModernButton x:Name="RemoveImplication" cal:Message.Attach="RemoveImplication($dataContext)" ToolTip="Remove implication" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Right" EllipseDiameter="25" IconData="{StaticResource appbar_delete}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />
                                 </DockPanel>
-                                <Label Content="When"></Label>
-                                <TreeView x:Name="AtomGroupTreeView" ItemsSource="{Binding Path=Body}" >
+                                <TreeView x:Name="AtomGroupTreeView" DataContext="{Binding Path=Body}">  
+                                    <TreeViewItem ItemsSource="{Binding Path=Children}">
+                                        <TreeViewItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Add New List..." cal:Message.Attach="AddAtomGroup($dataContext)"></MenuItem>
+                                                        <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom($dataContext)"></MenuItem>
+                                                    </ContextMenu>
+                                                </StackPanel.ContextMenu>
+                                                <Label Content="When all of the following are true..."></Label>
+                                            </StackPanel>
+                                            </TreeViewItem.Header>
+                                    </TreeViewItem>
                                     <TreeView.Resources>
                                         <DataTemplate DataType="{x:Type library:Atom}">
-                                            <StackPanel Orientation="Horizontal" MinWidth="300" Background="Transparent" 
+                                            <StackPanel Orientation="Horizontal" MinWidth="400" Background="Transparent" 
                                                         Tag="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}, AncestorLevel=2}}">
                                                 <StackPanel.ContextMenu>
                                                     <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"> <!-- cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">-->
-                                                        <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom($dataContext)" />
-                                                        <!--<MenuItem Header="Remove..." cal:Message.Attach="RemoveAtom($dataContext)"/>-->
                                                         <MenuItem Header="Remove..." cal:Message.Attach="RemoveAtom($dataContext)"/>
                                                     </ContextMenu>
                                                 </StackPanel.ContextMenu>
@@ -248,19 +224,20 @@
                                         </DataTemplate>
                                         <HierarchicalDataTemplate
                                             DataType="{x:Type library:AtomGroup}" ItemsSource="{Binding Children}">
-                                            <StackPanel Orientation="Horizontal" Tag="{Binding DataContext, ElementName=ImplicationsStackPanel}"> 
-                                                <StackPanel.ContextMenu>
-                                                    <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                                        <MenuItem Header="Add New List..." cal:Message.Attach="AddAtomGroup($dataContext)" />
-                                                        <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom($dataContext)" />
-                                                        <MenuItem Header="Remove..."/>
-                                                    </ContextMenu>
-                                                </StackPanel.ContextMenu>
-                                                <TextBlock Text="List type: ">
-                                                </TextBlock>
-                                                <TextBlock Text="{Binding LogicalOperator}"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel Orientation="Horizontal" Tag="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}, AncestorLevel=2}}">
+                                                    <StackPanel.ContextMenu>
+                                                        <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                                            <MenuItem Header="Add New List..." cal:Message.Attach="AddAtomGroup($dataContext)" />
+                                                            <MenuItem Header="Add Item..." cal:Message.Attach="AddAtom($dataContext)" />
+                                                            <MenuItem Header="Remove..." cal:Message.Attach="RemoveAtomGroup($dataContext)"/>
+                                                        </ContextMenu>
+                                                    </StackPanel.ContextMenu>
+                                                    <TextBlock Text="{Binding LogicalOperator}"/>
+                                                    <TextBlock Text=" List"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                       </HierarchicalDataTemplate>
+                                        </HierarchicalDataTemplate>
                                     </TreeView.Resources>
                                 </TreeView>
                             </StackPanel>

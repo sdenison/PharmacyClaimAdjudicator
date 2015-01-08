@@ -19,6 +19,10 @@ namespace PharmacyAdjudicator.DataAccess
         public Nullable<System.Guid> AtomId { get; set; }
         public Nullable<System.Guid> ContainedAtomGroupId { get; set; }
         public int Priority { get; set; }
+        public bool Retraction { get; set; }
+        public Nullable<System.Guid> OriginalFactRecordId { get; set; }
+        public System.DateTime RecordCreatedDateTime { get; set; }
+        public string RecordCreatedUser { get; set; }
     
         public virtual AtomGroup AtomGroup { get; set; }
         public virtual Atom Atom { get; set; }

@@ -24,7 +24,40 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         public string Property
         {
             get { return GetProperty(PropertyProperty); }
-            set { SetProperty(PropertyProperty, value); OnPropertyChanged("ClrType"); OnPropertyChanged("ClrTypeString"); }
+            set 
+            { 
+                SetProperty(PropertyProperty, value);
+                this.Value = DefaultDefault();
+                OnPropertyChanged("ClrType"); 
+                OnPropertyChanged("ClrTypeString"); 
+            }
+        }
+
+        /// <summary>
+        /// Provides a default value for the default property based on the ruleType's type.  Very meta.
+        /// </summary>
+        /// <param name="ruleType"></param>
+        /// <returns></returns>
+        private object DefaultDefault()
+        {
+            if ((string.IsNullOrEmpty(this.Class)) || (string.IsNullOrEmpty(this.Property)))
+                return "";
+            Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
+            //If we don't have enough information to get the type of the atom then return NotSet by default.
+            if (type == null)
+                return "";
+            var pi = type.GetProperty(this.Property);
+            if (pi == null)
+                return "";
+            if (pi.PropertyType.IsEnum)
+                return default(int);// "Enum";
+            if (pi.PropertyType.Equals(typeof(decimal)))
+                return 0.0;
+            if (pi.PropertyType.Equals(typeof(string)))
+                return "";
+            if (pi.PropertyType.Equals(typeof(int)))
+                return 0;
+            return 0;
         }
 
         public Type ClrType
@@ -68,7 +101,10 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 //If class is changing then property should not be set
                 if ((this.Class != value) && (!string.IsNullOrEmpty(this.Property)))
+                {
                     this.Property = "";
+                    OnPropertyChanged("Property");
+                }
                 SetProperty(ClassProperty, value);
                 OnPropertyChanged("AllowedProperties");
             }
@@ -291,7 +327,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         protected void Child_DeleteSelf()
         {
-            RetractFact();
+            //RetractFact();
+            //Using deletion of link in AtomGroupItem instead.
         }
 
         protected override void DataPortal_DeleteSelf()
@@ -356,19 +393,19 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private void PopulateByEntity(DataAccess.AtomDetail atomData)
         {
             this.RecordId = atomData.RecordId;
-            this.AtomId = atomData.AtomId;
-            this.Class = atomData.Class;
-            if (atomData.Property == "BasisOfReimbursement")
-            {
-                var x = "asdf";
-            }
-
-            this.Property = atomData.Property;
-            this.Operation = atomData.Operation;
+            //this.AtomId = atomData.AtomId;
+            SetProperty(AtomIdProperty, atomData.AtomId);
+            //this.Class = atomData.Class;
+            SetProperty(ClassProperty, atomData.Class);
+            //this.Property = atomData.Property;
+            SetProperty(PropertyProperty, atomData.Property);
+            //this.Operation = atomData.Operation;
+            SetProperty(OperationProperty, atomData.Operation);
 
             //Converts Value to correct ClrType
             TypeConverter tc = TypeDescriptor.GetConverter(this.ClrType); 
-            this.Value = tc.ConvertFromString(atomData.Value);
+            //this.Value = tc.ConvertFromString(atomData.Value);
+            SetProperty(ValueProperty, tc.ConvertFromString(atomData.Value));
         }
 
 

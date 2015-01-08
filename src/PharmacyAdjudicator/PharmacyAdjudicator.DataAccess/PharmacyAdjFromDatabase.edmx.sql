@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/04/2015 13:08:21
+-- Date Created: 01/07/2015 13:25:50
 -- Generated from EDMX file: C:\Users\sdenison\work\PharmacyClaimAdjudicator\src\PharmacyAdjudicator\PharmacyAdjudicator.DataAccess\PharmacyAdjFromDatabase.edmx
 -- --------------------------------------------------
 
@@ -330,7 +330,11 @@ CREATE TABLE [dbo].[AtomGroupItem] (
     [AtomGroupId] uniqueidentifier  NOT NULL,
     [AtomId] uniqueidentifier  NULL,
     [ContainedAtomGroupId] uniqueidentifier  NULL,
-    [Priority] int  NOT NULL
+    [Priority] int  NOT NULL,
+    [Retraction] bit  NOT NULL,
+    [OriginalFactRecordId] uniqueidentifier  NULL,
+    [RecordCreatedDateTime] datetime  NOT NULL,
+    [RecordCreatedUser] nvarchar(30)  NOT NULL
 );
 GO
 
@@ -1099,6 +1103,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_RuleImplicationRuleImplication'
 CREATE INDEX [IX_FK_RuleImplicationRuleImplication]
 ON [dbo].[RuleImplication]
+    ([OriginalFactRecordId]);
+GO
+
+-- Creating foreign key on [OriginalFactRecordId] in table 'AtomGroupItem'
+ALTER TABLE [dbo].[AtomGroupItem]
+ADD CONSTRAINT [FK_AtomGroupItemAtomGroupItem]
+    FOREIGN KEY ([OriginalFactRecordId])
+    REFERENCES [dbo].[AtomGroupItem]
+        ([RecordId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AtomGroupItemAtomGroupItem'
+CREATE INDEX [IX_FK_AtomGroupItemAtomGroupItem]
+ON [dbo].[AtomGroupItem]
     ([OriginalFactRecordId]);
 GO
 
