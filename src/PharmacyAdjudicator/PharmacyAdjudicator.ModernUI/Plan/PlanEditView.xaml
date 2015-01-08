@@ -172,9 +172,10 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
-                                <DockPanel>
+                                <DockPanel DataContext="{Binding Head}">
                                     <Label Content="Is " HorizontalAlignment="Left"></Label>
-                                    <TextBox Text="{Binding Path=Head.Value}" HorizontalAlignment="Left"/>
+                                    <TextBox Text="{Binding Path=Value}" HorizontalAlignment="Left"/>
+                                    <ContentControl x:Name="ValueContentControl2" Content="{Binding}" ContentTemplate="{StaticResource AtomNotSetTemplate}" />
                                     <mui:ModernButton x:Name="RemoveImplication" cal:Message.Attach="RemoveImplication($dataContext)" ToolTip="Remove implication" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Right" EllipseDiameter="25" IconData="{StaticResource appbar_delete}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />
                                 </DockPanel>
                                 <TreeView x:Name="AtomGroupTreeView" DataContext="{Binding Path=Body}">  
@@ -241,6 +242,23 @@
                                     </TreeView.Resources>
                                 </TreeView>
                             </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="NotSet">
+                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomNotSetTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="String">
+                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomStringTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="Decimal">
+                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomMoneyTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="Boolean">
+                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomBooleanTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="Enum">
+                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomEnumTemplate}"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

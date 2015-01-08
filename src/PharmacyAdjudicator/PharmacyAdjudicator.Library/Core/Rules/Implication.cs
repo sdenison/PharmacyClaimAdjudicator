@@ -25,6 +25,21 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             set { SetProperty(HeadProperty, value); }
         }
 
+        public Type ClrType
+        {
+            get
+            {
+                return this.Head.ClrType;
+                //if ((string.IsNullOrEmpty(this.Class)) || (string.IsNullOrEmpty(this.Property)))
+                //    return typeof(string);
+                //Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
+                ////If we don't have enough information to get the type of the atom then return string by default.
+                //var pi = type.GetProperty(this.Property);
+                //return pi.PropertyType;
+            }
+            private set { }
+        }
+
         public static readonly PropertyInfo<AtomGroup> BodyProperty = RegisterProperty<AtomGroup>(c => c.Body);
         public AtomGroup Body
         {
