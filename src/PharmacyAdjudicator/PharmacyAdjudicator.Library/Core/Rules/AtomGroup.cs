@@ -253,22 +253,13 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         protected void Child_Update(Implication parent)
         {
-            //base.DataPortal_Update();
             Child_Update();
         }
-
-        //protected void Child_Update(Predicate parent)
-        //{
-        //    //base.DataPortal_Update();
-        //    Child_Update();
-        //}
 
         [RunLocal]
         protected override void DataPortal_Create()
         {
             this.AtomGroupId = Utils.GuidHelper.GenerateComb();
-            //this.Children = PredicateList.NewPredicateList(this);
-            //this.Children = DataPortal.CreateChild<PredicateList>();
             base.DataPortal_Create();
         }
 
@@ -285,24 +276,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 using (BypassPropertyChecks)
                 {
                     PopulateByEntity(atomGroupData);
-                    //var predicateDataList = from p in ctx.DbContext.AtomGroupItem
-                    //                    where p.AtomGroupId == atomGroupId
-                    //                    orderby p.Priority
-                    //                    select p;
-
-                    //foreach (var predicateData in predicateDataList)
-                    //{
-                    //    if (predicateData.AtomId != null)
-                    //    {
-                    //        //Children.Add(DataPortal.Fetch<Atom>(predicateData.AtomId));
-                    //        Children.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
-                    //    }
-                    //    else
-                    //    {
-                    //        //Children.Add(DataPortal.Fetch<AtomGroup>(predicateData.ContainedAtomGroupId));
-                    //        Children.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId));
-                    //    }
-                    //}
                 }
             }
         }
@@ -320,7 +293,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 using (BypassPropertyChecks)
                 {
                     PopulateByEntity(atomGroupData);
-                    //var children = this.Children; //called to so we can eagerly load the children
                 }
             }
         }
@@ -338,49 +310,10 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 {
                     PopulateByEntity(atomGroupData);
                     this.SetParent(parent);
-                    //var predicateDataList = from p in ctx.DbContext.AtomGroupItem
-                    //                        where p.AtomGroupId == atomGroupId
-                    //                        orderby p.Priority
-                    //                        select p;
-                    //if (Children == null)
-                    //    Children = PredicateList.NewPredicateList(this);
-                    //foreach (var predicateData in predicateDataList)
-                    //{
-                    //    //Load child data
-                    //    if (predicateData.AtomId != null)
-                    //    {
-                    //        //this.SetParent(parent);
-                    //        Children.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
-                    //    }
-                    //    else
-                    //    {
-                    //        //this.SetParent(parent);
-                    //        var atomGroupToAdd = DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId, this);
-                    //        atomGroupToAdd.PropertyChanged += (o, a) => { this.MarkDirty(); };
-                    //        Children.Add(atomGroupToAdd);
-                    //        //Children.Add(DataPortal.FetchChild<AtomGroup>(predicateData.ContainedAtomGroupId, this));
-                    //    }
-                    //}
                 }
             }
-
-
-
-            //DataPortal_Fetch(atomGroupId);
             MarkAsChild();
         }
-
-        //private void SaveChildren()
-        //{
-        //    foreach (var child in Children)
-        //    {
-        //        var savableChild = (IBusinessBase)child;
-        //        if (savableChild.IsSavable)
-        //        {
-        //            savableChild.Save();
-        //        }
-        //    }
-        //}
 
         protected override void DataPortal_Insert()
         {

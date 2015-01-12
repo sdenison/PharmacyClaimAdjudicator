@@ -104,6 +104,8 @@
     <Compile Include="Core\Rules\ImplicationList.cs" />
     <Compile Include="Core\Rules\ImplicationsAssignedToRuleMustMatchTypes.cs" />
     <Compile Include="Core\Rules\IPredicate.cs" />
+    <Compile Include="Core\Rules\Operator.cs" />
+    <Compile Include="Core\Rules\OperatorDictionary.cs" />
     <Compile Include="Core\Rules\Predicate.cs" />
     <Compile Include="Core\Rules\PredicateList.cs" />
     <Compile Include="Core\Rules\Rule.cs" />

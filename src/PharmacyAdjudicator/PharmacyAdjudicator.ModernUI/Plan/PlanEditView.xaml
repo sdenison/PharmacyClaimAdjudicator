@@ -48,15 +48,25 @@
         </DataTemplate>
         <DataTemplate x:Key="AtomMoneyTemplate">
             <StackPanel Orientation="Horizontal">
-                <mui:BBCodeBlock>: $</mui:BBCodeBlock>
-                <TextBox Text="{Binding Value, Mode=TwoWay}"/>
+                <ComboBox SelectedValue="{Binding Operator, Mode=TwoWay}" ItemsSource="{Binding AllowedOperators}" SelectedValuePath="Name" DisplayMemberPath="Symbol" Padding="5,0,0,0"></ComboBox>
+                <TextBox Text="{Binding Value, Mode=TwoWay}" Padding="5,0,0,0"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ImplicationHeadMoneyTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Value, Mode=TwoWay}" Padding="5,0,0,0"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="AtomNotSetTemplate">
         </DataTemplate>
         <DataTemplate x:Key="AtomStringTemplate">
             <StackPanel Orientation="Horizontal">
-                <mui:BBCodeBlock>: </mui:BBCodeBlock>
+                <ComboBox SelectedItem="{Binding Operator, Mode=TwoWay}" ItemsSource="{Binding AllowedOperators}" SelectedValuePath="Name" DisplayMemberPath="Symbol" Padding="5,0,0,0"></ComboBox>
+                <TextBox Text="{Binding Value, Mode=TwoWay}" Padding="5,0,0,0"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ImplicationHeadStringTemplate">
+            <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding Value, Mode=TwoWay}"/>
             </StackPanel>
         </DataTemplate>
@@ -150,7 +160,8 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{Binding RuleType}" />
+                                    <!--<Label Content="{Binding RuleType}" />-->
+                                    <TextBlock Text="{Binding RuleType}" />
                             </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -160,8 +171,8 @@
             </StackPanel>
         </ScrollViewer>
         <GridSplitter Grid.Column="1"/>
-         
         <ScrollViewer Grid.Column="2">
+            <!-- Implication Beginning-->
             <StackPanel Orientation="Vertical" x:Name="ImplicationsStackPanel">
                 <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>
                 <ContentControl x:Name="RuleDefaultContent" Content="{Binding Path=SelectedRule}" ContentTemplateSelector="{StaticResource RuleDefaultTemplateSelector}" Margin="5,0,0,0"/>
@@ -175,7 +186,7 @@
                                 <DockPanel DataContext="{Binding Head}">
                                     <Label Content="Is " HorizontalAlignment="Left"></Label>
                                     <TextBox Text="{Binding Path=Value}" HorizontalAlignment="Left"/>
-                                    <ContentControl x:Name="ValueContentControl2" Content="{Binding}" ContentTemplate="{StaticResource AtomNotSetTemplate}" />
+                                    <ContentControl x:Name="ImplicationHeadValueControl" Content="{Binding}" ContentTemplate="{StaticResource AtomNotSetTemplate}" />
                                     <mui:ModernButton x:Name="RemoveImplication" cal:Message.Attach="RemoveImplication($dataContext)" ToolTip="Remove implication" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Right" EllipseDiameter="25" IconData="{StaticResource appbar_delete}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />
                                 </DockPanel>
                                 <TreeView x:Name="AtomGroupTreeView" DataContext="{Binding Path=Body}">  
@@ -197,7 +208,7 @@
                                             <StackPanel Orientation="Horizontal" MinWidth="400" Background="Transparent" 
                                                         Tag="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}, AncestorLevel=2}}">
                                                 <StackPanel.ContextMenu>
-                                                    <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"> <!-- cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">-->
+                                                    <ContextMenu cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"> 
                                                         <MenuItem Header="Remove..." cal:Message.Attach="RemoveAtom($dataContext)"/>
                                                     </ContextMenu>
                                                 </StackPanel.ContextMenu>
@@ -244,19 +255,19 @@
                             </StackPanel>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="NotSet">
-                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomNotSetTemplate}"/>
+                                    <Setter TargetName="ImplicationHeadValueControl" Property="ContentTemplate" Value="{StaticResource AtomNotSetTemplate}"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="String">
-                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomStringTemplate}"/>
+                                    <Setter TargetName="ImplicationHeadValueControl" Property="ContentTemplate" Value="{StaticResource ImplicationHeadStringTemplate}"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="Decimal">
-                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomMoneyTemplate}"/>
+                                    <Setter TargetName="ImplicationHeadValueControl" Property="ContentTemplate" Value="{StaticResource ImplicationHeadMoneyTemplate}"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="Boolean">
-                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomBooleanTemplate}"/>
+                                    <Setter TargetName="ImplicationHeadValueControl" Property="ContentTemplate" Value="{StaticResource AtomBooleanTemplate}"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=Head.ClrTypeString}" Value="Enum">
-                                    <Setter TargetName="ValueContentControl2" Property="ContentTemplate" Value="{StaticResource AtomEnumTemplate}"/>
+                                    <Setter TargetName="ImplicationHeadValueControl" Property="ContentTemplate" Value="{StaticResource AtomEnumTemplate}"/>
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>

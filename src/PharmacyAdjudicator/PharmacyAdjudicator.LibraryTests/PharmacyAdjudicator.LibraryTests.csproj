@@ -88,6 +88,7 @@
     <Compile Include="CoreTests\PatientTests\PatientHistoryTests.cs" />
     <Compile Include="CoreTests\PatientTests\PatientTests.cs" />
     <Compile Include="CoreTests\PlanTests\PlanTests.cs" />
+    <Compile Include="CoreTests\RulesTests\OperatorDictionaryTests.cs" />
     <Compile Include="CoreTests\RulesTests\RuleTests.cs" />
     <Compile Include="CoreTests\RulesTests\RuleTypesTests.cs" />
     <Compile Include="CoreTests\TransactionProcessorTests.cs" />

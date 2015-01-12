@@ -74,6 +74,25 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             private set { }
         }
 
+        public List<Operator> AllowedOperators
+        {
+            get
+            {
+                var clrType = ClrType;
+                if (clrType.IsEnum)
+                    return OperatorDictionary.Operators[typeof(Enum)];
+                try
+                {
+                    return OperatorDictionary.Operators[clrType];
+                }
+                catch (Exception ex)
+                {
+                    var exception = ex;
+                    throw ex;
+                }
+            }
+        }
+
         public string ClrTypeString
         {
             get
@@ -131,7 +150,10 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         public static readonly PropertyInfo<string> OperationProperty = RegisterProperty<string>(c => c.Operation);
         public string Operation
         {
-            get { return GetProperty(OperationProperty); }
+            get 
+            { 
+                return GetProperty(OperationProperty); 
+            }
             set { SetProperty(OperationProperty, value); }
         } 
 
@@ -400,7 +422,10 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             //this.Property = atomData.Property;
             SetProperty(PropertyProperty, atomData.Property);
             //this.Operation = atomData.Operation;
-            SetProperty(OperationProperty, atomData.Operation);
+            if (string.IsNullOrEmpty(atomData.Operation))
+                SetProperty(OperationProperty, OperatorDictionary.Operators[ClrType][0].Name);
+            else
+                SetProperty(OperationProperty, atomData.Operation);
 
             //Converts Value to correct ClrType
             TypeConverter tc = TypeDescriptor.GetConverter(this.ClrType); 
