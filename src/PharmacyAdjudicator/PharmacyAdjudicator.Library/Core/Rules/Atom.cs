@@ -203,11 +203,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             base.MarkAsChild();
         }
 
-        //public void RemoveAtom(Atom atomToRemove)
-        //{
-        //    var x = "this worked";
-        //}
-
         #endregion
 
         #region Business Rules
@@ -266,7 +261,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         protected override void Child_Create()
         {
             this.AtomId = Utils.GuidHelper.GenerateComb();
-            //this.AtomId = Guid.
             base.Child_Create();
         }
 
@@ -415,25 +409,17 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         private void PopulateByEntity(DataAccess.AtomDetail atomData)
         {
             this.RecordId = atomData.RecordId;
-            //this.AtomId = atomData.AtomId;
             SetProperty(AtomIdProperty, atomData.AtomId);
-            //this.Class = atomData.Class;
             SetProperty(ClassProperty, atomData.Class);
-            //this.Property = atomData.Property;
             SetProperty(PropertyProperty, atomData.Property);
-            //this.Operation = atomData.Operation;
             if (string.IsNullOrEmpty(atomData.Operation))
                 SetProperty(OperationProperty, OperatorDictionary.Operators[ClrType][0].Name);
             else
                 SetProperty(OperationProperty, atomData.Operation);
-
             //Converts Value to correct ClrType
             TypeConverter tc = TypeDescriptor.GetConverter(this.ClrType); 
-            //this.Value = tc.ConvertFromString(atomData.Value);
             SetProperty(ValueProperty, tc.ConvertFromString(atomData.Value));
         }
-
-
 
         private DataAccess.AtomDetail CreateNewEntity()
         {
@@ -449,7 +435,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             atomData.RecordCreatedUser = Csla.ApplicationContext.User.Identity.Name;
             return atomData;
         }
-
         #endregion
     }
 }

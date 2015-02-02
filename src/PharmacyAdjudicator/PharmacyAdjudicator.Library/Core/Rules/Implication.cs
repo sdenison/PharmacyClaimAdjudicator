@@ -30,12 +30,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             get
             {
                 return this.Head.ClrType;
-                //if ((string.IsNullOrEmpty(this.Class)) || (string.IsNullOrEmpty(this.Property)))
-                //    return typeof(string);
-                //Type type = Type.GetType("PharmacyAdjudicator.Library.Core." + this.Class);
-                ////If we don't have enough information to get the type of the atom then return string by default.
-                //var pi = type.GetProperty(this.Property);
-                //return pi.PropertyType;
             }
             private set { }
         }
@@ -86,11 +80,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 return new NxBRE.InferenceEngine.Rules.Implication(this.Label, ImplicationPriority.Medium, "", "", head, returnAtomGroup);
             }
         }
-
-        //public void RemoveAtom(Atom atomToRemove)
-        //{
-        //    var x = "got here";
-        //}
 
         #endregion
 
@@ -308,11 +297,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             this.ImplicationId = implicationData.ImplicationId;
             this.Head = DataPortal.FetchChild<Atom>(implicationData.DeductionAtomId);
-            //this.Body = DataPortal.FetchChild<AtomGroup>(implicationData.AtomGroupId);
             this.Body = DataPortal.FetchChild<AtomGroup>(implicationData.AtomGroupId, this); //With this sent to fetch to set parent
-
-            //this.Head = Atom.GetByAtomId(implicationData.DeductionAtomId);
-            //this.Body = AtomGroup.GetById(implicationData.AtomGroupId);
         }
 
         #endregion

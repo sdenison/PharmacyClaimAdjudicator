@@ -14,8 +14,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="BooleanTemplate">
             <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding RuleType}" />
-                <Label Content=" Has default value "/>
+                <mui:BBCodeBlock Text="DEFAULT  "></mui:BBCodeBlock>
                 <CheckBox IsChecked="{Binding DefaultValue, Mode=TwoWay}" Width="100" Height="22">
                     <CheckBox.Style>
                         <Style TargetType="{x:Type CheckBox}">
@@ -48,7 +47,7 @@
         </DataTemplate>
         <DataTemplate x:Key="AtomMoneyTemplate">
             <StackPanel Orientation="Horizontal">
-                <ComboBox SelectedValue="{Binding Operator, Mode=TwoWay}" ItemsSource="{Binding AllowedOperators}" SelectedValuePath="Name" DisplayMemberPath="Symbol" Padding="5,0,0,0"></ComboBox>
+                <ComboBox SelectedValue="{Binding Operation, Mode=TwoWay}" ItemsSource="{Binding AllowedOperators}" SelectedValuePath="Name" DisplayMemberPath="Symbol" Padding="5,0,0,0"></ComboBox>
                 <TextBox Text="{Binding Value, Mode=TwoWay}" Padding="5,0,0,0"/>
             </StackPanel>
         </DataTemplate>
@@ -61,7 +60,7 @@
         </DataTemplate>
         <DataTemplate x:Key="AtomStringTemplate">
             <StackPanel Orientation="Horizontal">
-                <ComboBox SelectedItem="{Binding Operator, Mode=TwoWay}" ItemsSource="{Binding AllowedOperators}" SelectedValuePath="Name" DisplayMemberPath="Symbol" Padding="5,0,0,0"></ComboBox>
+                <ComboBox SelectedValue="{Binding Operation, Mode=TwoWay}" ItemsSource="{Binding AllowedOperators}" SelectedValuePath="Name" DisplayMemberPath="Symbol" Padding="5,0,0,0"></ComboBox>
                 <TextBox Text="{Binding Value, Mode=TwoWay}" Padding="5,0,0,0"/>
             </StackPanel>
         </DataTemplate>
@@ -72,7 +71,6 @@
         </DataTemplate>
         <DataTemplate x:Key="AtomBooleanTemplate">
             <StackPanel Orientation="Horizontal">
-                <mui:BBCodeBlock>: </mui:BBCodeBlock>
                 <CheckBox IsChecked="{Binding Value, Mode=TwoWay}" Width="100" Height="22">
                     <CheckBox.Style>
                         <Style TargetType="{x:Type CheckBox}">
@@ -93,7 +91,7 @@
         </DataTemplate>
         <DataTemplate x:Key="AtomEnumTemplate">
             <StackPanel Orientation="Horizontal">
-                <mui:BBCodeBlock>:</mui:BBCodeBlock>
+                <mui:BBCodeBlock>=</mui:BBCodeBlock>
                 <ComboBox SelectedValue="{Binding Value, Mode=TwoWay}" ItemsSource="{Binding ClrType, Converter={local:EnumToListConverter}}"/>
             </StackPanel>
         </DataTemplate>
@@ -107,7 +105,7 @@
         <DataTemplate x:Key="EnumTemplate">
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding RuleType, Mode=TwoWay}" />
-                <Label Content=" Has default value "/>
+                <Label Content=" default value "/>
                 <ComboBox SelectedValue="{Binding DefaultValue, Mode=TwoWay}" ItemsSource="{Binding ClrType, Converter={local:EnumToListConverter}}"/>
             </StackPanel>
         </DataTemplate>
@@ -116,12 +114,6 @@
                                            MoneyTemplate="{StaticResource MoneyTemplate}"
                                            EnumTemplate="{StaticResource EnumTemplate}"
                                            StringTemplate="{StaticResource StringTemplate}"/>
-
-        <!--<local:AtomDefaultTemplateSelector x:Key="atomDefaultTemplateSelector" 
-                                           AtomBooleanTemplate="{StaticResource AtomBooleanTemplate}"
-                                           AtomMoneyTemplate="{StaticResource AtomMoneyTemplate}"
-                                           AtomEnumTemplate="{StaticResource AtomEnumTemplate}"
-                                           AtomStringTemplate="{StaticResource AtomStringTemplate}"/>-->
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -184,8 +176,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
                                 <DockPanel DataContext="{Binding Head}">
-                                    <Label Content="Is " HorizontalAlignment="Left"></Label>
-                                    <TextBox Text="{Binding Path=Value}" HorizontalAlignment="Left"/>
+                                    <mui:BBCodeBlock Text="Is  "></mui:BBCodeBlock>
                                     <ContentControl x:Name="ImplicationHeadValueControl" Content="{Binding}" ContentTemplate="{StaticResource AtomNotSetTemplate}" />
                                     <mui:ModernButton x:Name="RemoveImplication" cal:Message.Attach="RemoveImplication($dataContext)" ToolTip="Remove implication" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Right" EllipseDiameter="25" IconData="{StaticResource appbar_delete}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />
                                 </DockPanel>

@@ -139,38 +139,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             base.Child_Create();
         }
 
-        //private void Child_Create(AtomGroup parent, AtomGroup item)
-        //{
-        //    this._RecordId = Utils.GuidHelper.GenerateComb();
-        //    this.AtomGroupId = parent.AtomGroupId;
-        //    this.AtomGroup = item;
-        //    base.Child_Create();
-        //}
-
-        //private void Child_Create(AtomGroup parent, Atom item)
-        //{
-        //    this._RecordId = Utils.GuidHelper.GenerateComb();
-        //    this.AtomGroupId = parent.AtomGroupId;
-        //    this.Atom = item;
-        //    base.Child_Create();
-        //}
-
-        //private void Child_Fetch(int recordId)
-        //{
-        //    using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-        //    {
-        //        var atomGroupItemData = (from a in ctx.DbContext.AtomGroupItems
-        //                                 where a.RecordId == recordId
-        //                                 select a).FirstOrDefault();
-        //        if (atomGroupItemData == null)
-        //            throw new DataNotFoundException("RecordId = " + recordId.ToString());
-        //        using (BypassPropertyChecks)
-        //        {
-        //            PopulateByEntity(atomGroupItemData);
-        //        }
-        //    }
-        //}
-
         private void Child_Fetch(DataAccess.AtomGroupItem atomGroupItemData)
         {
             using (BypassPropertyChecks)
@@ -179,37 +147,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-        //private void Child_Insert()
-        //{
-        //    using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-        //    {
-        //        var atomGroupItemData = CreateEntity();
-        //        ctx.DbContext.AtomGroupItems.Add(atomGroupItemData);
-        //        ctx.DbContext.SaveChanges();
-        //        UpdateChildren();
-        //        _RecordId = atomGroupItemData.RecordId;
-        //    }
-        //}
-
         private void Child_Insert(AtomGroup parent)
         {
             using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
             {
                 var atomGroupItemData = CreateEntity();
                 atomGroupItemData.AtomGroupId = parent.AtomGroupId;
-                //FieldManager.UpdateChildren(this);
-                //UpdateChildren();
-
-                //TODO: re-enable
-                //Child_Update(parent);
                 FieldManager.UpdateChildren(this);
-
                 ctx.DbContext.AtomGroupItem.Add(atomGroupItemData);
-                //TODO: re-enable
-                //ctx.DbContext.SaveChanges();
-
-
-                //UpdateChildren();
             }
         }
 
@@ -225,19 +170,12 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-
-        //private void Child_Update()
-        //{
-        //    UpdateChildren();
-        //}
-
         private void Child_Update(AtomGroup parent)
         {
             if ((this.Atom != null) && (this.Atom.IsSavable))
                 this.Atom = this.Atom.Save();
             if ((this.AtomGroup != null) && (this.AtomGroup.IsSavable))
                 this.AtomGroup = this.AtomGroup.Save();
-            //var x = "This is rad";
             //Save the children!
         }
 
@@ -257,40 +195,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             }
         }
 
-        //protected override void DataPortal_Insert()
-        //{
-        //    using (var ctx = DbContextManager<DataAccess.PharmacyClaimAdjudicatorEntities>.GetManager())
-        //    {
-        //        var atomGroupItemData = CreateEntity();
-        //        //if (this.PredicateType == PredicateTypeEnum.Atom)
-        //        //{
-        //        //    atomGroupItemData.AtomId = this.Atom.AtomId;
-        //        //    atomGroupItemData.AtomGroupId = this.AtomGroupId;
-        //        //    atomGroupItemData.Priority = this.Priority;
-        //        //    atomGroupItemData.ContainedAtomGroupId = 0;
-        //        //}
-        //        //else if(this.PredicateType == PredicateTypeEnum.AtomGroup)
-        //        //{
-        //        //    atomGroupItemData.AtomGroupId = this.AtomGroupId;
-        //        //    atomGroupItemData.AtomId = 0;
-        //        //    atomGroupItemData.ContainedAtomGroupId = this.AtomGroup.AtomGroupId;
-        //        //    atomGroupItemData.Priority = this.Priority;
-        //        //}
-        //        ctx.DbContext.AtomGroupItems.Add(atomGroupItemData);
-        //        ctx.DbContext.SaveChanges();
-        //        UpdateChildren();
-        //        _RecordId = atomGroupItemData.RecordId;
-        //    }
-        //}
-
-        //private void UpdateChildren()
-        //{
-        //    if (this.Atom != null)
-        //        this.Atom.Save();
-        //    if (this.AtomGroup != null)
-        //        this.AtomGroup.Save();
-        //}
-
         private void PopulateByEntity(DataAccess.AtomGroupItem atomGroupItemData)
         {
             _RecordId = atomGroupItemData.RecordId;
@@ -299,18 +203,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             {
                 if (atomGroupItemData.AtomId.HasValue)
                 {
-                    //this.Atom = Core.Rules.Atom.GetByAtomId(atomGroupItemData.AtomId.Value);
                     this.Atom = DataPortal.FetchChild<Atom>(atomGroupItemData.AtomId.Value);
-                    //this.PredicateType = PredicateTypeEnum.Atom;
                 }
             }
             else if (atomGroupItemData.ContainedAtomGroupId.HasValue)
             {
                 if (atomGroupItemData.ContainedAtomGroupId.HasValue)
                 {
-                    //this.AtomGroup = Core.Rules.AtomGroup.GetById(atomGroupItemData.ContainedAtomGroupId.Value);
                     this.AtomGroup = DataPortal.FetchChild<AtomGroup>(atomGroupItemData.ContainedAtomGroupId.Value);
-                    //this.PredicateType = PredicateTypeEnum.AtomGroup;
                 }
             }
         }

@@ -16,16 +16,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             //AuthorizationRules.AllowGet(typeof(PredicateList), "Role");
         }
 
-        //public bool Remove(IPredicate itemToRemove)
-        //{
-        //    this.DeletedList.Add(itemToRemove);
-        //    if (!this.Contains(itemToRemove))
-        //        return false;
-        //    this.DeletedList.Add(itemToRemove);
-        //    this.re
-        //    return true;
-        //}
-
         #endregion
 
         #region Factory Methods
@@ -35,11 +25,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             return DataPortal.Create<PredicateList>(parent);
         }
 
-        //public static PredicateList GetByAtomGroupId(int atomGroupId)
-        //{
-        //    return DataPortal.Fetch<PredicateList>(atomGroupId);
-        //}
-
         private PredicateList()
         { /* Require use of factory methods */ }
 
@@ -47,47 +32,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         #region Data Access
         
-        //public IEnumerable<object> ToNxBre()
-        //{
-        //    foreach (var item in this)
-        //    {
-        //        if (item.PredicateType == Predicate.PredicateTypeEnum.Atom)
-        //            yield return item.Atom.ToNxBre();
-        //        else if (item.PredicateType == Predicate.PredicateTypeEnum.AtomGroup)
-        //            yield return item.AtomGroup.ToNxBre();
-        //        else
-        //            throw new Exception ("PredicateList may only contain Atoms and AtomGroups for ToNxBre() return correct values.");
-        //    }
-        //}
-
-        //internal void Add(AtomGroup parent, AtomGroup atomGroup)
-        //{
-        //    this.Add(DataPortal.CreateChild<Predicate>(parent, atomGroup));
-        //}
-
-        //internal void Add(AtomGroup parent, Atom atom)
-        //{
-        //    this.Add(DataPortal.CreateChild<Predicate>(parent, atom));
-        //}
-
-        //private AtomGroup _parent;
-
-        //protected void Child_Create(AtomGroup parent)
-        //{
-        //    //Every predicate list must be a child of an AtomGroup.
-        //    _parent = parent;
-        //}
-
-
-        //private void Child_Fetch(IEnumerable<DataAccess.AtomGroupItem> atomGroupItems)
-        //{
-        //    var rlce = RaiseListChangedEvents;
-        //    RaiseListChangedEvents = false;
-        //    foreach (var atomGroupItem in atomGroupItems)
-        //        Add(DataPortal.FetchChild<Predicate>(atomGroupItem));
-        //    RaiseListChangedEvents = rlce;
-        //}
-
         private void Child_Fetch(AtomGroup parent)
         {
             var rlce = RaiseListChangedEvents;
@@ -105,21 +49,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                     if (predicateData.AtomId != null)
                     {
                         this.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
-
-
-                        //wrapped in a try/catch block because Atoms will not exist if they have been deleted.
-                        //try
-                        //{
-                        //    this.Add(DataPortal.FetchChild<Atom>(predicateData.AtomId));
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    //swallows the excpetion if data is not found because that means it's been logically deleted.
-                        //    if (ex.GetBaseException().GetType() != typeof(DataNotFoundException))
-                        //        throw ex;
-                        //}
-
-
                     }
                     else
                     {
@@ -137,11 +66,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 item.Save();
             }
         }
-
-//        protected override void Child_Update(params object[] parameters)
-//{
-//     base.Child_Update(parameters);
-//}
 
         protected void Child_Update(AtomGroup parent)
         {
@@ -185,7 +109,7 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                             atomGroupItemRetraction.OriginalFactRecordId = atomData.RecordId;
                             atomGroupItemRetraction.Retraction = true;
                             atomGroupItemRetraction.RecordId = Utils.GuidHelper.GenerateComb();
-                            atomGroupItemRetraction.AtomGroupId = atomData.AtomGroupId;// parent.AtomGroupId;
+                            atomGroupItemRetraction.AtomGroupId = atomData.AtomGroupId;
                             atomGroupItemRetraction.ContainedAtomGroupId = atomGroup.AtomGroupId;
                             atomGroupItemRetraction.Priority = 0;
                             atomGroupItemRetraction.RecordCreatedDateTime = DateTime.Now;
@@ -198,7 +122,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 DeletedList.Clear();
                 foreach (var item in this)
                 {
-                    //var atom = (Atom) item;
                     var atom = item as Atom;
                     if (atom != null)
                     {
@@ -216,7 +139,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                             ctx.DbContext.AtomGroupItem.Add(atomData);
                         }
                     }
-                    //var atomGroup = (AtomGroup) item;
                     var atomGroup = item as AtomGroup;
                     if (atomGroup != null)
                     {

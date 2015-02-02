@@ -67,7 +67,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             //this.Predicates.Add(this, predicate);
             predicate.MarkAsChild();
             this.Children.Add(predicate);
-            //this.Children.Add(DataPortal.CreateChild<Atom>());
             MarkDirty();
 
         }
@@ -97,11 +96,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             var x = "this works";
         }
 
-        //public Atom AddAtom(object param)
-        //{
-        //    return AddAtom();
-        //}
-
         /// <summary>
         /// Will map to ViewModel.AddNewCriteriaGroup
         /// </summary>
@@ -115,17 +109,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
             MarkDirty();
         }
 
-        //public AtomGroup AddAtomGroup(NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator logicalOperator)
-        //{
-        //    //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
-        //    var child = DataPortal.CreateChild<AtomGroup>();
-        //    //var child = new AtomGroup();
-        //    child.LogicalOperator = logicalOperator;
-        //    this.Children.Add(child);
-        //    MarkDirty();
-        //    return child;
-        //}
-
         public void AddAtomGroup()
         {
             //Logical operator needs to be passed in so child AtomGroups don't have the same operator as parent.
@@ -136,7 +119,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 child.LogicalOperator = NxBRE.InferenceEngine.Rules.AtomGroup.LogicalOperator.And;
             this.Children.Add(child);
             MarkDirty();
-            //return child;
         }
 
         public static void AddAtomGroup(AtomGroup atomGroupToAppendTo)
@@ -148,9 +130,8 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         public static void AddAtom(AtomGroup atomGroupToAppendTo)
         {
             //Context menu woes on the treeview necessitated this.
-            atomGroupToAppendTo.AddAtom();//.AddAtomGroup();
+            atomGroupToAppendTo.AddAtom();
         }
-
 
         public List<string> ComplexFactsUsed()
         {
@@ -201,7 +182,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
         {
             // TODO: add validation rules
             base.AddBusinessRules();
-
             //BusinessRules.AddRule(new Rule(IdProperty));
         }
 
@@ -217,19 +197,11 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         public static AtomGroup NewAtomGroup()
         {
-            //var ag = DataPortal.Create<AtomGroup>();
-            //ag.Children.CollectionChanged += (obj, evn) => { ag.MarkDirty(); };
-            //return ag;
-
             return DataPortal.Create<AtomGroup>();
         }
 
         public static AtomGroup GetById(Guid id)
         {
-            //var ag = DataPortal.Fetch<AtomGroup>(id);
-            //ag.Children.CollectionChanged += (obj, evn) => { ag.MarkDirty(); };
-            //return ag;
-
             return DataPortal.Fetch<AtomGroup>(id);
         }
 
@@ -366,7 +338,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 
         protected override void DataPortal_DeleteSelf()
         {
-            //DataPortal_Delete(this.Id);
         }
 
         private void DataPortal_Delete(Guid criteria)

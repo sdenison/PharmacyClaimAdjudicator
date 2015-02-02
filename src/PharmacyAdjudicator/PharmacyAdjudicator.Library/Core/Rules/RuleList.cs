@@ -65,7 +65,6 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                         var planRuleData = CreateEntity(parent, newRule);
                         ctx.DbContext.PlanRule.Add(planRuleData);
                     }
-                    //DataPortal.UpdateChild(newRule);
                 }
                 base.Child_Update();
             }

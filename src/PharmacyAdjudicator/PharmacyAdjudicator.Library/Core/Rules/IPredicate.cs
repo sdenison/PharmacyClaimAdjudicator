@@ -9,8 +9,5 @@ namespace PharmacyAdjudicator.Library.Core.Rules
 {
     public interface IPredicate : IBusinessBase
     {
-        //object ToNxBre();
-
-
     }
 }
