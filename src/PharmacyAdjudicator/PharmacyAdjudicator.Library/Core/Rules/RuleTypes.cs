@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
-
     /// <summary>
     /// Helper class to extract rule types from Transaction class
     /// </summary>

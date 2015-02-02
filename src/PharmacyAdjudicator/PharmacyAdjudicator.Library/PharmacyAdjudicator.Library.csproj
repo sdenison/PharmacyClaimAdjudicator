@@ -172,6 +172,7 @@
     <Compile Include="Utils\GuidHelper.cs" />
     <Compile Include="Utils\NcpdpString.cs" />
     <Compile Include="Utils\Overpunch.cs" />
+    <Compile Include="Utils\ToProperCaseExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Csla-Templates Read Me.txt" />

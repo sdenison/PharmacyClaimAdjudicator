@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="BooleanTemplate">
             <StackPanel Orientation="Horizontal">
-                <mui:BBCodeBlock Text="DEFAULT  "></mui:BBCodeBlock>
+                <mui:BBCodeBlock Text="DEFAULT: "></mui:BBCodeBlock>
                 <CheckBox IsChecked="{Binding DefaultValue, Mode=TwoWay}" Width="100" Height="22">
                     <CheckBox.Style>
                         <Style TargetType="{x:Type CheckBox}">
@@ -104,8 +104,7 @@
         </ObjectDataProvider>
         <DataTemplate x:Key="EnumTemplate">
             <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding RuleType, Mode=TwoWay}" />
-                <Label Content=" default value "/>
+                <Label Content="DEFAULT: "/>
                 <ComboBox SelectedValue="{Binding DefaultValue, Mode=TwoWay}" ItemsSource="{Binding ClrType, Converter={local:EnumToListConverter}}"/>
             </StackPanel>
         </DataTemplate>
@@ -146,19 +145,17 @@
                     </StackPanel>
                     <StackPanel>
                         <Label Content="Plan Name" />
-                        <TextBox x:Name="Name" Width="150" Text="{Binding Path=Model.Name, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
+                        <TextBox x:Name="Name" Width="150" Height="53" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Model.Name, Mode=TwoWay, ValidatesOnDataErrors=True}" IsReadOnly="{Binding Path=IsReadOnly}"/>
                     </StackPanel>
                     <ListBox x:Name="rules" ItemsSource="{Binding Path=Model.AssignedRules}" SelectedItem="{Binding Path=SelectedRule, Mode=TwoWay}" SelectionMode="Single" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <!--<Label Content="{Binding RuleType}" />-->
-                                    <TextBlock Text="{Binding RuleType}" />
+                                    <TextBlock Text="{Binding RuleTypeFriendly}" />
                             </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <ListBox x:Name="DynamicDefaultListBox" ItemTemplateSelector="{StaticResource RuleDefaultTemplateSelector}" ItemsSource="{Binding Path=Model.AssignedRules}"></ListBox>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
@@ -166,7 +163,7 @@
         <ScrollViewer Grid.Column="2">
             <!-- Implication Beginning-->
             <StackPanel Orientation="Vertical" x:Name="ImplicationsStackPanel">
-                <Label Content="{Binding Path=SelectedRule.RuleType}"></Label>
+                <Label Content="{Binding Path=SelectedRule.RuleTypeFriendly}"></Label>
                 <ContentControl x:Name="RuleDefaultContent" Content="{Binding Path=SelectedRule}" ContentTemplateSelector="{StaticResource RuleDefaultTemplateSelector}" Margin="5,0,0,0"/>
                 <StackPanel HorizontalAlignment="Right">
                     <mui:ModernButton x:Name="AddImplication" HorizontalAlignment="Right" ToolTip="Add new implication" ToolTipService.ShowOnDisabled="true" EllipseDiameter="25" IconData="{StaticResource appbar_add}" Visibility="{Binding Path=CanEditObject, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="20" />

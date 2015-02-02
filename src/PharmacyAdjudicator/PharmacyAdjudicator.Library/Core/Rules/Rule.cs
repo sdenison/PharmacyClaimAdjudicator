@@ -4,6 +4,7 @@ using System.Linq;
 using NxBRE.InferenceEngine.IO;
 using System.Data.Entity;
 using System.ComponentModel;
+using PharmacyAdjudicator.Library.Utils;
 
 namespace PharmacyAdjudicator.Library.Core.Rules
 {
@@ -29,6 +30,14 @@ namespace PharmacyAdjudicator.Library.Core.Rules
                 }
                 else
                     throw new ArgumentException("RuleType must be an inferrable attribute of Transaction.");
+            }
+        }
+
+        public string RuleTypeFriendly
+        {
+            get
+            {
+                return GetProperty(RuleTypeProperty).ToProperCase();
             }
         }
 
