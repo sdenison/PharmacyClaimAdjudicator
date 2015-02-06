@@ -42,11 +42,6 @@ namespace PharmacyAdjudicator.Library.Core.Plan
                 var defaults = new List<NxBRE.InferenceEngine.Rules.Fact>();
                 foreach (var rule in this.AssignedRules)
                 {
-                    //var atom = Library.Core.Rules.Atom.NewAtom();
-                    //atom.Class = "Transaction";
-                    //atom.Property = "Default " + rule.RuleType;
-                    //atom.Value = rule.DefaultValue;
-                    //defaults.Add(new NxBRE.InferenceEngine.Rules.Fact(atom.ToNxBre()));
                     var defaultValue = new NxBRE.InferenceEngine.Rules.Individual(rule.DefaultValue);
                     var atom = new NxBRE.InferenceEngine.Rules.Atom("Default" + rule.RuleType, defaultValue);
                     var fact = new NxBRE.InferenceEngine.Rules.Fact("Default " + rule.RuleType, atom);
@@ -275,7 +270,6 @@ namespace PharmacyAdjudicator.Library.Core.Plan
                 var planData = CreateNewEntity();
                 ctx.DbContext.PlanDetail.Add(planData);
                 FieldManager.UpdateChildren(this);
-                //ctx.DbContext.SaveChanges();
             }
         }
 
