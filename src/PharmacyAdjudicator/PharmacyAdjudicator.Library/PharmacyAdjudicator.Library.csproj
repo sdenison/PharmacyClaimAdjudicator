@@ -83,7 +83,6 @@
     <Compile Include="Core\Patient\PatientAddressList.cs" />
     <Compile Include="Core\Patient\PatientSearchCriteria.cs" />
     <Compile Include="Core\Plan\PlanList.cs" />
-    <Compile Include="Core\Plan\PlanList_old.cs" />
     <Compile Include="Core\Rules\Atom.cs" />
     <Compile Include="Core\Rules\AtomGroup.cs" />
     <Compile Include="Core\ComplexFact.cs" />

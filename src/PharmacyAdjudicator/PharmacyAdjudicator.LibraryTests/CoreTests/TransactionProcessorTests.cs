@@ -204,49 +204,6 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
 
         }
 
-        //[TestMethod]
-        //public void AtomGroup_should_save_children_no_matter_how_they_were_created()
-        //{
-        //    var drugClassAtom = Library.Core.Rules.Atom.NewAtom();
-        //    drugClassAtom.Class = "Drug";
-        //    drugClassAtom.Property = "VaClass";
-        //    drugClassAtom.Value = "PENICILLINS,AMINO DERIVATIVES";
-        //    drugClassAtom = drugClassAtom.Save();
-
-        //    //Testing operations
-        //    var atom3 = Library.Core.Rules.Atom.NewAtom();
-        //    atom3.Class = "Drug";
-        //    atom3.Property = "Ndc";
-        //    atom3.Value = "9999*";
-        //    atom3.Operation = "Matches";
-
-        //    var pennicillinsOrNdcStartsWith = Library.Core.Rules.AtomGroup.NewAtomGroup();
-        //    pennicillinsOrNdcStartsWith.LogicalOperator = AtomGroup.LogicalOperator.Or;
-        //    pennicillinsOrNdcStartsWith.AddPredicate(drugClassAtom);
-        //    pennicillinsOrNdcStartsWith.AddPredicate(atom3);
-
-        //    //Should throw an exception when atom3 has not yet been saved.
-        //    try
-        //    {
-        //        var atom3Clone = Library.Core.Rules.Atom.GetByAtomId(atom3.AtomId);
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        if (ex.GetBaseException() is Library.DataNotFoundException)
-        //        {
-        //            Assert.IsTrue(true);
-        //        }
-        //        else
-        //            throw ex;
-        //    }
-
-        //    pennicillinsOrNdcStartsWith = pennicillinsOrNdcStartsWith.Save();
-
-        //    //atom3 is not in the database.
-        //    var atom3Clone2 = Library.Core.Rules.Atom.GetByAtomId(atom3.AtomId);
-        //    Assert.IsTrue(atom3Clone2 != null);
-        //}
-
         [TestMethod]
         public void AtomGroup_will_save_children_when_children_are_created_only_by_AtomGroups()
         {
@@ -305,6 +262,17 @@ namespace PharmacyAdjudicator.TestLibrary.CoreTests
             Assert.IsFalse(transAfterProcessing.Formulary);
 
             Assert.AreEqual(transAfterProcessing.AmountOfCopay, (decimal)20.0);
+        }
+
+        [TestMethod]
+        public void Plan_data_from_database_can_process_transaction()
+        {
+            //DosageForm = TAB,CHEWABLE
+            var drug = Library.Core.Drug.GetByNdc("21695031542");
+            //PlanEdit implements 
+            var plan = Library.Core.Plan.PlanEdit.GetByPlanId("NEW-PLAN-ID-4");
+
+            
         }
 
     }
